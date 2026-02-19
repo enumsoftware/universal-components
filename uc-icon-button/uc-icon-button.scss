@@ -1,0 +1,45 @@
+:host {
+  display: inline-flex;
+}
+
+.uc-image-button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  cursor: pointer;
+  font-weight: 700;
+  transition:
+    background 0.3s,
+    color 0.3s;
+  background-color: var(--background-color);
+  color: var(--foreground-color);
+  padding-block: 0.75rem;
+  padding-inline: 0.75rem;
+  border-radius: 0.75rem;
+}
+
+.inverse-color {
+  background-color: hsl(from var(--inverse-background-color) h s l);
+  color: hsl(from var(--inverse-foreground-color) h s l);
+}
+
+.uc-image-button--disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.uc-image-button:not(.uc-image-button--disabled):hover {
+  background-color: hsl(from var(--primary-color) h s l);
+  color: var(--inverse-foreground-color);
+}
+
+.uc-image-button.uc-error {
+  background-color: hsl(from var(--error-color) h s l / 0.1);
+  color: var(--error-color);
+}
+
+.uc-image-button.uc-error:not(.uc-image-button--disabled):hover {
+  background-color: var(--error-color);
+  color: var(--inverse-foreground-color);
+}

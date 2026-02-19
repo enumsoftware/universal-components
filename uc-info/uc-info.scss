@@ -1,0 +1,99 @@
+:host {
+  --info-color: var(--primary-color);
+  --info-bg: hsl(from var(--primary-color) h s l / 0.1);
+  --info-border: hsl(from var(--primary-color) h s l / 0.3);
+  
+  --warning-color: light-dark(#f57c00, #ffb74d);
+  --warning-bg: light-dark(hsl(from #f57c00 h s l / 0.1), hsl(from #ffb74d h s l / 0.1));
+  --warning-border: light-dark(hsl(from #f57c00 h s l / 0.3), hsl(from #ffb74d h s l / 0.3));
+  
+  --error-info-color: var(--error-color);
+  --error-info-bg: hsl(from var(--error-color) h s l / 0.1);
+  --error-info-border: hsl(from var(--error-color) h s l / 0.3);
+
+  display: block;
+}
+
+.uc-info {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid;
+
+  &__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-start;
+    font-size: 1.25rem;
+  }
+
+  &__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+
+  &__body {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    
+    code {
+      padding: 0.125rem 0.375rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      font-family: 'Courier New', monospace;
+    }
+  }
+
+  &--info {
+    background-color: var(--info-bg);
+    border-color: var(--info-border);
+    color: var(--info-color);
+
+    .uc-info__body {
+      color: var(--foreground-color);
+      
+      code {
+        background-color: hsl(from var(--info-color) h s l / 0.15);
+        color: var(--info-color);
+      }
+    }
+  }
+
+  &--warning {
+    background-color: var(--warning-bg);
+    border-color: var(--warning-border);
+    color: var(--warning-color);
+
+    .uc-info__body {
+      color: var(--foreground-color);
+      
+      code {
+        background-color: hsl(from var(--warning-color) h s l / 0.15);
+        color: var(--warning-color);
+      }
+    }
+  }
+
+  &--error {
+    background-color: var(--error-info-bg);
+    border-color: var(--error-info-border);
+    color: var(--error-info-color);
+
+    .uc-info__body {
+      color: var(--foreground-color);
+      
+      code {
+        background-color: hsl(from var(--error-info-color) h s l / 0.15);
+        color: var(--error-info-color);
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.uc-divider {
+  height: 1px;
+  background-color: rgb(from var(--inverse-foreground-color) r g b / 20%);
+  width: 100%;
+}
+
+.uc-divider-inverse {
+  height: 1px;
+  background-color: rgb(from var(--foreground-color) r g b / 20%);
+  width: 100%;
+}
+
+.uc-divider-vertical {
+  width: 1px;
+  background-color: rgb(from var(--inverse-foreground-color) r g b / 20%);
+  height: 80%;
+}
+
+.uc-divider-vertical-inverse {
+  width: 1px;
+  background-color: rgb(from var(--foreground-color) r g b / 20%);
+  height: 80%;
+}

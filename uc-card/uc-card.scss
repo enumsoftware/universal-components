@@ -1,0 +1,9 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  background-color: var(--card-background-color);
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--card-box-shadow);
+  padding: var(--card-padding);
+}

@@ -1,0 +1,71 @@
+<div
+  class="uc-color-picker"
+  [class.uc-color-picker-disabled]="disabled() || readonly()"
+  [class.uc-color-picker-hidden]="hidden()"
+>
+  @if (label()) {
+    <label class="uc-color-picker-label" [for]="id()">{{ label() }}</label>
+  }
+
+  <!-- Trigger: Rectangle swatch -->
+  <div
+    #trigger="cdkOverlayOrigin"
+    cdkOverlayOrigin
+    class="uc-color-picker-trigger"
+    [class.uc-color-picker-trigger-error]="showErrorState()"
+    (click)="toggleDropdown()"
+  >
+    <div
+      class="uc-color-picker-swatch"
+      [style.backgroundColor]="value()"
+      [attr.aria-label]="'Selected color ' + displayValue()"
+      [attr.tabindex]="disabled() || readonly() ? -1 : 0"
+      (keydown)="onSwatchKeydown($event)"
+    ></div>
+    <span class="uc-color-picker-value">{{ displayValue() }}</span>
+  </div>
+
+  <!-- Dropdown overlay -->
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="isOpen()"
+    [cdkConnectedOverlayHasBackdrop]="true"
+    [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent-backdrop'"
+    (backdropClick)="closeDropdown()"
+  >
+    <div class="uc-color-picker-dropdown">
+      <div class="uc-color-picker-surface">
+        <canvas
+          #canvas
+          class="uc-color-picker-canvas"
+          [id]="id()"
+          [attr.width]="size()"
+          [attr.height]="size()"
+          [attr.aria-label]="label() || 'Color picker'"
+          [attr.aria-disabled]="disabled()"
+          [attr.aria-readonly]="readonly()"
+          (pointerdown)="onPointerDown($event)"
+          (pointermove)="onPointerMove($event)"
+          (pointerup)="onPointerUp($event)"
+          (pointerleave)="onPointerUp($event)"
+        ></canvas>
+
+        <div
+          class="uc-color-picker-marker"
+          [style.left.px]="markerPosition().x"
+          [style.top.px]="markerPosition().y"
+          [style.backgroundColor]="value()"
+        ></div>
+      </div>
+    </div>
+  </ng-template>
+
+  @if (showErrorState()) {
+    <div>
+      @for (error of errors(); track error) {
+        <span class="uc-color-picker-error-message">{{ error.message }}</span>
+      }
+    </div>
+  }
+</div>

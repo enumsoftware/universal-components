@@ -1,0 +1,10 @@
+<button
+  class="uc-button"
+  [ngClass]="{ inactive: !active(), active: active() }"
+  (click)="onClick($event)"
+>
+  @if(phosphorIcon()) {
+  <i class="ph ph-{{ phosphorIcon() }} text-3xl"></i>
+  }
+  <span> {{ text() }} </span>
+</button>

@@ -1,0 +1,27 @@
+<div class="uc-textarea">
+  @if (label()) {
+    <label class="uc-textarea-label" [for]="id()">{{ label() }}</label>
+  }
+
+  <textarea
+    [id]="id()"
+    class="uc-textarea-control"
+    [ngClass]="{ 'uc-textarea-error': showErrorState() }"
+    [value]="value()"
+    (input)="value.set(($any($event.target)).value)"
+    [attr.placeholder]="placeholder() || undefined"
+    [attr.autocomplete]="autocomplete() || undefined"
+    [placeholder]="placeholder()"
+    [rows]="rows()"
+    (blur)="touched.set(true)"
+    [readonly]="readonly()"
+  ></textarea>
+
+  @if (showErrorState()) {
+    <div>
+      @for (error of errors(); track error) {
+        <span class="uc-textarea-error">{{ error.message }}</span>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,48 @@
+/**
+ * UcPagination component styles
+ * Provides pagination controls with configurable page size and info display
+ */
+
+.uc-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+
+  &__btn {
+    display: inline-flex;
+  }
+
+  &__indicators {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__page-btn {
+    display: inline-flex;
+  }
+
+  &__info {
+    text-align: center;
+    color: var(--paragraph-text-color);
+    font-size: 0.9rem;
+  }
+}
+
+/**
+ * Deep styles for nested button components
+ */
+:host ::ng-deep .uc-pagination__btn .uc-button {
+  padding: 0.75rem 1.25rem;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+:host ::ng-deep .uc-pagination__page-btn .uc-button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  justify-content: center;
+}

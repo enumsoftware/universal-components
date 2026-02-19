@@ -1,0 +1,23 @@
+<div class="uc-info uc-info--{{ variant() }}">
+  <div class="uc-info__icon">
+    @switch (variant()) {
+      @case ('info') {
+        <i class="ph ph-info"></i>
+      }
+      @case ('warning') {
+        <i class="ph ph-warning"></i>
+      }
+      @case ('error') {
+        <i class="ph ph-warning-circle"></i>
+      }
+    }
+  </div>
+  <div class="uc-info__content">
+    <div class="uc-info__title">
+      <ng-content select="[title]"></ng-content>
+    </div>
+    <div class="uc-info__body">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

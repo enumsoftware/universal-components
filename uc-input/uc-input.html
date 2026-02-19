@@ -1,0 +1,27 @@
+<div class="uc-input">
+  @if (label()) {
+    <label class="uc-input-label" [for]="id()">{{ label() }}</label>
+  }
+
+  <input
+    [id]="id()"
+    class="uc-input-control"
+    [ngClass]="{ 'uc-input-error': showErrorState() }"
+    [value]="value()"
+    (input)="value.set($event.target.value)"
+    [type]="type()"
+    [attr.placeholder]="placeholder() || undefined"
+    [attr.autocomplete]="autocomplete() || undefined"
+    [placeholder]="placeholder()"
+    (blur)="touched.set(true)"
+    [readonly]="readonly()"
+  />
+
+  @if (showErrorState()) {
+    <div>
+      @for (error of errors(); track error) {
+        <span class="uc-input-error">{{ error.message }}</span>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,10 @@
+<!-- TODO: remove div element and do everything on the host -->
+
+<div
+  [ngClass]="{
+    'uc-divider': !inverse() && !vertical(),
+    'uc-divider-inverse': inverse() && !vertical(),
+    'uc-divider-vertical': !inverse() && vertical(),
+    'uc-divider-vertical-inverse': inverse() && vertical()
+  }"
+></div>

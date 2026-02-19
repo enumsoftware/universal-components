@@ -1,0 +1,31 @@
+<div class="uc-slider-container" [class.hidden]="hidden()">
+  @if (label()) {
+    <label [for]="id()" class="uc-slider-label">{{ label() }}</label>
+  }
+  <div class="uc-slider-wrapper">
+    <input
+      type="range"
+      [id]="id()"
+      [min]="min()"
+      [max]="max()"
+      [step]="step()"
+      [value]="value()"
+      [disabled]="disabled()"
+      [readonly]="readonly()"
+      class="uc-slider-input"
+      [class.error]="showErrorState()"
+      (input)="onInput($event)"
+      (blur)="touched.set(true)"
+    />
+    @if (showValue()) {
+      <span class="uc-slider-value">{{ value() }}</span>
+    }
+  </div>
+  @if (showErrorState() && errors().length > 0) {
+    <div class="uc-slider-error">
+      @for (error of errors(); track error) {
+        <span>{{ error.message }}</span>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,116 @@
+:host {
+  display: flex;
+  flex: 1 1 0;
+}
+
+.uc-color-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-family: inherit;
+  width: 100%;
+}
+
+.uc-color-picker-label {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: hsl(from var(--foreground-color) h s l / 1);
+}
+
+.uc-color-picker-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: fit-content;
+
+  &:hover {
+    background-color: hsl(from var(--foreground-color) h s l / 0.05);
+  }
+
+  &:focus-within {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+}
+
+.uc-color-picker-trigger-error {
+  outline: 2px solid var(--error-color);
+  outline-offset: 2px;
+}
+
+.uc-color-picker-dropdown {
+  background: white;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  border: 1px solid hsl(from var(--foreground-color) h s l / 0.1);
+}
+
+.uc-color-picker-surface {
+  position: relative;
+  width: fit-content;
+}
+
+.uc-color-picker-canvas {
+  display: block;
+  border-radius: 50%;
+  cursor: crosshair;
+  touch-action: none;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.uc-color-picker-marker {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.uc-color-picker-swatch {
+    width: 36px;
+    height: 36px;
+  border-radius: 0.5rem;
+  border: 2px solid hsl(from var(--foreground-color) h s l / 0.15);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+}
+
+.uc-color-picker-value {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+    font-size: 0.9rem;
+    color: hsl(from var(--foreground-color) h s l / 0.8);
+}
+
+.uc-color-picker-error-message {
+  display: inline-block;
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--error-color);
+}
+
+.uc-color-picker-disabled {
+  opacity: 0.5;
+
+  .uc-color-picker-canvas {
+    cursor: not-allowed;
+  }
+}
+
+.uc-color-picker-hidden {
+  display: none;
+}

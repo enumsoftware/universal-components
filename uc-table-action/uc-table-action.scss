@@ -1,0 +1,56 @@
+/**
+ * Table Action Component
+ * Compact action button for use in tables with optional icon
+ */
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  span {
+    font-weight: 500;
+  }
+
+  i {
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+  }
+
+  &--primary {
+    background-color: var(--background-color-90);
+    color: var(--foreground-color);
+
+    &:hover {
+      background-color: var(--background-color-80);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+
+  &--secondary {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+
+    &:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}

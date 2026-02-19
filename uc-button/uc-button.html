@@ -1,0 +1,15 @@
+<button
+  class="uc-button uc-{{variant()}}"
+  [class.uc-disabled]="disabled()"
+  [disabled]="disabled()"
+  [style.justify-content]="align()"
+  (click)="onClick($event)"
+  [type]="type()"
+>
+  @if (showArrow()) {
+  <span> {{ text() }} </span>
+  <i class="ph-bold ph-arrow-right"></i>
+  } @else {
+  {{ text() }}
+  }
+</button>

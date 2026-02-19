@@ -1,0 +1,11 @@
+.uc-tooltip {
+  background: var(--inverse-background-color);
+  color: var(--inverse-foreground-color);
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 99999;
+  pointer-events: none;
+  user-select: none;
+}

@@ -1,0 +1,37 @@
+<div
+  class="uc-file-picker__dropzone"
+  [class.uc-file-picker__dropzone--active]="isDragging()"
+  [class.uc-file-picker__dropzone--disabled]="disabled()"
+  (click)="triggerSelect()"
+>
+  <span class="uc-file-picker__dropzone-text"> Drag & drop a logo here or click to browse </span>
+</div>
+
+<div class="uc-file-picker__control">
+  <input
+    #fileInput
+    [id]="id()"
+    class="uc-file-picker__input"
+    type="file"
+    [accept]="accept()"
+    [disabled]="disabled()"
+    (change)="onFileChange($event)"
+  />
+</div>
+
+@if (previewUrl()) {
+  <div class="uc-file-picker-preview mt-2">
+    <uc-icon-button
+      class="uc-clear-button"
+      [phosphorIcon]="'x-circle'"
+      [variant]="'error'"
+      (click)="clearSelection()"
+      ucTooltip="Remove"
+    />
+    <img [src]="previewUrl()" alt="Selected logo preview" />
+  </div>
+}
+
+@if (helperText()) {
+  <p class="uc-file-picker__helper">{{ helperText() }}</p>
+}

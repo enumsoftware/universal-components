@@ -1,0 +1,10 @@
+<span
+  class="pill"
+  [ngClass]="{
+    'pill--info': variant() === 'info',
+    'pill--valid': variant() === 'valid',
+    'pill--error': variant() === 'error'
+  }"
+>
+  <ng-content />
+</span>

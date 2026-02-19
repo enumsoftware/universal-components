@@ -1,0 +1,17 @@
+<input
+  [id]="id()"
+  class="uc-input-control"
+  [ngClass]="{ 'uc-input-error': errors?.(), 'uc-input-disabled': disabled() }"
+  type="checkbox"
+  [disabled]="disabled()"
+/>
+
+<div class="uc-checkbox" [ngClass]="{ selected: checked(), disabled: disabled() }" (click)="toggleCheckbox()">
+  @if (checked()) {
+    <i class="ph-bold ph-check"></i>
+  }
+</div>
+
+@if (label()) {
+  <label class="uc-input-label" [for]="id()">{{ label() }}</label>
+}

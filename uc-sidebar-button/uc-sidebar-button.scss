@@ -1,0 +1,42 @@
+.uc-button {
+  display: flex;
+}
+
+.inactive {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background 0.3s;
+  background-color: transparent;
+  color: var(--foreground-color);
+  padding-block: 0.75rem;
+  padding-inline: 2rem;
+  border-radius: 0.75rem;
+}
+
+.active {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background 0.3s;
+  background-color: var(--primary-color);
+  color: var(--inverse-foreground-color);
+  padding-block: 0.75rem;
+  padding-inline: 2rem;
+  border-radius: 0.75rem;
+}
+
+:host {
+  display: inline-flex;
+}
+
+.uc-button:hover:not(.active) {
+  background-color: hsl(from var(--primary-color) h s l / 0.2);
+  color: var(--foreground-color);
+}

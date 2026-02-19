@@ -1,0 +1,64 @@
+:host {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.uc-textarea {
+  display: flex;
+  flex-direction: column;
+  font-family: inherit;
+  flex: 1 1 0;
+}
+
+.uc-textarea-label {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: hsl(from var(--foreground-color) h s l / 1);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.uc-textarea-error {
+  font-size: 0.8rem;
+  color: var(--error-color);
+}
+
+.uc-textarea-control {
+  padding: 0.7rem 1rem;
+  font-size: 0.9rem;
+  background-color: var(--uc-input-background-color);
+  border: 2px solid var(--uc-input-border-color);
+  border-radius: var(--uc-input-border-radius);
+  outline: none;
+  transition:
+    border-color 0.12s ease-in-out,
+    box-shadow 0.12s ease-in-out;
+  box-sizing: border-box;
+  width: 100%;
+  font-family: inherit;
+  resize: vertical;
+
+  &:focus {
+    border: 2px solid var(--primary-color);
+  }
+
+  &::placeholder {
+    color: hsl(from var(--foreground-color) h s l / 0.35);
+    opacity: 1;
+  }
+
+  &.uc-textarea-error {
+    border-color: var(--error-color);
+    background-color: hsl(from var(--error-color) h s l / 0.1);
+  }
+
+  &.uc-textarea-error::placeholder {
+    color: hsl(from var(--error-color) h s l);
+  }
+
+  &.uc-textarea-error:focus {
+    border: 2px solid var(--error-color);
+    outline: 1px solid var(--error-color);
+  }
+}

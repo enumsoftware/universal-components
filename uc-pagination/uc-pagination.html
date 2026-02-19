@@ -1,0 +1,37 @@
+@if (totalItems() > pageSize()) {
+  <div class="uc-pagination">
+    <uc-icon-button
+      class="uc-pagination__btn"
+      [phosphorIcon]="'arrow-left'"
+      [variant]="'primary'"
+      [disabled]="isPreviousDisabled()"
+      (clicked)="previousPage()"
+    />
+
+    <div class="uc-pagination__indicators">
+      @for (page of createRange(totalPages()); track $index) {
+        <uc-button
+          class="uc-pagination__page-btn"
+          [text]="($index + 1).toString()"
+          [variant]="currentPage() === $index ? 'primary' : 'secondary'"
+          [disabled]="currentPage() === $index"
+          (clicked)="goToPage($index)"
+        ></uc-button>
+      }
+    </div>
+
+    <uc-icon-button
+      class="uc-pagination__btn"
+      [phosphorIcon]="'arrow-right'"
+      [variant]="'primary'"
+      [disabled]="isNextDisabled()"
+      (clicked)="nextPage()"
+    />
+  </div>
+
+  @if (showPageInfo()) {
+    <div class="uc-pagination__info">
+      Showing page {{ currentPage() + 1 }} of {{ totalPages() }}
+    </div>
+  }
+}

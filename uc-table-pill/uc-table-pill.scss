@@ -1,0 +1,28 @@
+.pill {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+
+  &--info {
+    background-color: var(--background-color-90);
+    color: var(--foreground-color);
+  }
+
+  &--valid {
+    background-color: light-dark(
+      hsl(from var(--success-color) h s l / 0.2),
+      hsl(from var(--success-color) h s l / 0.2)
+    );
+    color: var(--success-color);
+  }
+
+  &--error {
+    background-color: light-dark(
+      hsl(from var(--error-color) h s l / 0.2),
+      hsl(from var(--error-color) h s l / 0.2)
+    );
+    color: var(--error-color);
+  }
+}

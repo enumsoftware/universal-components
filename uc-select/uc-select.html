@@ -1,0 +1,79 @@
+<div class="uc-select">
+  @if (label()) {
+    <label class="uc-select-label" [for]="id()">{{ label() }}</label>
+  }
+
+  <div
+    class="uc-select-trigger"
+    [ngClass]="{ 'uc-select-error': showErrorState() }"
+    (click)="toggleDropdown()"
+    (blur)="onBlur()"
+    aria-expanded="false"
+    aria-haspopup="listbox"
+    aria-controls="select-panel"
+    [attr.aria-expanded]="isOpen()"
+    [attr.aria-label]="label() ? undefined : placeholder()"
+    [attr.aria-labelledby]="label() ? id() : undefined"
+    [attr.aria-disabled]="disabled()"
+    [attr.aria-invalid]="showErrorState()"
+    [id]="id()"
+    role="combobox"
+    tabindex="0"
+    title="Select an option"
+  >
+    @if (selectedOption(); as selected) {
+      <div class="uc-select-value-wrapper">
+        @if (selected.icon) {
+          <span class="uc-select-icon">{{ selected.icon }}</span>
+        }
+        <span class="uc-select-value">{{ selected.label }}</span>
+      </div>
+    } @else {
+      <span class="uc-select-placeholder">{{ placeholder() }}</span>
+    }
+    <span class="uc-select-arrow">▼</span>
+  </div>
+
+  @if (isOpen()) {
+    <div
+      class="uc-select-panel"
+      role="listbox"
+      id="select-panel"
+      [attr.aria-label]="label() || placeholder()"
+      title="Select dropdown options"
+    >
+      @if (options().length > 0) {
+        @for (option of options(); track option.value) {
+          <button
+            type="button"
+            class="uc-select-option"
+            [ngClass]="{
+              'uc-select-option-selected': option.value === value(),
+              'uc-select-option-disabled': option.disabled,
+            }"
+            (click)="selectOption(option)"
+            [attr.aria-selected]="option.value === value()"
+            [attr.aria-disabled]="option.disabled"
+            [disabled]="option.disabled"
+            role="option"
+          >
+            @if (option.icon) {
+              <span class="uc-select-option-icon">{{ option.icon }}</span>
+            }
+            <span class="uc-select-option-label">{{ option.label }}</span>
+          </button>
+        }
+      } @else {
+        <div class="uc-select-no-options">No options available</div>
+      }
+    </div>
+  }
+
+  @if (showErrorState()) {
+    <div class="uc-select-error-container">
+      @for (error of errors(); track error) {
+        <span class="uc-select-error-message">{{ error.message }}</span>
+      }
+    </div>
+  }
+</div>
