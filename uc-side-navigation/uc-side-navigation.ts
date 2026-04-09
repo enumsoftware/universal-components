@@ -37,23 +37,36 @@ export class UcSideNavigation {
   private readonly sanitizer = inject(DomSanitizer);
   private readonly renderer = inject(Renderer2);
   private readonly document = inject(DOCUMENT);
+  private animationsEnabled = false;
 
   constructor() {
     this.instanceId.set(`uc-side-navigation-${UcSideNavigation.nextId++}`);
 
     afterRenderEffect(() => {
-      if (this.sidebarMode() === 'side') {
-        this.isSidebarOpen.set(true);
-      }
+      const mode = this.sidebarMode();
+      const asideEl = this.aside().nativeElement;
 
-      if (this.sidebarMode() === 'over') {
-        this.renderer.setAttribute(this.aside().nativeElement, 'popover', 'auto');
+      if (mode === 'side') {
+        if (asideEl.hasAttribute('popover')) {
+          try {
+            asideEl.hidePopover();
+          } catch {}
+          this.renderer.removeAttribute(asideEl, 'popover');
+        }
+        this.isSidebarOpen.set(true);
+      } else if (mode === 'over') {
+        if (!asideEl.hasAttribute('popover')) {
+          this.renderer.setAttribute(asideEl, 'popover', 'auto');
+        }
         this.isSidebarOpen.set(false);
 
         // Enable animations after initial render to prevent animation on page load
-        setTimeout(() => {
-          this.renderer.addClass(this.aside().nativeElement, 'animations-enabled');
-        }, 100);
+        if (!this.animationsEnabled) {
+          this.animationsEnabled = true;
+          setTimeout(() => {
+            this.renderer.addClass(asideEl, 'animations-enabled');
+          }, 100);
+        }
       }
     });
   }
