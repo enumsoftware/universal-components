@@ -6,7 +6,7 @@ import { Component, model } from '@angular/core';
   templateUrl: './uc-linear-loading.component.html',
   styleUrl: './uc-linear-loading.component.css',
 })
-export class LinearLoadingComponent {
-  color = model<string>('#7eb1a7');
+export class UcLinearLoading {
+  color = model<string | undefined>();
   loading = model.required();
 }
