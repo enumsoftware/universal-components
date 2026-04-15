@@ -23,16 +23,20 @@ input[type='checkbox'] {
   cursor: pointer;
   font-weight: 500;
   color: var(--foreground-color);
-  border: 2px solid hsl(from black h s l / 0.2);
+  border: 2px solid var(--uc-checkbox-border-color);
   border-radius: 0.5rem;
-  background-color: var(--inverse-foreground-color);
+  background-color: var(--uc-checkbox-background-color);
   transition: all 0.2s ease-in-out;
+}
+
+.uc-checkbox:hover {
+  border-color: var(--uc-checkbox-selected-color);
 }
 
 .uc-checkbox.selected {
   color: var(--inverse-foreground-color);
-  background-color: var(--secondary-color);
-  border: 0px solid hsl(from black h s l / 0.2);
+  background-color: var(--uc-checkbox-selected-color);
+  border: none;
 }
 
 label {
