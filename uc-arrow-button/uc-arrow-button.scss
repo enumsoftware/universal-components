@@ -1,13 +1,11 @@
 :host {
   display: flex;
-  width: 100%;
 }
 
 .uc-button {
   display: flex;
   align-items: center;
   gap: 1rem;
-  width: 100%;
   cursor: pointer;
   font-weight: 700;
   transition: color 0.3s;
