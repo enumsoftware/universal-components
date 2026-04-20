@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.uc-bar-chart {
+  width: 100%;
+
+  svg {
+    display: block;
+    width: 100%;
+    overflow: visible;
+  }
+}

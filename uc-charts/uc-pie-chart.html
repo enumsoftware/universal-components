@@ -1,0 +1,13 @@
+<div class="uc-pie-chart">
+  <div class="uc-pie-chart__chart" #svgContainer></div>
+
+  <ul class="uc-pie-chart__legend">
+    @for (item of data(); track item.label; let i = $index) {
+      <li class="uc-pie-chart__legend-item">
+        <span class="uc-pie-chart__legend-dot" [style.background-color]="getColor(i)"></span>
+        <span class="uc-pie-chart__legend-label">{{ item.label }}</span>
+        <span class="uc-pie-chart__legend-value">{{ item.value }} ({{ item.percentage }}%)</span>
+      </li>
+    }
+  </ul>
+</div>
