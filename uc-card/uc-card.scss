@@ -6,4 +6,8 @@
   border-radius: var(--card-border-radius);
   box-shadow: var(--card-box-shadow);
   padding: var(--card-padding);
+
+  &.uc-card--fill {
+    width: 100%;
+  }
 }
