@@ -1,0 +1,16 @@
+<div class="uc-tabs">
+  @for (tab of tabs(); track tab.key) {
+    <button
+      class="uc-tabs__tab"
+      [class.uc-tabs__tab--active]="activeTab() === tab.key"
+      (click)="selectTab(tab.key)"
+    >
+      {{ tab.label }}
+    </button>
+  }
+</div>
+@for (panel of panels(); track panel.key()) {
+  @if (panel.key() === activeTab()) {
+    <ng-container [ngTemplateOutlet]="panel.templateRef" />
+  }
+}

@@ -1,0 +1,28 @@
+.uc-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--background-color-90);
+  margin-bottom: 1.5rem;
+
+  &__tab {
+    padding: 0.625rem 1.25rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--paragraph-text-color);
+    transition: color 0.2s, border-color 0.2s;
+
+    &:hover {
+      color: var(--foreground-color);
+    }
+
+    &--active {
+      color: var(--primary-color);
+      border-bottom-color: var(--primary-color);
+    }
+  }
+}
