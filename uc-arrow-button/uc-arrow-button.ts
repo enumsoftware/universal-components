@@ -1,9 +1,7 @@
-import { NgClass } from '@angular/common';
-import { Component, input, model, output, signal } from '@angular/core';
+import { Component, input, model, output } from '@angular/core';
 
 @Component({
   selector: 'uc-arrow-button',
-  imports: [NgClass],
   templateUrl: './uc-arrow-button.html',
   styleUrl: './uc-arrow-button.scss',
 })
@@ -12,6 +10,7 @@ export class UcArrowButton {
   variant = input<'primary' | 'secondary'>('primary');
   phosphorIcon = input<string>('arrow-right');
   iconPosition = input<'start' | 'end'>('end');
+  padded = input(false);
 
   clicked = output<void>();
 

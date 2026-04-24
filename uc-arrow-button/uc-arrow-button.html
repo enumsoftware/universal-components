@@ -1,9 +1,8 @@
 <button
   class="uc-button"
-  [ngClass]="{
-    'primary-color': variant() == 'primary',
-    'secondary-color': variant() == 'secondary',
-  }"
+  [class.primary-color]="variant() === 'primary'"
+  [class.secondary-color]="variant() === 'secondary'"
+  [class.uc-button--padded]="padded()"
   (click)="onClicked()"
 >
   @if (iconPosition() === 'start') {
