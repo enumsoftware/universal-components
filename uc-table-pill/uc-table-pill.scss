@@ -11,18 +11,12 @@
   }
 
   &--valid {
-    background-color: light-dark(
-      hsl(from var(--success-color) h s l / 0.2),
-      hsl(from var(--success-color) h s l / 0.2)
-    );
+    background-color: hsl(from var(--success-color) h s l / 0.2);
     color: var(--success-color);
   }
 
   &--error {
-    background-color: light-dark(
-      hsl(from var(--error-color) h s l / 0.2),
-      hsl(from var(--error-color) h s l / 0.2)
-    );
+    background-color: hsl(from var(--error-color) h s l / 0.2);
     color: var(--error-color);
   }
 }

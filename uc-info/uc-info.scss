@@ -3,10 +3,6 @@
   --info-bg: hsl(from var(--primary-color) h s l / 0.1);
   --info-border: hsl(from var(--primary-color) h s l / 0.3);
   
-  --warning-color: light-dark(#f57c00, #ffb74d);
-  --warning-bg: light-dark(hsl(from #f57c00 h s l / 0.1), hsl(from #ffb74d h s l / 0.1));
-  --warning-border: light-dark(hsl(from #f57c00 h s l / 0.3), hsl(from #ffb74d h s l / 0.3));
-  
   --error-info-color: var(--error-color);
   --error-info-bg: hsl(from var(--error-color) h s l / 0.1);
   --error-info-border: hsl(from var(--error-color) h s l / 0.3);
