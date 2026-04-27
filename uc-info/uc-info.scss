@@ -1,11 +1,11 @@
 :host {
   --info-color: var(--primary-color);
-  --info-bg: hsl(from var(--primary-color) h s l / 0.1);
-  --info-border: hsl(from var(--primary-color) h s l / 0.3);
+  --info-bg: oklch(from var(--primary-color) l c h / 0.1);
+  --info-border: oklch(from var(--primary-color) l c h / 0.3);
   
   --error-info-color: var(--error-color);
-  --error-info-bg: hsl(from var(--error-color) h s l / 0.1);
-  --error-info-border: hsl(from var(--error-color) h s l / 0.3);
+  --error-info-bg: oklch(from var(--error-color) l c h / 0.1);
+  --error-info-border: oklch(from var(--error-color) l c h / 0.3);
 
   display: block;
 }
@@ -57,7 +57,7 @@
       color: var(--foreground-color);
       
       code {
-        background-color: hsl(from var(--info-color) h s l / 0.15);
+        background-color: oklch(from var(--info-color) l c h / 0.15);
         color: var(--info-color);
       }
     }
@@ -72,7 +72,7 @@
       color: var(--foreground-color);
       
       code {
-        background-color: hsl(from var(--warning-color) h s l / 0.15);
+        background-color: oklch(from var(--warning-color) l c h / 0.15);
         color: var(--warning-color);
       }
     }
@@ -87,7 +87,7 @@
       color: var(--foreground-color);
       
       code {
-        background-color: hsl(from var(--error-info-color) h s l / 0.15);
+        background-color: oklch(from var(--error-info-color) l c h / 0.15);
         color: var(--error-info-color);
       }
     }

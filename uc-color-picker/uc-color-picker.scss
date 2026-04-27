@@ -15,7 +15,7 @@
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.03em;
-  color: hsl(from var(--foreground-color) h s l / 1);
+  color: oklch(from var(--foreground-color) l c h / 1);
 }
 
 .uc-color-picker-trigger {
@@ -29,7 +29,7 @@
   width: fit-content;
 
   &:hover {
-    background-color: hsl(from var(--foreground-color) h s l / 0.05);
+    background-color: oklch(from var(--foreground-color) l c h / 0.05);
   }
 
   &:focus-within {
@@ -48,7 +48,7 @@
   border-radius: 0.75rem;
   padding: 1rem;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  border: 1px solid hsl(from var(--foreground-color) h s l / 0.1);
+  border: 1px solid oklch(from var(--foreground-color) l c h / 0.1);
 }
 
 .uc-color-picker-surface {
@@ -79,7 +79,7 @@
     width: 36px;
     height: 36px;
   border-radius: 0.5rem;
-  border: 2px solid hsl(from var(--foreground-color) h s l / 0.15);
+  border: 2px solid oklch(from var(--foreground-color) l c h / 0.15);
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: transform 0.2s ease;
@@ -93,7 +93,7 @@
   font-weight: 600;
   letter-spacing: 0.02em;
     font-size: 0.9rem;
-    color: hsl(from var(--foreground-color) h s l / 0.8);
+    color: oklch(from var(--foreground-color) l c h / 0.8);
 }
 
 .uc-color-picker-error-message {

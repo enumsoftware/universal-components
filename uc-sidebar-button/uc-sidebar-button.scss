@@ -37,6 +37,6 @@
 }
 
 .uc-button:hover:not(.active) {
-  background-color: hsl(from var(--primary-color) h s l / 0.2);
+  background-color: oklch(from var(--primary-color) l c h / 0.2);
   color: var(--foreground-color);
 }

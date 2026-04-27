@@ -1,5 +1,5 @@
 .uc-pill {
-  background-color: hsl(from var(--primary-color) h s l / 0.15);
+  background-color: oklch(from var(--primary-color) l c h / 0.15);
   color: var(--primary-color);
   border-radius: 100px;
   padding: 0.5rem 2rem;

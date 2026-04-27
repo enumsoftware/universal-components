@@ -14,7 +14,7 @@
 .uc-textarea-label {
   font-size: 1rem;
   margin-bottom: 0.5rem;
-  color: hsl(from var(--foreground-color) h s l / 1);
+  color: oklch(from var(--foreground-color) l c h / 1);
   font-weight: 600;
   letter-spacing: 0.03em;
 }
@@ -44,17 +44,17 @@
   }
 
   &::placeholder {
-    color: hsl(from var(--foreground-color) h s l / 0.35);
+    color: oklch(from var(--foreground-color) l c h / 0.35);
     opacity: 1;
   }
 
   &.uc-textarea-error {
     border-color: var(--error-color);
-    background-color: hsl(from var(--error-color) h s l / 0.1);
+    background-color: oklch(from var(--error-color) l c h / 0.1);
   }
 
   &.uc-textarea-error::placeholder {
-    color: hsl(from var(--error-color) h s l);
+    color: oklch(from var(--error-color) l c h);
   }
 
   &.uc-textarea-error:focus {

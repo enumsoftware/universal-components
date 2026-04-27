@@ -20,8 +20,8 @@
 }
 
 .inverse-color {
-  background-color: hsl(from var(--inverse-background-color) h s l);
-  color: hsl(from var(--inverse-foreground-color) h s l);
+  background-color: oklch(from var(--inverse-background-color) l c h);
+  color: oklch(from var(--inverse-foreground-color) l c h);
 }
 
 .uc-image-button--disabled {
@@ -30,12 +30,12 @@
 }
 
 .uc-image-button:not(.uc-image-button--disabled):hover {
-  background-color: hsl(from var(--primary-color) h s l);
+  background-color: oklch(from var(--primary-color) l c h);
   color: var(--inverse-foreground-color);
 }
 
 .uc-image-button.uc-error {
-  background-color: hsl(from var(--error-color) h s l / 0.1);
+  background-color: oklch(from var(--error-color) l c h / 0.1);
   color: var(--error-color);
 }
 

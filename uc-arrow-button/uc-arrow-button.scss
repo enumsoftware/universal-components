@@ -20,11 +20,11 @@
 }
 
 .uc-button.primary-color:hover {
-  color: hsl(from var(--primary-color) h s calc(l * 0.8));
+  color: oklch(from var(--primary-color) calc(l * 0.8) c h);
 }
 
 .uc-button.secondary-color:hover {
-  color: hsl(from var(--secondary-color) h s calc(l * 1.3));
+  color: oklch(from var(--secondary-color) calc(l * 1.3) c h);
 }
 
 .uc-button--padded {
