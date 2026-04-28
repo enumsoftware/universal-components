@@ -1,3 +1,22 @@
+:host {
+  --uc-accordion-border: transparent;
+  --uc-accordion-border-radius: 0.375rem;
+  --uc-accordion-padding: 1rem;
+  --uc-accordion-header-background: var(--background-color-90);
+  --uc-accordion-header-hover-background: var(--background-color-80);
+  --uc-accordion-header-focus-outline-color: var(--primary-color);
+  --uc-accordion-title-font-size: 1rem;
+  --uc-accordion-title-font-weight: 500;
+  --uc-accordion-title-color: var(--foreground-color);
+  --uc-accordion-icon-color: var(--foreground-color);
+  --uc-accordion-icon-hover-color: var(--primary-color);
+  --uc-accordion-content-padding: 1rem;
+  --uc-accordion-content-background: var(--background-color);
+  --uc-accordion-content-color: var(--paragraph-text-color);
+  --uc-accordion-content-font-size: 0.875rem;
+  --uc-accordion-content-line-height: 1.5;
+}
+
 .accordion-item {
   border: var(--uc-accordion-border);
   border-radius: var(--uc-accordion-border-radius);

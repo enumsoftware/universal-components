@@ -1,4 +1,17 @@
 :host {
+  --uc-icon-button-background: var(--background-color);
+  --uc-icon-button-color: var(--foreground-color);
+  --uc-icon-button-hover-background: var(--primary-color);
+  --uc-icon-button-hover-color: var(--inverse-foreground-color);
+  --uc-icon-button-inverse-background: var(--inverse-background-color);
+  --uc-icon-button-inverse-color: var(--inverse-foreground-color);
+  --uc-icon-button-error-background: oklch(from var(--error-color) l c h / 0.1);
+  --uc-icon-button-error-color: var(--error-color);
+  --uc-icon-button-error-hover-background: var(--error-color);
+  --uc-icon-button-disabled-opacity: 0.6;
+  --uc-icon-button-padding: 0.75rem;
+  --uc-icon-button-border-radius: 0.75rem;
+
   display: inline-flex;
 }
 
@@ -12,34 +25,34 @@
   transition:
     background 0.3s,
     color 0.3s;
-  background-color: var(--background-color);
-  color: var(--foreground-color);
-  padding-block: 0.75rem;
-  padding-inline: 0.75rem;
-  border-radius: 0.75rem;
+  background-color: var(--uc-icon-button-background);
+  color: var(--uc-icon-button-color);
+  padding-block: var(--uc-icon-button-padding);
+  padding-inline: var(--uc-icon-button-padding);
+  border-radius: var(--uc-icon-button-border-radius);
 }
 
 .inverse-color {
-  background-color: oklch(from var(--inverse-background-color) l c h);
-  color: oklch(from var(--inverse-foreground-color) l c h);
+  background-color: var(--uc-icon-button-inverse-background);
+  color: var(--uc-icon-button-inverse-color);
 }
 
 .uc-image-button--disabled {
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: var(--uc-icon-button-disabled-opacity);
 }
 
 .uc-image-button:not(.uc-image-button--disabled):hover {
-  background-color: oklch(from var(--primary-color) l c h);
-  color: var(--inverse-foreground-color);
+  background-color: var(--uc-icon-button-hover-background);
+  color: var(--uc-icon-button-hover-color);
 }
 
 .uc-image-button.uc-error {
-  background-color: oklch(from var(--error-color) l c h / 0.1);
-  color: var(--error-color);
+  background-color: var(--uc-icon-button-error-background);
+  color: var(--uc-icon-button-error-color);
 }
 
 .uc-image-button.uc-error:not(.uc-image-button--disabled):hover {
-  background-color: var(--error-color);
-  color: var(--inverse-foreground-color);
+  background-color: var(--uc-icon-button-error-hover-background);
+  color: var(--uc-icon-button-hover-color);
 }

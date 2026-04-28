@@ -1,4 +1,12 @@
 :host {
+  --uc-select-label-color: oklch(from var(--foreground-color) l c h / 1);
+  --uc-select-placeholder-color: oklch(from var(--foreground-color) l c h / 0.35);
+  --uc-select-arrow-color: oklch(from var(--foreground-color) l c h / 0.5);
+  --uc-select-option-hover-background: oklch(from var(--primary-color) l c h / 0.1);
+  --uc-select-option-selected-background: oklch(from var(--primary-color) l c h / 0.15);
+  --uc-select-option-selected-color: var(--primary-color);
+  --uc-select-panel-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
   display: flex;
   flex-grow: 1;
   flex-shrink: 1;
@@ -17,7 +25,7 @@
 .uc-select-label {
   font-size: 1rem;
   margin-bottom: 0.5rem;
-  color: oklch(from var(--foreground-color) l c h / 1);
+  color: var(--uc-select-label-color);
   font-weight: 600;
   letter-spacing: 0.03em;
 }
@@ -84,7 +92,7 @@
 }
 
 .uc-select-placeholder {
-  color: oklch(from var(--foreground-color) l c h / 0.35);
+  color: var(--uc-select-placeholder-color);
 }
 
 .uc-select-icon {
@@ -96,7 +104,7 @@
 
 .uc-select-arrow {
   flex-shrink: 0;
-  color: oklch(from var(--foreground-color) l c h / 0.5);
+  color: var(--uc-select-arrow-color);
   font-size: 0.7rem;
   transition: transform 0.2s ease-in-out;
   margin-left: auto;
@@ -116,7 +124,7 @@
   background-color: var(--uc-input-background-color);
   border: 2px solid var(--uc-input-border-color);
   border-radius: var(--uc-input-border-radius);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--uc-select-panel-shadow);
   max-height: 300px;
   overflow-y: auto;
   margin-top: 0.5rem;
@@ -158,7 +166,7 @@
   box-sizing: border-box;
 
   &:hover:not(:disabled) {
-    background-color: oklch(from var(--primary-color) l c h / 0.1);
+    background-color: var(--uc-select-option-hover-background);
   }
 
   &:focus {
@@ -167,8 +175,8 @@
   }
 
   &.uc-select-option-selected {
-    background-color: oklch(from var(--primary-color) l c h / 0.15);
-    color: var(--primary-color);
+    background-color: var(--uc-select-option-selected-background);
+    color: var(--uc-select-option-selected-color);
     font-weight: 600;
 
     &::before {

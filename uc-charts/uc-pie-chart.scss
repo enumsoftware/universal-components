@@ -1,4 +1,7 @@
 :host {
+  --uc-pie-chart-legend-label-color: var(--foreground-color);
+  --uc-pie-chart-legend-value-color: var(--paragraph-text-color);
+
   display: block;
 }
 
@@ -44,14 +47,14 @@
 
   &__legend-label {
     flex: 1;
-    color: var(--foreground-color);
+    color: var(--uc-pie-chart-legend-label-color);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   &__legend-value {
-    color: var(--paragraph-text-color);
+    color: var(--uc-pie-chart-legend-value-color);
     white-space: nowrap;
     font-size: 0.8rem;
   }

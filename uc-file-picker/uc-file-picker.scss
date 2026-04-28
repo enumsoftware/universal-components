@@ -1,3 +1,19 @@
+:host {
+  --uc-file-picker-dropzone-border: var(--uc-input-border-color);
+  --uc-file-picker-dropzone-background: var(--uc-input-background-color);
+  --uc-file-picker-dropzone-text: var(--paragraph-text-color);
+  --uc-file-picker-dropzone-border-active: var(--primary-color);
+  --uc-file-picker-dropzone-background-active: var(--background-color-90);
+  --uc-file-picker-dropzone-text-active: var(--primary-color);
+  --uc-file-picker-button-border: var(--uc-input-border-color);
+  --uc-file-picker-button-background: var(--background-color);
+  --uc-file-picker-button-text: var(--foreground-color);
+  --uc-file-picker-filename-text: var(--paragraph-text-color);
+  --uc-file-picker-preview-border: var(--uc-input-border-color);
+  --uc-file-picker-preview-background: var(--uc-input-background-color);
+  --uc-file-picker-helper-text: var(--paragraph-text-color);
+}
+
 .uc-file-picker {
   display: flex;
   flex-direction: column;

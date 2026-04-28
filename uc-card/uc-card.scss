@@ -1,11 +1,16 @@
 :host {
+  --uc-card-background: var(--card-background-color);
+  --uc-card-border-radius: var(--card-border-radius);
+  --uc-card-box-shadow: var(--card-box-shadow);
+  --uc-card-padding: var(--card-padding);
+
   display: flex;
   flex-direction: column;
   width: fit-content;
-  background-color: var(--card-background-color);
-  border-radius: var(--card-border-radius);
-  box-shadow: var(--card-box-shadow);
-  padding: var(--card-padding);
+  background-color: var(--uc-card-background);
+  border-radius: var(--uc-card-border-radius);
+  box-shadow: var(--uc-card-box-shadow);
+  padding: var(--uc-card-padding);
 
   &.uc-card--fill {
     width: 100%;

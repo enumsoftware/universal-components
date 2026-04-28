@@ -1,10 +1,18 @@
+:host {
+  --uc-tooltip-background: var(--inverse-background-color);
+  --uc-tooltip-color: var(--inverse-foreground-color);
+  --uc-tooltip-padding: 0.5rem 0.75rem;
+  --uc-tooltip-border-radius: 4px;
+  --uc-tooltip-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
 .uc-tooltip {
-  background: var(--inverse-background-color);
-  color: var(--inverse-foreground-color);
-  padding: 0.5rem 0.75rem;
-  border-radius: 4px;
+  background: var(--uc-tooltip-background);
+  color: var(--uc-tooltip-color);
+  padding: var(--uc-tooltip-padding);
+  border-radius: var(--uc-tooltip-border-radius);
   font-size: 0.9rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--uc-tooltip-shadow);
   z-index: 99999;
   pointer-events: none;
   user-select: none;

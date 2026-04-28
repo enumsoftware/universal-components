@@ -1,3 +1,9 @@
+:host {
+  --uc-google-sign-in-button-background: var(--background-color);
+  --uc-google-sign-in-button-color: var(--foreground-color);
+  --uc-google-sign-in-button-hover-background: var(--background-color-90);
+}
+
 .google-sign-in-button {
   display: flex;
   align-items: center;

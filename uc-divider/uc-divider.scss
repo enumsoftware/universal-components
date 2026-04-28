@@ -1,30 +1,43 @@
 :host {
+  --uc-divider-color: oklch(from var(--foreground-color) l c h / 0.15);
+  --uc-divider-text-color: var(--paragraph-text-color);
+  --uc-divider-inverse-color: oklch(from var(--inverse-foreground-color) l c h / 0.15);
+  --uc-divider-inverse-text-color: var(--inverse-foreground-color);
+  --uc-divider-margin: 1rem 0;
+
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin: var(--uc-divider-margin);
 }
 
-.uc-divider {
+.uc-divider__line {
+  flex: 1;
   height: 1px;
-  background-color: rgb(from var(--inverse-foreground-color) r g b / 20%);
-  width: 100%;
+  background-color: var(--uc-divider-color);
 }
 
-.uc-divider-inverse {
-  height: 1px;
-  background-color: rgb(from var(--foreground-color) r g b / 20%);
-  width: 100%;
+.uc-divider__text {
+  font-size: 0.75rem;
+  color: var(--uc-divider-text-color);
+  white-space: nowrap;
+  padding: 0 0.75rem;
 }
 
-.uc-divider-vertical {
+:host(.uc-divider--inverse) .uc-divider__line {
+  background-color: var(--uc-divider-inverse-color);
+}
+
+:host(.uc-divider--inverse) .uc-divider__text {
+  color: var(--uc-divider-inverse-text-color);
+}
+
+:host(.uc-divider--vertical) {
+  flex-direction: column;
+}
+
+:host(.uc-divider--vertical) .uc-divider__line {
   width: 1px;
-  background-color: rgb(from var(--inverse-foreground-color) r g b / 20%);
   height: 80%;
-}
-
-.uc-divider-vertical-inverse {
-  width: 1px;
-  background-color: rgb(from var(--foreground-color) r g b / 20%);
-  height: 80%;
+  flex: unset;
 }

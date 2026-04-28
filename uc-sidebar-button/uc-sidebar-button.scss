@@ -1,3 +1,16 @@
+:host {
+  --uc-sidebar-button-background: transparent;
+  --uc-sidebar-button-color: var(--foreground-color);
+  --uc-sidebar-button-active-background: var(--primary-color);
+  --uc-sidebar-button-active-color: var(--inverse-foreground-color);
+  --uc-sidebar-button-hover-background: oklch(from var(--primary-color) l c h / 0.2);
+  --uc-sidebar-button-padding-block: 0.75rem;
+  --uc-sidebar-button-padding-inline: 2rem;
+  --uc-sidebar-button-border-radius: 0.75rem;
+
+  display: inline-flex;
+}
+
 .uc-button {
   display: flex;
 }
@@ -10,11 +23,11 @@
   cursor: pointer;
   font-weight: 700;
   transition: background 0.3s;
-  background-color: transparent;
-  color: var(--foreground-color);
-  padding-block: 0.75rem;
-  padding-inline: 2rem;
-  border-radius: 0.75rem;
+  background-color: var(--uc-sidebar-button-background);
+  color: var(--uc-sidebar-button-color);
+  padding-block: var(--uc-sidebar-button-padding-block);
+  padding-inline: var(--uc-sidebar-button-padding-inline);
+  border-radius: var(--uc-sidebar-button-border-radius);
 }
 
 .active {
@@ -25,18 +38,14 @@
   cursor: pointer;
   font-weight: 700;
   transition: background 0.3s;
-  background-color: var(--primary-color);
-  color: var(--inverse-foreground-color);
-  padding-block: 0.75rem;
-  padding-inline: 2rem;
-  border-radius: 0.75rem;
-}
-
-:host {
-  display: inline-flex;
+  background-color: var(--uc-sidebar-button-active-background);
+  color: var(--uc-sidebar-button-active-color);
+  padding-block: var(--uc-sidebar-button-padding-block);
+  padding-inline: var(--uc-sidebar-button-padding-inline);
+  border-radius: var(--uc-sidebar-button-border-radius);
 }
 
 .uc-button:hover:not(.active) {
-  background-color: oklch(from var(--primary-color) l c h / 0.2);
-  color: var(--foreground-color);
+  background-color: var(--uc-sidebar-button-hover-background);
+  color: var(--uc-sidebar-button-color);
 }

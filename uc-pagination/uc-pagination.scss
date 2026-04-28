@@ -3,6 +3,10 @@
  * Provides pagination controls with configurable page size and info display
  */
 
+:host {
+  --uc-pagination-info-color: var(--paragraph-text-color);
+}
+
 .uc-pagination {
   display: flex;
   justify-content: center;
@@ -26,7 +30,7 @@
 
   &__info {
     text-align: center;
-    color: var(--paragraph-text-color);
+    color: var(--uc-pagination-info-color);
     font-size: 0.9rem;
   }
 }

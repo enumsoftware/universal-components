@@ -1,4 +1,9 @@
 :host {
+  --uc-textarea-label-color: oklch(from var(--foreground-color) l c h / 1);
+  --uc-textarea-placeholder-color: oklch(from var(--foreground-color) l c h / 0.35);
+  --uc-textarea-border-error-color: var(--error-color);
+  --uc-textarea-background-error-color: oklch(from var(--error-color) l c h / 0.1);
+
   display: flex;
   flex-grow: 1;
   flex-shrink: 1;
@@ -14,7 +19,7 @@
 .uc-textarea-label {
   font-size: 1rem;
   margin-bottom: 0.5rem;
-  color: oklch(from var(--foreground-color) l c h / 1);
+  color: var(--uc-textarea-label-color);
   font-weight: 600;
   letter-spacing: 0.03em;
 }
@@ -44,21 +49,21 @@
   }
 
   &::placeholder {
-    color: oklch(from var(--foreground-color) l c h / 0.35);
+    color: var(--uc-textarea-placeholder-color);
     opacity: 1;
   }
 
   &.uc-textarea-error {
-    border-color: var(--error-color);
-    background-color: oklch(from var(--error-color) l c h / 0.1);
+    border-color: var(--uc-textarea-border-error-color);
+    background-color: var(--uc-textarea-background-error-color);
   }
 
   &.uc-textarea-error::placeholder {
-    color: oklch(from var(--error-color) l c h);
+    color: var(--uc-textarea-border-error-color);
   }
 
   &.uc-textarea-error:focus {
-    border: 2px solid var(--error-color);
-    outline: 1px solid var(--error-color);
+    border: 2px solid var(--uc-textarea-border-error-color);
+    outline: 1px solid var(--uc-textarea-border-error-color);
   }
 }

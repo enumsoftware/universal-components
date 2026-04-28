@@ -1,8 +1,17 @@
+:host {
+  --uc-tabs-border-color: var(--background-color-90);
+  --uc-tabs-tab-color: var(--paragraph-text-color);
+  --uc-tabs-tab-hover-color: var(--foreground-color);
+  --uc-tabs-tab-active-color: var(--primary-color);
+  --uc-tabs-tab-active-border-color: var(--primary-color);
+  --uc-tabs-margin-bottom: 1.5rem;
+}
+
 .uc-tabs {
   display: flex;
   gap: 0;
-  border-bottom: 2px solid var(--background-color-90);
-  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--uc-tabs-border-color);
+  margin-bottom: var(--uc-tabs-margin-bottom);
 
   &__tab {
     padding: 0.625rem 1.25rem;
@@ -13,16 +22,16 @@
     cursor: pointer;
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--paragraph-text-color);
+    color: var(--uc-tabs-tab-color);
     transition: color 0.2s, border-color 0.2s;
 
     &:hover {
-      color: var(--foreground-color);
+      color: var(--uc-tabs-tab-hover-color);
     }
 
     &--active {
-      color: var(--primary-color);
-      border-bottom-color: var(--primary-color);
+      color: var(--uc-tabs-tab-active-color);
+      border-bottom-color: var(--uc-tabs-tab-active-border-color);
     }
   }
 }

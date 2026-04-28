@@ -3,6 +3,15 @@
  * Compact action button for use in tables with optional icon
  */
 
+:host {
+  --uc-table-action-primary-background: var(--background-color-90);
+  --uc-table-action-primary-color: var(--foreground-color);
+  --uc-table-action-primary-hover-background: var(--background-color-80);
+  --uc-table-action-secondary-color: var(--primary-color);
+  --uc-table-action-secondary-hover-background: var(--primary-color);
+  --uc-table-action-secondary-hover-color: var(--inverse-foreground-color);
+}
+
 .action {
   display: inline-flex;
   align-items: center;
@@ -27,11 +36,11 @@
   }
 
   &--primary {
-    background-color: var(--background-color-90);
-    color: var(--foreground-color);
+    background-color: var(--uc-table-action-primary-background);
+    color: var(--uc-table-action-primary-color);
 
     &:hover {
-      background-color: var(--background-color-80);
+      background-color: var(--uc-table-action-primary-hover-background);
     }
 
     &:active {
@@ -41,12 +50,12 @@
 
   &--secondary {
     background-color: transparent;
-    color: var(--primary-color);
-    border: 1px solid var(--primary-color);
+    color: var(--uc-table-action-secondary-color);
+    border: 1px solid var(--uc-table-action-secondary-color);
 
     &:hover {
-      background-color: var(--primary-color);
-      color: white;
+      background-color: var(--uc-table-action-secondary-hover-background);
+      color: var(--uc-table-action-secondary-hover-color);
     }
 
     &:active {

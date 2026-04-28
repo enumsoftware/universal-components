@@ -1,6 +1,13 @@
+:host {
+  --uc-pill-background: oklch(from var(--primary-color) l c h / 0.15);
+  --uc-pill-color: var(--primary-color);
+  --uc-pill-border-radius: 100px;
+  --uc-pill-padding: 0.5rem 2rem;
+}
+
 .uc-pill {
-  background-color: oklch(from var(--primary-color) l c h / 0.15);
-  color: var(--primary-color);
-  border-radius: 100px;
-  padding: 0.5rem 2rem;
+  background-color: var(--uc-pill-background);
+  color: var(--uc-pill-color);
+  border-radius: var(--uc-pill-border-radius);
+  padding: var(--uc-pill-padding);
 }

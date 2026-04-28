@@ -1,4 +1,16 @@
 :host {
+  --uc-color-picker-label-color: oklch(from var(--foreground-color) l c h / 1);
+  --uc-color-picker-trigger-hover-background: oklch(from var(--foreground-color) l c h / 0.05);
+  --uc-color-picker-trigger-focus-color: var(--primary-color);
+  --uc-color-picker-trigger-error-color: var(--error-color);
+  --uc-color-picker-dropdown-background: var(--card-background-color);
+  --uc-color-picker-dropdown-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  --uc-color-picker-dropdown-border: oklch(from var(--foreground-color) l c h / 0.1);
+  --uc-color-picker-swatch-border: oklch(from var(--foreground-color) l c h / 0.15);
+  --uc-color-picker-value-color: oklch(from var(--foreground-color) l c h / 0.8);
+  --uc-color-picker-error-color: var(--error-color);
+  --uc-color-picker-disabled-opacity: 0.5;
+
   display: flex;
   flex: 1 1 0;
 }
@@ -15,7 +27,7 @@
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.03em;
-  color: oklch(from var(--foreground-color) l c h / 1);
+  color: var(--uc-color-picker-label-color);
 }
 
 .uc-color-picker-trigger {
@@ -29,26 +41,26 @@
   width: fit-content;
 
   &:hover {
-    background-color: oklch(from var(--foreground-color) l c h / 0.05);
+    background-color: var(--uc-color-picker-trigger-hover-background);
   }
 
   &:focus-within {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid var(--uc-color-picker-trigger-focus-color);
     outline-offset: 2px;
   }
 }
 
 .uc-color-picker-trigger-error {
-  outline: 2px solid var(--error-color);
+  outline: 2px solid var(--uc-color-picker-trigger-error-color);
   outline-offset: 2px;
 }
 
 .uc-color-picker-dropdown {
-  background: white;
+  background: var(--uc-color-picker-dropdown-background);
   border-radius: 0.75rem;
   padding: 1rem;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  border: 1px solid oklch(from var(--foreground-color) l c h / 0.1);
+  box-shadow: var(--uc-color-picker-dropdown-shadow);
+  border: 1px solid var(--uc-color-picker-dropdown-border);
 }
 
 .uc-color-picker-surface {
@@ -79,7 +91,7 @@
     width: 36px;
     height: 36px;
   border-radius: 0.5rem;
-  border: 2px solid oklch(from var(--foreground-color) l c h / 0.15);
+  border: 2px solid var(--uc-color-picker-swatch-border);
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: transform 0.2s ease;
@@ -93,18 +105,18 @@
   font-weight: 600;
   letter-spacing: 0.02em;
     font-size: 0.9rem;
-    color: oklch(from var(--foreground-color) l c h / 0.8);
+    color: var(--uc-color-picker-value-color);
 }
 
 .uc-color-picker-error-message {
   display: inline-block;
   margin-top: 0.35rem;
   font-size: 0.85rem;
-  color: var(--error-color);
+  color: var(--uc-color-picker-error-color);
 }
 
 .uc-color-picker-disabled {
-  opacity: 0.5;
+  opacity: var(--uc-color-picker-disabled-opacity);
 
   .uc-color-picker-canvas {
     cursor: not-allowed;

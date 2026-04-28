@@ -1,11 +1,13 @@
 :host {
-  --info-color: var(--primary-color);
-  --info-bg: oklch(from var(--primary-color) l c h / 0.1);
-  --info-border: oklch(from var(--primary-color) l c h / 0.3);
-  
-  --error-info-color: var(--error-color);
-  --error-info-bg: oklch(from var(--error-color) l c h / 0.1);
-  --error-info-border: oklch(from var(--error-color) l c h / 0.3);
+  --uc-info-color: var(--primary-color);
+  --uc-info-background: oklch(from var(--primary-color) l c h / 0.1);
+  --uc-info-border: oklch(from var(--primary-color) l c h / 0.3);
+  --uc-info-error-color: var(--error-color);
+  --uc-info-error-background: oklch(from var(--error-color) l c h / 0.1);
+  --uc-info-error-border: oklch(from var(--error-color) l c h / 0.3);
+  --uc-info-warning-color: var(--warning-color);
+  --uc-info-warning-background: var(--warning-bg);
+  --uc-info-warning-border: var(--warning-border);
 
   display: block;
 }
@@ -49,46 +51,46 @@
   }
 
   &--info {
-    background-color: var(--info-bg);
-    border-color: var(--info-border);
-    color: var(--info-color);
+    background-color: var(--uc-info-background);
+    border-color: var(--uc-info-border);
+    color: var(--uc-info-color);
 
     .uc-info__body {
       color: var(--foreground-color);
       
       code {
-        background-color: oklch(from var(--info-color) l c h / 0.15);
-        color: var(--info-color);
+        background-color: oklch(from var(--uc-info-color) l c h / 0.15);
+        color: var(--uc-info-color);
       }
     }
   }
 
   &--warning {
-    background-color: var(--warning-bg);
-    border-color: var(--warning-border);
-    color: var(--warning-color);
+    background-color: var(--uc-info-warning-background);
+    border-color: var(--uc-info-warning-border);
+    color: var(--uc-info-warning-color);
 
     .uc-info__body {
       color: var(--foreground-color);
       
       code {
-        background-color: oklch(from var(--warning-color) l c h / 0.15);
-        color: var(--warning-color);
+        background-color: oklch(from var(--uc-info-warning-color) l c h / 0.15);
+        color: var(--uc-info-warning-color);
       }
     }
   }
 
   &--error {
-    background-color: var(--error-info-bg);
-    border-color: var(--error-info-border);
-    color: var(--error-info-color);
+    background-color: var(--uc-info-error-background);
+    border-color: var(--uc-info-error-border);
+    color: var(--uc-info-error-color);
 
     .uc-info__body {
       color: var(--foreground-color);
       
       code {
-        background-color: oklch(from var(--error-info-color) l c h / 0.15);
-        color: var(--error-info-color);
+        background-color: oklch(from var(--uc-info-error-color) l c h / 0.15);
+        color: var(--uc-info-error-color);
       }
     }
   }

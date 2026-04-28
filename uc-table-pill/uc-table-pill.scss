@@ -1,3 +1,12 @@
+:host {
+  --uc-table-pill-info-background: var(--background-color-90);
+  --uc-table-pill-info-color: var(--foreground-color);
+  --uc-table-pill-valid-background: oklch(from var(--success-color) l c h / 0.2);
+  --uc-table-pill-valid-color: var(--success-color);
+  --uc-table-pill-error-background: oklch(from var(--error-color) l c h / 0.2);
+  --uc-table-pill-error-color: var(--error-color);
+}
+
 .pill {
   display: inline-block;
   padding: 0.25rem 0.5rem;
@@ -6,17 +15,17 @@
   line-height: 1rem;
 
   &--info {
-    background-color: var(--background-color-90);
-    color: var(--foreground-color);
+    background-color: var(--uc-table-pill-info-background);
+    color: var(--uc-table-pill-info-color);
   }
 
   &--valid {
-    background-color: oklch(from var(--success-color) l c h / 0.2);
-    color: var(--success-color);
+    background-color: var(--uc-table-pill-valid-background);
+    color: var(--uc-table-pill-valid-color);
   }
 
   &--error {
-    background-color: oklch(from var(--error-color) l c h / 0.2);
-    color: var(--error-color);
+    background-color: var(--uc-table-pill-error-background);
+    color: var(--uc-table-pill-error-color);
   }
 }
