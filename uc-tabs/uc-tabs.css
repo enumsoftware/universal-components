@@ -13,7 +13,7 @@
   border-bottom: 2px solid var(--uc-tabs-border-color);
   margin-bottom: var(--uc-tabs-margin-bottom);
 
-  &__tab {
+  .uc-tabs__tab {
     padding: 0.625rem 1.25rem;
     background: none;
     border: none;
@@ -29,7 +29,7 @@
       color: var(--uc-tabs-tab-hover-color);
     }
 
-    &--active {
+    &.uc-tabs__tab--active {
       color: var(--uc-tabs-tab-active-color);
       border-bottom-color: var(--uc-tabs-tab-active-border-color);
     }

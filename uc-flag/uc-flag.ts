@@ -4,7 +4,7 @@ import { Component, computed, input } from '@angular/core';
   selector: 'uc-flag',
   imports: [],
   templateUrl: './uc-flag.html',
-  styleUrl: './uc-flag.scss',
+  styleUrl: './uc-flag.css',
 })
 export class UcFlag {
   countryCode = input.required<string | null>();

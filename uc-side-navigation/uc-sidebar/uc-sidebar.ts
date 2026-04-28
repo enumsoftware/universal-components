@@ -4,7 +4,7 @@ import { Component, model } from '@angular/core';
   selector: 'uc-sidebar',
   imports: [],
   templateUrl: './uc-sidebar.html',
-  styleUrl: './uc-sidebar.scss',
+  styleUrl: './uc-sidebar.css',
 })
 export class UcSidebar {
   opened = model(true);

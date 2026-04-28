@@ -4,7 +4,7 @@ import { Component, input } from '@angular/core';
   selector: 'uc-card',
   imports: [],
   templateUrl: './uc-card.html',
-  styleUrl: './uc-card.scss',
+  styleUrl: './uc-card.css',
   host: {
     '[class.uc-card--fill]': 'fit() === "fill"',
   },

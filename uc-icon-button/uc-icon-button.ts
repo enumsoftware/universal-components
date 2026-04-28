@@ -3,7 +3,7 @@ import { Component, input, output } from '@angular/core';
 @Component({
   selector: 'uc-icon-button',
   templateUrl: './uc-icon-button.html',
-  styleUrl: './uc-icon-button.scss',
+  styleUrl: './uc-icon-button.css',
 })
 export class UcIconButton {
   inverseColor = input<boolean>(false);

@@ -35,7 +35,7 @@
     align-items: center;
   }
 
-  &--primary {
+  &.action--primary {
     background-color: var(--uc-table-action-primary-background);
     color: var(--uc-table-action-primary-color);
 
@@ -48,7 +48,7 @@
     }
   }
 
-  &--secondary {
+  &.action--secondary {
     background-color: transparent;
     color: var(--uc-table-action-secondary-color);
     border: 1px solid var(--uc-table-action-secondary-color);

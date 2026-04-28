@@ -7,7 +7,7 @@ import { FormCheckboxControl, ValidationError, WithOptionalField } from '@angula
   selector: 'uc-checkbox',
   imports: [CommonModule, FormsModule],
   templateUrl: './uc-checkbox.html',
-  styleUrl: './uc-checkbox.scss',
+  styleUrl: './uc-checkbox.css',
 })
 export class UcCheckbox implements FormCheckboxControl {
   readonly id = input.required<string>();

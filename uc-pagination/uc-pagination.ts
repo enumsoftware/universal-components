@@ -5,7 +5,7 @@ import { UcButton } from '../uc-button/uc-button';
 @Component({
   selector: 'uc-pagination',
   templateUrl: './uc-pagination.html',
-  styleUrl: './uc-pagination.scss',
+  styleUrl: './uc-pagination.css',
   imports: [UcButton, UcIconButton],
 })
 export class UcPagination {

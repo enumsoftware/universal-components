@@ -14,7 +14,7 @@ import { UcAccordionItem } from './uc-accordion-item';
   
   imports: [CommonModule],
   templateUrl: './uc-accordion.html',
-  styleUrl: './uc-accordion.scss',
+  styleUrl: './uc-accordion.css',
 })
 export class UcAccordion {
   items = contentChildren(UcAccordionItem);

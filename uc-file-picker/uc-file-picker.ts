@@ -6,7 +6,7 @@ import { UcIconButton } from '../uc-icon-button/uc-icon-button';
   selector: 'uc-file-picker',
   imports: [CommonModule, UcIconButton],
   templateUrl: './uc-file-picker.html',
-  styleUrl: './uc-file-picker.scss',
+  styleUrl: './uc-file-picker.css',
   host: {
     class: 'uc-file-picker',
     '(dragover)': 'onDragOver($event)',

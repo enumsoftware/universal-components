@@ -12,7 +12,7 @@
   gap: 2rem;
   flex-wrap: wrap;
 
-  &__chart {
+  .uc-pie-chart__chart {
     flex-shrink: 0;
 
     svg {
@@ -20,7 +20,7 @@
     }
   }
 
-  &__legend {
+  .uc-pie-chart__legend {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -31,21 +31,21 @@
     min-width: 160px;
   }
 
-  &__legend-item {
+  .uc-pie-chart__legend-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     font-size: 0.875rem;
   }
 
-  &__legend-dot {
+  .uc-pie-chart__legend-dot {
     width: 12px;
     height: 12px;
     border-radius: 50%;
     flex-shrink: 0;
   }
 
-  &__legend-label {
+  .uc-pie-chart__legend-label {
     flex: 1;
     color: var(--uc-pie-chart-legend-label-color);
     overflow: hidden;
@@ -53,7 +53,7 @@
     white-space: nowrap;
   }
 
-  &__legend-value {
+  .uc-pie-chart__legend-value {
     color: var(--uc-pie-chart-legend-value-color);
     white-space: nowrap;
     font-size: 0.8rem;

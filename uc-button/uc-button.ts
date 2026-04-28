@@ -3,7 +3,7 @@ import { Component, input, model, output } from '@angular/core';
 @Component({
   selector: 'uc-button',
   templateUrl: './uc-button.html',
-  styleUrl: './uc-button.scss',
+  styleUrl: './uc-button.css',
 })
 export class UcButton {
   text = model.required();

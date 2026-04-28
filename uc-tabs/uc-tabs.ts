@@ -18,7 +18,7 @@ export class UcTabPanel {
   selector: 'uc-tabs',
   imports: [NgTemplateOutlet],
   templateUrl: './uc-tabs.html',
-  styleUrl: './uc-tabs.scss',
+  styleUrl: './uc-tabs.css',
 })
 export class UcTabs {
   readonly tabs = input.required<UcTab[]>();

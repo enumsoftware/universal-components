@@ -19,26 +19,26 @@
   border-radius: 0.5rem;
   border: 1px solid;
 
-  &__icon {
+  .uc-info__icon {
     flex-shrink: 0;
     display: flex;
     align-items: flex-start;
     font-size: 1.25rem;
   }
 
-  &__content {
+  .uc-info__content {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
   }
 
-  &__title {
+  .uc-info__title {
     font-weight: 600;
     font-size: 0.875rem;
   }
 
-  &__body {
+  .uc-info__body {
     font-size: 0.75rem;
     line-height: 1.5;
     
@@ -50,7 +50,7 @@
     }
   }
 
-  &--info {
+  &.uc-info--info {
     background-color: var(--uc-info-background);
     border-color: var(--uc-info-border);
     color: var(--uc-info-color);
@@ -65,7 +65,7 @@
     }
   }
 
-  &--warning {
+  &.uc-info--warning {
     background-color: var(--uc-info-warning-background);
     border-color: var(--uc-info-warning-border);
     color: var(--uc-info-warning-color);
@@ -80,7 +80,7 @@
     }
   }
 
-  &--error {
+  &.uc-info--error {
     background-color: var(--uc-info-error-background);
     border-color: var(--uc-info-error-border);
     color: var(--uc-info-error-color);

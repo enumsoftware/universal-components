@@ -32,13 +32,13 @@
     box-shadow: var(--uc-google-sign-in-button-hover-box-shadow);
   }
 
-  &__icon {
+  .google-sign-in-button__icon {
     width: 1.25rem;
     height: 1.25rem;
     flex-shrink: 0;
   }
 
-  &__text {
+  .google-sign-in-button__text {
     white-space: nowrap;
   }
 }

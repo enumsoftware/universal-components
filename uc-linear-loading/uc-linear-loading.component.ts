@@ -4,7 +4,7 @@ import { Component, model } from '@angular/core';
   selector: 'uc-linear-loading',
   imports: [],
   templateUrl: './uc-linear-loading.component.html',
-  styleUrl: './uc-linear-loading.component.scss',
+  styleUrl: './uc-linear-loading.component.css',
 })
 export class UcLinearLoading {
   color = model<string | undefined>();

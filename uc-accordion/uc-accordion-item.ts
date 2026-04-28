@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
   
   imports: [CommonModule],
   templateUrl: './uc-accordion-item.html',
-  styleUrl: './uc-accordion-item.scss',
+  styleUrl: './uc-accordion-item.css',
 })
 export class UcAccordionItem {
   title = input<string>('');

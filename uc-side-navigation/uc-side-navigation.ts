@@ -20,7 +20,7 @@ export type UcSidebarMode = 'over' | 'side';
 @Component({
   selector: 'uc-side-navigation',
   templateUrl: './uc-side-navigation.html',
-  styleUrl: './uc-side-navigation.scss',
+  styleUrl: './uc-side-navigation.css',
   imports: [NgClass],
 })
 export class UcSideNavigation {

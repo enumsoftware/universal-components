@@ -23,7 +23,7 @@ const CHART_COLORS = [
 @Component({
   selector: 'uc-pie-chart',
   templateUrl: './uc-pie-chart.html',
-  styleUrl: './uc-pie-chart.scss',
+  styleUrl: './uc-pie-chart.css',
 })
 export class UcPieChart implements OnDestroy {
   data = input.required<ChartDataPoint[]>();

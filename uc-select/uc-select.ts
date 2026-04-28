@@ -24,7 +24,7 @@ export interface SelectOption<T = string> {
   
   imports: [CommonModule, FormsModule, OverlayModule],
   templateUrl: './uc-select.html',
-  styleUrl: './uc-select.scss',
+  styleUrl: './uc-select.css',
 })
 export class UcSelect<T = string> implements FormValueControl<T | null> {
   // Input properties

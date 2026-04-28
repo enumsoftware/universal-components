@@ -4,7 +4,7 @@ import { Component, input } from '@angular/core';
   selector: 'uc-divider',
   imports: [],
   templateUrl: './uc-divider.html',
-  styleUrl: './uc-divider.scss',
+  styleUrl: './uc-divider.css',
   host: {
     '[class.uc-divider--inverse]': 'inverse()',
     '[class.uc-divider--vertical]': 'vertical()',

@@ -15,20 +15,20 @@
   flex-wrap: wrap;
   margin-bottom: 1.5rem;
 
-  &__btn {
+  .uc-pagination__btn {
     display: inline-flex;
   }
 
-  &__indicators {
+  .uc-pagination__indicators {
     display: flex;
     gap: 0.5rem;
   }
 
-  &__page-btn {
+  .uc-pagination__page-btn {
     display: inline-flex;
   }
 
-  &__info {
+  .uc-pagination__info {
     text-align: center;
     color: var(--uc-pagination-info-color);
     font-size: 0.9rem;

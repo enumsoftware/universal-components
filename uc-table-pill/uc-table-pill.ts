@@ -4,7 +4,7 @@ import { NgClass } from '@angular/common';
 @Component({
   selector: 'uc-table-pill',
   templateUrl: './uc-table-pill.html',
-  styleUrl: './uc-table-pill.scss',
+  styleUrl: './uc-table-pill.css',
   imports: [NgClass],
 })
 export class UcTablePill {

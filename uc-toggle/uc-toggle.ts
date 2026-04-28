@@ -5,7 +5,7 @@ import { FormCheckboxControl, ValidationError, WithOptionalField } from '@angula
   selector: 'uc-toggle',
   imports: [],
   templateUrl: './uc-toggle.html',
-  styleUrl: './uc-toggle.scss',
+  styleUrl: './uc-toggle.css',
 })
 export class UcToggle implements FormCheckboxControl {
   readonly disabled = input<boolean>(false);

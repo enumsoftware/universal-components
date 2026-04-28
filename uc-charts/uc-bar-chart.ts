@@ -7,7 +7,7 @@ const BAR_COLOR = '#473bf0';
 @Component({
   selector: 'uc-bar-chart',
   templateUrl: './uc-bar-chart.html',
-  styleUrl: './uc-bar-chart.scss',
+  styleUrl: './uc-bar-chart.css',
 })
 export class UcBarChart implements OnDestroy {
   data = input.required<ChartDataPoint[]>();

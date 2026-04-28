@@ -14,17 +14,17 @@
   font-size: 0.75rem;
   line-height: 1rem;
 
-  &--info {
+  &.pill--info {
     background-color: var(--uc-table-pill-info-background);
     color: var(--uc-table-pill-info-color);
   }
 
-  &--valid {
+  &.pill--valid {
     background-color: var(--uc-table-pill-valid-background);
     color: var(--uc-table-pill-valid-color);
   }
 
-  &--error {
+  &.pill--error {
     background-color: var(--uc-table-pill-error-background);
     color: var(--uc-table-pill-error-color);
   }

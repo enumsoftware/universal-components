@@ -6,7 +6,7 @@ let tooltipIdCounter = 0;
   selector: 'app-uc-tooltip-component',
   imports: [],
   templateUrl: './uc-tooltip-component.html',
-  styleUrl: './uc-tooltip-component.scss',
+  styleUrl: './uc-tooltip-component.css',
 })
 export class UcTooltipComponent {
   text = '';

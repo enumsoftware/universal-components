@@ -12,7 +12,7 @@ import {
   selector: 'uc-textarea',
   imports: [CommonModule, FormsModule],
   templateUrl: './uc-textarea.html',
-  styleUrl: './uc-textarea.scss',
+  styleUrl: './uc-textarea.css',
 })
 export class UcTextarea implements FormValueControl<string | null> {
   readonly id = input.required<string>();

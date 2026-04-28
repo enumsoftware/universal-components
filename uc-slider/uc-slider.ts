@@ -16,7 +16,7 @@ import {
   selector: 'uc-slider',
   imports: [FormsModule],
   templateUrl: './uc-slider.html',
-  styleUrl: './uc-slider.scss',
+  styleUrl: './uc-slider.css',
   host: {
     class: 'uc-slider-host',
   },

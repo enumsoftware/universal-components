@@ -33,7 +33,7 @@ interface HsvColor {
   selector: 'uc-color-picker',
  imports: [OverlayModule],
   templateUrl: './uc-color-picker.html',
-  styleUrl: './uc-color-picker.scss',
+  styleUrl: './uc-color-picker.css',
   host: {
     class: 'uc-color-picker-host',
   },

@@ -4,7 +4,7 @@ import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'uc-google-sign-in-button',
   templateUrl: './uc-google-sign-in-button.html',
-  styleUrl: './uc-google-sign-in-button.scss',
+  styleUrl: './uc-google-sign-in-button.css',
 })
 export class UcGoogleSignInButton {
   returnUrl = input<string | undefined>(undefined);

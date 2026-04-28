@@ -4,7 +4,7 @@ import { Component, model } from '@angular/core';
   selector: 'uc-pill',
   imports: [],
   templateUrl: './uc-pill.html',
-  styleUrl: './uc-pill.scss',
+  styleUrl: './uc-pill.css',
 })
 export class UcPill {
   text = model.required<string>();

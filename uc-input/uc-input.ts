@@ -12,7 +12,7 @@ import {
   selector: 'uc-input',
   imports: [CommonModule, FormsModule],
   templateUrl: './uc-input.html',
-  styleUrl: './uc-input.scss',
+  styleUrl: './uc-input.css',
 })
 export class UcInput implements FormValueControl<string | number | null> {
   readonly id = input.required<string>();
