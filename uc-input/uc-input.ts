@@ -1,4 +1,12 @@
-import { Component, input, signal, model, computed, InputSignal } from '@angular/core';
+import {
+  Component,
+  computed,
+  contentChildren,
+  Directive,
+  input,
+  model,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -7,6 +15,13 @@ import {
   ValidationError,
   WithOptionalField,
 } from '@angular/forms/signals';
+
+type UcInputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'datetime-local';
+
+@Directive({
+  selector: '[ucInputSuffix]',
+})
+export class UcInputSuffix {}
 
 @Component({
   selector: 'uc-input',
@@ -18,10 +33,9 @@ export class UcInput implements FormValueControl<string | number | null> {
   readonly id = input.required<string>();
   readonly label = input<string>('');
   readonly placeholder = input<string>('');
-  readonly type = input<'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'datetime-local'>(
-    'text'
-  );
+  readonly type = input<UcInputType>('text');
   readonly autocomplete = input<string>('off');
+  readonly togglePassword = input<boolean>(false);
 
   value = model<string | number | null>(null);
   errors = input<readonly WithOptionalField<ValidationError>[]>([]);
@@ -32,4 +46,27 @@ export class UcInput implements FormValueControl<string | number | null> {
   invalid = input<boolean>(false);
   touched = model<boolean>(false);
   showErrorState = computed(() => this.invalid() && this.touched());
+
+  private readonly projectedSuffix = contentChildren(UcInputSuffix, { descendants: true });
+  private readonly passwordRevealed = signal<boolean>(false);
+
+  readonly isPasswordToggle = computed<boolean>(
+    () => this.togglePassword() && this.type() === 'password',
+  );
+
+  readonly hasProjectedSuffix = computed<boolean>(() => this.projectedSuffix().length > 0);
+
+  readonly hasSuffix = computed<boolean>(
+    () => this.hasProjectedSuffix() || this.isPasswordToggle(),
+  );
+
+  readonly effectiveType = computed<UcInputType>(() =>
+    this.isPasswordToggle() && this.passwordRevealed() ? 'text' : this.type(),
+  );
+
+  readonly isPasswordRevealed = computed<boolean>(() => this.passwordRevealed());
+
+  togglePasswordVisibility(): void {
+    this.passwordRevealed.update((v) => !v);
+  }
 }
