@@ -31,7 +31,7 @@
     } @else {
       <span class="uc-select-placeholder">{{ placeholder() }}</span>
     }
-    <span class="uc-select-arrow">▼</span>
+    <i class="uc-select-arrow ph ph-caret-down" aria-hidden="true"></i>
   </div>
 
   @if (isOpen()) {
@@ -61,6 +61,9 @@
               <span class="uc-select-option-icon">{{ option.icon }}</span>
             }
             <span class="uc-select-option-label">{{ option.label }}</span>
+            @if (option.value === value()) {
+              <i class="uc-select-option-selected-icon ph ph-check" aria-hidden="true"></i>
+            }
           </button>
         }
       } @else {

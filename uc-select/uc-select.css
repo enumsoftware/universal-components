@@ -105,7 +105,7 @@
 .uc-select-arrow {
   flex-shrink: 0;
   color: var(--uc-select-arrow-color);
-  font-size: 0.7rem;
+  font-size: 1rem;
   transition: transform 0.2s ease-in-out;
   margin-left: auto;
 }
@@ -178,12 +178,6 @@
     background-color: var(--uc-select-option-selected-background);
     color: var(--uc-select-option-selected-color);
     font-weight: 600;
-
-    &::before {
-      content: '✓';
-      margin-right: 0.25rem;
-      font-weight: bold;
-    }
   }
 
   &.uc-select-option-disabled {
@@ -209,6 +203,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.uc-select-option-selected-icon {
+  flex-shrink: 0;
+  margin-left: auto;
+  font-size: 1rem;
 }
 
 .uc-select-no-options {
