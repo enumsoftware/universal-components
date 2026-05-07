@@ -1,28 +1,28 @@
 <div
   class="uc-color-picker"
-  [class.uc-color-picker-disabled]="disabled() || readonly()"
-  [class.uc-color-picker-hidden]="hidden()"
+  [class.uc-color-picker--disabled]="disabled() || readonly()"
+  [class.uc-color-picker--hidden]="hidden()"
 >
   @if (label()) {
-    <label class="uc-color-picker-label" [for]="id()">{{ label() }}</label>
+    <label class="uc-color-picker__label" [for]="id()">{{ label() }}</label>
   }
 
-  <!-- Trigger: Rectangle swatch -->
+  <!-- Trigger: swatch + value -->
   <div
     #trigger="cdkOverlayOrigin"
     cdkOverlayOrigin
-    class="uc-color-picker-trigger"
-    [class.uc-color-picker-trigger-error]="showErrorState()"
+    class="uc-color-picker__trigger"
+    [class.uc-color-picker__trigger--error]="showErrorState()"
     (click)="toggleDropdown()"
   >
     <div
-      class="uc-color-picker-swatch"
+      class="uc-color-picker__swatch"
       [style.backgroundColor]="value()"
       [attr.aria-label]="'Selected color ' + displayValue()"
       [attr.tabindex]="disabled() || readonly() ? -1 : 0"
       (keydown)="onSwatchKeydown($event)"
     ></div>
-    <span class="uc-color-picker-value">{{ displayValue() }}</span>
+    <span class="uc-color-picker__value">{{ displayValue() }}</span>
   </div>
 
   <!-- Dropdown overlay -->
@@ -31,32 +31,71 @@
     [cdkConnectedOverlayOrigin]="trigger"
     [cdkConnectedOverlayOpen]="isOpen()"
     [cdkConnectedOverlayHasBackdrop]="true"
-    [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent-backdrop'"
-    (backdropClick)="closeDropdown()"
+    [cdkConnectedOverlayBackdropClass]="'uc-color-picker__backdrop'"
+    [cdkConnectedOverlayPanelClass]="'uc-color-picker__overlay-pane'"
+    (backdropClick)="cancelChanges()"
   >
-    <div class="uc-color-picker-dropdown">
-      <div class="uc-color-picker-surface">
-        <canvas
-          #canvas
-          class="uc-color-picker-canvas"
-          [id]="id()"
-          [attr.width]="size()"
-          [attr.height]="size()"
-          [attr.aria-label]="label() || 'Color picker'"
-          [attr.aria-disabled]="disabled()"
-          [attr.aria-readonly]="readonly()"
-          (pointerdown)="onPointerDown($event)"
-          (pointermove)="onPointerMove($event)"
-          (pointerup)="onPointerUp($event)"
-          (pointerleave)="onPointerUp($event)"
-        ></canvas>
+    <div class="uc-color-picker__dropdown">
+      <!-- Mode toggle + picker -->
+      <uc-tabs [tabs]="colorModeTabs" [activeTab]="colorMode()" (activeTabChange)="setColorMode($event)">
+        <ng-template ucTabPanel="area">
+          <div class="uc-color-picker__canvas-area">
+            <uc-color-area
+              [size]="size()"
+              [disabled]="disabled()"
+              [readonly]="readonly()"
+              [(value)]="draftValue"
+              (colorChange)="onColorChange($event)"
+            />
+          </div>
+        </ng-template>
+        <ng-template ucTabPanel="wheel">
+          <div class="uc-color-picker__canvas-area">
+            <uc-color-wheel
+              [size]="size()"
+              [disabled]="disabled()"
+              [readonly]="readonly()"
+              [(value)]="draftValue"
+              (colorChange)="onColorChange($event)"
+            />
+          </div>
+        </ng-template>
+      </uc-tabs>
 
+      <!-- Color preview + value display -->
+      <div class="uc-color-picker__footer">
         <div
-          class="uc-color-picker-marker"
-          [style.left.px]="markerPosition().x"
-          [style.top.px]="markerPosition().y"
-          [style.backgroundColor]="value()"
+          class="uc-color-picker__preview"
+          [style.backgroundColor]="draftValue()"
         ></div>
+        <div class="uc-color-picker__value-panel">
+          <div class="uc-color-picker__format-bar">
+            <button
+              type="button"
+              class="uc-color-picker__format-btn"
+              [class.uc-color-picker__format-btn--active]="colorFormat() === 'hex'"
+              (click)="setColorFormat('hex')"
+            >HEX</button>
+            <button
+              type="button"
+              class="uc-color-picker__format-btn"
+              [class.uc-color-picker__format-btn--active]="colorFormat() === 'rgb'"
+              (click)="setColorFormat('rgb')"
+            >RGB</button>
+            <button
+              type="button"
+              class="uc-color-picker__format-btn"
+              [class.uc-color-picker__format-btn--active]="colorFormat() === 'hsl'"
+              (click)="setColorFormat('hsl')"
+            >HSL</button>
+          </div>
+          <span class="uc-color-picker__formatted-value">{{ formattedValue() }}</span>
+        </div>
+      </div>
+
+      <div class="uc-color-picker__actions">
+        <uc-button [text]="'Cancel'" variant="secondary" (clicked)="cancelChanges()" />
+        <uc-button [text]="'Save'" (clicked)="saveChanges()" />
       </div>
     </div>
   </ng-template>
@@ -64,7 +103,7 @@
   @if (showErrorState()) {
     <div>
       @for (error of errors(); track error) {
-        <span class="uc-color-picker-error-message">{{ error.message }}</span>
+        <span class="uc-color-picker__error">{{ error.message }}</span>
       }
     </div>
   }

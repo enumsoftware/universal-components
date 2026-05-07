@@ -1,0 +1,18 @@
+<div class="uc-color-wheel" [style.width.px]="size()" [style.height.px]="size()">
+  <canvas
+    #canvas
+    class="uc-color-wheel__canvas"
+    [attr.width]="size()"
+    [attr.height]="size()"
+    (pointerdown)="onPointerDown($event)"
+    (pointermove)="onPointerMove($event)"
+    (pointerup)="onPointerUp($event)"
+    (pointerleave)="onPointerUp($event)"
+  ></canvas>
+  <div
+    class="uc-color-wheel__marker"
+    [style.left.px]="markerPosition().x"
+    [style.top.px]="markerPosition().y"
+    [style.backgroundColor]="value()"
+  ></div>
+</div>

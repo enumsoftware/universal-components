@@ -1,0 +1,41 @@
+<div class="uc-color-area">
+  <!-- Saturation / Brightness Canvas -->
+  <div
+    class="uc-color-area__canvas-wrapper"
+    [style.width.px]="size()"
+    [style.height.px]="size()"
+  >
+    <canvas
+      #svCanvas
+      class="uc-color-area__canvas"
+      [attr.width]="size()"
+      [attr.height]="size()"
+      (pointerdown)="onAreaPointerDown($event)"
+      (pointermove)="onAreaPointerMove($event)"
+      (pointerup)="onAreaPointerUp($event)"
+      (pointerleave)="onAreaPointerUp($event)"
+    ></canvas>
+    <div
+      class="uc-color-area__marker"
+      [style.left.px]="svMarker().x"
+      [style.top.px]="svMarker().y"
+      [style.backgroundColor]="value()"
+    ></div>
+  </div>
+
+  <!-- Hue Slider -->
+  <div
+    #hueTrack
+    class="uc-color-area__hue-track"
+    [style.width.px]="size()"
+    (pointerdown)="onHuePointerDown($event)"
+    (pointermove)="onHuePointerMove($event)"
+    (pointerup)="onHuePointerUp($event)"
+    (pointerleave)="onHuePointerUp($event)"
+  >
+    <div
+      class="uc-color-area__hue-thumb"
+      [style.left.px]="hueThumbX()"
+    ></div>
+  </div>
+</div>

@@ -1,4 +1,9 @@
-:host {
+/**
+ * Variables defined on :root so they are accessible from within
+ * the CDK overlay portal (which lives outside the host element).
+ * The uc-color-picker-host class keeps the layout styles scoped.
+ */
+:root {
   --uc-color-picker-label-color: oklch(from var(--foreground-color) l c h / 1);
   --uc-color-picker-trigger-hover-background: oklch(from var(--foreground-color) l c h / 0.05);
   --uc-color-picker-trigger-focus-color: var(--primary-color);
@@ -10,7 +15,15 @@
   --uc-color-picker-value-color: oklch(from var(--foreground-color) l c h / 0.8);
   --uc-color-picker-error-color: var(--error-color);
   --uc-color-picker-disabled-opacity: 0.5;
+  --uc-color-picker-mode-btn-background: oklch(from var(--foreground-color) l c h / 0.06);
+  --uc-color-picker-mode-btn-active-background: var(--primary-color);
+  --uc-color-picker-mode-btn-active-color: var(--primary-contrast-color, #fff);
+  --uc-color-picker-format-btn-color: oklch(from var(--foreground-color) l c h / 0.6);
+  --uc-color-picker-format-btn-active-color: var(--primary-color);
+  --uc-color-picker-backdrop: oklch(from var(--foreground-color) l c h / 0.45);
+}
 
+.uc-color-picker-host {
   display: flex;
   flex: 1 1 0;
 }
@@ -23,14 +36,14 @@
   width: 100%;
 }
 
-.uc-color-picker-label {
+.uc-color-picker__label {
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.03em;
   color: var(--uc-color-picker-label-color);
 }
 
-.uc-color-picker-trigger {
+.uc-color-picker__trigger {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -50,79 +63,183 @@
   }
 }
 
-.uc-color-picker-trigger-error {
+.uc-color-picker__trigger--error {
   outline: 2px solid var(--uc-color-picker-trigger-error-color);
   outline-offset: 2px;
 }
 
-.uc-color-picker-dropdown {
+.uc-color-picker__swatch {
+  width: 36px;
+  height: 36px;
+  border-radius: 0.5rem;
+  border: 2px solid var(--uc-color-picker-swatch-border);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.uc-color-picker__value {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  font-size: 0.9rem;
+  color: var(--uc-color-picker-value-color);
+}
+
+/* Dropdown */
+
+.uc-color-picker__dropdown {
   background: var(--uc-color-picker-dropdown-background);
   border-radius: 0.75rem;
   padding: 1rem;
   box-shadow: var(--uc-color-picker-dropdown-shadow);
   border: 1px solid var(--uc-color-picker-dropdown-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
 }
 
-.uc-color-picker-surface {
-  position: relative;
-  width: fit-content;
+.uc-color-picker__overlay-pane {
+  max-width: min(calc(100vw - 1.5rem), 30rem);
 }
 
-.uc-color-picker-canvas {
-  display: block;
-  border-radius: 50%;
-  cursor: crosshair;
-  touch-action: none;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+.uc-color-picker__backdrop {
+  background: transparent;
 }
 
-.uc-color-picker-marker {
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 2px solid #ffffff;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
+/* Canvas area */
+
+.uc-color-picker__canvas-area {
+  display: flex;
+  justify-content: center;
 }
 
-.uc-color-picker-swatch {
-    width: 36px;
-    height: 36px;
+/* Footer: preview + value */
+
+.uc-color-picker__footer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 0.25rem;
+  border-top: 1px solid var(--uc-color-picker-dropdown-border);
+}
+
+.uc-color-picker__preview {
+  width: 36px;
+  height: 36px;
   border-radius: 0.5rem;
   border: 2px solid var(--uc-color-picker-swatch-border);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: transform 0.2s ease;
-
-    &:hover {
-      transform: scale(1.05);
-    }
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
 }
 
-.uc-color-picker-value {
+.uc-color-picker__value-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.uc-color-picker__format-bar {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.uc-color-picker__format-btn {
+  padding: 0.15rem 0.45rem;
+  border-radius: 0.25rem;
+  border: none;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  background: transparent;
+  color: var(--uc-color-picker-format-btn-color);
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: var(--uc-color-picker-format-btn-active-color);
+  }
+}
+
+.uc-color-picker__format-btn--active {
+  color: var(--uc-color-picker-format-btn-active-color);
+}
+
+.uc-color-picker__formatted-value {
+  font-size: 0.85rem;
   font-weight: 600;
+  color: var(--uc-color-picker-value-color);
   letter-spacing: 0.02em;
-    font-size: 0.9rem;
-    color: var(--uc-color-picker-value-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.uc-color-picker-error-message {
+.uc-color-picker__actions {
+  display: flex;
+  gap: 0.75rem;
+  padding-top: 0.25rem;
+}
+
+.uc-color-picker__actions > uc-button {
+  flex: 1 1 0;
+}
+
+/* Error */
+
+.uc-color-picker__error {
   display: inline-block;
   margin-top: 0.35rem;
   font-size: 0.85rem;
   color: var(--uc-color-picker-error-color);
 }
 
-.uc-color-picker-disabled {
-  opacity: var(--uc-color-picker-disabled-opacity);
+/* States */
 
-  .uc-color-picker-canvas {
-    cursor: not-allowed;
-  }
+.uc-color-picker--disabled {
+  opacity: var(--uc-color-picker-disabled-opacity);
+  pointer-events: none;
 }
 
-.uc-color-picker-hidden {
+.uc-color-picker--hidden {
   display: none;
+}
+
+@media (max-width: 767px) {
+  .uc-color-picker__backdrop.cdk-overlay-backdrop-showing {
+    background: var(--uc-color-picker-backdrop);
+  }
+
+  .uc-color-picker__overlay-pane {
+    max-width: 100vw;
+  }
+
+  .uc-color-picker__dropdown {
+    position: fixed;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.75rem);
+    border-radius: 1rem;
+    max-height: min(85dvh, 42rem);
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  }
+
+  .uc-color-picker__footer {
+    align-items: flex-start;
+  }
+
+  .uc-color-picker__actions {
+    position: sticky;
+    bottom: calc(-1rem + env(safe-area-inset-bottom, 0px));
+    margin-top: auto;
+    padding-top: 0.75rem;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: var(--uc-color-picker-dropdown-background);
+  }
 }
