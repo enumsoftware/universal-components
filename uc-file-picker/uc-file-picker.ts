@@ -112,7 +112,6 @@ export class UcFilePicker {
       return;
     }
 
-    this.fileChanged.emit(file);
     this.readFile(file);
   }
 
@@ -133,7 +132,14 @@ export class UcFilePicker {
     reader.onload = () => {
       const result = typeof reader.result === 'string' ? reader.result : null;
       this.previewUrl.set(result);
+      this.fileChanged.emit(file);
       this.fileSelected.emit(result);
+    };
+    reader.onerror = () => {
+      this.errorMessage.set('Failed to read the selected file.');
+      this.previewUrl.set(null);
+      this.fileChanged.emit(null);
+      this.fileSelected.emit(null);
     };
     reader.readAsDataURL(file);
   }

@@ -37,5 +37,5 @@
 }
 
 @if (errorMessage()) {
-  <p class="uc-file-picker__error">{{ errorMessage() }}</p>
+  <p class="uc-file-picker__error" aria-live="polite">{{ errorMessage() }}</p>
 }
