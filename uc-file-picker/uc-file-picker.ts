@@ -20,11 +20,14 @@ export class UcFilePicker {
   readonly accept = input<string>('image/*,image/svg+xml');
   readonly helperText = input<string>('');
   readonly disabled = input<boolean>(false);
+  readonly maxFileSizeBytes = input<number | null>(null);
 
   readonly selectedFile = signal<File | null>(null);
   readonly previewUrl = signal<string | null>(null);
   readonly fileSelected = output<string | null>();
+  readonly fileChanged = output<File | null>();
   readonly isDragging = signal<boolean>(false);
+  readonly errorMessage = signal<string | null>(null);
 
   readonly fileInput = viewChild<ElementRef<HTMLInputElement>>('fileInput');
 
@@ -40,16 +43,7 @@ export class UcFilePicker {
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement | null;
     const file = input?.files?.[0] ?? null;
-
-    this.selectedFile.set(file);
-
-    if (!file) {
-      this.previewUrl.set(null);
-      this.fileSelected.emit(null);
-      return;
-    }
-
-    this.readFile(file);
+    this.processSelectedFile(file, input);
   }
 
   onDragOver(event: DragEvent): void {
@@ -74,12 +68,7 @@ export class UcFilePicker {
     this.isDragging.set(false);
 
     const file = event.dataTransfer?.files?.[0] ?? null;
-    if (!file) {
-      return;
-    }
-
-    this.selectedFile.set(file);
-    this.readFile(file);
+    this.processSelectedFile(file);
   }
 
   clearSelection(): void {
@@ -94,7 +83,49 @@ export class UcFilePicker {
 
     this.selectedFile.set(null);
     this.previewUrl.set(null);
+    this.errorMessage.set(null);
     this.fileSelected.emit(null);
+    this.fileChanged.emit(null);
+  }
+
+  private processSelectedFile(file: File | null, input?: HTMLInputElement | null): void {
+    this.errorMessage.set(null);
+    this.selectedFile.set(file);
+
+    if (!file) {
+      this.previewUrl.set(null);
+      this.fileSelected.emit(null);
+      this.fileChanged.emit(null);
+      return;
+    }
+
+    const maxFileSizeBytes = this.maxFileSizeBytes();
+    if (maxFileSizeBytes && file.size > maxFileSizeBytes) {
+      this.selectedFile.set(null);
+      this.previewUrl.set(null);
+      this.errorMessage.set(`File is too large. Maximum size is ${this.formatBytes(maxFileSizeBytes)}.`);
+      if (input) {
+        input.value = '';
+      }
+      this.fileSelected.emit(null);
+      this.fileChanged.emit(null);
+      return;
+    }
+
+    this.fileChanged.emit(file);
+    this.readFile(file);
+  }
+
+  private formatBytes(bytes: number): string {
+    if (bytes >= 1024 * 1024) {
+      return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+    }
+
+    if (bytes >= 1024) {
+      return `${(bytes / 1024).toFixed(1)} KB`;
+    }
+
+    return `${bytes} B`;
   }
 
   private readFile(file: File): void {

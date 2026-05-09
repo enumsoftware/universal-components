@@ -35,3 +35,7 @@
 @if (helperText()) {
   <p class="uc-file-picker__helper">{{ helperText() }}</p>
 }
+
+@if (errorMessage()) {
+  <p class="uc-file-picker__error">{{ errorMessage() }}</p>
+}
