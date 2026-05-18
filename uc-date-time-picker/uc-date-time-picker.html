@@ -1,0 +1,138 @@
+<div
+  class="uc-date-time-picker"
+  [class.uc-date-time-picker--disabled]="disabled() || readonly()"
+  [class.uc-date-time-picker--hidden]="hidden()"
+>
+  @if (label()) {
+    <label class="uc-date-time-picker__label" [for]="id()">{{ label() }}</label>
+  }
+
+  <!-- Trigger -->
+  <div
+    #trigger="cdkOverlayOrigin"
+    cdkOverlayOrigin
+    class="uc-date-time-picker__trigger"
+    [class.uc-date-time-picker__trigger--open]="isOpen()"
+    [class.uc-date-time-picker__trigger--error]="showErrorState()"
+    [attr.id]="id()"
+    [attr.tabindex]="disabled() || readonly() ? -1 : 0"
+    [attr.aria-expanded]="isOpen()"
+    [attr.aria-haspopup]="'dialog'"
+    [attr.aria-label]="label() || placeholder()"
+    role="combobox"
+    (click)="toggleDropdown()"
+    (keydown)="onTriggerKeydown($event)"
+  >
+    <i class="uc-date-time-picker__trigger-icon ph ph-calendar" aria-hidden="true"></i>
+    @if (displayValue()) {
+      <span class="uc-date-time-picker__value">{{ displayValue() }}</span>
+    } @else {
+      <span class="uc-date-time-picker__placeholder">{{ placeholder() }}</span>
+    }
+    <i
+      class="uc-date-time-picker__caret ph ph-caret-down"
+      aria-hidden="true"
+    ></i>
+  </div>
+
+  <!-- CDK Overlay dropdown -->
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="isOpen()"
+    [cdkConnectedOverlayHasBackdrop]="true"
+    [cdkConnectedOverlayBackdropClass]="'uc-date-time-picker__backdrop'"
+    [cdkConnectedOverlayPanelClass]="'uc-date-time-picker__overlay-pane'"
+    [cdkConnectedOverlayPositions]="[
+      { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: 4 },
+      { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -4 }
+    ]"
+    (backdropClick)="cancelChanges()"
+  >
+    <div class="uc-date-time-picker__dropdown" role="dialog" [attr.aria-label]="'Date picker'">
+
+      <!-- Month/Year navigation -->
+      <div class="uc-date-time-picker__nav">
+        <uc-icon-button
+          [phosphorIcon]="'caret-left'"
+          [phosphorWeight]="'bold'"
+          (clicked)="previousMonth()"
+        />
+        <span class="uc-date-time-picker__month-label">{{ viewMonthLabel() }}</span>
+        <uc-icon-button
+          [phosphorIcon]="'caret-right'"
+          [phosphorWeight]="'bold'"
+          (clicked)="nextMonth()"
+        />
+      </div>
+
+      <!-- Weekday headers -->
+      <div class="uc-date-time-picker__grid">
+        @for (day of weekDays; track day) {
+          <div class="uc-date-time-picker__weekday">{{ day }}</div>
+        }
+
+        <!-- Day cells -->
+        @for (day of calendarDays(); track day.date.getTime()) {
+          <button
+            type="button"
+            class="uc-date-time-picker__day"
+            [class.uc-date-time-picker__day--other-month]="!day.isCurrentMonth"
+            [class.uc-date-time-picker__day--today]="day.isToday"
+            [class.uc-date-time-picker__day--selected]="day.isSelected"
+            [attr.aria-label]="day.date.toDateString()"
+            [attr.aria-pressed]="day.isSelected"
+            (click)="selectDay(day)"
+          >{{ day.dayNumber }}</button>
+        }
+      </div>
+
+      <!-- Time picker section (optional) -->
+      @if (showTime()) {
+        <div class="uc-date-time-picker__time">
+          <i class="ph ph-clock" aria-hidden="true"></i>
+          <input
+            type="number"
+            class="uc-date-time-picker__time-input"
+            [value]="draftHours()"
+            min="0"
+            max="23"
+            aria-label="Hours"
+            (change)="onHoursChange($event)"
+          />
+          <span class="uc-date-time-picker__time-sep">:</span>
+          <input
+            type="number"
+            class="uc-date-time-picker__time-input"
+            [value]="draftMinutes()"
+            min="0"
+            max="59"
+            aria-label="Minutes"
+            (change)="onMinutesChange($event)"
+          />
+        </div>
+      }
+
+      <!-- Actions -->
+      <div class="uc-date-time-picker__actions">
+        <button
+          type="button"
+          class="uc-date-time-picker__today-btn"
+          (click)="selectToday()"
+        >Today</button>
+        <div class="uc-date-time-picker__action-buttons">
+          <uc-button [text]="'Cancel'" [variant]="'secondary'" (clicked)="cancelChanges()" />
+          <uc-button [text]="'Apply'" [disabled]="!draftDateStr()" (clicked)="saveChanges()" />
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  @if (showErrorState()) {
+    <div class="uc-date-time-picker__errors">
+      @for (error of errors(); track error) {
+        <span class="uc-date-time-picker__error">{{ error.message }}</span>
+      }
+    </div>
+  }
+</div>
