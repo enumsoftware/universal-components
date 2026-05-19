@@ -64,6 +64,11 @@
         />
       </div>
 
+      <!-- Range selection hint -->
+      @if (mode() === 'range') {
+        <p class="uc-date-time-picker__range-hint">{{ rangeSelectionHint() }}</p>
+      }
+
       <!-- Weekday headers -->
       <div class="uc-date-time-picker__grid">
         @for (day of weekDays; track day) {
@@ -78,11 +83,19 @@
             [class.uc-date-time-picker__day--other-month]="!day.isCurrentMonth"
             [class.uc-date-time-picker__day--today]="day.isToday"
             [class.uc-date-time-picker__day--selected]="day.isSelected"
+            [class.uc-date-time-picker__day--range-start]="day.isRangeStart"
+            [class.uc-date-time-picker__day--range-end]="day.isRangeEnd"
+            [class.uc-date-time-picker__day--in-range]="day.isInRange"
+            [class.uc-date-time-picker__day--range-preview]="day.isRangePreview"
+            [class.uc-date-time-picker__day--range-preview-end]="day.isRangePreviewEnd"
             [attr.aria-label]="day.date.toDateString()"
-            [attr.aria-pressed]="day.isSelected"
+            [attr.aria-pressed]="day.isSelected || day.isRangeStart || day.isRangeEnd"
             (click)="selectDay(day)"
+            (mouseenter)="onDayHover(day)"
+            (mouseleave)="onDayLeave()"
           >
-            {{ day.dayNumber }}
+            <span class="uc-date-time-picker__day-range-bg"></span>
+            <span class="uc-date-time-picker__day-circle">{{ day.dayNumber }}</span>
           </button>
         }
       </div>
@@ -118,12 +131,11 @@
         <uc-button
           [text]="'Today'"
           type="button"
-          class="uc-date-time-picker__today-btn"
           (click)="selectToday()"
         />
         <div class="uc-date-time-picker__action-buttons">
           <uc-button [text]="'Cancel'" [variant]="'secondary'" (clicked)="cancelChanges()" />
-          <uc-button [text]="'Apply'" [disabled]="!draftDateStr()" (clicked)="saveChanges()" />
+          <uc-button [text]="'Apply'" [disabled]="isSaveDisabled()" (clicked)="saveChanges()" />
         </div>
       </div>
     </div>
