@@ -9,6 +9,8 @@
 
   <!-- Trigger -->
   <div
+    title="uc-datepicker"
+    aria-expanded="false"
     #trigger="cdkOverlayOrigin"
     cdkOverlayOrigin
     class="uc-date-time-picker__trigger"
@@ -29,10 +31,7 @@
     } @else {
       <span class="uc-date-time-picker__placeholder">{{ placeholder() }}</span>
     }
-    <i
-      class="uc-date-time-picker__caret ph ph-caret-down"
-      aria-hidden="true"
-    ></i>
+    <i class="uc-date-time-picker__caret ph ph-caret-down" aria-hidden="true"></i>
   </div>
 
   <!-- CDK Overlay dropdown -->
@@ -45,12 +44,11 @@
     [cdkConnectedOverlayPanelClass]="'uc-date-time-picker__overlay-pane'"
     [cdkConnectedOverlayPositions]="[
       { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: 4 },
-      { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -4 }
+      { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -4 },
     ]"
     (backdropClick)="cancelChanges()"
   >
     <div class="uc-date-time-picker__dropdown" role="dialog" [attr.aria-label]="'Date picker'">
-
       <!-- Month/Year navigation -->
       <div class="uc-date-time-picker__nav">
         <uc-icon-button
@@ -83,7 +81,9 @@
             [attr.aria-label]="day.date.toDateString()"
             [attr.aria-pressed]="day.isSelected"
             (click)="selectDay(day)"
-          >{{ day.dayNumber }}</button>
+          >
+            {{ day.dayNumber }}
+          </button>
         }
       </div>
 
@@ -115,11 +115,9 @@
 
       <!-- Actions -->
       <div class="uc-date-time-picker__actions">
-        <button
-          type="button"
-          class="uc-date-time-picker__today-btn"
-          (click)="selectToday()"
-        >Today</button>
+        <button type="button" class="uc-date-time-picker__today-btn" (click)="selectToday()">
+          Today
+        </button>
         <div class="uc-date-time-picker__action-buttons">
           <uc-button [text]="'Cancel'" [variant]="'secondary'" (clicked)="cancelChanges()" />
           <uc-button [text]="'Apply'" [disabled]="!draftDateStr()" (clicked)="saveChanges()" />
