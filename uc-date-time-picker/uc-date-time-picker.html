@@ -115,9 +115,12 @@
 
       <!-- Actions -->
       <div class="uc-date-time-picker__actions">
-        <button type="button" class="uc-date-time-picker__today-btn" (click)="selectToday()">
-          Today
-        </button>
+        <uc-button
+          [text]="'Today'"
+          type="button"
+          class="uc-date-time-picker__today-btn"
+          (click)="selectToday()"
+        />
         <div class="uc-date-time-picker__action-buttons">
           <uc-button [text]="'Cancel'" [variant]="'secondary'" (clicked)="cancelChanges()" />
           <uc-button [text]="'Apply'" [disabled]="!draftDateStr()" (clicked)="saveChanges()" />
