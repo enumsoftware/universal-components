@@ -1,4 +1,4 @@
-import { Component, input, model, computed, signal } from '@angular/core';
+import { Component, input, model, computed, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Overlay, OverlayModule } from '@angular/cdk/overlay';
@@ -6,7 +6,7 @@ import {
   DisabledReason,
   FormValueControl,
   ValidationError,
-  WithOptionalField,
+  WithOptionalFieldTree,
 } from '@angular/forms/signals';
 
 /**
@@ -21,9 +21,10 @@ export interface SelectOption<T = string> {
 
 @Component({
   selector: 'uc-select',
-  
+
   imports: [CommonModule, FormsModule, OverlayModule],
   templateUrl: './uc-select.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './uc-select.css',
 })
 export class UcSelect<T = string> implements FormValueControl<T | null> {
@@ -35,8 +36,8 @@ export class UcSelect<T = string> implements FormValueControl<T | null> {
   readonly disabled = input<boolean>(false);
   readonly readonly = input<boolean>(false);
   readonly hidden = input<boolean>(false);
-  readonly errors = input<readonly WithOptionalField<ValidationError>[]>([]);
-  readonly disabledReasons = input<readonly WithOptionalField<DisabledReason>[]>([]);
+  readonly errors = input<readonly WithOptionalFieldTree<ValidationError>[]>([]);
+  readonly disabledReasons = input<readonly WithOptionalFieldTree<DisabledReason>[]>([]);
 
   // Model properties
   value = model<T | null>(null);

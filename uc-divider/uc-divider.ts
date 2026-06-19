@@ -1,10 +1,11 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'uc-divider',
   imports: [],
   templateUrl: './uc-divider.html',
   styleUrl: './uc-divider.css',
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     '[class.uc-divider--inverse]': 'inverse()',
     '[class.uc-divider--vertical]': 'vertical()',

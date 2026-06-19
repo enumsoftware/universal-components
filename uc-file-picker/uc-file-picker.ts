@@ -1,4 +1,13 @@
-import { Component, ElementRef, computed, input, output, signal, viewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  computed,
+  input,
+  output,
+  signal,
+  viewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UcIconButton } from '../uc-icon-button/uc-icon-button';
 
@@ -7,6 +16,7 @@ import { UcIconButton } from '../uc-icon-button/uc-icon-button';
   imports: [CommonModule, UcIconButton],
   templateUrl: './uc-file-picker.html',
   styleUrl: './uc-file-picker.css',
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     class: 'uc-file-picker',
     '(dragover)': 'onDragOver($event)',
@@ -103,7 +113,9 @@ export class UcFilePicker {
     if (maxFileSizeBytes && file.size > maxFileSizeBytes) {
       this.selectedFile.set(null);
       this.previewUrl.set(null);
-      this.errorMessage.set(`File is too large. Maximum size is ${this.formatBytes(maxFileSizeBytes)}.`);
+      this.errorMessage.set(
+        `File is too large. Maximum size is ${this.formatBytes(maxFileSizeBytes)}.`,
+      );
       if (input) {
         input.value = '';
       }

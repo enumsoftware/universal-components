@@ -6,13 +6,14 @@ import {
   model,
   output,
   signal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import {
   DisabledReason,
   FormValueControl,
   ValidationError,
-  WithOptionalField,
+  WithOptionalFieldTree,
 } from '@angular/forms/signals';
 import { UcButton } from '../uc-button/uc-button';
 import { UcIconButton } from '../uc-icon-button/uc-icon-button';
@@ -41,6 +42,7 @@ export interface DateRange {
   templateUrl: './uc-date-time-picker.html',
   styleUrl: './uc-date-time-picker.css',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     class: 'uc-date-time-picker-host',
   },
@@ -54,8 +56,8 @@ export class UcDateTimePicker implements FormValueControl<string> {
   readonly hidden = input<boolean>(false);
   readonly showTime = input<boolean>(false);
   readonly mode = input<'single' | 'range'>('single');
-  readonly errors = input<readonly WithOptionalField<ValidationError>[]>([]);
-  readonly disabledReasons = input<readonly WithOptionalField<DisabledReason>[]>([]);
+  readonly errors = input<readonly WithOptionalFieldTree<ValidationError>[]>([]);
+  readonly disabledReasons = input<readonly WithOptionalFieldTree<DisabledReason>[]>([]);
   readonly invalid = input<boolean>(false);
 
   value = model<string>('');
@@ -88,8 +90,18 @@ export class UcDateTimePicker implements FormValueControl<string> {
   readonly weekDays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
   readonly monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
 
   readonly viewMonthLabel = computed(() => {
@@ -106,8 +118,10 @@ export class UcDateTimePicker implements FormValueControl<string> {
     const draftStr = !isRange ? this.draftDateStr() : null;
     const selectedDate = draftStr ? this.parseDateStr(draftStr) : null;
 
-    const rangeStartDate = isRange && this.draftRangeStart() ? this.parseDateStr(this.draftRangeStart()) : null;
-    const rangeEndDate = isRange && this.draftRangeEnd() ? this.parseDateStr(this.draftRangeEnd()) : null;
+    const rangeStartDate =
+      isRange && this.draftRangeStart() ? this.parseDateStr(this.draftRangeStart()) : null;
+    const rangeEndDate =
+      isRange && this.draftRangeEnd() ? this.parseDateStr(this.draftRangeEnd()) : null;
 
     let previewEndDate: Date | null = null;
     if (rangeStartDate && !rangeEndDate) {
@@ -128,18 +142,48 @@ export class UcDateTimePicker implements FormValueControl<string> {
     const startDow = firstDay.getDay();
     for (let i = startDow - 1; i >= 0; i--) {
       const date = new Date(year, month, -i);
-      days.push(this.buildDay(date, false, today, selectedDate, rangeStartDate, rangeEndDate, previewEndDate));
+      days.push(
+        this.buildDay(
+          date,
+          false,
+          today,
+          selectedDate,
+          rangeStartDate,
+          rangeEndDate,
+          previewEndDate,
+        ),
+      );
     }
 
     for (let d = 1; d <= lastDay.getDate(); d++) {
       const date = new Date(year, month, d);
-      days.push(this.buildDay(date, true, today, selectedDate, rangeStartDate, rangeEndDate, previewEndDate));
+      days.push(
+        this.buildDay(
+          date,
+          true,
+          today,
+          selectedDate,
+          rangeStartDate,
+          rangeEndDate,
+          previewEndDate,
+        ),
+      );
     }
 
     const remaining = (7 - (days.length % 7)) % 7;
     for (let d = 1; d <= remaining; d++) {
       const date = new Date(year, month + 1, d);
-      days.push(this.buildDay(date, false, today, selectedDate, rangeStartDate, rangeEndDate, previewEndDate));
+      days.push(
+        this.buildDay(
+          date,
+          false,
+          today,
+          selectedDate,
+          rangeStartDate,
+          rangeEndDate,
+          previewEndDate,
+        ),
+      );
     }
 
     return days;
@@ -376,7 +420,8 @@ export class UcDateTimePicker implements FormValueControl<string> {
         ? dateOnly > rangeStartDate && dateOnly < rangeEndDate
         : false;
 
-    const isRangePreviewEnd = previewEndDate !== null && dateOnly.getTime() === previewEndDate.getTime();
+    const isRangePreviewEnd =
+      previewEndDate !== null && dateOnly.getTime() === previewEndDate.getTime();
     const isRangePreview =
       !isRangePreviewEnd && rangeStartDate !== null && previewEndDate !== null
         ? dateOnly > rangeStartDate && dateOnly < previewEndDate

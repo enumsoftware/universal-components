@@ -1,8 +1,9 @@
-import { Component, input, model, output } from '@angular/core';
+import { Component, input, model, output, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'uc-arrow-button',
   templateUrl: './uc-arrow-button.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './uc-arrow-button.css',
 })
 export class UcArrowButton {

@@ -1,4 +1,12 @@
-import { Component, input, ElementRef, viewChild, effect, OnDestroy } from '@angular/core';
+import {
+  Component,
+  input,
+  ElementRef,
+  viewChild,
+  effect,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import * as d3 from 'd3';
 import { ChartDataPoint } from './chart.models';
 
@@ -7,6 +15,7 @@ const BAR_COLOR = '#473bf0';
 @Component({
   selector: 'uc-bar-chart',
   templateUrl: './uc-bar-chart.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './uc-bar-chart.css',
 })
 export class UcBarChart implements OnDestroy {

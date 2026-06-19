@@ -6,13 +6,14 @@ import {
   model,
   output,
   signal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import {
   DisabledReason,
   FormValueControl,
   ValidationError,
-  WithOptionalField,
+  WithOptionalFieldTree,
 } from '@angular/forms/signals';
 import { UcButton } from '../uc-button/uc-button';
 import { UcColorArea } from './uc-color-area/uc-color-area';
@@ -40,6 +41,7 @@ interface HslColor {
   templateUrl: './uc-color-picker.html',
   styleUrl: './uc-color-picker.css',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     class: 'uc-color-picker-host',
   },
@@ -51,8 +53,8 @@ export class UcColorPicker implements FormValueControl<string> {
   readonly disabled = input<boolean>(false);
   readonly readonly = input<boolean>(false);
   readonly hidden = input<boolean>(false);
-  readonly errors = input<readonly WithOptionalField<ValidationError>[]>([]);
-  readonly disabledReasons = input<readonly WithOptionalField<DisabledReason>[]>([]);
+  readonly errors = input<readonly WithOptionalFieldTree<ValidationError>[]>([]);
+  readonly disabledReasons = input<readonly WithOptionalFieldTree<DisabledReason>[]>([]);
   readonly invalid = input<boolean>(false);
 
   value = model<string>('#ff0000');
@@ -154,8 +156,11 @@ export class UcColorPicker implements FormValueControl<string> {
   }
 
   private rgbToHsl(color: RgbColor): HslColor {
-    const r = color.r / 255, g = color.g / 255, b = color.b / 255;
-    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    const r = color.r / 255,
+      g = color.g / 255,
+      b = color.b / 255;
+    const max = Math.max(r, g, b),
+      min = Math.min(r, g, b);
     const l = (max + min) / 2;
     if (max === min) return { h: 0, s: 0, l };
     const d = max - min;

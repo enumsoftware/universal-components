@@ -11,6 +11,7 @@ import {
   ElementRef,
   afterRenderEffect,
   DOCUMENT,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { UcSidebar } from './uc-sidebar/uc-sidebar';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
@@ -21,6 +22,7 @@ export type UcSidebarMode = 'over' | 'side';
   selector: 'uc-side-navigation',
   templateUrl: './uc-side-navigation.html',
   styleUrl: './uc-side-navigation.css',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgClass],
 })
 export class UcSideNavigation {

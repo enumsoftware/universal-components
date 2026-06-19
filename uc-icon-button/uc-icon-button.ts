@@ -1,8 +1,9 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'uc-icon-button',
   templateUrl: './uc-icon-button.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './uc-icon-button.css',
 })
 export class UcIconButton {

@@ -5,14 +5,16 @@ import {
   output,
   contentChild,
   TemplateRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'uc-accordion-item',
-  
+
   imports: [CommonModule],
   templateUrl: './uc-accordion-item.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './uc-accordion-item.css',
 })
 export class UcAccordionItem {

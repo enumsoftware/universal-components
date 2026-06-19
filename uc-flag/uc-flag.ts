@@ -1,9 +1,10 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'uc-flag',
   imports: [],
   templateUrl: './uc-flag.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './uc-flag.css',
 })
 export class UcFlag {

@@ -5,6 +5,7 @@ import {
   viewChild,
   effect,
   OnDestroy,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import * as d3 from 'd3';
 import { ChartDataPoint } from './chart.models';
@@ -23,6 +24,7 @@ const CHART_COLORS = [
 @Component({
   selector: 'uc-pie-chart',
   templateUrl: './uc-pie-chart.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './uc-pie-chart.css',
 })
 export class UcPieChart implements OnDestroy {
@@ -72,14 +74,21 @@ export class UcPieChart implements OnDestroy {
       .value((d) => d.value)
       .sort(null);
 
-    const arc = d3.arc<d3.PieArcDatum<ChartDataPoint>>().innerRadius(innerRadius).outerRadius(radius - 4);
+    const arc = d3
+      .arc<d3.PieArcDatum<ChartDataPoint>>()
+      .innerRadius(innerRadius)
+      .outerRadius(radius - 4);
 
     const hoverArc = d3
       .arc<d3.PieArcDatum<ChartDataPoint>>()
       .innerRadius(innerRadius)
       .outerRadius(radius);
 
-    const arcs = g.selectAll<SVGGElement, d3.PieArcDatum<ChartDataPoint>>('.arc').data(pie(data)).join('g').attr('class', 'arc');
+    const arcs = g
+      .selectAll<SVGGElement, d3.PieArcDatum<ChartDataPoint>>('.arc')
+      .data(pie(data))
+      .join('g')
+      .attr('class', 'arc');
 
     arcs
       .append('path')
@@ -90,10 +99,16 @@ export class UcPieChart implements OnDestroy {
       .style('cursor', 'pointer')
       .style('transition', 'opacity 0.2s')
       .on('mouseenter', function (_, d) {
-        d3.select(this).transition().duration(150).attr('d', hoverArc(d) ?? '');
+        d3.select(this)
+          .transition()
+          .duration(150)
+          .attr('d', hoverArc(d) ?? '');
       })
       .on('mouseleave', function (_, d) {
-        d3.select(this).transition().duration(150).attr('d', arc(d) ?? '');
+        d3.select(this)
+          .transition()
+          .duration(150)
+          .attr('d', arc(d) ?? '');
       });
 
     const totalResponses = data.reduce((sum, d) => sum + d.value, 0);

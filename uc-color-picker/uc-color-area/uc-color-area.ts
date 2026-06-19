@@ -8,6 +8,7 @@ import {
   output,
   signal,
   viewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 interface RgbColor {
@@ -25,6 +26,7 @@ interface HsvColor {
 @Component({
   selector: 'uc-color-area',
   templateUrl: './uc-color-area.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './uc-color-area.css',
 })
 export class UcColorArea {
@@ -49,7 +51,9 @@ export class UcColorArea {
   // Signals for template binding only
   readonly svMarker = signal<{ x: number; y: number }>({ x: 220, y: 0 });
   readonly hueThumbX = signal<number>(0);
-  readonly hueColor = computed<string>(() => `hsl(${Math.round(this.hueThumbX() / Math.max(this.size(), 1) * 360)}, 100%, 50%)`);
+  readonly hueColor = computed<string>(
+    () => `hsl(${Math.round((this.hueThumbX() / Math.max(this.size(), 1)) * 360)}, 100%, 50%)`,
+  );
 
   constructor() {
     afterRenderEffect(() => {
@@ -216,13 +220,28 @@ export class UcColorArea {
     const chroma = color.v * color.s;
     const hueSegment = color.h / 60;
     const second = chroma * (1 - Math.abs((hueSegment % 2) - 1));
-    let r = 0, g = 0, b = 0;
-    if (hueSegment < 1) { r = chroma; g = second; }
-    else if (hueSegment < 2) { r = second; g = chroma; }
-    else if (hueSegment < 3) { g = chroma; b = second; }
-    else if (hueSegment < 4) { g = second; b = chroma; }
-    else if (hueSegment < 5) { r = second; b = chroma; }
-    else { r = chroma; b = second; }
+    let r = 0,
+      g = 0,
+      b = 0;
+    if (hueSegment < 1) {
+      r = chroma;
+      g = second;
+    } else if (hueSegment < 2) {
+      r = second;
+      g = chroma;
+    } else if (hueSegment < 3) {
+      g = chroma;
+      b = second;
+    } else if (hueSegment < 4) {
+      g = second;
+      b = chroma;
+    } else if (hueSegment < 5) {
+      r = second;
+      b = chroma;
+    } else {
+      r = chroma;
+      b = second;
+    }
     const m = color.v - chroma;
     return {
       r: Math.round((r + m) * 255),
@@ -232,8 +251,11 @@ export class UcColorArea {
   }
 
   private rgbToHsv(color: RgbColor): HsvColor {
-    const r = color.r / 255, g = color.g / 255, b = color.b / 255;
-    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    const r = color.r / 255,
+      g = color.g / 255,
+      b = color.b / 255;
+    const max = Math.max(r, g, b),
+      min = Math.min(r, g, b);
     const delta = max - min;
     let hue = 0;
     if (delta !== 0) {

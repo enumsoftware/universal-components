@@ -1,15 +1,10 @@
-import {
-  Component,
-  computed,
-  input,
-  model,
-} from '@angular/core';
+import { Component, computed, input, model, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   DisabledReason,
   FormValueControl,
   ValidationError,
-  WithOptionalField,
+  WithOptionalFieldTree,
 } from '@angular/forms/signals';
 
 @Component({
@@ -17,6 +12,7 @@ import {
   imports: [FormsModule],
   templateUrl: './uc-slider.html',
   styleUrl: './uc-slider.css',
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     class: 'uc-slider-host',
   },
@@ -27,8 +23,8 @@ export class UcSlider implements FormValueControl<number> {
   readonly disabled = input<boolean>(false);
   readonly readonly = input<boolean>(false);
   readonly hidden = input<boolean>(false);
-  readonly errors = input<readonly WithOptionalField<ValidationError>[]>([]);
-  readonly disabledReasons = input<readonly WithOptionalField<DisabledReason>[]>([]);
+  readonly errors = input<readonly WithOptionalFieldTree<ValidationError>[]>([]);
+  readonly disabledReasons = input<readonly WithOptionalFieldTree<DisabledReason>[]>([]);
   readonly invalid = input<boolean>(false);
 
   // Slider-specific inputs (part of FormValueControl interface)

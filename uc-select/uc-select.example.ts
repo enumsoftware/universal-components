@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UcSelect, SelectOption } from './uc-select';
 
@@ -20,7 +20,7 @@ interface User {
  */
 @Component({
   selector: 'app-uc-select-example',
-  
+
   imports: [CommonModule, UcSelect],
   template: `
     <div class="example-container">
@@ -96,18 +96,14 @@ interface User {
       <!-- Example 6: Select with Complex Types -->
       <section>
         <h2>Select with Complex Types (Objects)</h2>
-        <uc-select
-          id="user"
-          label="Select User"
-          [options]="userOptions"
-          [(value)]="selectedUser"
-        />
+        <uc-select id="user" label="Select User" [options]="userOptions" [(value)]="selectedUser" />
         @if (selectedUser) {
           <p>Selected User: {{ selectedUser.name }} (ID: {{ selectedUser.id }})</p>
         }
       </section>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [
     `
       .example-container {

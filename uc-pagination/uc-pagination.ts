@@ -1,4 +1,4 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { UcIconButton } from '../uc-icon-button/uc-icon-button';
 import { UcButton } from '../uc-button/uc-button';
 
@@ -6,6 +6,7 @@ import { UcButton } from '../uc-button/uc-button';
   selector: 'uc-pagination',
   templateUrl: './uc-pagination.html',
   styleUrl: './uc-pagination.css',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [UcButton, UcIconButton],
 })
 export class UcPagination {
@@ -16,9 +17,7 @@ export class UcPagination {
 
   pageChange = output<number>();
 
-  totalPages = computed(() =>
-    Math.ceil(this.totalItems() / this.pageSize())
-  );
+  totalPages = computed(() => Math.ceil(this.totalItems() / this.pageSize()));
 
   isPreviousDisabled = computed(() => this.currentPage() === 0);
 

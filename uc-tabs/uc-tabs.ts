@@ -1,4 +1,13 @@
-import { Component, Directive, TemplateRef, contentChildren, inject, input, model } from '@angular/core';
+import {
+  Component,
+  Directive,
+  TemplateRef,
+  contentChildren,
+  inject,
+  input,
+  model,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 
 export interface UcTab {
@@ -18,6 +27,7 @@ export class UcTabPanel {
   selector: 'uc-tabs',
   imports: [NgTemplateOutlet],
   templateUrl: './uc-tabs.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './uc-tabs.css',
 })
 export class UcTabs {

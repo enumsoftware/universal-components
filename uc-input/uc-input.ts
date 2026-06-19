@@ -6,6 +6,7 @@ import {
   input,
   model,
   signal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +14,7 @@ import {
   DisabledReason,
   FormValueControl,
   ValidationError,
-  WithOptionalField,
+  WithOptionalFieldTree,
 } from '@angular/forms/signals';
 
 type UcInputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'datetime-local';
@@ -27,6 +28,7 @@ export class UcInputSuffix {}
   selector: 'uc-input',
   imports: [CommonModule, FormsModule],
   templateUrl: './uc-input.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './uc-input.css',
 })
 export class UcInput implements FormValueControl<string | number | null> {
@@ -38,9 +40,9 @@ export class UcInput implements FormValueControl<string | number | null> {
   readonly togglePassword = input<boolean>(false);
 
   value = model<string | number | null>(null);
-  errors = input<readonly WithOptionalField<ValidationError>[]>([]);
+  errors = input<readonly WithOptionalFieldTree<ValidationError>[]>([]);
   disabled = input<boolean>(false);
-  disabledReasons = input<readonly WithOptionalField<DisabledReason>[]>([]);
+  disabledReasons = input<readonly WithOptionalFieldTree<DisabledReason>[]>([]);
   readonly = input<boolean>(false);
   hidden = input<boolean>(false);
   invalid = input<boolean>(false);
