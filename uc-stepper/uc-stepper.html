@@ -1,0 +1,54 @@
+<!-- Initializes the uc-step content children without rendering them visually
+     (CdkStep template outputs only an <ng-template>, so nothing is visible here) -->
+<ng-content />
+
+<div class="uc-stepper">
+  <div class="uc-stepper__header" role="tablist">
+    @for (step of steps.toArray(); track step; let i = $index, last = $last) {
+      <button
+        class="uc-stepper__step-header"
+        [class.uc-stepper__step-header--active]="selectedIndex === i"
+        [class.uc-stepper__step-header--completed]="step.completed && selectedIndex !== i"
+        [class.uc-stepper__step-header--error]="step.hasError"
+        [disabled]="!step.isNavigable()"
+        (click)="selectedIndex = i"
+        type="button"
+        role="tab"
+        [attr.aria-selected]="selectedIndex === i"
+        [attr.id]="_getStepLabelId(i)"
+        [attr.aria-controls]="_getStepContentId(i)"
+      >
+        <div class="uc-stepper__indicator">
+          @if (step.indicatorType() === STEP_STATE.DONE) {
+            <i class="ph-bold ph-check"></i>
+          } @else if (step.indicatorType() === STEP_STATE.ERROR) {
+            <i class="ph-bold ph-warning"></i>
+          } @else {
+            <span>{{ i + 1 }}</span>
+          }
+        </div>
+        <div class="uc-stepper__step-label">
+          <span class="uc-stepper__step-label-text">{{ step.label }}</span>
+          @if (step.optional) {
+            <span class="uc-stepper__step-optional">Optional</span>
+          }
+        </div>
+      </button>
+      @if (!last) {
+        <div
+          class="uc-stepper__connector"
+          [class.uc-stepper__connector--active]="i < selectedIndex"
+        ></div>
+      }
+    }
+  </div>
+
+  <div
+    class="uc-stepper__content"
+    role="tabpanel"
+    [attr.id]="_getStepContentId(selectedIndex)"
+    [attr.aria-labelledby]="_getStepLabelId(selectedIndex)"
+  >
+    <ng-container [ngTemplateOutlet]="selected?.content ?? null" />
+  </div>
+</div>

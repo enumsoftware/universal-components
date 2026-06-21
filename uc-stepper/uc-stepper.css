@@ -1,0 +1,126 @@
+:host {
+  --uc-stepper-active-color: var(--primary-color);
+  --uc-stepper-completed-color: var(--success-color);
+  --uc-stepper-error-color: var(--error-color);
+  --uc-stepper-connector-color: var(--background-color-90);
+  --uc-stepper-connector-active-color: var(--primary-color);
+  --uc-stepper-label-color: var(--foreground-color);
+  --uc-stepper-label-muted-color: var(--paragraph-text-color);
+  --uc-stepper-indicator-size: 2rem;
+  --uc-stepper-indicator-font-size: 0.875rem;
+  --uc-stepper-connector-height: 2px;
+
+  display: block;
+}
+
+.uc-stepper__header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+}
+
+.uc-stepper__step-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  flex-shrink: 0;
+  text-align: left;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--uc-stepper-active-color);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+}
+
+.uc-stepper__indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--uc-stepper-indicator-size);
+  height: var(--uc-stepper-indicator-size);
+  border-radius: 50%;
+  font-size: var(--uc-stepper-indicator-font-size);
+  font-weight: 600;
+  flex-shrink: 0;
+  border: 2px solid var(--uc-stepper-connector-color);
+  color: var(--uc-stepper-label-muted-color);
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+
+  .uc-stepper__step-header--active & {
+    background-color: var(--uc-stepper-active-color);
+    border-color: var(--uc-stepper-active-color);
+    color: white;
+  }
+
+  .uc-stepper__step-header--completed & {
+    background-color: var(--uc-stepper-completed-color);
+    border-color: var(--uc-stepper-completed-color);
+    color: white;
+  }
+
+  .uc-stepper__step-header--error & {
+    background-color: var(--uc-stepper-error-color);
+    border-color: var(--uc-stepper-error-color);
+    color: white;
+  }
+}
+
+.uc-stepper__step-label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.125rem;
+}
+
+.uc-stepper__step-label-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--uc-stepper-label-muted-color);
+  transition: color 0.2s;
+
+  .uc-stepper__step-header--active & {
+    color: var(--uc-stepper-active-color);
+  }
+
+  .uc-stepper__step-header--completed & {
+    color: var(--uc-stepper-label-color);
+  }
+
+  .uc-stepper__step-header--error & {
+    color: var(--uc-stepper-error-color);
+  }
+}
+
+.uc-stepper__step-optional {
+  font-size: 0.75rem;
+  color: var(--uc-stepper-label-muted-color);
+}
+
+.uc-stepper__connector {
+  flex: 1;
+  height: var(--uc-stepper-connector-height);
+  background-color: var(--uc-stepper-connector-color);
+  min-width: 1.5rem;
+  transition: background-color 0.3s;
+
+  &.uc-stepper__connector--active {
+    background-color: var(--uc-stepper-connector-active-color);
+  }
+}
+
+.uc-stepper__content {
+  outline: none;
+}
