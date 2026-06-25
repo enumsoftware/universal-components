@@ -13,6 +13,7 @@ describe('UcArrowButton', () => {
 
     fixture = TestBed.createComponent(UcArrowButton);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('text', 'Action');
     fixture.detectChanges();
   });
 

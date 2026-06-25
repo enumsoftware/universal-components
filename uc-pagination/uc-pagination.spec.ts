@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { UcPagination } from './uc-pagination';
 
 describe('UcPagination', () => {
@@ -35,7 +36,7 @@ describe('UcPagination', () => {
   });
 
   it('should emit page change event', () => {
-    spyOn(component.pageChange, 'emit');
+    vi.spyOn(component.pageChange, 'emit');
     component.goToPage(2);
     expect(component.pageChange.emit).toHaveBeenCalledWith(2);
   });

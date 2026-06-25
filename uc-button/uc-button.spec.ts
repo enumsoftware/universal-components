@@ -14,6 +14,7 @@ describe('UcButton', () => {
 
     fixture = TestBed.createComponent(UcButton);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('text', 'Submit');
     fixture.detectChanges();
   });
 

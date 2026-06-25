@@ -13,6 +13,7 @@ describe('UcSlider', () => {
 
     fixture = TestBed.createComponent(UcSlider);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('id', 'slider-1');
     fixture.detectChanges();
   });
 

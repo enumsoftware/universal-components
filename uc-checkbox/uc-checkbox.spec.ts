@@ -14,6 +14,7 @@ describe('UcCheckbox', () => {
 
     fixture = TestBed.createComponent(UcCheckbox);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('id', 'check-1');
     fixture.detectChanges();
   });
 

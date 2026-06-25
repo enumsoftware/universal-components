@@ -14,6 +14,8 @@ describe('UcSidebarButton', () => {
 
     fixture = TestBed.createComponent(UcSidebarButton);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('text', 'Dashboard');
+    fixture.componentRef.setInput('active', false);
     fixture.detectChanges();
   });
 

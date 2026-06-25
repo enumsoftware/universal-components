@@ -14,6 +14,7 @@ describe('UcPill', () => {
 
     fixture = TestBed.createComponent(UcPill);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('text', 'Badge');
     fixture.detectChanges();
   });
 

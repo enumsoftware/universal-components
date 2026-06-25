@@ -12,6 +12,7 @@ describe('UcInputComponent', () => {
 
 		fixture = TestBed.createComponent(UcInput);
 		component = fixture.componentInstance;
+		fixture.componentRef.setInput('id', 'input-1');
 		fixture.detectChanges();
 	});
 

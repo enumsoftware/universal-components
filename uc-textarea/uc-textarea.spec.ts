@@ -13,6 +13,7 @@ describe('UcTextarea', () => {
 
     fixture = TestBed.createComponent(UcTextarea);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('id', 'textarea-1');
     fixture.detectChanges();
   });
 
