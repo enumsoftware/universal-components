@@ -55,14 +55,14 @@ const meta = {
         [type]="type"
         [variant]="variant"
         (clicked)="clicked()"
-      />
+      ></uc-button>
     `,
   }),
 } satisfies Meta<ButtonStoryArgs>;
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<ButtonStoryArgs>;
 
 export const Primary: Story = {};
 

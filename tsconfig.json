@@ -19,10 +19,11 @@
     "strictTemplates": true
   },
   "include": [
-    ".storybook/**/*.ts",
+    ".storybook/preview.ts",
     "stories/**/*.ts",
-    "public-api.ts",
-    "uc-*/**/*.ts"
+    "uc-button/**/*.ts",
+    "uc-card/**/*.ts",
+    "uc-table-pill/**/*.ts"
   ],
   "exclude": [
     "**/*.spec.ts",

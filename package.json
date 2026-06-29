@@ -13,8 +13,8 @@
   "homepage": "https://github.com/enumsoftware/universal-components#readme",
   "sideEffects": false,
   "scripts": {
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "storybook": "ng run universal-components:storybook",
+    "build-storybook": "ng run universal-components:build-storybook"
   },
   "files": [
     "public-api.ts",
@@ -52,7 +52,7 @@
     "@angular-devkit/build-angular": "^22.0.4",
     "@angular/platform-browser": "^22.0.4",
     "@angular/platform-browser-dynamic": "^22.0.4",
-    "@storybook/addon-essentials": "^10.4.6",
+    "@storybook/addon-docs": "^10.4.6",
     "@storybook/angular": "^10.4.6",
     "rxjs": "^7.8.0",
     "storybook": "^10.4.6",
