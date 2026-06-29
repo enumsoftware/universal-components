@@ -4,7 +4,8 @@
   "description": "Reusable Angular standalone UI components for Enum Software apps",
   "scripts": {
     "storybook": "ng run storybook:storybook",
-    "storybook:build": "ng run storybook:build-storybook"
+    "storybook:build": "ng run storybook:build-storybook",
+    "test": "ng test storybook"
   },
   "license": "MIT",
   "repository": {
@@ -21,15 +22,19 @@
     "uc-*/**/*.ts",
     "uc-*/**/*.html",
     "uc-*/**/*.css",
+    "themes/**/*.css",
     "README.md"
   ],
   "exports": {
     ".": "./public-api.ts",
     "./public-api": "./public-api.ts",
+    "./themes/uc-light.css": "./themes/uc-light.css",
+    "./themes/uc-dark.css": "./themes/uc-dark.css",
     "./*": "./*",
     "./package.json": "./package.json"
   },
   "peerDependencies": {
+    "@angular/animations": "^22.0.0",
     "@angular/aria": "^22.0.0",
     "@angular/cdk": "^22.0.0",
     "@angular/common": "^22.0.0",
@@ -40,11 +45,14 @@
     "rxjs": "^7.8.0"
   },
   "dependencies": {
-    "d3": "^7.9.0"
+    "@phosphor-icons/web": "^2.1.2",
+    "d3": "^7.9.0",
+    "flag-icons": "^7.5.0"
   },
   "devDependencies": {
     "@angular-devkit/architect": "^0.2200.0",
     "@angular-devkit/build-angular": "^22.0.0",
+    "@angular/animations": "^22.0.0",
     "@angular/aria": "^22.0.0",
     "@angular/build": "^22.0.0",
     "@angular/cdk": "^22.0.0",
@@ -56,10 +64,14 @@
     "@angular/forms": "^22.0.0",
     "@angular/platform-browser": "^22.0.0",
     "@angular/router": "^22.0.0",
+    "@analogjs/storybook-angular": "^2.6.2",
+    "@analogjs/vite-plugin-angular": "^2.6.2",
     "@storybook/addon-a11y": "next",
     "@storybook/angular": "next",
+    "@types/d3": "^7.4.3",
     "rxjs": "^7.8.0",
     "storybook": "next",
+    "vite": "^8.1.0",
     "typescript": "~6.0.0"
   }
 }

@@ -1,3 +1,8 @@
+export type { ChartDataPoint } from './uc-charts/chart.models';
+export type { SelectOption } from './uc-select/uc-select';
+export type { UcSidebarMode } from './uc-side-navigation/uc-side-navigation';
+export type { UcTab } from './uc-tabs/uc-tabs';
+
 export { UcAccordion } from './uc-accordion/uc-accordion';
 export { UcAccordionItem } from './uc-accordion/uc-accordion-item';
 export { UcArrowButton } from './uc-arrow-button/uc-arrow-button';
@@ -5,7 +10,6 @@ export { UcButton } from './uc-button/uc-button';
 export { UcCard } from './uc-card/uc-card';
 export { UcBarChart } from './uc-charts/uc-bar-chart';
 export { UcPieChart } from './uc-charts/uc-pie-chart';
-export type { ChartDataPoint } from './uc-charts/chart.models';
 export { UcCheckbox } from './uc-checkbox/uc-checkbox';
 export { UcColorPicker } from './uc-color-picker/uc-color-picker';
 export { UcDateTimePicker } from './uc-date-time-picker/uc-date-time-picker';
@@ -20,9 +24,7 @@ export { UcLinearLoading } from './uc-linear-loading/uc-linear-loading.component
 export { UcPagination } from './uc-pagination/uc-pagination';
 export { UcPill } from './uc-pill/uc-pill';
 export { UcSelect } from './uc-select/uc-select';
-export type { SelectOption } from './uc-select/uc-select';
 export { UcSideNavigation } from './uc-side-navigation/uc-side-navigation';
-export type { UcSidebarMode } from './uc-side-navigation/uc-side-navigation';
 export { UcSideNavigationModule } from './uc-side-navigation/uc-side-navigation-module';
 export { UcSidebar } from './uc-side-navigation/uc-sidebar/uc-sidebar';
 export { UcSidebarButton } from './uc-sidebar-button/uc-sidebar-button';
@@ -31,7 +33,6 @@ export { UcStep } from './uc-stepper/uc-step';
 export { UcStepper } from './uc-stepper/uc-stepper';
 export { UcTableAction } from './uc-table-action/uc-table-action';
 export { UcTablePill } from './uc-table-pill/uc-table-pill';
-export type { UcTab } from './uc-tabs/uc-tabs';
 export { UcTabPanel, UcTabs } from './uc-tabs/uc-tabs';
 export { UcTextarea } from './uc-textarea/uc-textarea';
 export { UcToggle } from './uc-toggle/uc-toggle';

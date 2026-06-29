@@ -1,0 +1,120 @@
+:host {
+  --uc-side-navigation-sidebar-width: 15rem;
+  --uc-side-navigation-sidebar-background: var(--sidebar-background-color);
+  --uc-side-navigation-sidebar-border-radius: 1rem;
+  --uc-side-navigation-backdrop-background: rgba(0, 0, 0, 0.8);
+  --uc-side-navigation-animation-duration: 0.3s;
+}
+
+/* Side Mode */
+.uc-wrapper-side {
+  --sidebar-width: var(--uc-side-navigation-sidebar-width);
+
+  display: grid;
+  grid-template-columns: 0rem 1fr;
+  grid-template-areas: 'uc-sidebar uc-content';
+  transition: grid-template-columns 0.3s ease;
+  height: 100dvh;
+}
+.uc-sidebar-side {
+  background-color: var(--uc-side-navigation-sidebar-background);
+  z-index: 1;
+  overflow: hidden;
+  grid-area: uc-sidebar;
+}
+
+.uc-wrapper-side:has(.uc-sidebar-opened) {
+  grid-template-columns: var(--sidebar-width) 1fr;
+}
+
+.uc-sidebar-opened {
+  transform: translateX(0%);
+  transition: transform 0.3s ease allow-discrete;
+  overflow: hidden;
+  width: var(--sidebar-width);
+}
+
+.uc-sidebar-closed {
+  width: var(--sidebar-width);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease allow-discrete;
+  overflow: hidden;
+}
+
+.uc-content-side {
+  overflow-y: auto;
+  grid-area: uc-content;
+  z-index: 1;
+}
+
+/* Over Mode */
+.uc-wrapper-over {
+  display: grid;
+  height: 100dvh;
+  anchor-name: --side-navigation-anchor;
+  position: relative;
+}
+.uc-sidebar-over {
+  --sidebar-animation-duration: var(--uc-side-navigation-animation-duration);
+
+  position-anchor: --side-navigation-anchor;
+  position: absolute;
+  background-color: var(--uc-side-navigation-sidebar-background);
+  height: calc(100dvh - 2rem);
+  min-width: 250px;
+  width: fit-content;
+  z-index: 9999;
+  top: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  transform: translateX(-110%);
+  border-radius: var(--uc-side-navigation-sidebar-border-radius);
+  opacity: 0;
+  pointer-events: none;
+
+  &.animations-enabled {
+    transition:
+      transform var(--sidebar-animation-duration) ease-in-out,
+      opacity var(--sidebar-animation-duration) ease-in-out,
+      display var(--sidebar-animation-duration) allow-discrete,
+      overlay var(--sidebar-animation-duration) allow-discrete;
+  }
+
+  &:popover-open {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+
+    @starting-style {
+      opacity: 0;
+      transform: translateX(-110%);
+    }
+
+    ~ .uc-content-over {
+      pointer-events: none;
+    }
+  }
+
+  &::backdrop {
+    background: var(--uc-side-navigation-backdrop-background);
+    opacity: 1;
+    pointer-events: auto;
+
+    @starting-style {
+      opacity: 0;
+    }
+  }
+
+  &.animations-enabled::backdrop {
+    transition: 
+      opacity var(--sidebar-animation-duration) ease-in-out,
+      display var(--sidebar-animation-duration) allow-discrete,
+      overlay var(--sidebar-animation-duration) allow-discrete;
+  }
+}
+
+.uc-content-over {
+  overflow-y: auto;
+  pointer-events: auto;
+}

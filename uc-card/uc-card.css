@@ -3,7 +3,6 @@
   --uc-card-border-radius: var(--card-border-radius);
   --uc-card-box-shadow: var(--card-box-shadow);
   --uc-card-padding: var(--card-padding);
-
   display: flex;
   flex-direction: column;
   width: fit-content;

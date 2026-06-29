@@ -1,8 +1,12 @@
 {
   "extends": "../tsconfig.storybook.json",
   "compilerOptions": {
+    "forceConsistentCasingInFileNames": true,
     "types": ["node"]
   },
-  "include": ["./*.ts", "../**/*.stories.ts", "../**/*.ts"],
+  "angularCompilerOptions": {
+    "strictTemplates": true
+  },
+  "include": ["./*.ts", "./*.d.ts", "../**/*.stories.ts", "../**/*.ts"],
   "exclude": ["../**/*.spec.ts"]
 }

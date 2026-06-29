@@ -3,6 +3,7 @@
     "target": "ES2022",
     "module": "ES2022",
     "moduleResolution": "bundler",
+    "forceConsistentCasingInFileNames": true,
     "lib": ["ES2022", "DOM"],
     "strict": true,
     "skipLibCheck": true,
@@ -11,6 +12,9 @@
     "emitDecoratorMetadata": false,
     "isolatedModules": true,
     "useDefineForClassFields": false
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true
   },
   "exclude": ["node_modules", "storybook-static", "**/*.spec.ts"]
 }

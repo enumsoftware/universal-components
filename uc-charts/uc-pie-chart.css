@@ -1,7 +1,6 @@
 :host {
   --uc-pie-chart-legend-label-color: var(--foreground-color);
   --uc-pie-chart-legend-value-color: var(--paragraph-text-color);
-
   display: block;
 }
 

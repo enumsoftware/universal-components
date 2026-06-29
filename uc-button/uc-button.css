@@ -1,14 +1,13 @@
 :host {
-  --uc-button-background: var(--primary-color);
-  --uc-button-color: var(--inverse-foreground-color);
+  --uc-button-background: var(--primary-color, #007bff);
+  --uc-button-color: var(--inverse-foreground-color, white);
   --uc-button-padding-block: 0.75rem;
   --uc-button-padding-inline: 2rem;
   --uc-button-border-radius: 0.75rem;
   --uc-button-font-weight: 700;
   --uc-button-disabled-opacity: 0.6;
   --uc-button-secondary-border-color: oklch(from var(--foreground-color) l c h / 0.3);
-  --uc-button-error-background: var(--error-color);
-
+  --uc-button-error-background: var(--error-color, #dc3545);
   display: inline-flex;
 }
 .uc-button {
@@ -27,6 +26,7 @@
   padding-block: var(--uc-button-padding-block);
   padding-inline: var(--uc-button-padding-inline);
   border-radius: var(--uc-button-border-radius);
+  border: 0px solid transparent;
 }
 
 .uc-button.uc-secondary {
