@@ -1,5 +1,4 @@
 import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
-import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'uc-google-sign-in-button',
@@ -9,9 +8,11 @@ import { environment } from '../../../../environments/environment';
 })
 export class UcGoogleSignInButton {
   returnUrl = input<string | undefined>(undefined);
+  apiBaseUrl = input<string>('/api');
 
   readonly googleSignInUrl = computed(() => {
-    const base = `${environment.apiUrl}/api/auth/google`;
+    const normalizedBase = this.apiBaseUrl().replace(/\/$/, '');
+    const base = `${normalizedBase}/auth/google`;
     const returnUrl = this.returnUrl();
     return returnUrl ? `${base}?returnUrl=${encodeURIComponent(returnUrl)}` : base;
   });
