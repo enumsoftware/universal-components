@@ -27,6 +27,22 @@ import { UcButton } from '@enumsoftware/universal-components/uc-button/uc-button
 - Angular 22.x
 - RxJS 7.8+
 
+## Storybook
+
+Run Storybook locally:
+
+```bash
+npm run storybook
+```
+
+Build static Storybook output:
+
+```bash
+npm run storybook:build
+```
+
+Story files live next to components using the `*.stories.ts` naming pattern.
+
 ## Notes
 
 - This package is source-consumable. Host applications compile component source directly.
