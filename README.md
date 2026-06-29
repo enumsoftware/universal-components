@@ -33,3 +33,20 @@ import { UcButton } from '@enumsoftware/universal-components/uc-button/uc-button
 - No package publish/version bump is required for development workflow.
 - Consumer lockfiles pin the resolved Git commit for reproducible builds.
 - To move to newer component changes, update dependency lock and reinstall.
+
+## Storybook
+
+Install local development dependencies, then run Storybook:
+
+```bash
+npm install --legacy-peer-deps
+npm run storybook
+```
+
+Create a static Storybook build with:
+
+```bash
+npm run build-storybook
+```
+
+The `Storybook` GitHub Actions workflow builds the static site and deploys it to GitHub Pages from `main`.

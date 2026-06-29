@@ -12,6 +12,10 @@
   },
   "homepage": "https://github.com/enumsoftware/universal-components#readme",
   "sideEffects": false,
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
   "files": [
     "public-api.ts",
     "uc-*/**/*.ts",
@@ -37,5 +41,22 @@
   },
   "dependencies": {
     "d3": "^7.9.0"
+  },
+  "devDependencies": {
+    "@angular/animations": "^22.0.4",
+    "@angular/cli": "^22.0.4",
+    "@angular/common": "^22.0.4",
+    "@angular/compiler": "^22.0.4",
+    "@angular/compiler-cli": "^22.0.4",
+    "@angular/core": "^22.0.4",
+    "@angular-devkit/build-angular": "^22.0.4",
+    "@angular/platform-browser": "^22.0.4",
+    "@angular/platform-browser-dynamic": "^22.0.4",
+    "@storybook/addon-essentials": "^10.4.6",
+    "@storybook/angular": "^10.4.6",
+    "rxjs": "^7.8.0",
+    "storybook": "^10.4.6",
+    "typescript": "^6.0.3",
+    "zone.js": "^0.16.2"
   }
 }
