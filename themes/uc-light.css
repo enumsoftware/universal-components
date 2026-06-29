@@ -1,0 +1,54 @@
+/**
+ * Universal Components - Light Theme
+ *
+ * Import this file in your project to apply the default light theme variables
+ * required by @enumsoftware/universal-components.
+ *
+ * Usage:
+ *   @import '@enumsoftware/universal-components/themes/uc-light.css';
+ *
+ * Override any variable after the import to customise the theme:
+ *   [data-theme='light'] {
+ *     --primary-color: #ff0000;
+ *   }
+ */
+
+[data-theme='light'] {
+  color-scheme: light;
+
+  /* --- Palette --- */
+  --primary-color: #473bf0;
+  --primary-contrast-color: #ffffff;
+  --secondary-color: #68d585;
+  --foreground-color: #161c2d;
+  --inverse-foreground-color: #ffffff;
+  --inverse-background-color: #161c2d;
+  --background-color: #ffffff;
+  --background-color-80: oklch(from var(--background-color) calc(l * 0.8) c h);
+  --background-color-90: oklch(from var(--background-color) calc(l * 0.9) c h);
+
+  /* --- Semantic colours --- */
+  --error-color: #c62828;
+  --success-color: #00b69b;
+  --warning-color: #f57c00;
+  --warning-bg: oklch(from #f57c00 l c h / 0.1);
+  --warning-border: oklch(from #f57c00 l c h / 0.3);
+
+  /* --- Typography --- */
+  --font-color: var(--foreground-color);
+  --paragraph-text-color: oklch(from #161c2d l c h / 0.7);
+
+  /* --- Card --- */
+  --card-background-color: #ffffff;
+  --card-border-radius: 1rem;
+  --card-box-shadow: 0 0.25rem 3rem oklch(from #161c2d l c h / 0.2);
+  --card-padding: 1rem 2rem;
+
+  /* --- Sidebar --- */
+  --sidebar-background-color: #ffffff;
+
+  /* --- Input --- */
+  --uc-input-background-color: #ffffff;
+  --uc-input-border-color: oklch(from black l c h / 0.2);
+  --uc-input-border-radius: 0.5rem;
+}

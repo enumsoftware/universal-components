@@ -3,7 +3,7 @@
   "compilerOptions": {
     "types": ["node"],
     "noImplicitAny": false,
-    "strict": false
+    "strict": true,
   },
   "include": ["./**/*.ts"],
   "exclude": ["./**/*.spec.ts", "./node_modules/**", "./storybook-static/**"]

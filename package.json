@@ -21,11 +21,14 @@
     "uc-*/**/*.ts",
     "uc-*/**/*.html",
     "uc-*/**/*.css",
+    "themes/**/*.css",
     "README.md"
   ],
   "exports": {
     ".": "./public-api.ts",
     "./public-api": "./public-api.ts",
+    "./themes/uc-light.css": "./themes/uc-light.css",
+    "./themes/uc-dark.css": "./themes/uc-dark.css",
     "./*": "./*",
     "./package.json": "./package.json"
   },
@@ -56,10 +59,14 @@
     "@angular/forms": "^22.0.0",
     "@angular/platform-browser": "^22.0.0",
     "@angular/router": "^22.0.0",
+    "@analogjs/storybook-angular": "^2.6.2",
+    "@analogjs/vite-plugin-angular": "^2.6.2",
     "@storybook/addon-a11y": "next",
     "@storybook/angular": "next",
+    "@types/d3": "^7.4.3",
     "rxjs": "^7.8.0",
     "storybook": "next",
+    "vite": "^8.1.0",
     "typescript": "~6.0.0"
   }
 }

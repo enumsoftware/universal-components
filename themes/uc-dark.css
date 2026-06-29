@@ -1,0 +1,54 @@
+/**
+ * Universal Components - Dark Theme
+ *
+ * Import this file in your project to apply the default dark theme variables
+ * required by @enumsoftware/universal-components.
+ *
+ * Usage:
+ *   @import '@enumsoftware/universal-components/themes/uc-dark.css';
+ *
+ * Override any variable after the import to customise the theme:
+ *   [data-theme='dark'] {
+ *     --primary-color: #68d585;
+ *   }
+ */
+
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* --- Palette --- */
+  --primary-color: #68d585;
+  --primary-contrast-color: #161c2d;
+  --secondary-color: #958ef6;
+  --foreground-color: #ffffff;
+  --inverse-foreground-color: #161c2d;
+  --inverse-background-color: #ffffff;
+  --background-color: #161c2d;
+  --background-color-80: oklch(from var(--background-color) calc(l * 0.8) c h);
+  --background-color-90: oklch(from var(--background-color) calc(l * 0.9) c h);
+
+  /* --- Semantic colours --- */
+  --error-color: #ff6f6f;
+  --success-color: #00b69b;
+  --warning-color: #ffb74d;
+  --warning-bg: oklch(from #ffb74d l c h / 0.1);
+  --warning-border: oklch(from #ffb74d l c h / 0.3);
+
+  /* --- Typography --- */
+  --font-color: var(--foreground-color);
+  --paragraph-text-color: oklch(from #ffffff l c h / 0.7);
+
+  /* --- Card --- */
+  --card-background-color: oklch(from #161c2d calc(l * 0.8) c h);
+  --card-border-radius: 1rem;
+  --card-box-shadow: 0 0.25rem 3rem oklch(from #000000 l c h / 0.2);
+  --card-padding: 1rem 2rem;
+
+  /* --- Sidebar --- */
+  --sidebar-background-color: oklch(from #161c2d calc(l * 0.8) c h);
+
+  /* --- Input --- */
+  --uc-input-background-color: oklch(from #161c2d calc(l * 0.9) c h);
+  --uc-input-border-color: transparent;
+  --uc-input-border-radius: 0.5rem;
+}
