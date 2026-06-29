@@ -29,17 +29,36 @@ import { UcButton } from '@enumsoftware/universal-components/uc-button/uc-button
 
 ## Storybook
 
+Public Storybook URL:
+
+- https://enumsoftware.github.io/universal-components/
+
+Deployment details:
+
+- Storybook is automatically deployed to GitHub Pages when changes are pushed to `main`.
+- Pull requests run build validation only (no deployment).
+- If this is the first deployment, set repository Pages source to **GitHub Actions** in repository settings.
+
 Run Storybook locally:
 
 ```bash
+npm install --legacy-peer-deps
 npm run storybook
 ```
 
-Build static Storybook output:
+Then open:
+
+```text
+http://localhost:6006
+```
+
+Build static Storybook output locally:
 
 ```bash
 npm run storybook:build
 ```
+
+This writes the static site to `storybook-static/`.
 
 Story files live next to components using the `*.stories.ts` naming pattern.
 
