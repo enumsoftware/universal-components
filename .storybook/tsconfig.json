@@ -7,6 +7,6 @@
   "angularCompilerOptions": {
     "strictTemplates": true
   },
-  "include": ["./*.ts", "../**/*.stories.ts", "../**/*.ts"],
+  "include": ["./*.ts", "./*.d.ts", "../**/*.stories.ts", "../**/*.ts"],
   "exclude": ["../**/*.spec.ts"]
 }

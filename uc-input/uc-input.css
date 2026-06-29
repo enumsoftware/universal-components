@@ -3,7 +3,6 @@
   --uc-input-placeholder-color: oklch(from var(--foreground-color) l c h / 0.35);
   --uc-input-border-error-color: var(--error-color);
   --uc-input-background-error-color: oklch(from var(--error-color) l c h / 0.1);
-
   display: flex;
   flex-grow: 1;
   flex-shrink: 1;

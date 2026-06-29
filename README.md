@@ -27,6 +27,12 @@ import { UcButton } from '@enumsoftware/universal-components/uc-button/uc-button
 - Angular 22.x
 - RxJS 7.8+
 
+## Icons
+
+- Phosphor icons are the default icon set.
+- The package loads Phosphor styles from [themes/theme.css](themes/theme.css), matching usage in the dynamic-qr-code app.
+- Use icon names with the `phosphorIcon` input, for example `trash`, `x`, or `arrow-right`.
+
 ## Storybook
 
 Public Storybook URL:
@@ -61,6 +67,32 @@ npm run storybook:build
 This writes the static site to `storybook-static/`.
 
 Story files live next to components using the `*.stories.ts` naming pattern.
+
+## Theming And Component Tokens
+
+Global theme files are in [themes/theme.css](themes/theme.css):
+
+- [themes/uc-light.css](themes/uc-light.css)
+- [themes/uc-dark.css](themes/uc-dark.css)
+- [themes/uc-component-tokens.css](themes/uc-component-tokens.css)
+
+Standard override model:
+
+1. Semantic theme tokens (`--primary-color`, `--foreground-color`, `--card-background-color`, etc.)
+2. Standardized component tokens (`--uc-token-*`), for example `--uc-token-uc-button-background`
+3. Per-component variables (`--uc-button-background`, etc.) still work and are resolved inside component host styles
+
+This gives one consistent extension path for all components while keeping backward compatibility.
+
+Example:
+
+```css
+[data-theme='dark'] {
+	--uc-token-uc-button-background: #2d6cff;
+	--uc-token-uc-button-border-radius: 9999px;
+	--uc-token-uc-input-label-color: #e2e8f0;
+}
+```
 
 ## Notes
 
