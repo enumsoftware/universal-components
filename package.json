@@ -2,6 +2,10 @@
   "name": "@enumsoftware/universal-components",
   "version": "0.1.0",
   "description": "Reusable Angular standalone UI components for Enum Software apps",
+  "scripts": {
+    "storybook": "ng run storybook:storybook",
+    "storybook:build": "ng run storybook:build-storybook"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -37,5 +41,25 @@
   },
   "dependencies": {
     "d3": "^7.9.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/architect": "^0.2200.0",
+    "@angular-devkit/build-angular": "^22.0.0",
+    "@angular/aria": "^22.0.0",
+    "@angular/build": "^22.0.0",
+    "@angular/cdk": "^22.0.0",
+    "@angular/cli": "^22.0.0",
+    "@angular/common": "^22.0.0",
+    "@angular/compiler": "^22.0.0",
+    "@angular/compiler-cli": "^22.0.0",
+    "@angular/core": "^22.0.0",
+    "@angular/forms": "^22.0.0",
+    "@angular/platform-browser": "^22.0.0",
+    "@angular/router": "^22.0.0",
+    "@storybook/addon-a11y": "next",
+    "@storybook/angular": "next",
+    "rxjs": "^7.8.0",
+    "storybook": "next",
+    "typescript": "~6.0.0"
   }
 }
