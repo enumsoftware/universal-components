@@ -1,0 +1,41 @@
+{
+  "name": "@enumsoftware/universal-components",
+  "version": "0.1.0",
+  "description": "Reusable Angular standalone UI components for Enum Software apps",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enumsoftware/universal-components.git"
+  },
+  "bugs": {
+    "url": "https://github.com/enumsoftware/universal-components/issues"
+  },
+  "homepage": "https://github.com/enumsoftware/universal-components#readme",
+  "sideEffects": false,
+  "files": [
+    "public-api.ts",
+    "uc-*/**/*.ts",
+    "uc-*/**/*.html",
+    "uc-*/**/*.css",
+    "README.md"
+  ],
+  "exports": {
+    ".": "./public-api.ts",
+    "./public-api": "./public-api.ts",
+    "./*": "./*",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@angular/aria": "^22.0.0",
+    "@angular/cdk": "^22.0.0",
+    "@angular/common": "^22.0.0",
+    "@angular/core": "^22.0.0",
+    "@angular/forms": "^22.0.0",
+    "@angular/platform-browser": "^22.0.0",
+    "@angular/router": "^22.0.0",
+    "rxjs": "^7.8.0"
+  },
+  "dependencies": {
+    "d3": "^7.9.0"
+  }
+}
