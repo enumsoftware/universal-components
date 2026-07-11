@@ -1,4 +1,4 @@
-import { Component, model, ChangeDetectionStrategy } from '@angular/core';
+import { Component, model, input, output, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'uc-pill',
@@ -9,4 +9,6 @@ import { Component, model, ChangeDetectionStrategy } from '@angular/core';
 })
 export class UcPill {
   text = model.required<string>();
+  href = input<string | null>(null);
+  pillClick = output<void>();
 }

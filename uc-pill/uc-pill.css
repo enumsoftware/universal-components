@@ -11,3 +11,13 @@
   border-radius: var(--uc-pill-border-radius);
   padding: var(--uc-pill-padding);
 }
+
+.uc-pill--link {
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.uc-pill--link:hover {
+  opacity: 0.8;
+}

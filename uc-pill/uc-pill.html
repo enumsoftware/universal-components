@@ -1,1 +1,5 @@
-<div class="uc-pill">{{ text() }}</div>
+@if (href()) {
+  <a class="uc-pill uc-pill--link" [href]="href()" target="_blank" rel="noopener noreferrer">{{ text() }}</a>
+} @else {
+  <div class="uc-pill" (click)="pillClick.emit()">{{ text() }}</div>
+}
