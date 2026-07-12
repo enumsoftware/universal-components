@@ -15,7 +15,6 @@ import {
 } from '@angular/core';
 import { UcSidebar } from './uc-sidebar/uc-sidebar';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { NgClass } from '@angular/common';
 
 export type UcSidebarMode = 'over' | 'side';
 @Component({
@@ -23,7 +22,6 @@ export type UcSidebarMode = 'over' | 'side';
   templateUrl: './uc-side-navigation.html',
   styleUrl: './uc-side-navigation.css',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [NgClass],
 })
 export class UcSideNavigation {
   private static nextId = 0;

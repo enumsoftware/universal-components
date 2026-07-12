@@ -6,7 +6,7 @@
   <textarea
     [id]="id()"
     class="uc-textarea-control"
-    [ngClass]="{ 'uc-textarea-error': showErrorState() }"
+    [class.uc-textarea-error]="showErrorState()"
     [value]="value()"
     (input)="value.set(($any($event.target)).value)"
     [attr.placeholder]="placeholder() || undefined"

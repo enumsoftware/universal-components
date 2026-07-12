@@ -5,7 +5,7 @@
 
   <div
     class="uc-select-trigger"
-    [ngClass]="{ 'uc-select-error': showErrorState() }"
+    [class.uc-select-error]="showErrorState()"
     (click)="toggleDropdown()"
     (blur)="onBlur()"
     aria-expanded="false"
@@ -47,10 +47,8 @@
           <button
             type="button"
             class="uc-select-option"
-            [ngClass]="{
-              'uc-select-option-selected': option.value === value(),
-              'uc-select-option-disabled': option.disabled,
-            }"
+            [class.uc-select-option-selected]="option.value === value()"
+            [class.uc-select-option-disabled]="option.disabled"
             (click)="selectOption(option)"
             [attr.aria-selected]="option.value === value()"
             [attr.aria-disabled]="option.disabled"

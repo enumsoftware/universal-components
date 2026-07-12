@@ -1,9 +1,7 @@
-import { NgClass } from '@angular/common';
 import { Component, input, model, output, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'uc-sidebar-button',
-  imports: [NgClass],
   templateUrl: './uc-sidebar-button.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './uc-sidebar-button.css',

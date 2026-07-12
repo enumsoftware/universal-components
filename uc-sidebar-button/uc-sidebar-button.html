@@ -1,6 +1,7 @@
 <button
   class="uc-button"
-  [ngClass]="{ inactive: !active(), active: active() }"
+  [class.inactive]="!active()"
+  [class.active]="active()"
   (click)="onClick($event)"
 >
   @if(phosphorIcon()) {

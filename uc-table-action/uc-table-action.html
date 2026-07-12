@@ -1,9 +1,7 @@
 <button
   class="action"
-  [ngClass]="{
-    'action--primary': variant() === 'primary',
-    'action--secondary': variant() === 'secondary'
-  }"
+  [class.action--primary]="variant() === 'primary'"
+  [class.action--secondary]="variant() === 'secondary'"
   (click)="onClick()"
 >
   @if (icon()) {

@@ -1,27 +1,21 @@
 <section
-  [ngClass]="{
-    'uc-wrapper-over': sidebarMode() === 'over',
-    'uc-wrapper-side': sidebarMode() === 'side'
-  }"
+  [class.uc-wrapper-over]="sidebarMode() === 'over'"
+  [class.uc-wrapper-side]="sidebarMode() === 'side'"
 >
   <aside
     [id]="instanceId()"
-    [ngClass]="{
-      'uc-sidebar-opened': isSidebarOpen(),
-      'uc-sidebar-closed': !isSidebarOpen(),
-      'uc-sidebar-over': sidebarMode() === 'over',
-      'uc-sidebar-side': sidebarMode() === 'side'
-    }"
+    [class.uc-sidebar-opened]="isSidebarOpen()"
+    [class.uc-sidebar-closed]="!isSidebarOpen()"
+    [class.uc-sidebar-over]="sidebarMode() === 'over'"
+    [class.uc-sidebar-side]="sidebarMode() === 'side'"
     #testAside
   >
     <ng-content select="uc-sidebar">Sidebar</ng-content>
   </aside>
 
   <main
-    [ngClass]="{
-      'uc-content-over': sidebarMode() === 'over',
-      'uc-content-side': sidebarMode() === 'side'
-    }"
+    [class.uc-content-over]="sidebarMode() === 'over'"
+    [class.uc-content-side]="sidebarMode() === 'side'"
   >
     <ng-content>Content</ng-content>
   </main>

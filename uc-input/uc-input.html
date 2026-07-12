@@ -8,7 +8,7 @@
       [id]="id()"
       class="uc-input-control"
       [class.uc-input-control--has-suffix]="hasSuffix()"
-      [ngClass]="{ 'uc-input-error': showErrorState() }"
+      [class.uc-input-error]="showErrorState()"
       [value]="value()"
       (input)="value.set($any($event.target).value)"
       [type]="effectiveType()"
