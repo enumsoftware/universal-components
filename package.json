@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "description": "Reusable Angular standalone UI components for Enum Software apps",
   "scripts": {
+    "build": "ng build universal-components",
     "storybook": "ng run storybook:storybook",
     "storybook:build": "ng run storybook:build-storybook",
-    "test": "ng test storybook"
+    "test": "ng test universal-components"
   },
   "license": "MIT",
   "repository": {
@@ -52,6 +53,7 @@
   "devDependencies": {
     "@angular-devkit/architect": "^0.2200.0",
     "@angular-devkit/build-angular": "^22.0.0",
+    "ng-packagr": "^22.0.0",
     "@angular/animations": "^22.0.0",
     "@angular/aria": "^22.0.0",
     "@angular/build": "^22.0.0",

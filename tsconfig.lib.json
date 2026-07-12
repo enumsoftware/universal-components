@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declarationDir": "dist",
+    "inlineSources": true,
+    "outDir": "dist",
+    "types": []
+  },
+  "angularCompilerOptions": {
+    "compilationMode": "partial",
+    "strictTemplates": true
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "**/*.stories.ts",
+    "storybook-host.ts",
+    "storybook-static",
+    "dist"
+  ]
+}
