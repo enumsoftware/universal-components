@@ -9,7 +9,6 @@ import { Component, input, model, output, ChangeDetectionStrategy } from '@angul
 export class UcButton {
   text = model.required();
   variant = input<'primary' | 'secondary' | 'error'>('primary');
-  showArrow = input<boolean>(false);
   align = input<'left' | 'center'>('center');
   disabled = input<boolean>(false);
   clicked = output<void>();

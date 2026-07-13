@@ -9,7 +9,6 @@ const meta: Meta<UcButton> = {
     variant: 'primary',
     align: 'center',
     disabled: false,
-    showArrow: false,
     type: 'button',
   },
 };
@@ -32,3 +31,47 @@ export const Error: Story = {
     text: 'Delete',
   },
 };
+
+export const WithPrefixIcon: Story = {
+  args: {
+    text: 'Save',
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <uc-button [text]="text" [variant]="variant" [align]="align" [disabled]="disabled" [type]="type">
+        <i ucButtonPrefix class="ph-bold ph-floppy-disk"></i>
+      </uc-button>
+    `,
+  }),
+};
+
+export const WithSuffixIcon: Story = {
+  args: {
+    text: 'Next',
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <uc-button [text]="text" [variant]="variant" [align]="align" [disabled]="disabled" [type]="type">
+        <i ucButtonSuffix class="ph-bold ph-arrow-right"></i>
+      </uc-button>
+    `,
+  }),
+};
+
+export const WithPrefixAndSuffixIcons: Story = {
+  args: {
+    text: 'Send Message',
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <uc-button [text]="text" [variant]="variant" [align]="align" [disabled]="disabled" [type]="type">
+        <i ucButtonPrefix class="ph-bold ph-chat-circle"></i>
+        <i ucButtonSuffix class="ph-bold ph-paper-plane-tilt"></i>
+      </uc-button>
+    `,
+  }),
+};
+
