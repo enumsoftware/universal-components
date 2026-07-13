@@ -3,14 +3,21 @@
   --uc-icon-button-color: var(--foreground-color);
   --uc-icon-button-hover-background: var(--primary-color);
   --uc-icon-button-hover-color: var(--inverse-foreground-color);
+  --uc-icon-button-primary-background: var(--primary-color);
+  --uc-icon-button-primary-color: var(--inverse-foreground-color);
+  --uc-icon-button-primary-hover-background: oklch(from var(--primary-color) calc(l - 0.1) c h);
   --uc-icon-button-inverse-background: var(--inverse-background-color);
   --uc-icon-button-inverse-color: var(--inverse-foreground-color);
+  --uc-icon-button-secondary-border-color: oklch(from var(--foreground-color) l c h / 0.3);
   --uc-icon-button-error-background: oklch(from var(--error-color) l c h / 0.1);
   --uc-icon-button-error-color: var(--error-color);
   --uc-icon-button-error-hover-background: var(--error-color);
   --uc-icon-button-disabled-opacity: 0.6;
   --uc-icon-button-padding: 0.75rem;
   --uc-icon-button-border-radius: 0.75rem;
+  --uc-icon-button-border-width: 0;
+  --uc-icon-button-border-style: solid;
+  --uc-icon-button-border-color: transparent;
   display: inline-flex;
 }
 
@@ -29,11 +36,38 @@
   padding-block: var(--uc-icon-button-padding);
   padding-inline: var(--uc-icon-button-padding);
   border-radius: var(--uc-icon-button-border-radius);
+  border-width: var(--uc-icon-button-border-width);
+  border-style: var(--uc-icon-button-border-style);
+  border-color: var(--uc-icon-button-border-color);
 }
 
 .inverse-color {
   background-color: var(--uc-icon-button-inverse-background);
   color: var(--uc-icon-button-inverse-color);
+}
+
+.uc-image-button.uc-primary {
+  background-color: var(--uc-icon-button-primary-background);
+  color: var(--uc-icon-button-primary-color);
+}
+
+.uc-image-button.uc-primary:not(.uc-image-button--disabled):hover {
+  background-color: var(--uc-icon-button-primary-hover-background);
+  color: var(--uc-icon-button-primary-color);
+}
+
+.uc-image-button.uc-secondary {
+  background-color: transparent;
+  color: var(--uc-icon-button-color);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--uc-icon-button-secondary-border-color);
+}
+
+.uc-image-button.uc-secondary:not(.uc-image-button--disabled):hover {
+  border-color: transparent;
+  background-color: var(--uc-icon-button-hover-background);
+  color: var(--uc-icon-button-hover-color);
 }
 
 .uc-image-button--disabled {

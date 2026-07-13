@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { UcDateTimePicker } from './uc-date-time-picker';
+import { UcDateTimePicker, DATE_TIME_PICKER_MODE_OPTIONS } from './uc-date-time-picker';
 
 const meta: Meta<UcDateTimePicker> = {
   title: 'Components/Date Time Picker',
@@ -12,6 +12,12 @@ const meta: Meta<UcDateTimePicker> = {
     showTime: false,
     disabled: false,
     readonly: false,
+  },
+  argTypes: {
+    mode: {
+      control: { type: 'select' },
+      options: DATE_TIME_PICKER_MODE_OPTIONS,
+    },
   },
 };
 

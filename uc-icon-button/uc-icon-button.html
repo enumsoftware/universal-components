@@ -1,11 +1,12 @@
 <button
   class="uc-image-button uc-{{ variant() }}"
-  title=""
   (click)="onClick($event)"
   [class.inverse-color]="inverseColor()"
   [class.uc-image-button--disabled]="disabled()"
   [disabled]="disabled()"
   [attr.aria-disabled]="disabled()"
+  [attr.aria-label]="label() || null"
+  [attr.title]="label() || null"
 >
   @if (phosphorIcon()) {
     <i class="ph-{{ phosphorWeight() }} ph-{{ phosphorIcon() }} text-2xl"></i>

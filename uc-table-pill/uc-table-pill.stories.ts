@@ -1,11 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { UcTablePill } from './uc-table-pill';
+import { UcTablePill, TABLE_PILL_VARIANT_OPTIONS } from './uc-table-pill';
 
 const meta: Meta<UcTablePill> = {
   title: 'Components/Table Pill',
   component: UcTablePill,
   args: {
     variant: 'info',
+  },
+  argTypes: {
+    variant: {
+      control: { type: 'select' },
+      options: TABLE_PILL_VARIANT_OPTIONS,
+    },
   },
   render: (args) => ({
     props: args,

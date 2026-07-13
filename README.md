@@ -68,6 +68,18 @@ This writes the static site to `storybook-static/`.
 
 Story files live next to components using the `*.stories.ts` naming pattern.
 
+### Documentation (addon-docs)
+
+Auto-generated documentation is powered by [`@storybook/addon-docs`](https://storybook.js.org/docs/writing-docs).
+
+- Autodocs is enabled globally via `tags: ['autodocs']` in [.storybook/preview.ts](.storybook/preview.ts), so every component gets a **Docs** tab derived from its stories, args, and controls.
+- Add rich descriptions by writing JSDoc/TSDoc comments on component inputs and by using the `parameters.docs.description` fields in a story's meta.
+- To write free-form documentation pages, add an `*.mdx` file next to the component (already matched by the `stories` glob in [.storybook/main.ts](.storybook/main.ts)) and reference stories with the `Meta`, `Canvas`, and `Story` blocks from `@storybook/blocks`.
+- To opt a specific story out of autodocs, set `tags: ['!autodocs']` on that story's meta.
+
+Docs pages are part of the standard Storybook build output. Running `npm run storybook:build` bundles them into `storybook-static/`, so the existing GitHub Pages deployment publishes them automatically — no extra CI configuration is required.
+
+
 ## Theming And Component Tokens
 
 Global theme files are in [themes/theme.css](themes/theme.css):

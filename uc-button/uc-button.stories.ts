@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { UcButton } from './uc-button';
+import { UcButton, BUTTON_ALIGN_OPTIONS, BUTTON_TYPE_OPTIONS, BUTTON_VARIANT_OPTIONS } from './uc-button';
 
 const meta: Meta<UcButton> = {
   title: 'Components/Button',
@@ -11,6 +11,20 @@ const meta: Meta<UcButton> = {
     disabled: false,
     showArrow: false,
     type: 'button',
+  },
+  argTypes: {
+    variant: {
+      control: { type: 'select' },
+      options: BUTTON_VARIANT_OPTIONS,
+    },
+    align: {
+      control: { type: 'select' },
+      options: BUTTON_ALIGN_OPTIONS,
+    },
+    type: {
+      control: { type: 'select' },
+      options: BUTTON_TYPE_OPTIONS,
+    },
   },
 };
 

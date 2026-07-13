@@ -3,6 +3,7 @@ import type { Preview } from '@storybook/angular';
 import '../themes/theme.css';
 
 const preview: Preview = {
+  tags: ['autodocs'],
   globalTypes: {
     theme: {
       description: 'Global theme for all component stories',

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { UcTableAction } from './uc-table-action';
+import { UcTableAction, TABLE_ACTION_VARIANT_OPTIONS } from './uc-table-action';
 
 const meta: Meta<UcTableAction> = {
   title: 'Components/Table Action',
@@ -8,6 +8,12 @@ const meta: Meta<UcTableAction> = {
     text: 'Edit',
     icon: 'pencil',
     variant: 'primary',
+  },
+  argTypes: {
+    variant: {
+      control: { type: 'select' },
+      options: TABLE_ACTION_VARIANT_OPTIONS,
+    },
   },
 };
 

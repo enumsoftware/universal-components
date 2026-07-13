@@ -1,5 +1,14 @@
 import { Component, input, model, output, ChangeDetectionStrategy } from '@angular/core';
 
+export const BUTTON_VARIANT_OPTIONS = ['primary', 'secondary', 'error'] as const;
+export type ButtonVariant = (typeof BUTTON_VARIANT_OPTIONS)[number];
+
+export const BUTTON_ALIGN_OPTIONS = ['left', 'center'] as const;
+export type ButtonAlign = (typeof BUTTON_ALIGN_OPTIONS)[number];
+
+export const BUTTON_TYPE_OPTIONS = ['button', 'submit', 'reset'] as const;
+export type ButtonType = (typeof BUTTON_TYPE_OPTIONS)[number];
+
 @Component({
   selector: 'uc-button',
   templateUrl: './uc-button.html',
@@ -8,12 +17,12 @@ import { Component, input, model, output, ChangeDetectionStrategy } from '@angul
 })
 export class UcButton {
   text = model.required();
-  variant = input<'primary' | 'secondary' | 'error'>('primary');
+  variant = input<ButtonVariant>('primary');
   showArrow = input<boolean>(false);
-  align = input<'left' | 'center'>('center');
+  align = input<ButtonAlign>('center');
   disabled = input<boolean>(false);
   clicked = output<void>();
-  type = input<'button' | 'submit' | 'reset'>('button');
+  type = input<ButtonType>('button');
 
   onClick(event: MouseEvent) {
     if (this.disabled()) {

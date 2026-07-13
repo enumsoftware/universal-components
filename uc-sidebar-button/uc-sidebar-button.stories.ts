@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { UcSidebarButton } from './uc-sidebar-button';
+import { UcSidebarButton, SIDEBAR_BUTTON_STYLE_OPTIONS } from './uc-sidebar-button';
 
 const meta: Meta<UcSidebarButton> = {
   title: 'Components/Sidebar Button',
@@ -9,6 +9,12 @@ const meta: Meta<UcSidebarButton> = {
     active: false,
     style: 'primary',
     phosphorIcon: 'house',
+  },
+  argTypes: {
+    style: {
+      control: { type: 'select' },
+      options: SIDEBAR_BUTTON_STYLE_OPTIONS,
+    },
   },
 };
 

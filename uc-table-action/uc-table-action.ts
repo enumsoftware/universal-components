@@ -1,5 +1,8 @@
 import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
 
+export const TABLE_ACTION_VARIANT_OPTIONS = ['primary', 'secondary'] as const;
+export type TableActionVariant = (typeof TABLE_ACTION_VARIANT_OPTIONS)[number];
+
 @Component({
   selector: 'uc-table-action',
   templateUrl: './uc-table-action.html',
@@ -9,7 +12,7 @@ import { Component, input, output, ChangeDetectionStrategy } from '@angular/core
 export class UcTableAction {
   text = input.required<string>();
   icon = input<string>();
-  variant = input<'primary' | 'secondary'>('primary');
+  variant = input<TableActionVariant>('primary');
   clicked = output<void>();
 
   onClick() {

@@ -18,6 +18,9 @@ import {
 import { UcButton } from '../uc-button/uc-button';
 import { UcIconButton } from '../uc-icon-button/uc-icon-button';
 
+export const DATE_TIME_PICKER_MODE_OPTIONS = ['single', 'range'] as const;
+export type DateTimePickerMode = (typeof DATE_TIME_PICKER_MODE_OPTIONS)[number];
+
 interface CalendarDay {
   date: Date;
   dayNumber: number;
@@ -55,7 +58,7 @@ export class UcDateTimePicker implements FormValueControl<string> {
   readonly readonly = input<boolean>(false);
   readonly hidden = input<boolean>(false);
   readonly showTime = input<boolean>(false);
-  readonly mode = input<'single' | 'range'>('single');
+  readonly mode = input<DateTimePickerMode>('single');
   readonly errors = input<readonly WithOptionalFieldTree<ValidationError>[]>([]);
   readonly disabledReasons = input<readonly WithOptionalFieldTree<DisabledReason>[]>([]);
   readonly invalid = input<boolean>(false);

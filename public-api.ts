@@ -5,7 +5,6 @@ export type { UcTab } from './uc-tabs/uc-tabs';
 
 export { UcAccordion } from './uc-accordion/uc-accordion';
 export { UcAccordionItem } from './uc-accordion/uc-accordion-item';
-export { UcArrowButton } from './uc-arrow-button/uc-arrow-button';
 export { UcButton } from './uc-button/uc-button';
 export { UcCard } from './uc-card/uc-card';
 export { UcBarChart } from './uc-charts/uc-bar-chart';

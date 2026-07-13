@@ -1,11 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { UcInfo } from './uc-info';
+import { UcInfo, INFO_VARIANT_OPTIONS } from './uc-info';
 
 const meta: Meta<UcInfo> = {
   title: 'Components/Info',
   component: UcInfo,
   args: {
     variant: 'info',
+  },
+  argTypes: {
+    variant: {
+      control: { type: 'select' },
+      options: INFO_VARIANT_OPTIONS,
+    },
   },
   render: (args) => ({
     props: args,

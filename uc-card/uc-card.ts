@@ -1,5 +1,8 @@
 import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 
+export const CARD_FIT_OPTIONS = ['fit', 'fill'] as const;
+export type CardFit = (typeof CARD_FIT_OPTIONS)[number];
+
 @Component({
   selector: 'uc-card',
   imports: [],
@@ -11,5 +14,5 @@ import { Component, input, ChangeDetectionStrategy } from '@angular/core';
   },
 })
 export class UcCard {
-  fit = input<'fit' | 'fill'>('fit');
+  fit = input<CardFit>('fit');
 }

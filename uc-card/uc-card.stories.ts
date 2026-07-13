@@ -1,11 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { UcCard } from './uc-card';
+import { UcCard, CARD_FIT_OPTIONS } from './uc-card';
 
 const meta: Meta<UcCard> = {
   title: 'Components/Card',
   component: UcCard,
   args: {
     fit: 'fit',
+  },
+  argTypes: {
+    fit: {
+      control: { type: 'select' },
+      options: CARD_FIT_OPTIONS,
+    },
   },
   render: (args) => ({
     props: args,
