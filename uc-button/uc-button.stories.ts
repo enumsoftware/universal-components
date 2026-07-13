@@ -40,7 +40,7 @@ export const WithPrefixIcon: Story = {
     props: args,
     template: `
       <uc-button [text]="text" [variant]="variant" [align]="align" [disabled]="disabled" [type]="type">
-        <i ucPrefix class="ph-bold ph-floppy-disk"></i>
+        <i ucButtonPrefix class="ph-bold ph-floppy-disk"></i>
       </uc-button>
     `,
   }),
@@ -54,7 +54,7 @@ export const WithSuffixIcon: Story = {
     props: args,
     template: `
       <uc-button [text]="text" [variant]="variant" [align]="align" [disabled]="disabled" [type]="type">
-        <i ucSuffix class="ph-bold ph-arrow-right"></i>
+        <i ucButtonSuffix class="ph-bold ph-arrow-right"></i>
       </uc-button>
     `,
   }),
@@ -68,8 +68,8 @@ export const WithPrefixAndSuffixIcons: Story = {
     props: args,
     template: `
       <uc-button [text]="text" [variant]="variant" [align]="align" [disabled]="disabled" [type]="type">
-        <i ucPrefix class="ph-bold ph-chat-circle"></i>
-        <i ucSuffix class="ph-bold ph-paper-plane-tilt"></i>
+        <i ucButtonPrefix class="ph-bold ph-chat-circle"></i>
+        <i ucButtonSuffix class="ph-bold ph-paper-plane-tilt"></i>
       </uc-button>
     `,
   }),
