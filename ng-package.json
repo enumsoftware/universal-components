@@ -3,5 +3,10 @@
   "lib": {
     "entryFile": "public-api.ts"
   },
+  "allowedNonPeerDependencies": [
+    "@phosphor-icons/web",
+    "d3",
+    "flag-icons"
+  ],
   "dest": "dist"
 }
