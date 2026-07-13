@@ -6,10 +6,7 @@
   (click)="onClick($event)"
   [type]="type()"
 >
-  @if (showArrow()) {
-  <span> {{ text() }} </span>
-  <i class="ph-bold ph-arrow-right"></i>
-  } @else {
+  <ng-content select="[ucPrefix]"></ng-content>
   {{ text() }}
-  }
+  <ng-content select="[ucSuffix]"></ng-content>
 </button>
