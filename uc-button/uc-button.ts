@@ -18,7 +18,6 @@ export type ButtonType = (typeof BUTTON_TYPE_OPTIONS)[number];
 export class UcButton {
   text = model.required();
   variant = input<ButtonVariant>('primary');
-  showArrow = input<boolean>(false);
   align = input<ButtonAlign>('center');
   disabled = input<boolean>(false);
   clicked = output<void>();
