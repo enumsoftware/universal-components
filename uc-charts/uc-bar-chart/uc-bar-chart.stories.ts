@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { UcBarChart } from './uc-bar-chart';
-import type { ChartDataPoint } from './chart.models';
+import type { UcBarChartDataPoint } from './uc-bar-chart.model';
 
-const sampleData: ChartDataPoint[] = [
+const sampleData: UcBarChartDataPoint[] = [
   { label: 'January', value: 420, percentage: 42 },
   { label: 'February', value: 380, percentage: 38 },
   { label: 'March', value: 610, percentage: 61 },

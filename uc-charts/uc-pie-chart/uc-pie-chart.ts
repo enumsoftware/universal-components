@@ -8,7 +8,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import * as d3 from 'd3';
-import { ChartDataPoint } from './chart.models';
+import { UcPieChartDataPoint } from './uc-pie-chart.model';
 
 const CHART_COLORS = [
   '#473bf0',
@@ -28,7 +28,7 @@ const CHART_COLORS = [
   styleUrl: './uc-pie-chart.css',
 })
 export class UcPieChart implements OnDestroy {
-  data = input.required<ChartDataPoint[]>();
+  data = input.required<UcPieChartDataPoint[]>();
   size = input<number>(240);
 
   private svgContainer = viewChild.required<ElementRef<HTMLElement>>('svgContainer');
@@ -52,7 +52,7 @@ export class UcPieChart implements OnDestroy {
     this.resizeObserver?.disconnect();
   }
 
-  private render(data: ChartDataPoint[], size: number): void {
+  private render(data: UcPieChartDataPoint[], size: number): void {
     const container = this.svgContainer().nativeElement;
     d3.select(container).selectAll('*').remove();
 
@@ -70,22 +70,22 @@ export class UcPieChart implements OnDestroy {
     const g = svg.append('g').attr('transform', `translate(${radius},${radius})`);
 
     const pie = d3
-      .pie<ChartDataPoint>()
+      .pie<UcPieChartDataPoint>()
       .value((d) => d.value)
       .sort(null);
 
     const arc = d3
-      .arc<d3.PieArcDatum<ChartDataPoint>>()
+      .arc<d3.PieArcDatum<UcPieChartDataPoint>>()
       .innerRadius(innerRadius)
       .outerRadius(radius - 4);
 
     const hoverArc = d3
-      .arc<d3.PieArcDatum<ChartDataPoint>>()
+      .arc<d3.PieArcDatum<UcPieChartDataPoint>>()
       .innerRadius(innerRadius)
       .outerRadius(radius);
 
     const arcs = g
-      .selectAll<SVGGElement, d3.PieArcDatum<ChartDataPoint>>('.arc')
+      .selectAll<SVGGElement, d3.PieArcDatum<UcPieChartDataPoint>>('.arc')
       .data(pie(data))
       .join('g')
       .attr('class', 'arc');

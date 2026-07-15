@@ -8,7 +8,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import * as d3 from 'd3';
-import { ChartDataPoint } from './chart.models';
+import { UcBarChartDataPoint } from './uc-bar-chart.model';
 
 const BAR_COLOR = '#473bf0';
 
@@ -19,7 +19,7 @@ const BAR_COLOR = '#473bf0';
   styleUrl: './uc-bar-chart.css',
 })
 export class UcBarChart implements OnDestroy {
-  data = input.required<ChartDataPoint[]>();
+  data = input.required<UcBarChartDataPoint[]>();
   height = input<number>(200);
 
   private svgContainer = viewChild.required<ElementRef<HTMLElement>>('svgContainer');
@@ -39,7 +39,7 @@ export class UcBarChart implements OnDestroy {
     this.resizeObserver?.disconnect();
   }
 
-  private render(data: ChartDataPoint[], chartHeight: number): void {
+  private render(data: UcBarChartDataPoint[], chartHeight: number): void {
     const container = this.svgContainer().nativeElement;
     d3.select(container).selectAll('*').remove();
 
@@ -96,7 +96,7 @@ export class UcBarChart implements OnDestroy {
       .attr('stroke', 'var(--background-color-90)')
       .attr('stroke-dasharray', '3,3');
 
-    g.selectAll<SVGRectElement, ChartDataPoint>('.bar')
+    g.selectAll<SVGRectElement, UcBarChartDataPoint>('.bar')
       .data(data)
       .join('rect')
       .attr('class', 'bar')
@@ -110,7 +110,7 @@ export class UcBarChart implements OnDestroy {
       .duration(400)
       .attr('width', (d) => x(d.value));
 
-    g.selectAll<SVGTextElement, ChartDataPoint>('.bar-label')
+    g.selectAll<SVGTextElement, UcBarChartDataPoint>('.bar-label')
       .data(data)
       .join('text')
       .attr('class', 'bar-label')

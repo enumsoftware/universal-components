@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { UcPieChart } from './uc-pie-chart';
-import type { ChartDataPoint } from './chart.models';
+import type { UcPieChartDataPoint } from './uc-pie-chart.model';
 
-const sampleData: ChartDataPoint[] = [
+const sampleData: UcPieChartDataPoint[] = [
   { label: 'Direct', value: 400, percentage: 40 },
   { label: 'Organic', value: 300, percentage: 30 },
   { label: 'Referral', value: 200, percentage: 20 },

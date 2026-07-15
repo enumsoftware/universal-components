@@ -1,4 +1,4 @@
-export interface ChartDataPoint {
+export interface UcPieChartDataPoint {
   label: string;
   value: number;
   percentage: number;
