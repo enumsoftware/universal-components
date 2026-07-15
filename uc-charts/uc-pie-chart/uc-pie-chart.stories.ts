@@ -29,6 +29,13 @@ export const Large: Story = {
   },
 };
 
+export const CustomCenterText: Story = {
+  args: {
+    pieTitle: '1,000',
+    pieSubtitle: 'visits',
+  },
+};
+
 export const TwoSegments: Story = {
   args: {
     data: [

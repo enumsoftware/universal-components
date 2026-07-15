@@ -1,6 +1,8 @@
 :host {
   --uc-pie-chart-legend-label-color: var(--foreground-color);
   --uc-pie-chart-legend-value-color: var(--paragraph-text-color);
+  --uc-pie-chart-title-font-size: 1.5rem;
+  --uc-pie-chart-subtitle-font-size: 0.75rem;
   display: block;
 }
 
@@ -39,6 +41,14 @@
 
     svg {
       display: block;
+
+      .uc-pie-chart__title {
+        font-size: var(--uc-pie-chart-title-font-size);
+      }
+
+      .uc-pie-chart__subtitle {
+        font-size: var(--uc-pie-chart-subtitle-font-size);
+      }
     }
   }
 

@@ -23,6 +23,8 @@ const TOOLTIP_OFFSET_Y = 12;
 export class UcPieChart implements OnDestroy {
   data = input.required<UcPieChartDataPoint[]>();
   size = input<number>(240);
+  pieTitle = input<string | undefined>(undefined);
+  pieSubtitle = input<string | undefined>(undefined);
 
   private svgContainer = viewChild.required<ElementRef<HTMLElement>>('svgContainer');
   private resizeObserver: ResizeObserver | null = null;
@@ -49,6 +51,8 @@ export class UcPieChart implements OnDestroy {
     const container = this.svgContainer().nativeElement;
     const labelColor = getChartLabelColor();
     const mutedLabelColor = getChartMutedLabelColor();
+    const centerValueText = this.pieTitle() ?? '';
+    const centerLabelText = this.pieSubtitle() ?? '';
 
     d3.select(container).selectAll('*').remove();
 
@@ -129,20 +133,19 @@ export class UcPieChart implements OnDestroy {
         tooltip.style('opacity', 0);
       });
 
-    const totalResponses = data.reduce((sum, d) => sum + d.value, 0);
     g.append('text')
+      .attr('class', 'uc-pie-chart__title')
       .attr('text-anchor', 'middle')
       .attr('dy', '-0.3em')
-      .attr('font-size', '1.5rem')
       .attr('font-weight', '700')
       .attr('fill', labelColor)
-      .text(totalResponses.toString());
+      .text(centerValueText);
 
     g.append('text')
+      .attr('class', 'uc-pie-chart__subtitle')
       .attr('text-anchor', 'middle')
       .attr('dy', '1.2em')
-      .attr('font-size', '0.75rem')
       .attr('fill', mutedLabelColor)
-      .text('responses');
+      .text(centerLabelText);
   }
 }

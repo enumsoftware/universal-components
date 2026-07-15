@@ -142,6 +142,8 @@
   --uc-pie-chart-series-8: var(--uc-chart-series-8);
   --uc-pie-chart-legend-label-color: var(--foreground-color);
   --uc-pie-chart-legend-value-color: var(--paragraph-text-color);
+  --uc-pie-chart-title-font-size: 1.5rem;
+  --uc-pie-chart-subtitle-font-size: 0.75rem;
 
   /* --- Divider --- */
   --uc-divider-color: oklch(from var(--foreground-color) l c h / 0.15);
