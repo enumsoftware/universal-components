@@ -11,3 +11,8 @@
   --uc-font-family: 'Poppins', sans-serif;
   font-family: var(--uc-font-family);
 }
+
+body {
+  background-color: var(--background-color);
+  color: var(--font-color);
+}
