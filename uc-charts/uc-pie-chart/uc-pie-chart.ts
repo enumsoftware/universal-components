@@ -9,17 +9,7 @@ import {
 } from '@angular/core';
 import * as d3 from 'd3';
 import { UcPieChartDataPoint } from './uc-pie-chart.model';
-
-const CHART_COLORS = [
-  '#473bf0',
-  '#68d585',
-  '#958ef6',
-  '#f0a733',
-  '#e05c5c',
-  '#4ab5d4',
-  '#f07c3b',
-  '#a0d468',
-];
+import { getChartLabelColor, getChartMutedLabelColor, getPieChartSeriesColor } from '../uc-chart-palette';
 
 const TOOLTIP_OFFSET_X = 12;
 const TOOLTIP_OFFSET_Y = 12;
@@ -48,7 +38,7 @@ export class UcPieChart implements OnDestroy {
   }
 
   getColor(index: number): string {
-    return CHART_COLORS[index % CHART_COLORS.length];
+    return getPieChartSeriesColor(index);
   }
 
   ngOnDestroy(): void {
@@ -57,6 +47,9 @@ export class UcPieChart implements OnDestroy {
 
   private render(data: UcPieChartDataPoint[], size: number): void {
     const container = this.svgContainer().nativeElement;
+    const labelColor = getChartLabelColor();
+    const mutedLabelColor = getChartMutedLabelColor();
+
     d3.select(container).selectAll('*').remove();
 
     const tooltip = d3.select(container).append('div').attr('class', 'uc-pie-chart__tooltip').style('opacity', 0);
@@ -107,7 +100,7 @@ export class UcPieChart implements OnDestroy {
     arcs
       .append('path')
       .attr('d', arc)
-      .attr('fill', (_, i) => CHART_COLORS[i % CHART_COLORS.length])
+      .attr('fill', (_, i) => getPieChartSeriesColor(i))
       .attr('stroke', 'var(--background-color)')
       .attr('stroke-width', 2)
       .style('cursor', 'pointer')
@@ -142,14 +135,14 @@ export class UcPieChart implements OnDestroy {
       .attr('dy', '-0.3em')
       .attr('font-size', '1.5rem')
       .attr('font-weight', '700')
-      .attr('fill', 'var(--foreground-color)')
+      .attr('fill', labelColor)
       .text(totalResponses.toString());
 
     g.append('text')
       .attr('text-anchor', 'middle')
       .attr('dy', '1.2em')
       .attr('font-size', '0.75rem')
-      .attr('fill', 'var(--paragraph-text-color)')
+      .attr('fill', mutedLabelColor)
       .text('responses');
   }
 }

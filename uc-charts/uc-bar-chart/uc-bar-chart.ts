@@ -9,9 +9,15 @@ import {
 } from '@angular/core';
 import * as d3 from 'd3';
 import { UcBarChartDataPoint } from './uc-bar-chart.model';
+import {
+  getBarChartColor,
+  getBarChartHoverColor,
+  getChartAxisColor,
+  getChartGridColor,
+  getChartMutedAxisColor,
+  getChartMutedLabelColor,
+} from '../uc-chart-palette';
 
-const BAR_COLOR = '#473bf0';
-const BAR_HOVER_COLOR = '#5b51f3';
 const TOOLTIP_OFFSET_X = 12;
 const TOOLTIP_OFFSET_Y = 12;
 
@@ -44,6 +50,13 @@ export class UcBarChart implements OnDestroy {
 
   private render(data: UcBarChartDataPoint[], chartHeight: number): void {
     const container = this.svgContainer().nativeElement;
+    const barColor = getBarChartColor();
+    const barHoverColor = getBarChartHoverColor();
+    const axisColor = getChartAxisColor();
+    const mutedAxisColor = getChartMutedAxisColor();
+    const gridColor = getChartGridColor();
+    const mutedLabelColor = getChartMutedLabelColor();
+
     d3.select(container).selectAll('*').remove();
 
     const tooltip = d3.select(container).append('div').attr('class', 'uc-bar-chart__tooltip').style('opacity', 0);
@@ -88,15 +101,17 @@ export class UcBarChart implements OnDestroy {
       .attr('transform', `translate(0,${height})`)
       .call(d3.axisBottom(x).ticks(5).tickSizeOuter(0))
       .call((axis) => axis.select('.domain').remove())
+      .call((axis) => axis.selectAll('.tick line').attr('stroke', mutedAxisColor))
       .selectAll('text')
-      .attr('fill', 'var(--paragraph-text-color)')
+      .attr('fill', mutedAxisColor)
       .attr('font-size', '0.75rem');
 
     g.append('g')
       .call(d3.axisLeft(y).tickSizeOuter(0))
       .call((axis) => axis.select('.domain').remove())
+      .call((axis) => axis.selectAll('.tick line').attr('stroke', axisColor))
       .selectAll('text')
-      .attr('fill', 'var(--foreground-color)')
+      .attr('fill', axisColor)
       .attr('font-size', '0.875rem');
 
     g.selectAll('.grid-line')
@@ -107,7 +122,7 @@ export class UcBarChart implements OnDestroy {
       .attr('x2', (d) => x(d))
       .attr('y1', 0)
       .attr('y2', height)
-      .attr('stroke', 'var(--background-color-90)')
+      .attr('stroke', gridColor)
       .attr('stroke-dasharray', '3,3');
 
     const bars = g
@@ -119,11 +134,11 @@ export class UcBarChart implements OnDestroy {
       .attr('height', y.bandwidth())
       .attr('x', 0)
       .attr('width', 0)
-      .attr('fill', BAR_COLOR)
+      .attr('fill', barColor)
       .attr('rx', 4)
       .style('cursor', 'pointer')
       .on('mouseenter', function (event: MouseEvent, d) {
-        d3.select(this).attr('fill', BAR_HOVER_COLOR);
+        d3.select(this).attr('fill', barHoverColor);
 
         tooltip.style('opacity', 1);
         tooltipLabel.text(d.label);
@@ -135,7 +150,7 @@ export class UcBarChart implements OnDestroy {
         positionTooltip(event);
       })
       .on('mouseleave', function () {
-        d3.select(this).attr('fill', BAR_COLOR);
+        d3.select(this).attr('fill', barColor);
         tooltip.style('opacity', 0);
       });
 
@@ -152,7 +167,7 @@ export class UcBarChart implements OnDestroy {
       .attr('x', (d) => x(d.value) + 6)
       .attr('dominant-baseline', 'middle')
       .attr('font-size', '0.75rem')
-      .attr('fill', 'var(--paragraph-text-color)')
+      .attr('fill', mutedLabelColor)
       .text((d) => `${d.value} (${d.percentage}%)`);
   }
 }

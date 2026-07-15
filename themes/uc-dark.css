@@ -104,7 +104,42 @@
   --uc-card-box-shadow: var(--card-box-shadow);
   --uc-card-padding: var(--card-padding);
 
+  /* --- Charts Shared --- */
+  --uc-chart-series-1: #68d585;
+  --uc-chart-series-2: #958ef6;
+  --uc-chart-series-3: #7cc3ff;
+  --uc-chart-series-4: #ffb74d;
+  --uc-chart-series-5: #ff6f6f;
+  --uc-chart-series-6: #4ecdc4;
+  --uc-chart-series-7: #ffd166;
+  --uc-chart-series-8: #c792ea;
+  --uc-chart-axis-color: var(--foreground-color);
+  --uc-chart-axis-muted-color: var(--paragraph-text-color);
+  --uc-chart-grid-color: var(--background-color-90);
+  --uc-chart-label-color: var(--foreground-color);
+  --uc-chart-label-muted-color: var(--paragraph-text-color);
+
+  /* --- Line Chart --- */
+  --uc-line-chart-series-1: var(--uc-chart-series-1);
+  --uc-line-chart-series-2: var(--uc-chart-series-5);
+  --uc-line-chart-series-3: var(--uc-chart-series-6);
+  --uc-line-chart-series-4: var(--uc-chart-series-4);
+  --uc-line-chart-series-5: #95e1d3;
+  --uc-line-chart-series-6: var(--uc-chart-series-8);
+
+  /* --- Bar Chart --- */
+  --uc-bar-chart-color: var(--uc-chart-series-1);
+  --uc-bar-chart-hover-color: #7ae39e;
+
   /* --- Pie Chart --- */
+  --uc-pie-chart-series-1: var(--uc-chart-series-1);
+  --uc-pie-chart-series-2: var(--uc-chart-series-2);
+  --uc-pie-chart-series-3: var(--uc-chart-series-3);
+  --uc-pie-chart-series-4: var(--uc-chart-series-4);
+  --uc-pie-chart-series-5: var(--uc-chart-series-5);
+  --uc-pie-chart-series-6: var(--uc-chart-series-6);
+  --uc-pie-chart-series-7: var(--uc-chart-series-7);
+  --uc-pie-chart-series-8: var(--uc-chart-series-8);
   --uc-pie-chart-legend-label-color: var(--foreground-color);
   --uc-pie-chart-legend-value-color: var(--paragraph-text-color);
 

@@ -9,15 +9,12 @@ import {
 } from '@angular/core';
 import * as d3 from 'd3';
 import { UcLineChartSeries } from './uc-line-chart.model';
-
-const DEFAULT_COLORS = [
-  '#473bf0',
-  '#ff6b6b',
-  '#4ecdc4',
-  '#ffe66d',
-  '#95e1d3',
-  '#f38181',
-];
+import {
+  getChartAxisColor,
+  getChartGridColor,
+  getChartMutedAxisColor,
+  getLineChartSeriesColor,
+} from '../uc-chart-palette';
 
 const TOOLTIP_OFFSET_X = 12;
 const TOOLTIP_OFFSET_Y = 12;
@@ -51,6 +48,10 @@ export class UcLineChart implements OnDestroy {
 
   private render(series: UcLineChartSeries[], chartHeight: number): void {
     const container = this.svgContainer().nativeElement;
+    const axisColor = getChartAxisColor();
+    const mutedAxisColor = getChartMutedAxisColor();
+    const gridColor = getChartGridColor();
+
     d3.select(container).selectAll('*').remove();
 
     const tooltip = d3.select(container).append('div').attr('class', 'uc-line-chart__tooltip').style('opacity', 0);
@@ -106,30 +107,38 @@ export class UcLineChart implements OnDestroy {
     svg
       .append('g')
       .attr('class', 'grid')
-      .style('opacity', 0.1)
       .call(
         d3
           .axisLeft(yScale)
           .tickSize(-width)
           .tickFormat(null as any)
-      );
+      )
+      .call((grid) => grid.select('.domain').remove())
+      .call((grid) => grid.selectAll('.tick text').remove())
+      .call((grid) => grid.selectAll('.tick line').attr('stroke', gridColor).attr('stroke-opacity', 0.35));
 
     /* Add X axis */
     svg
       .append('g')
       .attr('transform', `translate(0,${height})`)
       .call(d3.axisBottom(xScale))
+      .call((axis) => axis.select('.domain').attr('stroke', mutedAxisColor))
+      .call((axis) => axis.selectAll('.tick line').attr('stroke', mutedAxisColor))
+      .call((axis) => axis.selectAll('text').attr('fill', mutedAxisColor))
       .style('font-size', '12px');
 
     /* Add Y axis */
     svg
       .append('g')
       .call(d3.axisLeft(yScale))
+      .call((axis) => axis.select('.domain').attr('stroke', axisColor))
+      .call((axis) => axis.selectAll('.tick line').attr('stroke', axisColor))
+      .call((axis) => axis.selectAll('text').attr('fill', axisColor))
       .style('font-size', '12px');
 
     /* Draw lines and dots for each series */
     series.forEach((s, index) => {
-      const color = s.color || DEFAULT_COLORS[index % DEFAULT_COLORS.length];
+      const color = s.color || getLineChartSeriesColor(index);
       const points = s.data.map((point) => ({ ...point, seriesName: s.name }));
 
       /* Draw line path */
