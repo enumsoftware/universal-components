@@ -58,7 +58,7 @@
 
   /* --- Checkbox --- */
   --uc-checkbox-background-color: var(--background-color-90);
-  --uc-checkbox-border-color: oklch(from black l c h / 0.1);
+  --uc-checkbox-border-color: oklch(from white l c h / 0.45);
   --uc-checkbox-selected-color: var(--secondary-color);
 
   /* --- Accordion --- */
