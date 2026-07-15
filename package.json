@@ -1,9 +1,10 @@
 {
   "name": "@enumsoftware/universal-components",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Reusable Angular standalone UI components for Enum Software apps",
   "scripts": {
     "build": "ng build universal-components",
+    "pack:dist": "npm run build ; npm pack",
     "storybook": "ng run storybook:storybook",
     "storybook:build": "ng run storybook:build-storybook",
     "test": "ng test universal-components"
@@ -19,21 +20,26 @@
   "homepage": "https://github.com/enumsoftware/universal-components#readme",
   "sideEffects": false,
   "files": [
-    "public-api.ts",
-    "uc-*/**/*.ts",
-    "uc-*/**/*.html",
-    "uc-*/**/*.css",
+    "dist/**",
     "themes/**/*.css",
     "README.md"
   ],
   "exports": {
-    ".": "./public-api.ts",
-    "./public-api": "./public-api.ts",
+    ".": {
+      "types": "./dist/types/enumsoftware-universal-components.d.ts",
+      "default": "./dist/fesm2022/enumsoftware-universal-components.mjs"
+    },
+    "./public-api": {
+      "types": "./dist/types/enumsoftware-universal-components.d.ts",
+      "default": "./dist/fesm2022/enumsoftware-universal-components.mjs"
+    },
     "./themes/uc-light.css": "./themes/uc-light.css",
     "./themes/uc-dark.css": "./themes/uc-dark.css",
-    "./*": "./*",
     "./package.json": "./package.json"
   },
+  "module": "dist/fesm2022/enumsoftware-universal-components.mjs",
+  "typings": "dist/types/enumsoftware-universal-components.d.ts",
+  "type": "module",
   "peerDependencies": {
     "@angular/animations": "^22.0.0",
     "@angular/aria": "^22.0.0",
@@ -48,7 +54,8 @@
   "dependencies": {
     "@phosphor-icons/web": "^2.1.2",
     "d3": "^7.9.0",
-    "flag-icons": "^7.5.0"
+    "flag-icons": "^7.5.0",
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@analogjs/storybook-angular": "^2.6.2",
