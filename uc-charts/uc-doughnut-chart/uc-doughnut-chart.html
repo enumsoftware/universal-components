@@ -1,0 +1,23 @@
+<div class="uc-doughnut-chart">
+  <div class="uc-doughnut-chart__chart" #svgContainer></div>
+
+  @if (showLegend()) {
+    <ul class="uc-doughnut-chart__legend">
+      @for (item of data(); track item.label; let i = $index) {
+        <li class="uc-doughnut-chart__legend-item" [class.uc-doughnut-chart__legend-item--disabled]="!isSeriesEnabled(item.label)">
+          <button
+            class="uc-doughnut-chart__legend-button"
+            type="button"
+            [attr.aria-pressed]="isSeriesEnabled(item.label)"
+            [attr.aria-label]="(isSeriesEnabled(item.label) ? 'Disable' : 'Enable') + ' ' + item.label"
+            (click)="toggleSeries(item.label)"
+          >
+            <span class="uc-doughnut-chart__legend-dot" [style.background-color]="getColor(i)"></span>
+            <span class="uc-doughnut-chart__legend-label">{{ item.label }}</span>
+            <span class="uc-doughnut-chart__legend-value">{{ item.value }} ({{ item.percentage }}%)</span>
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</div>

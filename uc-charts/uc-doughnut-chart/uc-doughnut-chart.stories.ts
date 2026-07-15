@@ -1,17 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { UcPieChart } from './uc-pie-chart';
-import type { UcPieChartDataPoint } from './uc-pie-chart.model';
+import { UcDoughnutChart } from './uc-doughnut-chart';
+import type { UcDoughnutChartDataPoint } from './uc-doughnut-chart.model';
 
-const sampleData: UcPieChartDataPoint[] = [
+const sampleData: UcDoughnutChartDataPoint[] = [
   { label: 'Direct', value: 400, percentage: 40 },
   { label: 'Organic', value: 300, percentage: 30 },
   { label: 'Referral', value: 200, percentage: 20 },
   { label: 'Social', value: 100, percentage: 10 },
 ];
 
-const meta: Meta<UcPieChart> = {
-  title: 'Charts/Pie Chart',
-  component: UcPieChart,
+const meta: Meta<UcDoughnutChart> = {
+  title: 'Charts/Doughnut Chart',
+  component: UcDoughnutChart,
   args: {
     data: sampleData,
     size: 240,
@@ -19,7 +19,7 @@ const meta: Meta<UcPieChart> = {
 };
 
 export default meta;
-type Story = StoryObj<UcPieChart>;
+type Story = StoryObj<UcDoughnutChart>;
 
 export const Default: Story = {};
 
@@ -31,8 +31,14 @@ export const Large: Story = {
 
 export const CustomCenterText: Story = {
   args: {
-    pieTitle: '1,000',
-    pieSubtitle: 'visits',
+    doughnutTitle: '1,000',
+    doughnutSubtitle: 'visits',
+  },
+};
+
+export const WithoutLegend: Story = {
+  args: {
+    showLegend: false,
   },
 };
 

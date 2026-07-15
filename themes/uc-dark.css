@@ -131,19 +131,20 @@
   --uc-bar-chart-color: var(--uc-chart-series-1);
   --uc-bar-chart-hover-color: #7ae39e;
 
-  /* --- Pie Chart --- */
-  --uc-pie-chart-series-1: var(--uc-chart-series-1);
-  --uc-pie-chart-series-2: var(--uc-chart-series-2);
-  --uc-pie-chart-series-3: var(--uc-chart-series-3);
-  --uc-pie-chart-series-4: var(--uc-chart-series-4);
-  --uc-pie-chart-series-5: var(--uc-chart-series-5);
-  --uc-pie-chart-series-6: var(--uc-chart-series-6);
-  --uc-pie-chart-series-7: var(--uc-chart-series-7);
-  --uc-pie-chart-series-8: var(--uc-chart-series-8);
-  --uc-pie-chart-legend-label-color: var(--foreground-color);
-  --uc-pie-chart-legend-value-color: var(--paragraph-text-color);
-  --uc-pie-chart-title-font-size: 1.5rem;
-  --uc-pie-chart-subtitle-font-size: 0.75rem;
+  /* --- Doughnut Chart --- */
+  --uc-doughnut-chart-series-1: var(--uc-chart-series-1);
+  --uc-doughnut-chart-series-2: var(--uc-chart-series-2);
+  --uc-doughnut-chart-series-3: var(--uc-chart-series-3);
+  --uc-doughnut-chart-series-4: var(--uc-chart-series-4);
+  --uc-doughnut-chart-series-5: var(--uc-chart-series-5);
+  --uc-doughnut-chart-series-6: var(--uc-chart-series-6);
+  --uc-doughnut-chart-series-7: var(--uc-chart-series-7);
+  --uc-doughnut-chart-series-8: var(--uc-chart-series-8);
+  --uc-doughnut-chart-legend-label-color: var(--foreground-color);
+  --uc-doughnut-chart-legend-value-color: var(--paragraph-text-color);
+  --uc-doughnut-chart-legend-disabled-opacity: 0.5;
+  --uc-doughnut-chart-title-font-size: 1.5rem;
+  --uc-doughnut-chart-subtitle-font-size: 0.75rem;
 
   /* --- Divider --- */
   --uc-divider-color: oklch(from var(--foreground-color) l c h / 0.15);

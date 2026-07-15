@@ -51,8 +51,8 @@ export function getLineChartSeriesColor(index: number): string {
   );
 }
 
-export function getPieChartSeriesColor(index: number): string {
-  return getCssVariableExpression(`--uc-pie-chart-series-${(index % SERIES_FALLBACK_COLORS.length) + 1}`, getChartSeriesColor(index));
+export function getDoughnutChartSeriesColor(index: number): string {
+  return getCssVariableExpression(`--uc-doughnut-chart-series-${(index % SERIES_FALLBACK_COLORS.length) + 1}`, getChartSeriesColor(index));
 }
 
 export function getBarChartColor(): string {
