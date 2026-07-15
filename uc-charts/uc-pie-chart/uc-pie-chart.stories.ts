@@ -10,7 +10,7 @@ const sampleData: UcPieChartDataPoint[] = [
 ];
 
 const meta: Meta<UcPieChart> = {
-  title: 'Components/Charts/Pie Chart',
+  title: 'Charts/Pie Chart',
   component: UcPieChart,
   args: {
     data: sampleData,

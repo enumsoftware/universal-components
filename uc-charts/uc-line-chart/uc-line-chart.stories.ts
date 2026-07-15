@@ -53,7 +53,7 @@ const multiSeriesData: UcLineChartSeries[] = [
 ];
 
 const meta: Meta<UcLineChart> = {
-  title: 'Components/Charts/Line Chart',
+  title: 'Charts/Line Chart',
   component: UcLineChart,
   args: {
     data: sampleData,

@@ -41,15 +41,23 @@ const preview: Preview = {
     layout: 'centered',
     options: {
       storySort: (left, right) => {
-        const leftIsCharts = left.title.startsWith('Components/Charts');
-        const rightIsCharts = right.title.startsWith('Components/Charts');
+        const getSectionRank = (title) => {
+          if (title.startsWith('Components/')) {
+            return 0;
+          }
 
-        if (leftIsCharts && !rightIsCharts) {
-          return 1;
-        }
+          if (title.startsWith('Charts/')) {
+            return 1;
+          }
 
-        if (!leftIsCharts && rightIsCharts) {
-          return -1;
+          return 2;
+        };
+
+        const leftRank = getSectionRank(left.title);
+        const rightRank = getSectionRank(right.title);
+
+        if (leftRank !== rightRank) {
+          return leftRank - rightRank;
         }
 
         return left.title.localeCompare(right.title, undefined, { numeric: true });

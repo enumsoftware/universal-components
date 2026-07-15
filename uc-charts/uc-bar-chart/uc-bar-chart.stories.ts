@@ -12,7 +12,7 @@ const sampleData: UcBarChartDataPoint[] = [
 ];
 
 const meta: Meta<UcBarChart> = {
-  title: 'Components/Charts/Bar Chart',
+  title: 'Charts/Bar Chart',
   component: UcBarChart,
   args: {
     data: sampleData,
