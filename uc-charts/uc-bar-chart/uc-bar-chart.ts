@@ -6,6 +6,7 @@ import {
   effect,
   OnDestroy,
   ChangeDetectionStrategy,
+  ViewEncapsulation,
 } from '@angular/core';
 import * as d3 from 'd3';
 import { UcBarChartDataPoint } from './uc-bar-chart.model';
@@ -26,6 +27,7 @@ const TOOLTIP_OFFSET_Y = 12;
   templateUrl: './uc-bar-chart.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './uc-bar-chart.css',
+  encapsulation: ViewEncapsulation.None,
 })
 export class UcBarChart implements OnDestroy {
   data = input.required<UcBarChartDataPoint[]>();

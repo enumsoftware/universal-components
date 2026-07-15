@@ -7,6 +7,7 @@ import {
   effect,
   OnDestroy,
   ChangeDetectionStrategy,
+  ViewEncapsulation,
 } from '@angular/core';
 import * as d3 from 'd3';
 import { UcDoughnutChartDataPoint } from './uc-doughnut-chart.model';
@@ -25,6 +26,7 @@ type UcDoughnutChartSeries = UcDoughnutChartDataPoint & {
   templateUrl: './uc-doughnut-chart.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './uc-doughnut-chart.css',
+  encapsulation: ViewEncapsulation.None,
 })
 export class UcDoughnutChart implements OnDestroy {
   data = input.required<UcDoughnutChartDataPoint[]>();

@@ -1,9 +1,9 @@
-:host {
+uc-bar-chart {
   display: block;
   width: 100%;
 }
 
-.uc-bar-chart {
+uc-bar-chart .uc-bar-chart {
   position: relative;
   width: 100%;
 

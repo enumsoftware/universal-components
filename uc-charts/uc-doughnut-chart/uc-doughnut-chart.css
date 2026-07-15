@@ -1,4 +1,4 @@
-:host {
+uc-doughnut-chart {
   --uc-doughnut-chart-legend-label-color-resolved: var(--uc-doughnut-chart-legend-label-color, var(--foreground-color));
   --uc-doughnut-chart-legend-value-color-resolved: var(--uc-doughnut-chart-legend-value-color, var(--paragraph-text-color));
   --uc-doughnut-chart-legend-disabled-opacity-resolved: var(--uc-doughnut-chart-legend-disabled-opacity, 0.5);
@@ -7,7 +7,7 @@
   display: block;
 }
 
-.uc-doughnut-chart {
+uc-doughnut-chart .uc-doughnut-chart {
   position: relative;
   display: flex;
   flex-direction: row;

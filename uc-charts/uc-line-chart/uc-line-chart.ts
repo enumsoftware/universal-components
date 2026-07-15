@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   OnDestroy,
+  ViewEncapsulation,
   effect,
   input,
   viewChild,
@@ -19,6 +20,7 @@ const TOOLTIP_OFFSET_Y = 12;
   templateUrl: './uc-line-chart.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './uc-line-chart.css',
+  encapsulation: ViewEncapsulation.None,
 })
 export class UcLineChart implements OnDestroy {
   data = input.required<UcLineChartSeries[]>();
