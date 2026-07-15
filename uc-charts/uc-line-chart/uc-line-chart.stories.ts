@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { UcLineChart } from './uc-line-chart';
-import type { UcLineChartSeries } from './uc-line-chart.model';
+import type { UcLineChartInterpolation, UcLineChartSeries } from './uc-line-chart.model';
 
 const sampleData: UcLineChartSeries[] = [
   {
@@ -58,6 +58,13 @@ const meta: Meta<UcLineChart> = {
   args: {
     data: sampleData,
     height: 200,
+    interpolation: 'linear',
+  },
+  argTypes: {
+    interpolation: {
+      control: 'select',
+      options: ['linear', 'cubic', 'cubic-monotone'] satisfies UcLineChartInterpolation[],
+    },
   },
 };
 

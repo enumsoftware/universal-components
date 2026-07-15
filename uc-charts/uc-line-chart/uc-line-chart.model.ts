@@ -3,6 +3,8 @@ export interface UcLineChartDataPoint {
   value: number;
 }
 
+export type UcLineChartInterpolation = 'linear' | 'cubic' | 'cubic-monotone';
+
 export interface UcLineChartSeries {
   name: string;
   data: UcLineChartDataPoint[];

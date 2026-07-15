@@ -1,20 +1,15 @@
 import {
-  Component,
-  input,
-  ElementRef,
-  viewChild,
-  effect,
-  OnDestroy,
   ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnDestroy,
+  effect,
+  input,
+  viewChild,
 } from '@angular/core';
 import * as d3 from 'd3';
-import { UcLineChartSeries } from './uc-line-chart.model';
-import {
-  getChartAxisColor,
-  getChartGridColor,
-  getChartMutedAxisColor,
-  getLineChartSeriesColor,
-} from '../uc-chart-palette';
+import { getChartAxisColor, getChartGridColor, getChartMutedAxisColor, getLineChartSeriesColor } from '../uc-chart-palette';
+import { UcLineChartInterpolation, UcLineChartSeries } from './uc-line-chart.model';
 
 const TOOLTIP_OFFSET_X = 12;
 const TOOLTIP_OFFSET_Y = 12;
@@ -28,6 +23,7 @@ const TOOLTIP_OFFSET_Y = 12;
 export class UcLineChart implements OnDestroy {
   data = input.required<UcLineChartSeries[]>();
   height = input<number>(200);
+  interpolationMode = input<UcLineChartInterpolation>('linear', { alias: 'interpolation' });
 
   private svgContainer = viewChild.required<ElementRef<HTMLElement>>('svgContainer');
   private resizeObserver: ResizeObserver | null = null;
@@ -36,8 +32,10 @@ export class UcLineChart implements OnDestroy {
     effect(() => {
       const data = this.data();
       const height = this.height();
+      const interpolation = this.interpolationMode();
+
       if (data) {
-        this.render(data, height);
+        this.render(data, height, interpolation);
       }
     });
   }
@@ -46,7 +44,7 @@ export class UcLineChart implements OnDestroy {
     this.resizeObserver?.disconnect();
   }
 
-  private render(series: UcLineChartSeries[], chartHeight: number): void {
+  private render(series: UcLineChartSeries[], chartHeight: number, interpolation: UcLineChartInterpolation): void {
     const container = this.svgContainer().nativeElement;
     const axisColor = getChartAxisColor();
     const mutedAxisColor = getChartMutedAxisColor();
@@ -70,13 +68,11 @@ export class UcLineChart implements OnDestroy {
     const width = containerWidth - margin.left - margin.right;
     const height = chartHeight - margin.top - margin.bottom;
 
-    /* Flatten all data points to find min/max values */
     const allValues = series.flatMap(s => s.data.map(d => d.value));
     const minValue = Math.min(...allValues, 0);
     const maxValue = Math.max(...allValues);
     const padding = (maxValue - minValue) * 0.1 || 1;
 
-    /* Create SVG */
     const svg = d3
       .select(container)
       .append('svg')
@@ -85,7 +81,6 @@ export class UcLineChart implements OnDestroy {
       .append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    /* Create scales */
     const xScale = d3
       .scalePoint<string>()
       .domain(series[0]?.data.map(d => d.label) || [])
@@ -97,13 +92,18 @@ export class UcLineChart implements OnDestroy {
       .domain([minValue - padding, maxValue + padding])
       .range([height, 0]);
 
-    /* Create line generator */
     const line = d3
       .line<{ label: string; value: number }>()
       .x(d => xScale(d.label)!)
-      .y(d => yScale(d.value));
+      .y(d => yScale(d.value))
+      .curve(
+        interpolation === 'cubic'
+          ? d3.curveCatmullRom.alpha(0.5)
+          : interpolation === 'cubic-monotone'
+            ? d3.curveMonotoneX
+            : d3.curveLinear
+      );
 
-    /* Add grid lines */
     svg
       .append('g')
       .attr('class', 'grid')
@@ -117,7 +117,6 @@ export class UcLineChart implements OnDestroy {
       .call((grid) => grid.selectAll('.tick text').remove())
       .call((grid) => grid.selectAll('.tick line').attr('stroke', gridColor).attr('stroke-opacity', 0.35));
 
-    /* Add X axis */
     svg
       .append('g')
       .attr('transform', `translate(0,${height})`)
@@ -127,7 +126,6 @@ export class UcLineChart implements OnDestroy {
       .call((axis) => axis.selectAll('text').attr('fill', mutedAxisColor))
       .style('font-size', '12px');
 
-    /* Add Y axis */
     svg
       .append('g')
       .call(d3.axisLeft(yScale))
@@ -136,12 +134,10 @@ export class UcLineChart implements OnDestroy {
       .call((axis) => axis.selectAll('text').attr('fill', axisColor))
       .style('font-size', '12px');
 
-    /* Draw lines and dots for each series */
     series.forEach((s, index) => {
       const color = s.color || getLineChartSeriesColor(index);
       const points = s.data.map((point) => ({ ...point, seriesName: s.name }));
 
-      /* Draw line path */
       svg
         .append('path')
         .datum(s.data)
@@ -150,7 +146,6 @@ export class UcLineChart implements OnDestroy {
         .attr('stroke-width', 2)
         .attr('d', line as any);
 
-      /* Draw dots */
       svg
         .selectAll(`.dot-${index}`)
         .data(points)
@@ -182,15 +177,15 @@ export class UcLineChart implements OnDestroy {
         });
     });
 
-    /* Setup resize observer */
     if (!this.resizeObserver) {
       this.resizeObserver = new ResizeObserver(() => {
         const newContainerWidth = container.clientWidth;
         if (newContainerWidth !== containerWidth) {
-          this.render(series, chartHeight);
+          this.render(series, chartHeight, interpolation);
         }
       });
     }
+
     this.resizeObserver.observe(container);
   }
 }
