@@ -19,6 +19,9 @@ const DEFAULT_COLORS = [
   '#f38181',
 ];
 
+const TOOLTIP_OFFSET_X = 12;
+const TOOLTIP_OFFSET_Y = 12;
+
 @Component({
   selector: 'uc-line-chart',
   templateUrl: './uc-line-chart.html',
@@ -49,6 +52,17 @@ export class UcLineChart implements OnDestroy {
   private render(series: UcLineChartSeries[], chartHeight: number): void {
     const container = this.svgContainer().nativeElement;
     d3.select(container).selectAll('*').remove();
+
+    const tooltip = d3.select(container).append('div').attr('class', 'uc-line-chart__tooltip').style('opacity', 0);
+    const tooltipLabel = tooltip.append('strong');
+    const tooltipValue = tooltip.append('span');
+
+    const positionTooltip = (event: MouseEvent): void => {
+      const bounds = container.getBoundingClientRect();
+      tooltip
+        .style('left', `${event.clientX - bounds.left + TOOLTIP_OFFSET_X}px`)
+        .style('top', `${event.clientY - bounds.top - TOOLTIP_OFFSET_Y}px`);
+    };
 
     const margin = { top: 8, right: 16, bottom: 24, left: 32 };
     const containerWidth = container.clientWidth || 400;
@@ -116,6 +130,7 @@ export class UcLineChart implements OnDestroy {
     /* Draw lines and dots for each series */
     series.forEach((s, index) => {
       const color = s.color || DEFAULT_COLORS[index % DEFAULT_COLORS.length];
+      const points = s.data.map((point) => ({ ...point, seriesName: s.name }));
 
       /* Draw line path */
       svg
@@ -129,7 +144,7 @@ export class UcLineChart implements OnDestroy {
       /* Draw dots */
       svg
         .selectAll(`.dot-${index}`)
-        .data(s.data)
+        .data(points)
         .enter()
         .append('circle')
         .attr('class', `dot-${index}`)
@@ -138,7 +153,24 @@ export class UcLineChart implements OnDestroy {
         .attr('r', 3)
         .attr('fill', color)
         .attr('stroke', 'white')
-        .attr('stroke-width', 1);
+        .attr('stroke-width', 1)
+        .style('cursor', 'pointer')
+        .on('mouseenter', function (event: MouseEvent, d) {
+          d3.select(this).attr('r', 5);
+
+          tooltip.style('opacity', 1);
+          tooltipLabel.text(d.seriesName);
+          tooltipValue.text(`${d.label}: ${d.value}`);
+
+          positionTooltip(event);
+        })
+        .on('mousemove', function (event: MouseEvent) {
+          positionTooltip(event);
+        })
+        .on('mouseleave', function () {
+          d3.select(this).attr('r', 3);
+          tooltip.style('opacity', 0);
+        });
     });
 
     /* Setup resize observer */

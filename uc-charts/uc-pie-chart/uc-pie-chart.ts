@@ -21,6 +21,9 @@ const CHART_COLORS = [
   '#a0d468',
 ];
 
+const TOOLTIP_OFFSET_X = 12;
+const TOOLTIP_OFFSET_Y = 12;
+
 @Component({
   selector: 'uc-pie-chart',
   templateUrl: './uc-pie-chart.html',
@@ -55,6 +58,17 @@ export class UcPieChart implements OnDestroy {
   private render(data: UcPieChartDataPoint[], size: number): void {
     const container = this.svgContainer().nativeElement;
     d3.select(container).selectAll('*').remove();
+
+    const tooltip = d3.select(container).append('div').attr('class', 'uc-pie-chart__tooltip').style('opacity', 0);
+    const tooltipLabel = tooltip.append('strong');
+    const tooltipValue = tooltip.append('span');
+
+    const positionTooltip = (event: MouseEvent): void => {
+      const bounds = container.getBoundingClientRect();
+      tooltip
+        .style('left', `${event.clientX - bounds.left + TOOLTIP_OFFSET_X}px`)
+        .style('top', `${event.clientY - bounds.top - TOOLTIP_OFFSET_Y}px`);
+    };
 
     const radius = size / 2;
     const innerRadius = radius * 0.55;
@@ -98,17 +112,28 @@ export class UcPieChart implements OnDestroy {
       .attr('stroke-width', 2)
       .style('cursor', 'pointer')
       .style('transition', 'opacity 0.2s')
-      .on('mouseenter', function (_, d) {
+      .on('mouseenter', function (event: MouseEvent, d) {
         d3.select(this)
           .transition()
           .duration(150)
           .attr('d', hoverArc(d) ?? '');
+
+        tooltip.style('opacity', 1);
+        tooltipLabel.text(d.data.label);
+        tooltipValue.text(`${d.data.value} (${d.data.percentage}%)`);
+
+        positionTooltip(event);
+      })
+      .on('mousemove', function (event: MouseEvent) {
+        positionTooltip(event);
       })
       .on('mouseleave', function (_, d) {
         d3.select(this)
           .transition()
           .duration(150)
           .attr('d', arc(d) ?? '');
+
+        tooltip.style('opacity', 0);
       });
 
     const totalResponses = data.reduce((sum, d) => sum + d.value, 0);
