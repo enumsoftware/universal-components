@@ -11,6 +11,7 @@
   );
   --uc-divider-margin-resolved: var(--uc-divider-margin, 1rem 0);
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: center;
   margin: var(--uc-divider-margin-resolved);
@@ -38,6 +39,8 @@
 }
 
 :host(.uc-divider--vertical) {
+  width: auto;
+  height: 100%;
   flex-direction: column;
 }
 
