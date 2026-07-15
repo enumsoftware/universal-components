@@ -1,15 +1,15 @@
 :host {
-  --uc-pill-background: oklch(from var(--primary-color) l c h / 0.15);
-  --uc-pill-color: var(--primary-color);
-  --uc-pill-border-radius: 100px;
-  --uc-pill-padding: 0.5rem 2rem;
+  --uc-pill-background-resolved: var(--uc-pill-background, oklch(from var(--primary-color) l c h / 0.15));
+  --uc-pill-color-resolved: var(--uc-pill-color, var(--primary-color));
+  --uc-pill-border-radius-resolved: var(--uc-pill-border-radius, 100px);
+  --uc-pill-padding-resolved: var(--uc-pill-padding, 0.5rem 2rem);
 }
 
 .uc-pill {
-  background-color: var(--uc-pill-background);
-  color: var(--uc-pill-color);
-  border-radius: var(--uc-pill-border-radius);
-  padding: var(--uc-pill-padding);
+  background-color: var(--uc-pill-background-resolved);
+  color: var(--uc-pill-color-resolved);
+  border-radius: var(--uc-pill-border-radius-resolved);
+  padding: var(--uc-pill-padding-resolved);
 }
 
 .uc-pill--link {

@@ -1,13 +1,13 @@
 :host {
-  --uc-info-color: var(--primary-color);
-  --uc-info-background: oklch(from var(--primary-color) l c h / 0.1);
-  --uc-info-border: oklch(from var(--primary-color) l c h / 0.3);
-  --uc-info-error-color: var(--error-color);
-  --uc-info-error-background: oklch(from var(--error-color) l c h / 0.1);
-  --uc-info-error-border: oklch(from var(--error-color) l c h / 0.3);
-  --uc-info-warning-color: var(--warning-color);
-  --uc-info-warning-background: var(--warning-bg);
-  --uc-info-warning-border: var(--warning-border);
+  --uc-info-color-resolved: var(--uc-info-color, var(--primary-color));
+  --uc-info-background-resolved: var(--uc-info-background, oklch(from var(--primary-color) l c h / 0.1));
+  --uc-info-border-resolved: var(--uc-info-border, oklch(from var(--primary-color) l c h / 0.3));
+  --uc-info-error-color-resolved: var(--uc-info-error-color, var(--error-color));
+  --uc-info-error-background-resolved: var(--uc-info-error-background, oklch(from var(--error-color) l c h / 0.1));
+  --uc-info-error-border-resolved: var(--uc-info-error-border, oklch(from var(--error-color) l c h / 0.3));
+  --uc-info-warning-color-resolved: var(--uc-info-warning-color, var(--warning-color));
+  --uc-info-warning-background-resolved: var(--uc-info-warning-background, var(--warning-bg));
+  --uc-info-warning-border-resolved: var(--uc-info-warning-border, var(--warning-border));
   display: block;
 }
 
@@ -50,46 +50,46 @@
   }
 
   &.uc-info--info {
-    background-color: var(--uc-info-background);
-    border-color: var(--uc-info-border);
-    color: var(--uc-info-color);
+    background-color: var(--uc-info-background-resolved);
+    border-color: var(--uc-info-border-resolved);
+    color: var(--uc-info-color-resolved);
 
     .uc-info__body {
       color: var(--foreground-color);
       
       code {
-        background-color: oklch(from var(--uc-info-color) l c h / 0.15);
-        color: var(--uc-info-color);
+        background-color: oklch(from var(--uc-info-color-resolved) l c h / 0.15);
+        color: var(--uc-info-color-resolved);
       }
     }
   }
 
   &.uc-info--warning {
-    background-color: var(--uc-info-warning-background);
-    border-color: var(--uc-info-warning-border);
-    color: var(--uc-info-warning-color);
+    background-color: var(--uc-info-warning-background-resolved);
+    border-color: var(--uc-info-warning-border-resolved);
+    color: var(--uc-info-warning-color-resolved);
 
     .uc-info__body {
       color: var(--foreground-color);
       
       code {
-        background-color: oklch(from var(--uc-info-warning-color) l c h / 0.15);
-        color: var(--uc-info-warning-color);
+        background-color: oklch(from var(--uc-info-warning-color-resolved) l c h / 0.15);
+        color: var(--uc-info-warning-color-resolved);
       }
     }
   }
 
   &.uc-info--error {
-    background-color: var(--uc-info-error-background);
-    border-color: var(--uc-info-error-border);
-    color: var(--uc-info-error-color);
+    background-color: var(--uc-info-error-background-resolved);
+    border-color: var(--uc-info-error-border-resolved);
+    color: var(--uc-info-error-color-resolved);
 
     .uc-info__body {
       color: var(--foreground-color);
       
       code {
-        background-color: oklch(from var(--uc-info-error-color) l c h / 0.15);
-        color: var(--uc-info-error-color);
+        background-color: oklch(from var(--uc-info-error-color-resolved) l c h / 0.15);
+        color: var(--uc-info-error-color-resolved);
       }
     }
   }

@@ -1,15 +1,15 @@
 :host {
-  --uc-card-background: var(--card-background-color);
-  --uc-card-border-radius: var(--card-border-radius);
-  --uc-card-box-shadow: var(--card-box-shadow);
-  --uc-card-padding: var(--card-padding);
+  --uc-card-background-resolved: var(--uc-card-background, var(--card-background-color));
+  --uc-card-border-radius-resolved: var(--uc-card-border-radius, var(--card-border-radius));
+  --uc-card-box-shadow-resolved: var(--uc-card-box-shadow, var(--card-box-shadow));
+  --uc-card-padding-resolved: var(--uc-card-padding, var(--card-padding));
   display: flex;
   flex-direction: column;
   width: fit-content;
-  background-color: var(--uc-card-background);
-  border-radius: var(--uc-card-border-radius);
-  box-shadow: var(--uc-card-box-shadow);
-  padding: var(--uc-card-padding);
+  background-color: var(--uc-card-background-resolved);
+  border-radius: var(--uc-card-border-radius-resolved);
+  box-shadow: var(--uc-card-box-shadow-resolved);
+  padding: var(--uc-card-padding-resolved);
 
   &.uc-card--fill {
     width: 100%;

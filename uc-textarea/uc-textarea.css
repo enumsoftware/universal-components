@@ -1,8 +1,8 @@
 :host {
-  --uc-textarea-label-color: oklch(from var(--foreground-color) l c h / 1);
-  --uc-textarea-placeholder-color: oklch(from var(--foreground-color) l c h / 0.35);
-  --uc-textarea-border-error-color: var(--error-color);
-  --uc-textarea-background-error-color: oklch(from var(--error-color) l c h / 0.1);
+  --uc-textarea-label-color-resolved: var(--uc-textarea-label-color, oklch(from var(--foreground-color) l c h / 1));
+  --uc-textarea-placeholder-color-resolved: var(--uc-textarea-placeholder-color, oklch(from var(--foreground-color) l c h / 0.35));
+  --uc-textarea-border-error-color-resolved: var(--uc-textarea-border-error-color, var(--error-color));
+  --uc-textarea-background-error-color-resolved: var(--uc-textarea-background-error-color, oklch(from var(--error-color) l c h / 0.1));
   display: flex;
   flex-grow: 1;
   flex-shrink: 1;
@@ -18,7 +18,7 @@
 .uc-textarea-label {
   font-size: 1rem;
   margin-bottom: 0.5rem;
-  color: var(--uc-textarea-label-color);
+  color: var(--uc-textarea-label-color-resolved);
   font-weight: 600;
   letter-spacing: 0.03em;
 }
@@ -48,21 +48,21 @@
   }
 
   &::placeholder {
-    color: var(--uc-textarea-placeholder-color);
+    color: var(--uc-textarea-placeholder-color-resolved);
     opacity: 1;
   }
 
   &.uc-textarea-error {
-    border-color: var(--uc-textarea-border-error-color);
-    background-color: var(--uc-textarea-background-error-color);
+    border-color: var(--uc-textarea-border-error-color-resolved);
+    background-color: var(--uc-textarea-background-error-color-resolved);
   }
 
   &.uc-textarea-error::placeholder {
-    color: var(--uc-textarea-border-error-color);
+    color: var(--uc-textarea-border-error-color-resolved);
   }
 
   &.uc-textarea-error:focus {
-    border: 2px solid var(--uc-textarea-border-error-color);
-    outline: 1px solid var(--uc-textarea-border-error-color);
+    border: 2px solid var(--uc-textarea-border-error-color-resolved);
+    outline: 1px solid var(--uc-textarea-border-error-color-resolved);
   }
 }

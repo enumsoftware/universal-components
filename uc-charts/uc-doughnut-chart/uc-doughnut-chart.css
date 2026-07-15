@@ -1,9 +1,9 @@
 :host {
-  --uc-doughnut-chart-legend-label-color: var(--foreground-color);
-  --uc-doughnut-chart-legend-value-color: var(--paragraph-text-color);
-  --uc-doughnut-chart-legend-disabled-opacity: 0.5;
-  --uc-doughnut-chart-title-font-size: 1.5rem;
-  --uc-doughnut-chart-subtitle-font-size: 0.75rem;
+  --uc-doughnut-chart-legend-label-color-resolved: var(--uc-doughnut-chart-legend-label-color, var(--foreground-color));
+  --uc-doughnut-chart-legend-value-color-resolved: var(--uc-doughnut-chart-legend-value-color, var(--paragraph-text-color));
+  --uc-doughnut-chart-legend-disabled-opacity-resolved: var(--uc-doughnut-chart-legend-disabled-opacity, 0.5);
+  --uc-doughnut-chart-title-font-size-resolved: var(--uc-doughnut-chart-title-font-size, 1.5rem);
+  --uc-doughnut-chart-subtitle-font-size-resolved: var(--uc-doughnut-chart-subtitle-font-size, 0.75rem);
   display: block;
 }
 
@@ -44,11 +44,11 @@
       display: block;
 
       .uc-doughnut-chart__title {
-        font-size: var(--uc-doughnut-chart-title-font-size);
+        font-size: var(--uc-doughnut-chart-title-font-size-resolved);
       }
 
       .uc-doughnut-chart__subtitle {
-        font-size: var(--uc-doughnut-chart-subtitle-font-size);
+        font-size: var(--uc-doughnut-chart-subtitle-font-size-resolved);
       }
     }
   }
@@ -101,21 +101,21 @@
 
   .uc-doughnut-chart__legend-label {
     flex: 1;
-    color: var(--uc-doughnut-chart-legend-label-color);
+    color: var(--uc-doughnut-chart-legend-label-color-resolved);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   .uc-doughnut-chart__legend-value {
-    color: var(--uc-doughnut-chart-legend-value-color);
+    color: var(--uc-doughnut-chart-legend-value-color-resolved);
     white-space: nowrap;
     font-size: 0.8rem;
   }
 
   .uc-doughnut-chart__legend-item--disabled {
     .uc-doughnut-chart__legend-button {
-      opacity: var(--uc-doughnut-chart-legend-disabled-opacity);
+      opacity: var(--uc-doughnut-chart-legend-disabled-opacity-resolved);
     }
   }
 }

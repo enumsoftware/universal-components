@@ -1,5 +1,5 @@
 :host {
-  --uc-accordion-gap: 0.5rem;
+  --uc-accordion-gap-resolved: var(--uc-accordion-gap, 0.5rem);
   display: block;
   width: 100%;
 }
@@ -7,5 +7,5 @@
 .accordion-container {
   display: flex;
   flex-direction: column;
-  gap: var(--uc-accordion-gap);
+  gap: var(--uc-accordion-gap-resolved);
 }

@@ -1,14 +1,14 @@
 :host {
-  --uc-side-navigation-sidebar-width: 15rem;
-  --uc-side-navigation-sidebar-background: var(--sidebar-background-color);
-  --uc-side-navigation-sidebar-border-radius: 1rem;
-  --uc-side-navigation-backdrop-background: rgba(0, 0, 0, 0.8);
-  --uc-side-navigation-animation-duration: 0.3s;
+  --uc-side-navigation-sidebar-width-resolved: var(--uc-side-navigation-sidebar-width, 15rem);
+  --uc-side-navigation-sidebar-background-resolved: var(--uc-side-navigation-sidebar-background, var(--sidebar-background-color));
+  --uc-side-navigation-sidebar-border-radius-resolved: var(--uc-side-navigation-sidebar-border-radius, 1rem);
+  --uc-side-navigation-backdrop-background-resolved: var(--uc-side-navigation-backdrop-background, rgba(0, 0, 0, 0.8));
+  --uc-side-navigation-animation-duration-resolved: var(--uc-side-navigation-animation-duration, 0.3s);
 }
 
 /* Side Mode */
 .uc-wrapper-side {
-  --sidebar-width: var(--uc-side-navigation-sidebar-width);
+  --sidebar-width: var(--uc-side-navigation-sidebar-width-resolved);
 
   display: grid;
   grid-template-columns: 0rem 1fr;
@@ -17,7 +17,7 @@
   height: 100dvh;
 }
 .uc-sidebar-side {
-  background-color: var(--uc-side-navigation-sidebar-background);
+  background-color: var(--uc-side-navigation-sidebar-background-resolved);
   z-index: 1;
   overflow: hidden;
   grid-area: uc-sidebar;
@@ -55,11 +55,11 @@
   position: relative;
 }
 .uc-sidebar-over {
-  --sidebar-animation-duration: var(--uc-side-navigation-animation-duration);
+  --sidebar-animation-duration: var(--uc-side-navigation-animation-duration-resolved);
 
   position-anchor: --side-navigation-anchor;
   position: absolute;
-  background-color: var(--uc-side-navigation-sidebar-background);
+  background-color: var(--uc-side-navigation-sidebar-background-resolved);
   height: calc(100dvh - 2rem);
   min-width: 250px;
   width: fit-content;
@@ -69,7 +69,7 @@
   left: 1rem;
   right: 1rem;
   transform: translateX(-110%);
-  border-radius: var(--uc-side-navigation-sidebar-border-radius);
+  border-radius: var(--uc-side-navigation-sidebar-border-radius-resolved);
   opacity: 0;
   pointer-events: none;
 
@@ -97,7 +97,7 @@
   }
 
   &::backdrop {
-    background: var(--uc-side-navigation-backdrop-background);
+    background: var(--uc-side-navigation-backdrop-background-resolved);
     opacity: 1;
     pointer-events: auto;
 

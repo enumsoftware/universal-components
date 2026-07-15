@@ -1,34 +1,40 @@
 :host {
-  --uc-divider-color: oklch(from var(--foreground-color) l c h / 0.15);
-  --uc-divider-text-color: var(--paragraph-text-color);
-  --uc-divider-inverse-color: oklch(from var(--inverse-foreground-color) l c h / 0.15);
-  --uc-divider-inverse-text-color: var(--inverse-foreground-color);
-  --uc-divider-margin: 1rem 0;
+  --uc-divider-color-resolved: var(--uc-divider-color, oklch(from var(--foreground-color) l c h / 0.15));
+  --uc-divider-text-color-resolved: var(--uc-divider-text-color, var(--paragraph-text-color));
+  --uc-divider-inverse-color-resolved: var(
+    --uc-divider-inverse-color,
+    oklch(from var(--inverse-foreground-color) l c h / 0.15)
+  );
+  --uc-divider-inverse-text-color-resolved: var(
+    --uc-divider-inverse-text-color,
+    var(--inverse-foreground-color)
+  );
+  --uc-divider-margin-resolved: var(--uc-divider-margin, 1rem 0);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: var(--uc-divider-margin);
+  margin: var(--uc-divider-margin-resolved);
 }
 
 .uc-divider__line {
   flex: 1;
   height: 1px;
-  background-color: var(--uc-divider-color);
+  background-color: var(--uc-divider-color-resolved);
 }
 
 .uc-divider__text {
   font-size: 0.75rem;
-  color: var(--uc-divider-text-color);
+  color: var(--uc-divider-text-color-resolved);
   white-space: nowrap;
   padding: 0 0.75rem;
 }
 
 :host(.uc-divider--inverse) .uc-divider__line {
-  background-color: var(--uc-divider-inverse-color);
+  background-color: var(--uc-divider-inverse-color-resolved);
 }
 
 :host(.uc-divider--inverse) .uc-divider__text {
-  color: var(--uc-divider-inverse-text-color);
+  color: var(--uc-divider-inverse-text-color-resolved);
 }
 
 :host(.uc-divider--vertical) {

@@ -4,33 +4,57 @@
  * The uc-date-time-picker-host class keeps the layout styles scoped.
  */
 :root {
-  --uc-dtp-label-color: oklch(from var(--foreground-color) l c h / 1);
-  --uc-dtp-trigger-hover-bg: oklch(from var(--uc-input-background-color) l c h / 0.85);
-  --uc-dtp-trigger-focus-color: var(--primary-color);
-  --uc-dtp-trigger-error-color: var(--error-color);
-  --uc-dtp-placeholder-color: oklch(from var(--foreground-color) l c h / 0.35);
-  --uc-dtp-value-color: var(--foreground-color);
-  --uc-dtp-icon-color: oklch(from var(--foreground-color) l c h / 0.5);
-  --uc-dtp-dropdown-bg: var(--card-background-color);
-  --uc-dtp-dropdown-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  --uc-dtp-dropdown-border: oklch(from var(--foreground-color) l c h / 0.1);
-  --uc-dtp-weekday-color: oklch(from var(--foreground-color) l c h / 0.4);
-  --uc-dtp-day-hover-bg: oklch(from var(--primary-color) l c h / 0.1);
-  --uc-dtp-day-today-color: var(--primary-color);
-  --uc-dtp-day-today-border: var(--primary-color);
-  --uc-dtp-day-selected-bg: var(--primary-color);
-  --uc-dtp-day-selected-color: var(--primary-contrast-color, #fff);
-  --uc-dtp-day-other-month-color: oklch(from var(--foreground-color) l c h / 0.3);
-  --uc-dtp-time-input-bg: var(--uc-input-background-color);
-  --uc-dtp-time-input-border: var(--uc-input-border-color);
-  --uc-dtp-error-color: var(--error-color);
-  --uc-dtp-disabled-opacity: 0.5;
-  --uc-dtp-backdrop: oklch(from var(--foreground-color) l c h / 0.45);
-  --uc-dtp-today-btn-color: var(--primary-color);
-  --uc-dtp-today-btn-hover-bg: oklch(from var(--primary-color) l c h / 0.1);
-  --uc-dtp-range-bg: oklch(from var(--primary-color) l c h / 0.15);
-  --uc-dtp-range-preview-bg: oklch(from var(--primary-color) l c h / 0.08);
-  --uc-dtp-range-preview-circle-bg: oklch(from var(--primary-color) l c h / 0.25);
+  --uc-dtp-label-color-resolved: var(--uc-dtp-label-color, oklch(from var(--foreground-color) l c h / 1));
+  --uc-dtp-trigger-hover-bg-resolved: var(
+    --uc-dtp-trigger-hover-bg,
+    oklch(from var(--uc-input-background-color) l c h / 0.85)
+  );
+  --uc-dtp-trigger-focus-color-resolved: var(--uc-dtp-trigger-focus-color, var(--primary-color));
+  --uc-dtp-trigger-error-color-resolved: var(--uc-dtp-trigger-error-color, var(--error-color));
+  --uc-dtp-placeholder-color-resolved: var(
+    --uc-dtp-placeholder-color,
+    oklch(from var(--foreground-color) l c h / 0.35)
+  );
+  --uc-dtp-value-color-resolved: var(--uc-dtp-value-color, var(--foreground-color));
+  --uc-dtp-icon-color-resolved: var(--uc-dtp-icon-color, oklch(from var(--foreground-color) l c h / 0.5));
+  --uc-dtp-dropdown-bg-resolved: var(--uc-dtp-dropdown-bg, var(--card-background-color));
+  --uc-dtp-dropdown-shadow-resolved: var(--uc-dtp-dropdown-shadow, 0 10px 40px rgba(0, 0, 0, 0.2));
+  --uc-dtp-dropdown-border-resolved: var(
+    --uc-dtp-dropdown-border,
+    oklch(from var(--foreground-color) l c h / 0.1)
+  );
+  --uc-dtp-weekday-color-resolved: var(
+    --uc-dtp-weekday-color,
+    oklch(from var(--foreground-color) l c h / 0.4)
+  );
+  --uc-dtp-day-hover-bg-resolved: var(--uc-dtp-day-hover-bg, oklch(from var(--primary-color) l c h / 0.1));
+  --uc-dtp-day-today-color-resolved: var(--uc-dtp-day-today-color, var(--primary-color));
+  --uc-dtp-day-today-border-resolved: var(--uc-dtp-day-today-border, var(--primary-color));
+  --uc-dtp-day-selected-bg-resolved: var(--uc-dtp-day-selected-bg, var(--primary-color));
+  --uc-dtp-day-selected-color-resolved: var(--uc-dtp-day-selected-color, var(--primary-contrast-color));
+  --uc-dtp-day-other-month-color-resolved: var(
+    --uc-dtp-day-other-month-color,
+    oklch(from var(--foreground-color) l c h / 0.3)
+  );
+  --uc-dtp-time-input-bg-resolved: var(--uc-dtp-time-input-bg, var(--uc-input-background-color));
+  --uc-dtp-time-input-border-resolved: var(--uc-dtp-time-input-border, var(--uc-input-border-color));
+  --uc-dtp-error-color-resolved: var(--uc-dtp-error-color, var(--error-color));
+  --uc-dtp-disabled-opacity-resolved: var(--uc-dtp-disabled-opacity, 0.5);
+  --uc-dtp-backdrop-resolved: var(--uc-dtp-backdrop, oklch(from var(--foreground-color) l c h / 0.45));
+  --uc-dtp-today-btn-color-resolved: var(--uc-dtp-today-btn-color, var(--primary-color));
+  --uc-dtp-today-btn-hover-bg-resolved: var(
+    --uc-dtp-today-btn-hover-bg,
+    oklch(from var(--primary-color) l c h / 0.1)
+  );
+  --uc-dtp-range-bg-resolved: var(--uc-dtp-range-bg, oklch(from var(--primary-color) l c h / 0.15));
+  --uc-dtp-range-preview-bg-resolved: var(
+    --uc-dtp-range-preview-bg,
+    oklch(from var(--primary-color) l c h / 0.08)
+  );
+  --uc-dtp-range-preview-circle-bg-resolved: var(
+    --uc-dtp-range-preview-circle-bg,
+    oklch(from var(--primary-color) l c h / 0.25)
+  );
 }
 
 .uc-date-time-picker-host {
@@ -51,7 +75,7 @@
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.03em;
-  color: var(--uc-dtp-label-color);
+  color: var(--uc-dtp-label-color-resolved);
 }
 
 /* Trigger */
@@ -72,32 +96,32 @@
   outline: none;
 
   &:hover {
-    background-color: var(--uc-dtp-trigger-hover-bg);
+    background-color: var(--uc-dtp-trigger-hover-bg-resolved);
   }
 
   &:focus {
-    border-color: var(--uc-dtp-trigger-focus-color);
+    border-color: var(--uc-dtp-trigger-focus-color-resolved);
   }
 
   &.uc-date-time-picker__trigger--open {
-    border-color: var(--uc-dtp-trigger-focus-color);
+    border-color: var(--uc-dtp-trigger-focus-color-resolved);
   }
 
   &.uc-date-time-picker__trigger--error {
-    border-color: var(--uc-dtp-trigger-error-color);
+    border-color: var(--uc-dtp-trigger-error-color-resolved);
     background-color: oklch(from var(--error-color) l c h / 0.1);
   }
 }
 
 .uc-date-time-picker__trigger-icon {
-  color: var(--uc-dtp-icon-color);
+  color: var(--uc-dtp-icon-color-resolved);
   font-size: 1.1rem;
   flex-shrink: 0;
 }
 
 .uc-date-time-picker__value {
   flex: 1;
-  color: var(--uc-dtp-value-color);
+  color: var(--uc-dtp-value-color-resolved);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -105,14 +129,14 @@
 
 .uc-date-time-picker__placeholder {
   flex: 1;
-  color: var(--uc-dtp-placeholder-color);
+  color: var(--uc-dtp-placeholder-color-resolved);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .uc-date-time-picker__caret {
-  color: var(--uc-dtp-icon-color);
+  color: var(--uc-dtp-icon-color-resolved);
   font-size: 0.9rem;
   flex-shrink: 0;
   transition: transform 0.2s ease;
@@ -133,11 +157,11 @@
 }
 
 .uc-date-time-picker__dropdown {
-  background: var(--uc-dtp-dropdown-bg);
+  background: var(--uc-dtp-dropdown-bg-resolved);
   border-radius: 0.75rem;
   padding: 1rem;
-  box-shadow: var(--uc-dtp-dropdown-shadow);
-  border: 1px solid var(--uc-dtp-dropdown-border);
+  box-shadow: var(--uc-dtp-dropdown-shadow-resolved);
+  border: 1px solid var(--uc-dtp-dropdown-border-resolved);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -154,7 +178,7 @@
 .uc-date-time-picker__month-label {
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--uc-dtp-label-color);
+  color: var(--uc-dtp-label-color-resolved);
   flex: 1;
   text-align: center;
   white-space: nowrap;
@@ -163,7 +187,7 @@
 /* Range selection hint */
 .uc-date-time-picker__range-hint {
   font-size: 0.8rem;
-  color: var(--uc-dtp-placeholder-color);
+  color: var(--uc-dtp-placeholder-color-resolved);
   text-align: center;
   margin: -0.25rem 0 0;
 }
@@ -183,7 +207,7 @@
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: var(--uc-dtp-weekday-color);
+  color: var(--uc-dtp-weekday-color-resolved);
   text-transform: uppercase;
 }
 
@@ -222,7 +246,7 @@
   height: 78%;
   border-radius: 50%;
   font-size: 0.875rem;
-  color: var(--uc-dtp-value-color);
+  color: var(--uc-dtp-value-color-resolved);
   transition:
     background-color 0.12s ease,
     color 0.12s ease;
@@ -230,7 +254,7 @@
 
 /* Hover - highlight the circle */
 .uc-date-time-picker__day:hover .uc-date-time-picker__day-circle {
-  background-color: var(--uc-dtp-day-hover-bg);
+  background-color: var(--uc-dtp-day-hover-bg-resolved);
 }
 
 /* Focus */
@@ -239,70 +263,70 @@
 }
 
 .uc-date-time-picker__day:focus-visible .uc-date-time-picker__day-circle {
-  outline: 2px solid var(--uc-dtp-trigger-focus-color);
+  outline: 2px solid var(--uc-dtp-trigger-focus-color-resolved);
   outline-offset: 1px;
 }
 
 /* Today */
 .uc-date-time-picker__day--today .uc-date-time-picker__day-circle {
-  border: 2px solid var(--uc-dtp-day-today-border);
-  color: var(--uc-dtp-day-today-color);
+  border: 2px solid var(--uc-dtp-day-today-border-resolved);
+  color: var(--uc-dtp-day-today-color-resolved);
   font-weight: 700;
 }
 
 /* Selected (single mode) */
 .uc-date-time-picker__day--selected .uc-date-time-picker__day-circle {
-  background-color: var(--uc-dtp-day-selected-bg);
-  color: var(--uc-dtp-day-selected-color);
+  background-color: var(--uc-dtp-day-selected-bg-resolved);
+  color: var(--uc-dtp-day-selected-color-resolved);
   font-weight: 700;
 }
 
 .uc-date-time-picker__day--selected:hover .uc-date-time-picker__day-circle {
-  background-color: var(--uc-dtp-day-selected-bg);
+  background-color: var(--uc-dtp-day-selected-bg-resolved);
 }
 
 /* Other month */
 .uc-date-time-picker__day--other-month .uc-date-time-picker__day-circle {
-  color: var(--uc-dtp-day-other-month-color);
+  color: var(--uc-dtp-day-other-month-color-resolved);
 }
 
 /* --- Range mode styles --- */
 
 /* In-range days: full-width background strip */
 .uc-date-time-picker__day--in-range .uc-date-time-picker__day-range-bg {
-  background: var(--uc-dtp-range-bg);
+  background: var(--uc-dtp-range-bg-resolved);
 }
 
 /* Range start: strip extends to the right only */
 .uc-date-time-picker__day--range-start .uc-date-time-picker__day-range-bg {
   left: 50%;
-  background: var(--uc-dtp-range-bg);
+  background: var(--uc-dtp-range-bg-resolved);
 }
 
 .uc-date-time-picker__day--range-start .uc-date-time-picker__day-circle {
-  background-color: var(--uc-dtp-day-selected-bg);
-  color: var(--uc-dtp-day-selected-color);
+  background-color: var(--uc-dtp-day-selected-bg-resolved);
+  color: var(--uc-dtp-day-selected-color-resolved);
   font-weight: 700;
 }
 
 .uc-date-time-picker__day--range-start:hover .uc-date-time-picker__day-circle {
-  background-color: var(--uc-dtp-day-selected-bg);
+  background-color: var(--uc-dtp-day-selected-bg-resolved);
 }
 
 /* Range end: strip extends to the left only */
 .uc-date-time-picker__day--range-end .uc-date-time-picker__day-range-bg {
   right: 50%;
-  background: var(--uc-dtp-range-bg);
+  background: var(--uc-dtp-range-bg-resolved);
 }
 
 .uc-date-time-picker__day--range-end .uc-date-time-picker__day-circle {
-  background-color: var(--uc-dtp-day-selected-bg);
-  color: var(--uc-dtp-day-selected-color);
+  background-color: var(--uc-dtp-day-selected-bg-resolved);
+  color: var(--uc-dtp-day-selected-color-resolved);
   font-weight: 700;
 }
 
 .uc-date-time-picker__day--range-end:hover .uc-date-time-picker__day-circle {
-  background-color: var(--uc-dtp-day-selected-bg);
+  background-color: var(--uc-dtp-day-selected-bg-resolved);
 }
 
 /* When start and end are the same day - no strip */
@@ -313,17 +337,17 @@
 
 /* Preview range (hover before applying) */
 .uc-date-time-picker__day--range-preview .uc-date-time-picker__day-range-bg {
-  background: var(--uc-dtp-range-preview-bg);
+  background: var(--uc-dtp-range-preview-bg-resolved);
 }
 
 /* Preview end day: strip goes left only, lighter circle */
 .uc-date-time-picker__day--range-preview-end .uc-date-time-picker__day-range-bg {
   right: 50%;
-  background: var(--uc-dtp-range-preview-bg);
+  background: var(--uc-dtp-range-preview-bg-resolved);
 }
 
 .uc-date-time-picker__day--range-preview-end .uc-date-time-picker__day-circle {
-  background-color: var(--uc-dtp-range-preview-circle-bg);
+  background-color: var(--uc-dtp-range-preview-circle-bg-resolved);
 }
 
 /* Time section */
@@ -332,9 +356,9 @@
   align-items: center;
   gap: 0.5rem;
   padding-top: 0.5rem;
-  border-top: 1px solid var(--uc-dtp-dropdown-border);
+  border-top: 1px solid var(--uc-dtp-dropdown-border-resolved);
   font-size: 0.9rem;
-  color: var(--uc-dtp-icon-color);
+  color: var(--uc-dtp-icon-color-resolved);
 }
 
 .uc-date-time-picker__time > .ph {
@@ -347,10 +371,10 @@
   font-size: 0.9rem;
   font-family: inherit;
   text-align: center;
-  background-color: var(--uc-dtp-time-input-bg);
-  border: 2px solid var(--uc-dtp-time-input-border);
+  background-color: var(--uc-dtp-time-input-bg-resolved);
+  border: 2px solid var(--uc-dtp-time-input-border-resolved);
   border-radius: var(--uc-input-border-radius);
-  color: var(--uc-dtp-value-color);
+  color: var(--uc-dtp-value-color-resolved);
   outline: none;
   appearance: textfield;
 
@@ -360,13 +384,13 @@
   }
 
   &:focus {
-    border-color: var(--uc-dtp-trigger-focus-color);
+    border-color: var(--uc-dtp-trigger-focus-color-resolved);
   }
 }
 
 .uc-date-time-picker__time-sep {
   font-weight: 700;
-  color: var(--uc-dtp-value-color);
+  color: var(--uc-dtp-value-color-resolved);
 }
 
 /* Actions row */
@@ -376,7 +400,7 @@
   justify-content: space-between;
   gap: 0.5rem;
   padding-top: 0.5rem;
-  border-top: 1px solid var(--uc-dtp-dropdown-border);
+  border-top: 1px solid var(--uc-dtp-dropdown-border-resolved);
 }
 
 .uc-date-time-picker__action-buttons {
@@ -397,12 +421,12 @@
 
 .uc-date-time-picker__error {
   font-size: 0.85rem;
-  color: var(--uc-dtp-error-color);
+  color: var(--uc-dtp-error-color-resolved);
 }
 
 /* States */
 .uc-date-time-picker--disabled {
-  opacity: var(--uc-dtp-disabled-opacity);
+  opacity: var(--uc-dtp-disabled-opacity-resolved);
   pointer-events: none;
 }
 
@@ -413,7 +437,7 @@
 /* Mobile */
 @media (max-width: 767px) {
   .uc-date-time-picker__backdrop.cdk-overlay-backdrop-showing {
-    background: var(--uc-dtp-backdrop);
+    background: var(--uc-dtp-backdrop-resolved);
   }
 
   .uc-date-time-picker__overlay-pane {
@@ -436,7 +460,7 @@
   .uc-date-time-picker__actions {
     position: sticky;
     bottom: calc(-1rem + env(safe-area-inset-bottom, 0px));
-    background: var(--uc-dtp-dropdown-bg);
+    background: var(--uc-dtp-dropdown-bg-resolved);
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 }

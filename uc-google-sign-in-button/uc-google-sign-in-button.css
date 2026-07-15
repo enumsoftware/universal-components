@@ -1,7 +1,11 @@
 :host {
-  --uc-google-sign-in-button-background: var(--background-color);
-  --uc-google-sign-in-button-color: var(--foreground-color);
-  --uc-google-sign-in-button-hover-background: var(--background-color-90);
+  --uc-google-sign-in-button-background-resolved: var(--uc-google-sign-in-button-background, var(--background-color));
+  --uc-google-sign-in-button-color-resolved: var(--uc-google-sign-in-button-color, var(--foreground-color));
+  --uc-google-sign-in-button-hover-background-resolved: var(--uc-google-sign-in-button-hover-background, var(--background-color-90));
+  --uc-google-sign-in-button-hover-box-shadow-resolved: var(
+    --uc-google-sign-in-button-hover-box-shadow,
+    0 0 0 3px oklch(from var(--primary-color) l c h / 0.2)
+  );
 }
 
 .google-sign-in-button {
@@ -13,8 +17,8 @@
   padding-block: 0.75rem;
   padding-inline: 2rem;
   border-radius: 0.75rem;
-  background-color: var(--uc-google-sign-in-button-background);
-  color: var(--uc-google-sign-in-button-color);
+  background-color: var(--uc-google-sign-in-button-background-resolved);
+  color: var(--uc-google-sign-in-button-color-resolved);
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
@@ -28,8 +32,8 @@
     box-shadow 0.2s ease;
 
   &:hover {
-    background-color: var(--uc-google-sign-in-button-hover-background);
-    box-shadow: var(--uc-google-sign-in-button-hover-box-shadow);
+    background-color: var(--uc-google-sign-in-button-hover-background-resolved);
+    box-shadow: var(--uc-google-sign-in-button-hover-box-shadow-resolved);
   }
 
   .google-sign-in-button__icon {

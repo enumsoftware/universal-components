@@ -4,7 +4,7 @@
  */
 
 :host {
-  --uc-pagination-info-color: var(--paragraph-text-color);
+  --uc-pagination-info-color-resolved: var(--uc-pagination-info-color, var(--paragraph-text-color));
 }
 
 .uc-pagination {
@@ -30,7 +30,7 @@
 
   .uc-pagination__info {
     text-align: center;
-    color: var(--uc-pagination-info-color);
+    color: var(--uc-pagination-info-color-resolved);
     font-size: 0.9rem;
   }
 }

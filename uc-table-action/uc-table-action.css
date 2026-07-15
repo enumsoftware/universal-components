@@ -4,12 +4,12 @@
  */
 
 :host {
-  --uc-table-action-primary-background: var(--background-color-90);
-  --uc-table-action-primary-color: var(--foreground-color);
-  --uc-table-action-primary-hover-background: var(--background-color-80);
-  --uc-table-action-secondary-color: var(--primary-color);
-  --uc-table-action-secondary-hover-background: var(--primary-color);
-  --uc-table-action-secondary-hover-color: var(--inverse-foreground-color);
+  --uc-table-action-primary-background-resolved: var(--uc-table-action-primary-background, var(--background-color-90));
+  --uc-table-action-primary-color-resolved: var(--uc-table-action-primary-color, var(--foreground-color));
+  --uc-table-action-primary-hover-background-resolved: var(--uc-table-action-primary-hover-background, var(--background-color-80));
+  --uc-table-action-secondary-color-resolved: var(--uc-table-action-secondary-color, var(--primary-color));
+  --uc-table-action-secondary-hover-background-resolved: var(--uc-table-action-secondary-hover-background, var(--primary-color));
+  --uc-table-action-secondary-hover-color-resolved: var(--uc-table-action-secondary-hover-color, var(--inverse-foreground-color));
 }
 
 .action {
@@ -36,11 +36,11 @@
   }
 
   &.action--primary {
-    background-color: var(--uc-table-action-primary-background);
-    color: var(--uc-table-action-primary-color);
+    background-color: var(--uc-table-action-primary-background-resolved);
+    color: var(--uc-table-action-primary-color-resolved);
 
     &:hover {
-      background-color: var(--uc-table-action-primary-hover-background);
+      background-color: var(--uc-table-action-primary-hover-background-resolved);
     }
 
     &:active {
@@ -50,12 +50,12 @@
 
   &.action--secondary {
     background-color: transparent;
-    color: var(--uc-table-action-secondary-color);
-    border: 1px solid var(--uc-table-action-secondary-color);
+    color: var(--uc-table-action-secondary-color-resolved);
+    border: 1px solid var(--uc-table-action-secondary-color-resolved);
 
     &:hover {
-      background-color: var(--uc-table-action-secondary-hover-background);
-      color: var(--uc-table-action-secondary-hover-color);
+      background-color: var(--uc-table-action-secondary-hover-background-resolved);
+      color: var(--uc-table-action-secondary-hover-color-resolved);
     }
 
     &:active {

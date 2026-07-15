@@ -1,13 +1,16 @@
 :host {
-  --uc-button-background: var(--primary-color, #007bff);
-  --uc-button-color: var(--inverse-foreground-color, white);
-  --uc-button-padding-block: 0.75rem;
-  --uc-button-padding-inline: 2rem;
-  --uc-button-border-radius: 0.75rem;
-  --uc-button-font-weight: 700;
-  --uc-button-disabled-opacity: 0.6;
-  --uc-button-secondary-border-color: oklch(from var(--foreground-color) l c h / 0.3);
-  --uc-button-error-background: var(--error-color, #dc3545);
+  --uc-button-background-resolved: var(--uc-button-background, var(--primary-color));
+  --uc-button-color-resolved: var(--uc-button-color, var(--inverse-foreground-color));
+  --uc-button-padding-block-resolved: var(--uc-button-padding-block, 0.75rem);
+  --uc-button-padding-inline-resolved: var(--uc-button-padding-inline, 2rem);
+  --uc-button-border-radius-resolved: var(--uc-button-border-radius, 0.75rem);
+  --uc-button-font-weight-resolved: var(--uc-button-font-weight, 700);
+  --uc-button-disabled-opacity-resolved: var(--uc-button-disabled-opacity, 0.6);
+  --uc-button-secondary-border-color-resolved: var(
+    --uc-button-secondary-border-color,
+    oklch(from var(--foreground-color) l c h / 0.3)
+  );
+  --uc-button-error-background-resolved: var(--uc-button-error-background, var(--error-color));
   display: inline-flex;
 }
 .uc-button {
@@ -16,66 +19,68 @@
   gap: 1rem;
   width: 100%;
   cursor: pointer;
-  font-weight: var(--uc-button-font-weight);
+  font-weight: var(--uc-button-font-weight-resolved);
   transition:
     background 0.3s,
     border 0.3s,
     color 0.3s;
-  background-color: var(--uc-button-background);
-  color: var(--uc-button-color);
-  padding-block: var(--uc-button-padding-block);
-  padding-inline: var(--uc-button-padding-inline);
-  border-radius: var(--uc-button-border-radius);
+  background-color: var(--uc-button-background-resolved);
+  color: var(--uc-button-color-resolved);
+  padding-block: var(--uc-button-padding-block-resolved);
+  padding-inline: var(--uc-button-padding-inline-resolved);
+  border-radius: var(--uc-button-border-radius-resolved);
   border: 0px solid transparent;
 }
 
 .uc-button.uc-secondary {
   background-color: transparent;
   color: var(--font-color);
-  border: 1px solid var(--uc-button-secondary-border-color);
+  border: 1px solid var(--uc-button-secondary-border-color-resolved);
 }
 
 .uc-button.uc-secondary:hover {
   border: 1px solid transparent;
-  background-color: oklch(from var(--uc-button-background) l c h / 0.3);
+  background-color: oklch(from var(--uc-button-background-resolved) l c h / 0.3);
   color: var(--font-color);
 }
 
 .uc-button.uc-error {
-  background-color: var(--uc-button-error-background);
-  color: var(--uc-button-color);
+  background-color: var(--uc-button-error-background-resolved);
+  color: var(--uc-button-color-resolved);
 }
 
 .uc-button.uc-error:hover {
-  background-color: oklch(from var(--uc-button-error-background) l c h / 0.9);
+  background-color: oklch(from var(--uc-button-error-background-resolved) l c h / 0.9);
 }
 
 .uc-button:hover {
-  background-color: oklch(from var(--uc-button-background) calc(l * 0.9) calc(c * 1) calc(h * 1));
+  background-color: oklch(
+    from var(--uc-button-background-resolved) calc(l * 0.9) calc(c * 1) calc(h * 1)
+  );
 }
 
 .uc-button:disabled,
 .uc-button.uc-disabled {
   cursor: not-allowed;
-  opacity: var(--uc-button-disabled-opacity);
+  opacity: var(--uc-button-disabled-opacity-resolved);
 }
 
 .uc-button:disabled:hover,
 .uc-button.uc-disabled:hover {
-  background-color: var(--uc-button-background);
+  background-color: var(--uc-button-background-resolved);
 }
 
 .uc-button.uc-secondary:disabled,
 .uc-button.uc-secondary.uc-disabled {
   background-color: transparent;
-  border: 1px solid var(--uc-button-secondary-border-color);
+  border: 1px solid var(--uc-button-secondary-border-color-resolved);
   color: var(--font-color);
 }
 
 .uc-button.uc-error:disabled,
 .uc-button.uc-error.uc-disabled {
-  background-color: var(--uc-button-error-background);
-  color: var(--uc-button-color);
+  background-color: var(--uc-button-error-background-resolved);
+  color: var(--uc-button-color-resolved);
 }
 
 .uc-button.uc-secondary:disabled:hover,

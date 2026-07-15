@@ -1,23 +1,53 @@
 :host {
-  --uc-icon-button-background: var(--background-color);
-  --uc-icon-button-color: var(--foreground-color);
-  --uc-icon-button-hover-background: var(--primary-color);
-  --uc-icon-button-hover-color: var(--inverse-foreground-color);
-  --uc-icon-button-primary-background: var(--primary-color);
-  --uc-icon-button-primary-color: var(--inverse-foreground-color);
-  --uc-icon-button-primary-hover-background: oklch(from var(--primary-color) calc(l - 0.1) c h);
-  --uc-icon-button-inverse-background: var(--inverse-background-color);
-  --uc-icon-button-inverse-color: var(--inverse-foreground-color);
-  --uc-icon-button-secondary-border-color: oklch(from var(--foreground-color) l c h / 0.3);
-  --uc-icon-button-error-background: oklch(from var(--error-color) l c h / 0.1);
-  --uc-icon-button-error-color: var(--error-color);
-  --uc-icon-button-error-hover-background: var(--error-color);
-  --uc-icon-button-disabled-opacity: 0.6;
-  --uc-icon-button-padding: 0.75rem;
-  --uc-icon-button-border-radius: 0.75rem;
-  --uc-icon-button-border-width: 0;
-  --uc-icon-button-border-style: solid;
-  --uc-icon-button-border-color: transparent;
+  --uc-icon-button-background-resolved: var(--uc-icon-button-background, var(--background-color));
+  --uc-icon-button-color-resolved: var(--uc-icon-button-color, var(--foreground-color));
+  --uc-icon-button-hover-background-resolved: var(
+    --uc-icon-button-hover-background,
+    var(--primary-color)
+  );
+  --uc-icon-button-hover-color-resolved: var(
+    --uc-icon-button-hover-color,
+    var(--inverse-foreground-color)
+  );
+  --uc-icon-button-primary-background-resolved: var(
+    --uc-icon-button-primary-background,
+    var(--primary-color)
+  );
+  --uc-icon-button-primary-color-resolved: var(
+    --uc-icon-button-primary-color,
+    var(--inverse-foreground-color)
+  );
+  --uc-icon-button-primary-hover-background-resolved: var(
+    --uc-icon-button-primary-hover-background,
+    oklch(from var(--primary-color) calc(l - 0.1) c h)
+  );
+  --uc-icon-button-inverse-background-resolved: var(
+    --uc-icon-button-inverse-background,
+    var(--inverse-background-color)
+  );
+  --uc-icon-button-inverse-color-resolved: var(
+    --uc-icon-button-inverse-color,
+    var(--inverse-foreground-color)
+  );
+  --uc-icon-button-secondary-border-color-resolved: var(
+    --uc-icon-button-secondary-border-color,
+    oklch(from var(--foreground-color) l c h / 0.3)
+  );
+  --uc-icon-button-error-background-resolved: var(
+    --uc-icon-button-error-background,
+    oklch(from var(--error-color) l c h / 0.1)
+  );
+  --uc-icon-button-error-color-resolved: var(--uc-icon-button-error-color, var(--error-color));
+  --uc-icon-button-error-hover-background-resolved: var(
+    --uc-icon-button-error-hover-background,
+    var(--error-color)
+  );
+  --uc-icon-button-disabled-opacity-resolved: var(--uc-icon-button-disabled-opacity, 0.6);
+  --uc-icon-button-padding-resolved: var(--uc-icon-button-padding, 0.75rem);
+  --uc-icon-button-border-radius-resolved: var(--uc-icon-button-border-radius, 0.75rem);
+  --uc-icon-button-border-width-resolved: var(--uc-icon-button-border-width, 0);
+  --uc-icon-button-border-style-resolved: var(--uc-icon-button-border-style, solid);
+  --uc-icon-button-border-color-resolved: var(--uc-icon-button-border-color, transparent);
   display: inline-flex;
 }
 
@@ -31,61 +61,61 @@
   transition:
     background 0.3s,
     color 0.3s;
-  background-color: var(--uc-icon-button-background);
-  color: var(--uc-icon-button-color);
-  padding-block: var(--uc-icon-button-padding);
-  padding-inline: var(--uc-icon-button-padding);
-  border-radius: var(--uc-icon-button-border-radius);
-  border-width: var(--uc-icon-button-border-width);
-  border-style: var(--uc-icon-button-border-style);
-  border-color: var(--uc-icon-button-border-color);
+  background-color: var(--uc-icon-button-background-resolved);
+  color: var(--uc-icon-button-color-resolved);
+  padding-block: var(--uc-icon-button-padding-resolved);
+  padding-inline: var(--uc-icon-button-padding-resolved);
+  border-radius: var(--uc-icon-button-border-radius-resolved);
+  border-width: var(--uc-icon-button-border-width-resolved);
+  border-style: var(--uc-icon-button-border-style-resolved);
+  border-color: var(--uc-icon-button-border-color-resolved);
 }
 
 .inverse-color {
-  background-color: var(--uc-icon-button-inverse-background);
-  color: var(--uc-icon-button-inverse-color);
+  background-color: var(--uc-icon-button-inverse-background-resolved);
+  color: var(--uc-icon-button-inverse-color-resolved);
 }
 
 .uc-image-button.uc-primary {
-  background-color: var(--uc-icon-button-primary-background);
-  color: var(--uc-icon-button-primary-color);
+  background-color: var(--uc-icon-button-primary-background-resolved);
+  color: var(--uc-icon-button-primary-color-resolved);
 }
 
 .uc-image-button.uc-primary:not(.uc-image-button--disabled):hover {
-  background-color: var(--uc-icon-button-primary-hover-background);
-  color: var(--uc-icon-button-primary-color);
+  background-color: var(--uc-icon-button-primary-hover-background-resolved);
+  color: var(--uc-icon-button-primary-color-resolved);
 }
 
 .uc-image-button.uc-secondary {
   background-color: transparent;
-  color: var(--uc-icon-button-color);
+  color: var(--uc-icon-button-color-resolved);
   border-width: 1px;
   border-style: solid;
-  border-color: var(--uc-icon-button-secondary-border-color);
+  border-color: var(--uc-icon-button-secondary-border-color-resolved);
 }
 
 .uc-image-button.uc-secondary:not(.uc-image-button--disabled):hover {
   border-color: transparent;
-  background-color: var(--uc-icon-button-hover-background);
-  color: var(--uc-icon-button-hover-color);
+  background-color: var(--uc-icon-button-hover-background-resolved);
+  color: var(--uc-icon-button-hover-color-resolved);
 }
 
 .uc-image-button--disabled {
   cursor: not-allowed;
-  opacity: var(--uc-icon-button-disabled-opacity);
+  opacity: var(--uc-icon-button-disabled-opacity-resolved);
 }
 
 .uc-image-button:not(.uc-image-button--disabled):hover {
-  background-color: var(--uc-icon-button-hover-background);
-  color: var(--uc-icon-button-hover-color);
+  background-color: var(--uc-icon-button-hover-background-resolved);
+  color: var(--uc-icon-button-hover-color-resolved);
 }
 
 .uc-image-button.uc-error {
-  background-color: var(--uc-icon-button-error-background);
-  color: var(--uc-icon-button-error-color);
+  background-color: var(--uc-icon-button-error-background-resolved);
+  color: var(--uc-icon-button-error-color-resolved);
 }
 
 .uc-image-button.uc-error:not(.uc-image-button--disabled):hover {
-  background-color: var(--uc-icon-button-error-hover-background);
-  color: var(--uc-icon-button-hover-color);
+  background-color: var(--uc-icon-button-error-hover-background-resolved);
+  color: var(--uc-icon-button-hover-color-resolved);
 }

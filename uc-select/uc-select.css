@@ -1,11 +1,11 @@
 :host {
-  --uc-select-label-color: oklch(from var(--foreground-color) l c h / 1);
-  --uc-select-placeholder-color: oklch(from var(--foreground-color) l c h / 0.35);
-  --uc-select-arrow-color: oklch(from var(--foreground-color) l c h / 0.5);
-  --uc-select-option-hover-background: oklch(from var(--primary-color) l c h / 0.1);
-  --uc-select-option-selected-background: oklch(from var(--primary-color) l c h / 0.15);
-  --uc-select-option-selected-color: var(--primary-color);
-  --uc-select-panel-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --uc-select-label-color-resolved: var(--uc-select-label-color, oklch(from var(--foreground-color) l c h / 1));
+  --uc-select-placeholder-color-resolved: var(--uc-select-placeholder-color, oklch(from var(--foreground-color) l c h / 0.35));
+  --uc-select-arrow-color-resolved: var(--uc-select-arrow-color, oklch(from var(--foreground-color) l c h / 0.5));
+  --uc-select-option-hover-background-resolved: var(--uc-select-option-hover-background, oklch(from var(--primary-color) l c h / 0.1));
+  --uc-select-option-selected-background-resolved: var(--uc-select-option-selected-background, oklch(from var(--primary-color) l c h / 0.15));
+  --uc-select-option-selected-color-resolved: var(--uc-select-option-selected-color, var(--primary-color));
+  --uc-select-panel-shadow-resolved: var(--uc-select-panel-shadow, 0 4px 12px rgba(0, 0, 0, 0.15));
   display: flex;
   flex-grow: 1;
   flex-shrink: 1;
@@ -24,7 +24,7 @@
 .uc-select-label {
   font-size: 1rem;
   margin-bottom: 0.5rem;
-  color: var(--uc-select-label-color);
+  color: var(--uc-select-label-color-resolved);
   font-weight: 600;
   letter-spacing: 0.03em;
 }
@@ -91,7 +91,7 @@
 }
 
 .uc-select-placeholder {
-  color: var(--uc-select-placeholder-color);
+  color: var(--uc-select-placeholder-color-resolved);
 }
 
 .uc-select-icon {
@@ -103,7 +103,7 @@
 
 .uc-select-arrow {
   flex-shrink: 0;
-  color: var(--uc-select-arrow-color);
+  color: var(--uc-select-arrow-color-resolved);
   font-size: 1rem;
   transition: transform 0.2s ease-in-out;
   margin-left: auto;
@@ -123,7 +123,7 @@
   background-color: var(--uc-input-background-color);
   border: 2px solid var(--uc-input-border-color);
   border-radius: var(--uc-input-border-radius);
-  box-shadow: var(--uc-select-panel-shadow);
+  box-shadow: var(--uc-select-panel-shadow-resolved);
   max-height: 300px;
   overflow-y: auto;
   margin-top: 0.5rem;
@@ -165,7 +165,7 @@
   box-sizing: border-box;
 
   &:hover:not(:disabled) {
-    background-color: var(--uc-select-option-hover-background);
+    background-color: var(--uc-select-option-hover-background-resolved);
   }
 
   &:focus {
@@ -174,8 +174,8 @@
   }
 
   &.uc-select-option-selected {
-    background-color: var(--uc-select-option-selected-background);
-    color: var(--uc-select-option-selected-color);
+    background-color: var(--uc-select-option-selected-background-resolved);
+    color: var(--uc-select-option-selected-color-resolved);
     font-weight: 600;
   }
 

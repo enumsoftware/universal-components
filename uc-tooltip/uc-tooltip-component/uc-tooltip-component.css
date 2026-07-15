@@ -1,18 +1,18 @@
 :host {
-  --uc-tooltip-background: var(--inverse-background-color);
-  --uc-tooltip-color: var(--inverse-foreground-color);
-  --uc-tooltip-padding: 0.5rem 0.75rem;
-  --uc-tooltip-border-radius: 4px;
-  --uc-tooltip-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --uc-tooltip-background-resolved: var(--uc-tooltip-background, var(--inverse-background-color));
+  --uc-tooltip-color-resolved: var(--uc-tooltip-color, var(--inverse-foreground-color));
+  --uc-tooltip-padding-resolved: var(--uc-tooltip-padding, 0.5rem 0.75rem);
+  --uc-tooltip-border-radius-resolved: var(--uc-tooltip-border-radius, 4px);
+  --uc-tooltip-shadow-resolved: var(--uc-tooltip-shadow, 0 2px 8px rgba(0, 0, 0, 0.15));
 }
 
 .uc-tooltip {
-  background: var(--uc-tooltip-background);
-  color: var(--uc-tooltip-color);
-  padding: var(--uc-tooltip-padding);
-  border-radius: var(--uc-tooltip-border-radius);
+  background: var(--uc-tooltip-background-resolved);
+  color: var(--uc-tooltip-color-resolved);
+  padding: var(--uc-tooltip-padding-resolved);
+  border-radius: var(--uc-tooltip-border-radius-resolved);
   font-size: 0.9rem;
-  box-shadow: var(--uc-tooltip-shadow);
+  box-shadow: var(--uc-tooltip-shadow-resolved);
   z-index: 99999;
   pointer-events: none;
   user-select: none;

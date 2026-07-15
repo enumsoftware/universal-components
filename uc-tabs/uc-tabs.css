@@ -1,17 +1,17 @@
 :host {
-  --uc-tabs-border-color: var(--background-color-90);
-  --uc-tabs-tab-color: var(--paragraph-text-color);
-  --uc-tabs-tab-hover-color: var(--foreground-color);
-  --uc-tabs-tab-active-color: var(--primary-color);
-  --uc-tabs-tab-active-border-color: var(--primary-color);
-  --uc-tabs-margin-bottom: 1.5rem;
+  --uc-tabs-border-color-resolved: var(--uc-tabs-border-color, var(--background-color-90));
+  --uc-tabs-tab-color-resolved: var(--uc-tabs-tab-color, var(--paragraph-text-color));
+  --uc-tabs-tab-hover-color-resolved: var(--uc-tabs-tab-hover-color, var(--foreground-color));
+  --uc-tabs-tab-active-color-resolved: var(--uc-tabs-tab-active-color, var(--primary-color));
+  --uc-tabs-tab-active-border-color-resolved: var(--uc-tabs-tab-active-border-color, var(--primary-color));
+  --uc-tabs-margin-bottom-resolved: var(--uc-tabs-margin-bottom, 1.5rem);
 }
 
 .uc-tabs {
   display: flex;
   gap: 0;
-  border-bottom: 2px solid var(--uc-tabs-border-color);
-  margin-bottom: var(--uc-tabs-margin-bottom);
+  border-bottom: 2px solid var(--uc-tabs-border-color-resolved);
+  margin-bottom: var(--uc-tabs-margin-bottom-resolved);
 
   .uc-tabs__tab {
     padding: 0.625rem 1.25rem;
@@ -22,16 +22,16 @@
     cursor: pointer;
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--uc-tabs-tab-color);
+    color: var(--uc-tabs-tab-color-resolved);
     transition: color 0.2s, border-color 0.2s;
 
     &:hover {
-      color: var(--uc-tabs-tab-hover-color);
+      color: var(--uc-tabs-tab-hover-color-resolved);
     }
 
     &.uc-tabs__tab--active {
-      color: var(--uc-tabs-tab-active-color);
-      border-bottom-color: var(--uc-tabs-tab-active-border-color);
+      color: var(--uc-tabs-tab-active-color-resolved);
+      border-bottom-color: var(--uc-tabs-tab-active-border-color-resolved);
     }
   }
 }

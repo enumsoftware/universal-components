@@ -4,23 +4,68 @@
  * The uc-color-picker-host class keeps the layout styles scoped.
  */
 :root {
-  --uc-color-picker-label-color: oklch(from var(--foreground-color) l c h / 1);
-  --uc-color-picker-trigger-hover-background: oklch(from var(--foreground-color) l c h / 0.05);
-  --uc-color-picker-trigger-focus-color: var(--primary-color);
-  --uc-color-picker-trigger-error-color: var(--error-color);
-  --uc-color-picker-dropdown-background: var(--card-background-color);
-  --uc-color-picker-dropdown-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  --uc-color-picker-dropdown-border: oklch(from var(--foreground-color) l c h / 0.1);
-  --uc-color-picker-swatch-border: oklch(from var(--foreground-color) l c h / 0.15);
-  --uc-color-picker-value-color: oklch(from var(--foreground-color) l c h / 0.8);
-  --uc-color-picker-error-color: var(--error-color);
-  --uc-color-picker-disabled-opacity: 0.5;
-  --uc-color-picker-mode-btn-background: oklch(from var(--foreground-color) l c h / 0.06);
-  --uc-color-picker-mode-btn-active-background: var(--primary-color);
-  --uc-color-picker-mode-btn-active-color: var(--primary-contrast-color, #fff);
-  --uc-color-picker-format-btn-color: oklch(from var(--foreground-color) l c h / 0.6);
-  --uc-color-picker-format-btn-active-color: var(--primary-color);
-  --uc-color-picker-backdrop: oklch(from var(--foreground-color) l c h / 0.45);
+  --uc-color-picker-label-color-resolved: var(
+    --uc-color-picker-label-color,
+    oklch(from var(--foreground-color) l c h / 1)
+  );
+  --uc-color-picker-trigger-hover-background-resolved: var(
+    --uc-color-picker-trigger-hover-background,
+    oklch(from var(--foreground-color) l c h / 0.05)
+  );
+  --uc-color-picker-trigger-focus-color-resolved: var(
+    --uc-color-picker-trigger-focus-color,
+    var(--primary-color)
+  );
+  --uc-color-picker-trigger-error-color-resolved: var(
+    --uc-color-picker-trigger-error-color,
+    var(--error-color)
+  );
+  --uc-color-picker-dropdown-background-resolved: var(
+    --uc-color-picker-dropdown-background,
+    var(--card-background-color)
+  );
+  --uc-color-picker-dropdown-shadow-resolved: var(
+    --uc-color-picker-dropdown-shadow,
+    0 10px 40px rgba(0, 0, 0, 0.2)
+  );
+  --uc-color-picker-dropdown-border-resolved: var(
+    --uc-color-picker-dropdown-border,
+    oklch(from var(--foreground-color) l c h / 0.1)
+  );
+  --uc-color-picker-swatch-border-resolved: var(
+    --uc-color-picker-swatch-border,
+    oklch(from var(--foreground-color) l c h / 0.15)
+  );
+  --uc-color-picker-value-color-resolved: var(
+    --uc-color-picker-value-color,
+    oklch(from var(--foreground-color) l c h / 0.8)
+  );
+  --uc-color-picker-error-color-resolved: var(--uc-color-picker-error-color, var(--error-color));
+  --uc-color-picker-disabled-opacity-resolved: var(--uc-color-picker-disabled-opacity, 0.5);
+  --uc-color-picker-mode-btn-background-resolved: var(
+    --uc-color-picker-mode-btn-background,
+    oklch(from var(--foreground-color) l c h / 0.06)
+  );
+  --uc-color-picker-mode-btn-active-background-resolved: var(
+    --uc-color-picker-mode-btn-active-background,
+    var(--primary-color)
+  );
+  --uc-color-picker-mode-btn-active-color-resolved: var(
+    --uc-color-picker-mode-btn-active-color,
+    var(--primary-contrast-color)
+  );
+  --uc-color-picker-format-btn-color-resolved: var(
+    --uc-color-picker-format-btn-color,
+    oklch(from var(--foreground-color) l c h / 0.6)
+  );
+  --uc-color-picker-format-btn-active-color-resolved: var(
+    --uc-color-picker-format-btn-active-color,
+    var(--primary-color)
+  );
+  --uc-color-picker-backdrop-resolved: var(
+    --uc-color-picker-backdrop,
+    oklch(from var(--foreground-color) l c h / 0.45)
+  );
 }
 
 .uc-color-picker-host {
@@ -40,7 +85,7 @@
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.03em;
-  color: var(--uc-color-picker-label-color);
+  color: var(--uc-color-picker-label-color-resolved);
 }
 
 .uc-color-picker__trigger {
@@ -54,17 +99,17 @@
   width: fit-content;
 
   &:hover {
-    background-color: var(--uc-color-picker-trigger-hover-background);
+    background-color: var(--uc-color-picker-trigger-hover-background-resolved);
   }
 
   &:focus-within {
-    outline: 2px solid var(--uc-color-picker-trigger-focus-color);
+    outline: 2px solid var(--uc-color-picker-trigger-focus-color-resolved);
     outline-offset: 2px;
   }
 }
 
 .uc-color-picker__trigger--error {
-  outline: 2px solid var(--uc-color-picker-trigger-error-color);
+  outline: 2px solid var(--uc-color-picker-trigger-error-color-resolved);
   outline-offset: 2px;
 }
 
@@ -72,7 +117,7 @@
   width: 36px;
   height: 36px;
   border-radius: 0.5rem;
-  border: 2px solid var(--uc-color-picker-swatch-border);
+  border: 2px solid var(--uc-color-picker-swatch-border-resolved);
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: transform 0.2s ease;
@@ -86,17 +131,17 @@
   font-weight: 600;
   letter-spacing: 0.02em;
   font-size: 0.9rem;
-  color: var(--uc-color-picker-value-color);
+  color: var(--uc-color-picker-value-color-resolved);
 }
 
 /* Dropdown */
 
 .uc-color-picker__dropdown {
-  background: var(--uc-color-picker-dropdown-background);
+  background: var(--uc-color-picker-dropdown-background-resolved);
   border-radius: 0.75rem;
   padding: 1rem;
-  box-shadow: var(--uc-color-picker-dropdown-shadow);
-  border: 1px solid var(--uc-color-picker-dropdown-border);
+  box-shadow: var(--uc-color-picker-dropdown-shadow-resolved);
+  border: 1px solid var(--uc-color-picker-dropdown-border-resolved);
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
@@ -124,14 +169,14 @@
   align-items: center;
   gap: 0.75rem;
   padding-top: 0.25rem;
-  border-top: 1px solid var(--uc-color-picker-dropdown-border);
+  border-top: 1px solid var(--uc-color-picker-dropdown-border-resolved);
 }
 
 .uc-color-picker__preview {
   width: 36px;
   height: 36px;
   border-radius: 0.5rem;
-  border: 2px solid var(--uc-color-picker-swatch-border);
+  border: 2px solid var(--uc-color-picker-swatch-border-resolved);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
   flex-shrink: 0;
 }
@@ -158,22 +203,22 @@
   letter-spacing: 0.06em;
   cursor: pointer;
   background: transparent;
-  color: var(--uc-color-picker-format-btn-color);
+  color: var(--uc-color-picker-format-btn-color-resolved);
   transition: color 0.15s ease;
 
   &:hover {
-    color: var(--uc-color-picker-format-btn-active-color);
+    color: var(--uc-color-picker-format-btn-active-color-resolved);
   }
 }
 
 .uc-color-picker__format-btn--active {
-  color: var(--uc-color-picker-format-btn-active-color);
+  color: var(--uc-color-picker-format-btn-active-color-resolved);
 }
 
 .uc-color-picker__formatted-value {
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--uc-color-picker-value-color);
+  color: var(--uc-color-picker-value-color-resolved);
   letter-spacing: 0.02em;
   white-space: nowrap;
   overflow: hidden;
@@ -196,13 +241,13 @@
   display: inline-block;
   margin-top: 0.35rem;
   font-size: 0.85rem;
-  color: var(--uc-color-picker-error-color);
+  color: var(--uc-color-picker-error-color-resolved);
 }
 
 /* States */
 
 .uc-color-picker--disabled {
-  opacity: var(--uc-color-picker-disabled-opacity);
+  opacity: var(--uc-color-picker-disabled-opacity-resolved);
   pointer-events: none;
 }
 
@@ -212,7 +257,7 @@
 
 @media (max-width: 767px) {
   .uc-color-picker__backdrop.cdk-overlay-backdrop-showing {
-    background: var(--uc-color-picker-backdrop);
+    background: var(--uc-color-picker-backdrop-resolved);
   }
 
   .uc-color-picker__overlay-pane {
@@ -240,6 +285,6 @@
     margin-top: auto;
     padding-top: 0.75rem;
     padding-bottom: env(safe-area-inset-bottom, 0px);
-    background: var(--uc-color-picker-dropdown-background);
+    background: var(--uc-color-picker-dropdown-background-resolved);
   }
 }
