@@ -13,6 +13,25 @@ const meta: Meta<UcInput> = {
     readonly: false,
     value: null,
   },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="min-width: 300px;">
+        <uc-input 
+          [id]="id" 
+          [label]="label" 
+          [placeholder]="placeholder" 
+          [type]="type" 
+          [disabled]="disabled" 
+          [readonly]="readonly" 
+          [value]="value"
+          [togglePassword]="togglePassword"
+          [invalid]="invalid"
+          [touched]="touched">
+        </uc-input>
+      </div>
+    `,
+  }),
 };
 
 export default meta;
