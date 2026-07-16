@@ -12,12 +12,24 @@ const meta: Meta<UcLinearLoading> = {
 export default meta;
 type Story = StoryObj<UcLinearLoading>;
 
-export const Loading: Story = {};
+const STORY_TEMPLATE =
+  '<div style="display: block; width: 28rem; max-width: calc(100vw - 2rem);"><uc-linear-loading [loading]="loading" [color]="color" /></div>';
+
+export const Loading: Story = {
+  render: (args) => ({
+    props: args,
+    template: STORY_TEMPLATE,
+  }),
+};
 
 export const NotLoading: Story = {
   args: {
     loading: false,
   },
+  render: (args) => ({
+    props: args,
+    template: STORY_TEMPLATE,
+  }),
 };
 
 export const CustomColor: Story = {
@@ -25,4 +37,8 @@ export const CustomColor: Story = {
     loading: true,
     color: '#ff5733',
   },
+  render: (args) => ({
+    props: args,
+    template: STORY_TEMPLATE,
+  }),
 };
