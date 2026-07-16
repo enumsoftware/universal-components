@@ -1,4 +1,4 @@
-@if (totalItems() > pageSize()) {
+@if (totalItems() > 0) {
   <div class="uc-pagination">
     <uc-pagination-page-button
       class="uc-pagination__btn"
@@ -19,7 +19,7 @@
     />
 
     <div class="uc-pagination__indicators">
-      @for (page of visiblePages(); track page) {
+      @for (page of visiblePages(); track $index) {
         <uc-pagination-page-button
           class="uc-pagination__page-btn"
           [label]="(page + 1).toString()"

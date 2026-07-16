@@ -1,5 +1,5 @@
+/// <reference types="jasmine" />
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { vi } from 'vitest';
 
 import { UcTableAction } from './uc-table-action';
 
@@ -23,7 +23,7 @@ describe('UcTableAction', () => {
   });
 
   it('should emit clicked event on click', () => {
-    vi.spyOn(component.clicked, 'emit');
+    spyOn(component.clicked, 'emit');
     component.onClick();
     expect(component.clicked.emit).toHaveBeenCalled();
   });

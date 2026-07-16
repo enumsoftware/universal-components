@@ -1,9 +1,38 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { UcPagination } from './uc-pagination';
 
+const renderPagination = (args: UcPagination) => ({
+  props: {
+    ...args,
+    currentPage: args.currentPage,
+    pageSize: args.pageSize,
+    onPageChange(page: number) {
+      this.currentPage = page;
+    },
+    onPageSizeChange(size: number) {
+      this.pageSize = size;
+      this.currentPage = 0;
+    },
+  },
+  template: `
+    <uc-pagination
+      [currentPage]="currentPage"
+      [totalItems]="totalItems"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      [showPageInfo]="showPageInfo"
+      [showPageSelector]="showPageSelector"
+      [pageInfoTemplate]="pageInfoTemplate"
+      (pageChange)="onPageChange($event)"
+      (pageSizeChange)="onPageSizeChange($event)"
+    />
+  `,
+});
+
 const meta: Meta<UcPagination> = {
   title: 'Components/Pagination',
   component: UcPagination,
+  render: renderPagination,
   args: {
     currentPage: 0,
     totalItems: 100,

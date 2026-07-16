@@ -94,3 +94,7 @@
   opacity: var(--uc-pagination-page-button-disabled-opacity-resolved);
   cursor: not-allowed;
 }
+
+.uc-pagination-page-button.uc-pagination-page-button--active:disabled {
+  opacity: 1;
+}
