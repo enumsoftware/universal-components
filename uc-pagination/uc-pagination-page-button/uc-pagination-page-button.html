@@ -1,0 +1,18 @@
+<button
+  type="button"
+  class="uc-pagination-page-button"
+  [class.uc-pagination-page-button--primary]="variant() === 'primary'"
+  [class.uc-pagination-page-button--secondary]="variant() === 'secondary'"
+  [class.uc-pagination-page-button--active]="active()"
+  [disabled]="disabled()"
+  [attr.aria-label]="ariaLabel() || label() || null"
+  [attr.title]="ariaLabel() || label() || null"
+  [attr.aria-current]="active() ? 'page' : null"
+  (click)="onClick($event)"
+>
+  @if (phosphorIcon()) {
+    <i class="ph-{{ phosphorWeight() }} ph-{{ phosphorIcon() }} text-2xl"></i>
+  } @else {
+    {{ label() }}
+  }
+</button>

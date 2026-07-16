@@ -4,7 +4,7 @@
 
 <div class="uc-stepper">
   <div class="uc-stepper__header" role="tablist">
-    @for (step of steps.toArray(); track step; let i = $index, last = $last) {
+    @for (step of steps.toArray(); track $index; let i = $index, last = $last) {
       <button
         class="uc-stepper__step-header"
         [class.uc-stepper__step-header--active]="selectedIndex === i"

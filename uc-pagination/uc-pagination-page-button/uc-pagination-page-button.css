@@ -1,0 +1,100 @@
+:host {
+  --uc-pagination-page-button-size-resolved: var(
+    --uc-pagination-page-button-size,
+    calc((var(--uc-icon-button-padding, 0.75rem) * 2) + 1rem)
+  );
+  --uc-pagination-page-button-font-size-resolved: var(--uc-pagination-page-button-font-size, 1rem);
+  --uc-pagination-page-button-font-weight-resolved: var(--uc-pagination-page-button-font-weight, 700);
+  --uc-pagination-page-button-border-radius-resolved: var(
+    --uc-pagination-page-button-border-radius,
+    var(--uc-icon-button-border-radius, 0.75rem)
+  );
+  --uc-pagination-page-button-primary-background-resolved: var(
+    --uc-pagination-page-button-primary-background,
+    var(--primary-color)
+  );
+  --uc-pagination-page-button-primary-color-resolved: var(
+    --uc-pagination-page-button-primary-color,
+    var(--inverse-foreground-color)
+  );
+  --uc-pagination-page-button-primary-hover-background-resolved: var(
+    --uc-pagination-page-button-primary-hover-background,
+    oklch(from var(--uc-pagination-page-button-primary-background-resolved) calc(l - 0.1) c h)
+  );
+  --uc-pagination-page-button-secondary-background-resolved: var(
+    --uc-pagination-page-button-secondary-background,
+    transparent
+  );
+  --uc-pagination-page-button-secondary-color-resolved: var(
+    --uc-pagination-page-button-secondary-color,
+    var(--font-color)
+  );
+  --uc-pagination-page-button-secondary-border-color-resolved: var(
+    --uc-pagination-page-button-secondary-border-color,
+    oklch(from var(--foreground-color) l c h / 0.3)
+  );
+  --uc-pagination-page-button-secondary-hover-background-resolved: var(
+    --uc-pagination-page-button-secondary-hover-background,
+    oklch(from var(--primary-color) l c h / 0.2)
+  );
+  --uc-pagination-page-button-secondary-hover-color-resolved: var(
+    --uc-pagination-page-button-secondary-hover-color,
+    var(--font-color)
+  );
+  --uc-pagination-page-button-disabled-opacity-resolved: var(
+    --uc-pagination-page-button-disabled-opacity,
+    0.6
+  );
+  display: inline-flex;
+}
+
+.uc-pagination-page-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--uc-pagination-page-button-size-resolved);
+  height: var(--uc-pagination-page-button-size-resolved);
+  padding: 0;
+  border-radius: var(--uc-pagination-page-button-border-radius-resolved);
+  border: 1px solid var(--uc-pagination-page-button-secondary-border-color-resolved);
+  background-color: var(--uc-pagination-page-button-secondary-background-resolved);
+  color: var(--uc-pagination-page-button-secondary-color-resolved);
+  font-size: var(--uc-pagination-page-button-font-size-resolved);
+  font-weight: var(--uc-pagination-page-button-font-weight-resolved);
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    color 0.3s,
+    border-color 0.3s;
+}
+
+.uc-pagination-page-button:not(:disabled):hover {
+  background-color: var(--uc-pagination-page-button-secondary-hover-background-resolved);
+  color: var(--uc-pagination-page-button-secondary-hover-color-resolved);
+  border-color: transparent;
+}
+
+.uc-pagination-page-button.uc-pagination-page-button--primary {
+  background-color: var(--uc-pagination-page-button-primary-background-resolved);
+  color: var(--uc-pagination-page-button-primary-color-resolved);
+  border-color: transparent;
+}
+
+.uc-pagination-page-button.uc-pagination-page-button--primary:not(:disabled):hover {
+  background-color: var(--uc-pagination-page-button-primary-hover-background-resolved);
+  color: var(--uc-pagination-page-button-primary-color-resolved);
+}
+
+.uc-pagination-page-button.uc-pagination-page-button--active {
+  border-color: transparent;
+}
+
+.uc-pagination-page-button:disabled {
+  opacity: var(--uc-pagination-page-button-disabled-opacity-resolved);
+  cursor: not-allowed;
+}
+
+.uc-pagination-page-button.uc-pagination-page-button--active:disabled {
+  opacity: 1;
+}
