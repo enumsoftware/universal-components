@@ -1,37 +1,85 @@
 @if (totalItems() > pageSize()) {
   <div class="uc-pagination">
-    <uc-icon-button
+    <uc-pagination-page-button
       class="uc-pagination__btn"
-      [phosphorIcon]="'arrow-left'"
+      [ariaLabel]="'Jump backward by 3 pages'"
+      [phosphorIcon]="'caret-double-left'"
+      [variant]="'secondary'"
+      [disabled]="isFastPreviousDisabled()"
+      (clicked)="fastPreviousPage()"
+    />
+
+    <uc-pagination-page-button
+      class="uc-pagination__btn"
+      [ariaLabel]="'Previous page'"
+      [phosphorIcon]="'caret-left'"
       [variant]="'primary'"
       [disabled]="isPreviousDisabled()"
       (clicked)="previousPage()"
     />
 
     <div class="uc-pagination__indicators">
-      @for (page of createRange(totalPages()); track $index) {
-        <uc-button
+      @for (page of visiblePages(); track page) {
+        <uc-pagination-page-button
           class="uc-pagination__page-btn"
-          [text]="($index + 1).toString()"
-          [variant]="currentPage() === $index ? 'primary' : 'secondary'"
-          [disabled]="currentPage() === $index"
-          (clicked)="goToPage($index)"
-        ></uc-button>
+          [label]="(page + 1).toString()"
+          [variant]="currentPage() === page ? 'primary' : 'secondary'"
+          [active]="currentPage() === page"
+          [disabled]="currentPage() === page"
+          (clicked)="goToPage(page)"
+        />
+      }
+
+      @if (showLastPageShortcut()) {
+        <span class="uc-pagination__ellipsis" aria-hidden="true">...</span>
+        <uc-pagination-page-button
+          class="uc-pagination__page-btn"
+          [label]="(lastPageIndex() + 1).toString()"
+          [variant]="currentPage() === lastPageIndex() ? 'primary' : 'secondary'"
+          [active]="currentPage() === lastPageIndex()"
+          [disabled]="currentPage() === lastPageIndex()"
+          (clicked)="goToPage(lastPageIndex())"
+        />
       }
     </div>
 
-    <uc-icon-button
+    <uc-pagination-page-button
       class="uc-pagination__btn"
-      [phosphorIcon]="'arrow-right'"
+      [ariaLabel]="'Next page'"
+      [phosphorIcon]="'caret-right'"
       [variant]="'primary'"
       [disabled]="isNextDisabled()"
       (clicked)="nextPage()"
     />
+
+    <uc-pagination-page-button
+      class="uc-pagination__btn"
+      [ariaLabel]="'Jump forward by 3 pages'"
+      [phosphorIcon]="'caret-double-right'"
+      [variant]="'secondary'"
+      [disabled]="isFastNextDisabled()"
+      (clicked)="fastNextPage()"
+    />
   </div>
 
-  @if (showPageInfo()) {
-    <div class="uc-pagination__info">
-      Showing page {{ currentPage() + 1 }} of {{ totalPages() }}
+  @if (showPageInfo() || showPageSelector()) {
+    <div
+      class="uc-pagination__meta"
+      [class.uc-pagination__meta--split]="showPageInfo() && showPageSelector()"
+    >
+      @if (showPageInfo()) {
+        <div class="uc-pagination__info">
+          {{ pageInfoText() }}
+        </div>
+      }
+
+      @if (showPageSelector()) {
+        <uc-pagination-page-select
+          [selectedSize]="pageSize()"
+          [sizes]="pageSizeOptions()"
+          (sizeSelected)="onPageSizeSelect($event)"
+        />
+      }
     </div>
   }
 }

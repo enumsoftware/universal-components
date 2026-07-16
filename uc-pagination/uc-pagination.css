@@ -21,6 +21,7 @@
 
   .uc-pagination__indicators {
     display: flex;
+    align-items: center;
     gap: 0.5rem;
   }
 
@@ -28,25 +29,29 @@
     display: inline-flex;
   }
 
-  .uc-pagination__info {
-    text-align: center;
+  .uc-pagination__ellipsis {
     color: var(--uc-pagination-info-color-resolved);
-    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.04em;
   }
 }
 
-/**
- * Deep styles for nested button components
- */
-:host ::ng-deep .uc-pagination__btn .uc-button {
-  padding: 0.75rem 1.25rem;
-  border-radius: 4px;
-  font-size: 0.95rem;
+.uc-pagination__meta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
-:host ::ng-deep .uc-pagination__page-btn .uc-button {
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  justify-content: center;
+.uc-pagination__meta.uc-pagination__meta--split {
+  justify-content: space-between;
+  width: 100%;
+}
+
+.uc-pagination__info {
+  text-align: center;
+  color: var(--uc-pagination-info-color-resolved);
+  font-size: 0.9rem;
 }

@@ -1,0 +1,52 @@
+<div class="uc-pagination-page-select">
+  <label class="uc-pagination-page-select__label" [attr.for]="selectId">Page size</label>
+
+  <button
+    #trigger="cdkOverlayOrigin"
+    cdkOverlayOrigin
+    type="button"
+    class="uc-pagination-page-select__trigger"
+    [attr.id]="selectId"
+    [attr.aria-expanded]="isOpen()"
+    [attr.aria-haspopup]="'listbox'"
+    [attr.aria-controls]="selectId + '-panel'"
+    [attr.aria-label]="'Select page size'"
+    (click)="toggleDropdown()"
+    (keydown)="onTriggerKeydown($event)"
+  >
+    <span class="uc-pagination-page-select__value">{{ selectedSize() }}</span>
+    <i class="uc-pagination-page-select__caret ph ph-caret-down" aria-hidden="true"></i>
+  </button>
+
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="isOpen()"
+    [cdkConnectedOverlayHasBackdrop]="true"
+    [cdkConnectedOverlayBackdropClass]="'uc-pagination-page-select__backdrop'"
+    [cdkConnectedOverlayPanelClass]="'uc-pagination-page-select__overlay-pane'"
+    [cdkConnectedOverlayPositions]="[
+      { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: 4 },
+      { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -4 },
+    ]"
+    (backdropClick)="closeDropdown()"
+  >
+    <div class="uc-pagination-page-select__dropdown" role="listbox" [attr.id]="selectId + '-panel'">
+      @for (size of availableSizes(); track size) {
+        <button
+          type="button"
+          class="uc-pagination-page-select__option"
+          [class.uc-pagination-page-select__option--selected]="selectedSize() === size"
+          [attr.aria-selected]="selectedSize() === size"
+          role="option"
+          (click)="selectSize(size)"
+        >
+          <span class="uc-pagination-page-select__option-label">{{ size }}</span>
+          @if (selectedSize() === size) {
+            <i class="uc-pagination-page-select__option-check ph ph-check" aria-hidden="true"></i>
+          }
+        </button>
+      }
+    </div>
+  </ng-template>
+</div>
