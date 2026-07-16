@@ -260,6 +260,30 @@
 
   /* --- Pagination --- */
   --uc-pagination-info-color: var(--paragraph-text-color);
+  --uc-pagination-page-button-size: calc((var(--uc-icon-button-padding, 0.75rem) * 2) + 1rem);
+  --uc-pagination-page-button-font-size: 1rem;
+  --uc-pagination-page-button-font-weight: 700;
+  --uc-pagination-page-button-border-radius: var(--uc-icon-button-border-radius, 0.75rem);
+  --uc-pagination-page-button-primary-background: var(--primary-color);
+  --uc-pagination-page-button-primary-color: var(--inverse-foreground-color);
+  --uc-pagination-page-button-primary-hover-background: oklch(from var(--uc-pagination-page-button-primary-background) calc(l - 0.1) c h);
+  --uc-pagination-page-button-secondary-background: transparent;
+  --uc-pagination-page-button-secondary-color: var(--font-color);
+  --uc-pagination-page-button-secondary-border-color: oklch(from var(--foreground-color) l c h / 0.3);
+  --uc-pagination-page-button-secondary-hover-background: oklch(from var(--primary-color) l c h / 0.2);
+  --uc-pagination-page-button-secondary-hover-color: var(--font-color);
+  --uc-pagination-page-button-disabled-opacity: 0.6;
+  --uc-pagination-select-surface: var(--uc-input-background-color);
+  --uc-pagination-select-panel-background: var(--uc-pagination-select-surface);
+  --uc-pagination-select-background: var(--uc-pagination-select-surface);
+  --uc-pagination-select-color: var(--font-color);
+  --uc-pagination-select-border-color: var(--uc-input-border-color);
+  --uc-pagination-select-border-radius: 0.75rem;
+  --uc-pagination-select-padding-block: 0.5rem;
+  --uc-pagination-select-padding-inline: 0.75rem;
+  --uc-pagination-select-font-size: 0.95rem;
+  --uc-pagination-select-focus-ring: 0 0 0 2px oklch(from var(--primary-color, #473bf0) l c h / 0.25);
+  --uc-pagination-select-panel-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
   /* --- Pill --- */
   --uc-pill-background: oklch(from var(--primary-color) l c h / 0.15);
