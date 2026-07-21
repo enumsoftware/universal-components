@@ -3,6 +3,8 @@
   --uc-textarea-placeholder-color-resolved: var(--uc-textarea-placeholder-color, oklch(from var(--foreground-color) l c h / 0.35));
   --uc-textarea-border-error-color-resolved: var(--uc-textarea-border-error-color, var(--error-color));
   --uc-textarea-background-error-color-resolved: var(--uc-textarea-background-error-color, oklch(from var(--error-color) l c h / 0.1));
+  --uc-textarea-disabled-background-color-resolved: var(--uc-textarea-disabled-background-color, oklch(from var(--background-color) calc(l * 0.96) c h));
+  --uc-textarea-disabled-color-resolved: var(--uc-textarea-disabled-color, oklch(from var(--foreground-color) l c h / 0.55));
   display: flex;
   flex-grow: 1;
   flex-shrink: 1;
@@ -64,5 +66,11 @@
   &.uc-textarea-error:focus {
     border: 2px solid var(--uc-textarea-border-error-color-resolved);
     outline: 1px solid var(--uc-textarea-border-error-color-resolved);
+  }
+
+  &:disabled {
+    background-color: var(--uc-textarea-disabled-background-color-resolved);
+    color: var(--uc-textarea-disabled-color-resolved);
+    cursor: not-allowed;
   }
 }

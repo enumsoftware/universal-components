@@ -55,6 +55,10 @@
   --uc-input-placeholder-color: oklch(from var(--foreground-color) l c h / 0.35);
   --uc-input-border-error-color: var(--error-color);
   --uc-input-background-error-color: oklch(from var(--error-color) l c h / 0.1);
+  --uc-input-disabled-background-color: oklch(from var(--background-color) calc(l * 1.12) c h);
+  --uc-input-disabled-color: oklch(from var(--foreground-color) l c h / 0.55);
+  --uc-textarea-disabled-background-color: oklch(from var(--background-color) calc(l * 1.12) c h);
+  --uc-textarea-disabled-color: oklch(from var(--foreground-color) l c h / 0.55);
 
   /* --- Checkbox --- */
   --uc-checkbox-background-color: var(--background-color-90);
@@ -97,6 +101,27 @@
   --uc-button-disabled-opacity: 0.6;
   --uc-button-secondary-border-color: oklch(from var(--foreground-color) l c h / 0.3);
   --uc-button-error-background: var(--error-color, #dc3545);
+  --uc-button-small-padding-block: 0.35rem;
+  --uc-button-small-padding-inline: 0.65rem;
+  --uc-button-small-border-radius: 0.25rem;
+  --uc-button-small-font-size: 0.75rem;
+  --uc-button-small-line-height: 1rem;
+  --uc-button-small-font-weight: 500;
+  --uc-button-small-gap: 0.35rem;
+  --uc-button-medium-padding-block: 0.75rem;
+  --uc-button-medium-padding-inline: 2rem;
+  --uc-button-medium-border-radius: 0.75rem;
+  --uc-button-medium-font-size: 1rem;
+  --uc-button-medium-line-height: 1.25rem;
+  --uc-button-medium-font-weight: 700;
+  --uc-button-medium-gap: 1rem;
+  --uc-button-big-padding-block: 0.9rem;
+  --uc-button-big-padding-inline: 2.25rem;
+  --uc-button-big-border-radius: 0.85rem;
+  --uc-button-big-font-size: 1.125rem;
+  --uc-button-big-line-height: 1.5rem;
+  --uc-button-big-font-weight: 700;
+  --uc-button-big-gap: 1rem;
 
   /* --- Card Component --- */
   --uc-card-background: var(--card-background-color);
@@ -313,9 +338,21 @@
   --uc-sidebar-button-active-background: var(--primary-color);
   --uc-sidebar-button-active-color: var(--inverse-foreground-color);
   --uc-sidebar-button-hover-background: oklch(from var(--primary-color) l c h / 0.2);
+  --uc-sidebar-button-border: none;
+  --uc-sidebar-button-active-border: none;
+  --uc-sidebar-button-hover-border: none;
+  --uc-sidebar-button-outline: none;
+  --uc-sidebar-button-focus-outline: 2px solid oklch(from var(--primary-color) l c h / 0.45);
+  --uc-sidebar-button-focus-outline-offset: 2px;
+  --uc-sidebar-button-icon-size: 1.75rem;
+  --uc-sidebar-button-icon-color: currentColor;
   --uc-sidebar-button-padding-block: 0.75rem;
   --uc-sidebar-button-padding-inline: 2rem;
   --uc-sidebar-button-border-radius: 0.75rem;
+
+  /* --- Phosphor Icon --- */
+  --uc-phosphor-icon-size: 1.5rem;
+  --uc-phosphor-icon-color: currentColor;
 
   /* --- Slider --- */
   --uc-slider-track-background: var(--background-color-80);
@@ -337,21 +374,19 @@
   --uc-stepper-indicator-font-size: 0.875rem;
   --uc-stepper-connector-height: 2px;
 
-  /* --- Table Action --- */
-  --uc-table-action-primary-background: var(--background-color-90);
-  --uc-table-action-primary-color: var(--foreground-color);
-  --uc-table-action-primary-hover-background: var(--background-color-80);
-  --uc-table-action-secondary-color: var(--primary-color);
-  --uc-table-action-secondary-hover-background: var(--primary-color);
-  --uc-table-action-secondary-hover-color: var(--inverse-foreground-color);
-
   /* --- Table Pill --- */
-  --uc-table-pill-info-background: var(--background-color-90);
-  --uc-table-pill-info-color: var(--foreground-color);
-  --uc-table-pill-valid-background: oklch(from var(--success-color) l c h / 0.2);
-  --uc-table-pill-valid-color: var(--success-color);
-  --uc-table-pill-error-background: oklch(from var(--error-color) l c h / 0.2);
-  --uc-table-pill-error-color: var(--error-color);
+  --uc-pill-info-background: var(--background-color-90);
+  --uc-pill-info-color: var(--foreground-color);
+  --uc-pill-valid-background: oklch(from var(--success-color) l c h / 0.2);
+  --uc-pill-valid-color: var(--success-color);
+  --uc-pill-error-background: oklch(from var(--error-color) l c h / 0.2);
+  --uc-pill-error-color: var(--error-color);
+  --uc-table-pill-info-background: var(--uc-pill-info-background);
+  --uc-table-pill-info-color: var(--uc-pill-info-color);
+  --uc-table-pill-valid-background: var(--uc-pill-valid-background);
+  --uc-table-pill-valid-color: var(--uc-pill-valid-color);
+  --uc-table-pill-error-background: var(--uc-pill-error-background);
+  --uc-table-pill-error-color: var(--uc-pill-error-color);
 
   /* --- Tabs --- */
   --uc-tabs-border-color: var(--background-color-90);

@@ -26,6 +26,7 @@ import {
 export class UcTextarea implements FormValueControl<string | null> {
   readonly id = input.required<string>();
   readonly label = input<string>('');
+  readonly hideLabel = input<boolean>(false);
   readonly placeholder = input<string>('');
   readonly rows = input<number>(5);
   readonly autocomplete = input<string>('off');

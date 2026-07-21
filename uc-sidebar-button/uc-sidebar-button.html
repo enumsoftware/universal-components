@@ -4,8 +4,6 @@
   [class.active]="active()"
   (click)="onClick($event)"
 >
-  @if(phosphorIcon()) {
-  <i class="ph ph-{{ phosphorIcon() }} text-3xl"></i>
-  }
+  <ng-content />
   <span> {{ text() }} </span>
 </button>

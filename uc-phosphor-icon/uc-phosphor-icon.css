@@ -1,0 +1,15 @@
+:host {
+  --uc-phosphor-icon-size-resolved: var(--uc-phosphor-icon-size, 1.5rem);
+  --uc-phosphor-icon-color-resolved: var(--uc-phosphor-icon-color, currentColor);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.uc-phosphor-icon {
+  display: inline-block;
+  font-size: var(--uc-phosphor-icon-size-resolved);
+  color: var(--uc-phosphor-icon-color-resolved);
+  line-height: 1;
+}

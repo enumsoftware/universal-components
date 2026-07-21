@@ -21,4 +21,16 @@ describe('UcButton', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should default to medium size', () => {
+    expect(component.size()).toBe('medium');
+  });
+
+  it('should apply small size class', () => {
+    fixture.componentRef.setInput('size', 'small');
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('button');
+    expect(button.classList.contains('uc-size-small')).toBe(true);
+  });
 });

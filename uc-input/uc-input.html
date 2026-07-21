@@ -1,5 +1,5 @@
 <div class="uc-input">
-  @if (label()) {
+  @if (label() && !hideLabel()) {
     <label class="uc-input-label" [for]="id()">{{ label() }}</label>
   }
 
@@ -16,6 +16,7 @@
       [attr.autocomplete]="autocomplete() || undefined"
       [placeholder]="placeholder()"
       (blur)="touched.set(true)"
+      [disabled]="disabled()"
       [readonly]="readonly()"
     />
 

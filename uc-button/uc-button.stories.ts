@@ -1,5 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { UcButton, BUTTON_ALIGN_OPTIONS, BUTTON_TYPE_OPTIONS, BUTTON_VARIANT_OPTIONS } from './uc-button';
+import {
+  UcButton,
+  BUTTON_ALIGN_OPTIONS,
+  BUTTON_SIZE_OPTIONS,
+  BUTTON_TYPE_OPTIONS,
+  BUTTON_VARIANT_OPTIONS,
+} from './uc-button';
 
 const meta: Meta<UcButton> = {
   title: 'Components/Button',
@@ -7,6 +13,7 @@ const meta: Meta<UcButton> = {
   args: {
     text: 'Click Me',
     variant: 'primary',
+    size: 'medium',
     align: 'center',
     disabled: false,
     type: 'button',
@@ -15,6 +22,10 @@ const meta: Meta<UcButton> = {
     variant: {
       control: { type: 'select' },
       options: BUTTON_VARIANT_OPTIONS,
+    },
+    size: {
+      control: { type: 'select' },
+      options: BUTTON_SIZE_OPTIONS,
     },
     align: {
       control: { type: 'select' },
@@ -31,6 +42,20 @@ export default meta;
 type Story = StoryObj<UcButton>;
 
 export const Primary: Story = {};
+
+export const Small: Story = {
+  args: {
+    size: 'small',
+    text: 'Compact',
+  },
+};
+
+export const Big: Story = {
+  args: {
+    size: 'big',
+    text: 'Larger Action',
+  },
+};
 
 export const Secondary: Story = {
   args: {
@@ -84,6 +109,38 @@ export const WithPrefixAndSuffixIcons: Story = {
       <uc-button [text]="text" [variant]="variant" [align]="align" [disabled]="disabled" [type]="type">
         <i ucButtonPrefix class="ph-bold ph-chat-circle"></i>
         <i ucButtonSuffix class="ph-bold ph-paper-plane-tilt"></i>
+      </uc-button>
+    `,
+  }),
+};
+
+export const TableActionPrimaryEquivalent: Story = {
+  args: {
+    text: 'Edit',
+    variant: 'primary',
+    size: 'small',
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <uc-button [text]="text" [variant]="variant" [size]="size" [align]="align" [disabled]="disabled" [type]="type">
+        <i ucButtonPrefix class="ph-bold ph-pencil"></i>
+      </uc-button>
+    `,
+  }),
+};
+
+export const TableActionSecondaryEquivalent: Story = {
+  args: {
+    text: 'View',
+    variant: 'secondary',
+    size: 'small',
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <uc-button [text]="text" [variant]="variant" [size]="size" [align]="align" [disabled]="disabled" [type]="type">
+        <i ucButtonPrefix class="ph-bold ph-eye"></i>
       </uc-button>
     `,
   }),

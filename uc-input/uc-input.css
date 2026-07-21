@@ -3,6 +3,8 @@
   --uc-input-placeholder-color-resolved: var(--uc-input-placeholder-color, oklch(from var(--foreground-color) l c h / 0.35));
   --uc-input-border-error-color-resolved: var(--uc-input-border-error-color, var(--error-color));
   --uc-input-background-error-color-resolved: var(--uc-input-background-error-color, oklch(from var(--error-color) l c h / 0.1));
+  --uc-input-disabled-background-color-resolved: var(--uc-input-disabled-background-color, oklch(from var(--background-color) calc(l * 0.96) c h));
+  --uc-input-disabled-color-resolved: var(--uc-input-disabled-color, oklch(from var(--foreground-color) l c h / 0.55));
   display: flex;
   flex-grow: 1;
   flex-shrink: 1;
@@ -110,5 +112,11 @@
 
   &.uc-input-control--has-suffix {
     padding-right: 2.75rem;
+  }
+
+  &:disabled {
+    background-color: var(--uc-input-disabled-background-color-resolved);
+    color: var(--uc-input-disabled-color-resolved);
+    cursor: not-allowed;
   }
 }

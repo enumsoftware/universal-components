@@ -1,5 +1,25 @@
 @if (href()) {
-  <a class="uc-pill uc-pill--link" [href]="href()" target="_blank" rel="noopener noreferrer">{{ text() }}</a>
+  <a
+    class="uc-pill uc-pill--link"
+    [class.uc-pill--info]="variant() === 'info'"
+    [class.uc-pill--valid]="variant() === 'valid'"
+    [class.uc-pill--error]="variant() === 'error'"
+    [class.uc-pill--compact]="size() === 'compact'"
+    [href]="href()"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <ng-content>{{ text() }}</ng-content>
+  </a>
 } @else {
-  <div class="uc-pill" (click)="pillClick.emit()">{{ text() }}</div>
+  <div
+    class="uc-pill"
+    [class.uc-pill--info]="variant() === 'info'"
+    [class.uc-pill--valid]="variant() === 'valid'"
+    [class.uc-pill--error]="variant() === 'error'"
+    [class.uc-pill--compact]="size() === 'compact'"
+    (click)="pillClick.emit()"
+  >
+    <ng-content>{{ text() }}</ng-content>
+  </div>
 }

@@ -4,6 +4,14 @@
   --uc-sidebar-button-active-background-resolved: var(--uc-sidebar-button-active-background, var(--primary-color));
   --uc-sidebar-button-active-color-resolved: var(--uc-sidebar-button-active-color, var(--inverse-foreground-color));
   --uc-sidebar-button-hover-background-resolved: var(--uc-sidebar-button-hover-background, oklch(from var(--primary-color) l c h / 0.2));
+  --uc-sidebar-button-border-resolved: var(--uc-sidebar-button-border, none);
+  --uc-sidebar-button-active-border-resolved: var(--uc-sidebar-button-active-border, var(--uc-sidebar-button-border-resolved));
+  --uc-sidebar-button-hover-border-resolved: var(--uc-sidebar-button-hover-border, var(--uc-sidebar-button-border-resolved));
+  --uc-sidebar-button-outline-resolved: var(--uc-sidebar-button-outline, none);
+  --uc-sidebar-button-focus-outline-resolved: var(--uc-sidebar-button-focus-outline, none);
+  --uc-sidebar-button-focus-outline-offset-resolved: var(--uc-sidebar-button-focus-outline-offset, 0);
+  --uc-sidebar-button-icon-size-resolved: var(--uc-sidebar-button-icon-size, 1.75rem);
+  --uc-sidebar-button-icon-color-resolved: var(--uc-sidebar-button-icon-color, currentColor);
   --uc-sidebar-button-padding-block-resolved: var(--uc-sidebar-button-padding-block, 0.75rem);
   --uc-sidebar-button-padding-inline-resolved: var(--uc-sidebar-button-padding-inline, 2rem);
   --uc-sidebar-button-border-radius-resolved: var(--uc-sidebar-button-border-radius, 0.75rem);
@@ -12,6 +20,10 @@
 
 .uc-button {
   display: flex;
+  appearance: none;
+  border: var(--uc-sidebar-button-border-resolved);
+  outline: var(--uc-sidebar-button-outline-resolved);
+  box-shadow: none;
 }
 
 .inactive {
@@ -39,6 +51,7 @@
   transition: background 0.3s;
   background-color: var(--uc-sidebar-button-active-background-resolved);
   color: var(--uc-sidebar-button-active-color-resolved);
+  border: var(--uc-sidebar-button-active-border-resolved);
   padding-block: var(--uc-sidebar-button-padding-block-resolved);
   padding-inline: var(--uc-sidebar-button-padding-inline-resolved);
   border-radius: var(--uc-sidebar-button-border-radius-resolved);
@@ -46,5 +59,17 @@
 
 .uc-button:hover:not(.active) {
   background-color: var(--uc-sidebar-button-hover-background-resolved);
+  border: var(--uc-sidebar-button-hover-border-resolved);
   color: var(--uc-sidebar-button-color-resolved);
+}
+
+.uc-button:focus-visible {
+  outline: var(--uc-sidebar-button-focus-outline-resolved);
+  outline-offset: var(--uc-sidebar-button-focus-outline-offset-resolved);
+}
+
+.uc-button :where(uc-phosphor-icon, i, svg, img) {
+  font-size: var(--uc-sidebar-button-icon-size-resolved);
+  color: var(--uc-sidebar-button-icon-color-resolved);
+  flex-shrink: 0;
 }

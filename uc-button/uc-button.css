@@ -1,10 +1,30 @@
 :host {
   --uc-button-background-resolved: var(--uc-button-background, var(--primary-color));
   --uc-button-color-resolved: var(--uc-button-color, var(--inverse-foreground-color));
-  --uc-button-padding-block-resolved: var(--uc-button-padding-block, 0.75rem);
-  --uc-button-padding-inline-resolved: var(--uc-button-padding-inline, 2rem);
-  --uc-button-border-radius-resolved: var(--uc-button-border-radius, 0.75rem);
-  --uc-button-font-weight-resolved: var(--uc-button-font-weight, 700);
+  --uc-button-small-padding-block-resolved: var(--uc-button-small-padding-block, 0.35rem);
+  --uc-button-small-padding-inline-resolved: var(--uc-button-small-padding-inline, 0.65rem);
+  --uc-button-small-border-radius-resolved: var(--uc-button-small-border-radius, 0.25rem);
+  --uc-button-small-font-size-resolved: var(--uc-button-small-font-size, 0.75rem);
+  --uc-button-small-line-height-resolved: var(--uc-button-small-line-height, 1rem);
+  --uc-button-small-font-weight-resolved: var(--uc-button-small-font-weight, 500);
+  --uc-button-small-gap-resolved: var(--uc-button-small-gap, 0.35rem);
+
+  --uc-button-medium-padding-block-resolved: var(--uc-button-medium-padding-block, var(--uc-button-padding-block, 0.75rem));
+  --uc-button-medium-padding-inline-resolved: var(--uc-button-medium-padding-inline, var(--uc-button-padding-inline, 2rem));
+  --uc-button-medium-border-radius-resolved: var(--uc-button-medium-border-radius, var(--uc-button-border-radius, 0.75rem));
+  --uc-button-medium-font-size-resolved: var(--uc-button-medium-font-size, 1rem);
+  --uc-button-medium-line-height-resolved: var(--uc-button-medium-line-height, 1.25rem);
+  --uc-button-medium-font-weight-resolved: var(--uc-button-medium-font-weight, var(--uc-button-font-weight, 700));
+  --uc-button-medium-gap-resolved: var(--uc-button-medium-gap, 1rem);
+
+  --uc-button-big-padding-block-resolved: var(--uc-button-big-padding-block, 0.9rem);
+  --uc-button-big-padding-inline-resolved: var(--uc-button-big-padding-inline, 2.25rem);
+  --uc-button-big-border-radius-resolved: var(--uc-button-big-border-radius, 0.85rem);
+  --uc-button-big-font-size-resolved: var(--uc-button-big-font-size, 1.125rem);
+  --uc-button-big-line-height-resolved: var(--uc-button-big-line-height, 1.5rem);
+  --uc-button-big-font-weight-resolved: var(--uc-button-big-font-weight, 700);
+  --uc-button-big-gap-resolved: var(--uc-button-big-gap, 1rem);
+
   --uc-button-disabled-opacity-resolved: var(--uc-button-disabled-opacity, 0.6);
   --uc-button-secondary-border-color-resolved: var(
     --uc-button-secondary-border-color,
@@ -16,20 +36,52 @@
 .uc-button {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--uc-button-medium-gap-resolved);
   width: 100%;
   cursor: pointer;
-  font-weight: var(--uc-button-font-weight-resolved);
+  font-weight: var(--uc-button-medium-font-weight-resolved);
+  font-size: var(--uc-button-medium-font-size-resolved);
+  line-height: var(--uc-button-medium-line-height-resolved);
   transition:
     background 0.3s,
     border 0.3s,
     color 0.3s;
   background-color: var(--uc-button-background-resolved);
   color: var(--uc-button-color-resolved);
-  padding-block: var(--uc-button-padding-block-resolved);
-  padding-inline: var(--uc-button-padding-inline-resolved);
-  border-radius: var(--uc-button-border-radius-resolved);
+  padding-block: var(--uc-button-medium-padding-block-resolved);
+  padding-inline: var(--uc-button-medium-padding-inline-resolved);
+  border-radius: var(--uc-button-medium-border-radius-resolved);
   border: 0px solid transparent;
+}
+
+.uc-button.uc-size-small {
+  gap: var(--uc-button-small-gap-resolved);
+  font-weight: var(--uc-button-small-font-weight-resolved);
+  font-size: var(--uc-button-small-font-size-resolved);
+  line-height: var(--uc-button-small-line-height-resolved);
+  padding-block: var(--uc-button-small-padding-block-resolved);
+  padding-inline: var(--uc-button-small-padding-inline-resolved);
+  border-radius: var(--uc-button-small-border-radius-resolved);
+}
+
+.uc-button.uc-size-medium {
+  gap: var(--uc-button-medium-gap-resolved);
+  font-weight: var(--uc-button-medium-font-weight-resolved);
+  font-size: var(--uc-button-medium-font-size-resolved);
+  line-height: var(--uc-button-medium-line-height-resolved);
+  padding-block: var(--uc-button-medium-padding-block-resolved);
+  padding-inline: var(--uc-button-medium-padding-inline-resolved);
+  border-radius: var(--uc-button-medium-border-radius-resolved);
+}
+
+.uc-button.uc-size-big {
+  gap: var(--uc-button-big-gap-resolved);
+  font-weight: var(--uc-button-big-font-weight-resolved);
+  font-size: var(--uc-button-big-font-size-resolved);
+  line-height: var(--uc-button-big-line-height-resolved);
+  padding-block: var(--uc-button-big-padding-block-resolved);
+  padding-inline: var(--uc-button-big-padding-inline-resolved);
+  border-radius: var(--uc-button-big-border-radius-resolved);
 }
 
 .uc-button.uc-secondary {

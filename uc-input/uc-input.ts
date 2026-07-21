@@ -34,6 +34,7 @@ export class UcInputSuffix {}
 export class UcInput implements FormValueControl<string | number | null> {
   readonly id = input.required<string>();
   readonly label = input<string>('');
+  readonly hideLabel = input<boolean>(false);
   readonly placeholder = input<string>('');
   readonly type = input<UcInputType>('text');
   readonly autocomplete = input<string>('off');

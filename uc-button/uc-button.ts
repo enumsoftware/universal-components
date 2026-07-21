@@ -9,6 +9,9 @@ export type ButtonAlign = (typeof BUTTON_ALIGN_OPTIONS)[number];
 export const BUTTON_TYPE_OPTIONS = ['button', 'submit', 'reset'] as const;
 export type ButtonType = (typeof BUTTON_TYPE_OPTIONS)[number];
 
+export const BUTTON_SIZE_OPTIONS = ['small', 'medium', 'big'] as const;
+export type ButtonSize = (typeof BUTTON_SIZE_OPTIONS)[number];
+
 @Component({
   selector: 'uc-button',
   templateUrl: './uc-button.html',
@@ -18,6 +21,7 @@ export type ButtonType = (typeof BUTTON_TYPE_OPTIONS)[number];
 export class UcButton {
   text = model.required();
   variant = input<ButtonVariant>('primary');
+  size = input<ButtonSize>('medium');
   align = input<ButtonAlign>('center');
   disabled = input<boolean>(false);
   clicked = output<void>();

@@ -21,4 +21,28 @@ describe('UcPill', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should apply valid variant class', () => {
+    fixture.componentRef.setInput('variant', 'valid');
+    fixture.detectChanges();
+
+    const pill = fixture.nativeElement.querySelector('.uc-pill');
+    expect(pill.classList.contains('uc-pill--valid')).toBe(true);
+  });
+
+  it('should apply error variant class', () => {
+    fixture.componentRef.setInput('variant', 'error');
+    fixture.detectChanges();
+
+    const pill = fixture.nativeElement.querySelector('.uc-pill');
+    expect(pill.classList.contains('uc-pill--error')).toBe(true);
+  });
+
+  it('should apply compact size class', () => {
+    fixture.componentRef.setInput('size', 'compact');
+    fixture.detectChanges();
+
+    const pill = fixture.nativeElement.querySelector('.uc-pill');
+    expect(pill.classList.contains('uc-pill--compact')).toBe(true);
+  });
 });

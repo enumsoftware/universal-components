@@ -7,6 +7,7 @@ const meta: Meta<UcTextarea> = {
   args: {
     id: 'textarea-1',
     label: 'Description',
+    hideLabel: false,
     placeholder: 'Enter a description...',
     rows: 5,
     disabled: false,
@@ -19,6 +20,12 @@ export default meta;
 type Story = StoryObj<UcTextarea>;
 
 export const Default: Story = {};
+
+export const HiddenLabel: Story = {
+  args: {
+    hideLabel: true,
+  },
+};
 
 export const Disabled: Story = {
   args: {

@@ -3,13 +3,52 @@
   --uc-pill-color-resolved: var(--uc-pill-color, var(--primary-color));
   --uc-pill-border-radius-resolved: var(--uc-pill-border-radius, 100px);
   --uc-pill-padding-resolved: var(--uc-pill-padding, 0.5rem 2rem);
+  --uc-pill-font-size-resolved: var(--uc-pill-font-size, inherit);
+  --uc-pill-line-height-resolved: var(--uc-pill-line-height, inherit);
+
+  --uc-pill-info-background-resolved: var(--uc-pill-info-background, var(--uc-table-pill-info-background, var(--background-color-90)));
+  --uc-pill-info-color-resolved: var(--uc-pill-info-color, var(--uc-table-pill-info-color, var(--foreground-color)));
+  --uc-pill-valid-background-resolved: var(--uc-pill-valid-background, var(--uc-table-pill-valid-background, oklch(from var(--success-color) l c h / 0.2)));
+  --uc-pill-valid-color-resolved: var(--uc-pill-valid-color, var(--uc-table-pill-valid-color, var(--success-color)));
+  --uc-pill-error-background-resolved: var(--uc-pill-error-background, var(--uc-table-pill-error-background, oklch(from var(--error-color) l c h / 0.2)));
+  --uc-pill-error-color-resolved: var(--uc-pill-error-color, var(--uc-table-pill-error-color, var(--error-color)));
+
+  --uc-pill-compact-padding-resolved: var(--uc-pill-compact-padding, 0.25rem 0.5rem);
+  --uc-pill-compact-border-radius-resolved: var(--uc-pill-compact-border-radius, 0.25rem);
+  --uc-pill-compact-font-size-resolved: var(--uc-pill-compact-font-size, 0.75rem);
+  --uc-pill-compact-line-height-resolved: var(--uc-pill-compact-line-height, 1rem);
 }
 
 .uc-pill {
+  display: inline-block;
   background-color: var(--uc-pill-background-resolved);
   color: var(--uc-pill-color-resolved);
   border-radius: var(--uc-pill-border-radius-resolved);
   padding: var(--uc-pill-padding-resolved);
+  font-size: var(--uc-pill-font-size-resolved);
+  line-height: var(--uc-pill-line-height-resolved);
+}
+
+.uc-pill--info {
+  background-color: var(--uc-pill-info-background-resolved);
+  color: var(--uc-pill-info-color-resolved);
+}
+
+.uc-pill--valid {
+  background-color: var(--uc-pill-valid-background-resolved);
+  color: var(--uc-pill-valid-color-resolved);
+}
+
+.uc-pill--error {
+  background-color: var(--uc-pill-error-background-resolved);
+  color: var(--uc-pill-error-color-resolved);
+}
+
+.uc-pill--compact {
+  padding: var(--uc-pill-compact-padding-resolved);
+  border-radius: var(--uc-pill-compact-border-radius-resolved);
+  font-size: var(--uc-pill-compact-font-size-resolved);
+  line-height: var(--uc-pill-compact-line-height-resolved);
 }
 
 .uc-pill--link {

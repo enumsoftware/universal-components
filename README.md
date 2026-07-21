@@ -31,7 +31,8 @@ import { UcButton } from '@enumsoftware/universal-components/uc-button/uc-button
 
 - Phosphor icons are the default icon set.
 - The package loads Phosphor styles from [themes/theme.css](themes/theme.css), matching usage in the dynamic-qr-code app.
-- Use icon names with the `phosphorIcon` input, for example `trash`, `x`, or `arrow-right`.
+- Use the [uc-phosphor-icon/uc-phosphor-icon.ts](uc-phosphor-icon/uc-phosphor-icon.ts) component to render Phosphor icons (for example `trash`, `x`, or `arrow-right`).
+- The [uc-sidebar-button/uc-sidebar-button.ts](uc-sidebar-button/uc-sidebar-button.ts) component now uses content projection for icons, so any icon element or component can be inserted.
 
 ## Storybook
 

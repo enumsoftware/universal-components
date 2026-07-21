@@ -1,5 +1,5 @@
 <div class="uc-textarea">
-  @if (label()) {
+  @if (label() && !hideLabel()) {
     <label class="uc-textarea-label" [for]="id()">{{ label() }}</label>
   }
 
@@ -14,6 +14,7 @@
     [placeholder]="placeholder()"
     [rows]="rows()"
     (blur)="touched.set(true)"
+    [disabled]="disabled()"
     [readonly]="readonly()"
   ></textarea>
 

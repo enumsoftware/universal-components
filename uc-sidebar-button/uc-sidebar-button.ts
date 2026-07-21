@@ -13,7 +13,6 @@ export class UcSidebarButton {
   text = model.required<string>();
   active = model.required<boolean>();
   style = input<SidebarButtonStyle>('primary');
-  phosphorIcon = input<string | undefined>(undefined);
   clicked = output<void>();
 
   onClick(event: MouseEvent) {

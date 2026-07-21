@@ -7,6 +7,7 @@ const meta: Meta<UcInput> = {
   args: {
     id: 'input-1',
     label: 'Email address',
+    hideLabel: false,
     placeholder: 'Enter your email',
     type: 'text',
     disabled: false,
@@ -20,6 +21,7 @@ const meta: Meta<UcInput> = {
         <uc-input 
           [id]="id" 
           [label]="label" 
+          [hideLabel]="hideLabel"
           [placeholder]="placeholder" 
           [type]="type" 
           [disabled]="disabled" 
@@ -38,6 +40,12 @@ export default meta;
 type Story = StoryObj<UcInput>;
 
 export const Default: Story = {};
+
+export const HiddenLabel: Story = {
+  args: {
+    hideLabel: true,
+  },
+};
 
 export const Password: Story = {
   args: {
