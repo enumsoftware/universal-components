@@ -4,6 +4,7 @@
   "description": "Reusable Angular standalone UI components for Enum Software apps",
   "scripts": {
     "build": "ng build universal-components",
+    "prepare": "npm run build",
     "pack:dist": "npm run build ; npm pack",
     "storybook": "ng run storybook:storybook",
     "storybook:build": "ng run storybook:build-storybook",
