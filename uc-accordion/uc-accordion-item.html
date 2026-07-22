@@ -1,5 +1,12 @@
 <div class="accordion-item">
-  <div class="accordion-header" (click)="toggleOpen()" [attr.aria-expanded]="isOpen()">
+  <button
+    class="accordion-header"
+    type="button"
+    (click)="toggleOpen()"
+    [attr.aria-expanded]="isOpen()"
+    [attr.aria-controls]="panelId"
+    [attr.id]="triggerId"
+  >
     <div class="accordion-header-content">
       @if (headerTemplate()) {
         <ng-container *ngTemplateOutlet="headerTemplate()"></ng-container>
@@ -20,8 +27,14 @@
         <polyline points="6 9 12 15 18 9"></polyline>
       </svg>
     </div>
-  </div>
-  <div class="accordion-content" [class.open]="isOpen()">
+  </button>
+  <div
+    class="accordion-content"
+    [class.open]="isOpen()"
+    [attr.id]="panelId"
+    role="region"
+    [attr.aria-labelledby]="triggerId"
+  >
     <div class="accordion-content-inner">
       @if (contentTemplate()) {
         <ng-container *ngTemplateOutlet="contentTemplate()"></ng-container>

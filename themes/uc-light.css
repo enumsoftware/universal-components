@@ -66,19 +66,19 @@
   --uc-checkbox-selected-color: var(--secondary-color);
 
   /* --- Accordion --- */
-  --uc-accordion-border: transparent;
+  --uc-accordion-border: oklch(from var(--primary-color) l c h / 0.2);
   --uc-accordion-border-radius: 0.375rem;
   --uc-accordion-padding: 1rem;
-  --uc-accordion-header-background: var(--background-color-90);
-  --uc-accordion-header-hover-background: var(--background-color-80);
+  --uc-accordion-header-background: oklch(from var(--primary-color) l c h / 0.1);
+  --uc-accordion-header-hover-background: oklch(from var(--primary-color) l c h / 0.18);
   --uc-accordion-header-focus-outline-color: var(--primary-color);
   --uc-accordion-title-font-size: 1rem;
   --uc-accordion-title-font-weight: 500;
   --uc-accordion-title-color: var(--foreground-color);
-  --uc-accordion-icon-color: var(--foreground-color);
+  --uc-accordion-icon-color: var(--primary-color);
   --uc-accordion-icon-hover-color: var(--primary-color);
   --uc-accordion-content-padding: 1rem;
-  --uc-accordion-content-background: var(--background-color);
+  --uc-accordion-content-background: oklch(from var(--primary-color) l c h / 0.04);
   --uc-accordion-content-color: var(--paragraph-text-color);
   --uc-accordion-content-font-size: 0.875rem;
   --uc-accordion-content-line-height: 1.5;

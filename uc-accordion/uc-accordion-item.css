@@ -1,17 +1,17 @@
 :host {
-  --uc-accordion-border-resolved: var(--uc-accordion-border, transparent);
+  --uc-accordion-border-resolved: var(--uc-accordion-border, oklch(from var(--foreground-color) l c h / 0.1));
   --uc-accordion-border-radius-resolved: var(--uc-accordion-border-radius, 0.375rem);
   --uc-accordion-padding-resolved: var(--uc-accordion-padding, 1rem);
-  --uc-accordion-header-background-resolved: var(--uc-accordion-header-background, var(--background-color-90));
-  --uc-accordion-header-hover-background-resolved: var(--uc-accordion-header-hover-background, var(--background-color-80));
+  --uc-accordion-header-background-resolved: var(--uc-accordion-header-background, oklch(from var(--primary-color) l c h / 0.09));
+  --uc-accordion-header-hover-background-resolved: var(--uc-accordion-header-hover-background, oklch(from var(--primary-color) l c h / 0.16));
   --uc-accordion-header-focus-outline-color-resolved: var(--uc-accordion-header-focus-outline-color, var(--primary-color));
   --uc-accordion-title-font-size-resolved: var(--uc-accordion-title-font-size, 1rem);
   --uc-accordion-title-font-weight-resolved: var(--uc-accordion-title-font-weight, 500);
   --uc-accordion-title-color-resolved: var(--uc-accordion-title-color, var(--foreground-color));
-  --uc-accordion-icon-color-resolved: var(--uc-accordion-icon-color, var(--foreground-color));
+  --uc-accordion-icon-color-resolved: var(--uc-accordion-icon-color, oklch(from var(--primary-color) l c h / 0.9));
   --uc-accordion-icon-hover-color-resolved: var(--uc-accordion-icon-hover-color, var(--primary-color));
   --uc-accordion-content-padding-resolved: var(--uc-accordion-content-padding, 1rem);
-  --uc-accordion-content-background-resolved: var(--uc-accordion-content-background, var(--background-color));
+  --uc-accordion-content-background-resolved: var(--uc-accordion-content-background, oklch(from var(--background-color) l c h / 0.92));
   --uc-accordion-content-color-resolved: var(--uc-accordion-content-color, var(--paragraph-text-color));
   --uc-accordion-content-font-size-resolved: var(--uc-accordion-content-font-size, 0.875rem);
   --uc-accordion-content-line-height-resolved: var(--uc-accordion-content-line-height, 1.5);
@@ -20,25 +20,43 @@
 .accordion-item {
   border: var(--uc-accordion-border-resolved);
   border-radius: var(--uc-accordion-border-radius-resolved);
+  background-color: var(--uc-accordion-content-background-resolved);
   overflow: hidden;
 }
 
 .accordion-header {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: var(--uc-accordion-padding-resolved);
   cursor: pointer;
+  border: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
   background-color: var(--uc-accordion-header-background-resolved);
   transition: background-color 200ms ease-in-out;
 
   &:hover {
     background-color: var(--uc-accordion-header-hover-background-resolved);
+
+    .accordion-icon {
+      color: var(--uc-accordion-icon-hover-color-resolved);
+    }
   }
 
   &:focus-visible {
     outline: 2px solid var(--uc-accordion-header-focus-outline-color-resolved);
     outline-offset: -2px;
+  }
+
+  &[aria-expanded='true'] {
+    background-color: var(--uc-accordion-header-hover-background-resolved);
+
+    .accordion-title {
+      color: var(--uc-accordion-icon-hover-color-resolved);
+    }
   }
 }
 
