@@ -1,9 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+import { UcButton } from '../uc-button/uc-button';
 import { UcTooltip } from './uc-tooltip';
 
 const meta: Meta<UcTooltip> = {
   title: 'Components/Tooltip',
   component: UcTooltip,
+  decorators: [
+    moduleMetadata({
+      imports: [UcButton],
+    }),
+  ],
   args: {
     ucTooltip: 'This is a helpful tooltip',
   },
@@ -11,9 +18,7 @@ const meta: Meta<UcTooltip> = {
     props: args,
     template: `
       <div style="padding: 80px; display: flex; justify-content: center;">
-        <button [ucTooltip]="ucTooltip" style="padding: 8px 16px; cursor: pointer;">
-          Hover over me
-        </button>
+        <uc-button [ucTooltip]="ucTooltip" [text]="'Hover over me'" style="cursor: pointer;"></uc-button>
       </div>
     `,
   }),
