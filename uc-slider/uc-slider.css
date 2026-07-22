@@ -51,11 +51,21 @@
     background: var(--uc-slider-thumb-background-resolved);
     border-radius: 50%;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transform: scale(1);
+    transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
+  }
 
-    &:hover {
-      background: var(--uc-slider-thumb-background-resolved);
-    }
+  &:hover::-webkit-slider-thumb {
+    transform: scale(1.35);
+    background: oklch(from var(--uc-slider-thumb-background-resolved) calc(l * 1.12) c h);
+    box-shadow: 0 0 0 0.3rem oklch(from var(--uc-slider-thumb-background-resolved) l c h / 0.2);
+  }
+
+  &:active::-webkit-slider-thumb {
+    transform: scale(1.45);
+    background: oklch(from var(--uc-slider-thumb-background-resolved) calc(l * 0.82) c h);
+    box-shadow: 0 0 0 0.4rem oklch(from var(--uc-slider-thumb-background-resolved) l c h / 0.35);
+    cursor: grabbing;
   }
 
   &::-moz-range-thumb {
@@ -65,11 +75,21 @@
     border-radius: 50%;
     cursor: pointer;
     border: none;
-    transition: background 0.2s ease;
+    transform: scale(1);
+    transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
+  }
 
-    &:hover {
-      background: var(--uc-slider-thumb-background-resolved);
-    }
+  &:hover::-moz-range-thumb {
+    transform: scale(1.35);
+    background: oklch(from var(--uc-slider-thumb-background-resolved) calc(l * 1.12) c h);
+    box-shadow: 0 0 0 0.3rem oklch(from var(--uc-slider-thumb-background-resolved) l c h / 0.2);
+  }
+
+  &:active::-moz-range-thumb {
+    transform: scale(1.45);
+    background: oklch(from var(--uc-slider-thumb-background-resolved) calc(l * 0.82) c h);
+    box-shadow: 0 0 0 0.4rem oklch(from var(--uc-slider-thumb-background-resolved) l c h / 0.35);
+    cursor: grabbing;
   }
 
   &:disabled {

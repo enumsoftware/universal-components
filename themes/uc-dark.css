@@ -40,9 +40,26 @@
   --sidebar-background-color: oklch(from #161c2d calc(l * 0.8) c h);
 
   /* --- App Semantic Defaults --- */
-  --table-header-background: var(--background-color);
+  --table-header-background: transparent;
   --table-background: var(--background-color);
   --table-text: var(--foreground-color);
+  --uc-content-heading-color: var(--foreground-color);
+  --uc-content-body-color: var(--font-color);
+  --uc-content-muted-color: var(--paragraph-text-color);
+  --uc-content-link-color: var(--primary-color);
+  --uc-content-link-hover-color: #95e1d3;
+  --uc-content-code-background: oklch(from #ffffff l c h / 0.08);
+  --uc-content-code-color: var(--foreground-color);
+  --uc-content-pre-background: oklch(from #000000 l c h / 0.22);
+  --uc-content-pre-border-color: oklch(from #ffffff l c h / 0.12);
+  --uc-content-blockquote-background: oklch(from var(--primary-color) l c h / 0.12);
+  --uc-content-blockquote-border-color: oklch(from var(--primary-color) l c h / 0.32);
+  --uc-content-mark-background: oklch(from var(--warning-color) l c h / 0.28);
+  --uc-content-mark-color: var(--foreground-color);
+  --uc-content-hr-color: oklch(from #ffffff l c h / 0.12);
+  --uc-table-border-color: oklch(from #ffffff l c h / 0.12);
+  --uc-table-row-hover-background: oklch(from var(--primary-color) l c h / 0.1);
+  --uc-table-caption-color: var(--paragraph-text-color);
   --dialog-background-color: var(--card-background-color);
   --dialog-box-shadow-color: oklch(from #161c2d l c h / 0.2);
   --dialog-box-shadow: 0 0 1rem var(--dialog-box-shadow-color);

@@ -36,6 +36,7 @@
       "types": "./dist/types/enumsoftware-universal-components.d.ts",
       "default": "./dist/fesm2022/enumsoftware-universal-components.mjs"
     },
+    "./themes/theme.css": "./themes/theme.css",
     "./themes/uc-light.css": "./themes/uc-light.css",
     "./themes/uc-dark.css": "./themes/uc-dark.css",
     "./package.json": "./package.json"

@@ -101,11 +101,15 @@ Docs pages are part of the standard Storybook build output. Running `npm run sto
 
 ## Theming And Component Tokens
 
-Global theme files are in [themes/theme.css](themes/theme.css):
+Global theme files are exported from the `themes/` directory. Import one of the following in your app's global stylesheet:
 
-- [themes/uc-light.css](themes/uc-light.css)
-- [themes/uc-dark.css](themes/uc-dark.css)
-- [themes/uc-component-tokens.css](themes/uc-component-tokens.css)
+| Import | What it includes |
+|--------|-----------------|
+| `@enumsoftware/universal-components/themes/theme.css` | **Recommended.** Includes both light and dark themes, Google Fonts (Poppins), Phosphor icon styles, and flag-icons. |
+| `@enumsoftware/universal-components/themes/uc-light.css` | Light theme variables only. Use when you need a single fixed theme or want to load themes on demand. |
+| `@enumsoftware/universal-components/themes/uc-dark.css` | Dark theme variables only. Same use-case as above. |
+
+> `theme.css` already `@import`s both `uc-light.css` and `uc-dark.css`, so importing it alone is sufficient for apps that support both themes.
 
 Standard override model:
 

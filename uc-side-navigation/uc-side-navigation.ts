@@ -1,10 +1,8 @@
 import {
   Component,
-  HostBinding,
   inject,
   input,
   signal,
-  effect,
   computed,
   Renderer2,
   viewChild,
@@ -14,7 +12,6 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { UcSidebar } from './uc-sidebar/uc-sidebar';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 export type UcSidebarMode = 'over' | 'side';
 @Component({
@@ -34,7 +31,6 @@ export class UcSideNavigation {
 
   readonly aside = viewChild.required<ElementRef<HTMLElement>>('testAside');
 
-  private readonly sanitizer = inject(DomSanitizer);
   private readonly renderer = inject(Renderer2);
   private readonly document = inject(DOCUMENT);
   private animationsEnabled = false;
@@ -71,10 +67,7 @@ export class UcSideNavigation {
     });
   }
 
-  @HostBinding('style')
-  get style(): SafeStyle {
-    return this.sanitizer.bypassSecurityTrustStyle(`background-color: white;`);
-  }
+
 
   toggleSidebar() {
     this.isSidebarOpen.set(!this.isSidebarOpen());
