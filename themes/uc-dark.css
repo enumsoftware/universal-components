@@ -231,7 +231,7 @@
   --uc-color-picker-swatch-border: oklch(from var(--foreground-color) l c h / 0.15);
   --uc-color-picker-value-color: oklch(from var(--foreground-color) l c h / 0.8);
   --uc-color-picker-error-color: var(--error-color);
-  --uc-color-picker-disabled-opacity: 0.5;
+  --uc-color-picker-disabled-opacity: 1;
   --uc-color-picker-mode-btn-background: oklch(from var(--foreground-color) l c h / 0.06);
   --uc-color-picker-mode-btn-active-background: var(--primary-color);
   --uc-color-picker-mode-btn-active-color: var(--primary-contrast-color, #fff);
@@ -244,7 +244,7 @@
   --uc-dtp-trigger-hover-bg: oklch(from var(--uc-input-background-color) l c h / 0.85);
   --uc-dtp-trigger-focus-color: var(--primary-color);
   --uc-dtp-trigger-error-color: var(--error-color);
-  --uc-dtp-placeholder-color: oklch(from var(--foreground-color) l c h / 0.35);
+  --uc-dtp-placeholder-color: oklch(from var(--foreground-color) l c h / 0.68);
   --uc-dtp-value-color: var(--foreground-color);
   --uc-dtp-icon-color: oklch(from var(--foreground-color) l c h / 0.5);
   --uc-dtp-dropdown-bg: var(--card-background-color);
@@ -260,7 +260,7 @@
   --uc-dtp-time-input-bg: var(--uc-input-background-color);
   --uc-dtp-time-input-border: var(--uc-input-border-color);
   --uc-dtp-error-color: var(--error-color);
-  --uc-dtp-disabled-opacity: 0.5;
+  --uc-dtp-disabled-opacity: 1;
   --uc-dtp-backdrop: oklch(from var(--foreground-color) l c h / 0.45);
   --uc-dtp-today-btn-color: var(--primary-color);
   --uc-dtp-today-btn-hover-bg: oklch(from var(--primary-color) l c h / 0.1);
@@ -318,7 +318,7 @@
 
   /* --- Select --- */
   --uc-select-label-color: oklch(from var(--foreground-color) l c h / 1);
-  --uc-select-placeholder-color: oklch(from var(--foreground-color) l c h / 0.35);
+  --uc-select-placeholder-color: oklch(from var(--foreground-color) l c h / 0.68);
   --uc-select-arrow-color: oklch(from var(--foreground-color) l c h / 0.5);
   --uc-select-option-hover-background: oklch(from var(--primary-color) l c h / 0.1);
   --uc-select-option-selected-background: oklch(from var(--primary-color) l c h / 0.15);
@@ -378,9 +378,9 @@
   --uc-pill-info-background: var(--background-color-90);
   --uc-pill-info-color: var(--foreground-color);
   --uc-pill-valid-background: oklch(from var(--success-color) l c h / 0.2);
-  --uc-pill-valid-color: var(--success-color);
+  --uc-pill-valid-color: oklch(from var(--success-color) calc(l - 0.22) c h);
   --uc-pill-error-background: oklch(from var(--error-color) l c h / 0.2);
-  --uc-pill-error-color: var(--error-color);
+  --uc-pill-error-color: oklch(from var(--error-color) calc(l - 0.12) c h);
   --uc-table-pill-info-background: var(--uc-pill-info-background);
   --uc-table-pill-info-color: var(--uc-pill-info-color);
   --uc-table-pill-valid-background: var(--uc-pill-valid-background);

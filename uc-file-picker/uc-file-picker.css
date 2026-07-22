@@ -46,7 +46,8 @@
 
 .uc-file-picker__dropzone--disabled {
   cursor: not-allowed;
-  opacity: 0.6;
+  background: var(--uc-input-disabled-background-color);
+  color: var(--foreground-color);
 }
 
 .uc-file-picker__dropzone-text {

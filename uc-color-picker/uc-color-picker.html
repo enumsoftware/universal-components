@@ -15,13 +15,14 @@
     [class.uc-color-picker__trigger--error]="showErrorState()"
     (click)="toggleDropdown()"
   >
-    <div
+    <button
+      type="button"
       class="uc-color-picker__swatch"
       [style.backgroundColor]="value()"
       [attr.aria-label]="'Selected color ' + displayValue()"
-      [attr.tabindex]="disabled() || readonly() ? -1 : 0"
+      [disabled]="disabled() || readonly()"
       (keydown)="onSwatchKeydown($event)"
-    ></div>
+    ></button>
     <span class="uc-color-picker__value">{{ displayValue() }}</span>
   </div>
 

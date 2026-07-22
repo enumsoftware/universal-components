@@ -7,6 +7,7 @@
     "prepare": "npm run build",
     "pack:dist": "npm run build ; npm pack",
     "storybook": "ng run storybook:storybook",
+    "storybook:a11y": "test-storybook --url http://127.0.0.1:6006 --maxWorkers=2",
     "storybook:build": "ng run storybook:build-storybook",
     "test": "ng test universal-components",
     "tokens:check": "node scripts/check-token-parity.cjs"
@@ -79,6 +80,7 @@
     "@storybook/addon-a11y": "^10.5.3",
     "@storybook/addon-docs": "^10.5.3",
     "@storybook/angular": "^10.5.3",
+    "@storybook/test-runner": "^0.24.4",
     "@types/d3": "^7.4.3",
     "@types/jasmine": "^5.1.12",
     "jasmine-core": "^5.12.0",

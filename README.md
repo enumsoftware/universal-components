@@ -53,6 +53,24 @@ npm install --legacy-peer-deps
 npm run storybook
 ```
 
+Run accessibility checks against Storybook:
+
+```bash
+# terminal 1
+npm run storybook
+
+# terminal 2
+npm run storybook:a11y
+```
+
+Expected result is all suites passing with no accessibility failures.
+
+If Playwright browser binaries are missing on your machine, run:
+
+```bash
+npx playwright install chromium
+```
+
 Then open:
 
 ```text

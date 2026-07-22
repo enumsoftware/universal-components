@@ -114,6 +114,9 @@
 }
 
 .uc-color-picker__swatch {
+  appearance: none;
+  background: none;
+  padding: 0;
   width: 36px;
   height: 36px;
   border-radius: 0.5rem;
@@ -247,7 +250,6 @@
 /* States */
 
 .uc-color-picker--disabled {
-  opacity: var(--uc-color-picker-disabled-opacity-resolved);
   pointer-events: none;
 }
 

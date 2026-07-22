@@ -6,6 +6,10 @@
   --uc-info-error-background-resolved: var(--uc-info-error-background, oklch(from var(--error-color) l c h / 0.1));
   --uc-info-error-border-resolved: var(--uc-info-error-border, oklch(from var(--error-color) l c h / 0.3));
   --uc-info-warning-color-resolved: var(--uc-info-warning-color, var(--warning-color));
+  --uc-info-warning-emphasis-color-resolved: var(
+    --uc-info-warning-emphasis-color,
+    oklch(from var(--warning-color) calc(l * 0.58) c h)
+  );
   --uc-info-warning-background-resolved: var(--uc-info-warning-background, var(--warning-bg));
   --uc-info-warning-border-resolved: var(--uc-info-warning-border, var(--warning-border));
   display: block;
@@ -67,7 +71,7 @@
   &.uc-info--warning {
     background-color: var(--uc-info-warning-background-resolved);
     border-color: var(--uc-info-warning-border-resolved);
-    color: var(--uc-info-warning-color-resolved);
+    color: var(--uc-info-warning-emphasis-color-resolved);
 
     .uc-info__body {
       color: var(--foreground-color);

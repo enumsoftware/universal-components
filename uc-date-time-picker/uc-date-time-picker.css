@@ -426,7 +426,6 @@
 
 /* States */
 .uc-date-time-picker--disabled {
-  opacity: var(--uc-dtp-disabled-opacity-resolved);
   pointer-events: none;
 }
 

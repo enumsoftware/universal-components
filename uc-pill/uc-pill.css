@@ -9,9 +9,15 @@
   --uc-pill-info-background-resolved: var(--uc-pill-info-background, var(--uc-table-pill-info-background, var(--background-color-90)));
   --uc-pill-info-color-resolved: var(--uc-pill-info-color, var(--uc-table-pill-info-color, var(--foreground-color)));
   --uc-pill-valid-background-resolved: var(--uc-pill-valid-background, var(--uc-table-pill-valid-background, oklch(from var(--success-color) l c h / 0.2)));
-  --uc-pill-valid-color-resolved: var(--uc-pill-valid-color, var(--uc-table-pill-valid-color, var(--success-color)));
+  --uc-pill-valid-color-resolved: var(
+    --uc-pill-valid-color,
+    var(--uc-table-pill-valid-color, oklch(from var(--success-color) calc(l - 0.22) c h))
+  );
   --uc-pill-error-background-resolved: var(--uc-pill-error-background, var(--uc-table-pill-error-background, oklch(from var(--error-color) l c h / 0.2)));
-  --uc-pill-error-color-resolved: var(--uc-pill-error-color, var(--uc-table-pill-error-color, var(--error-color)));
+  --uc-pill-error-color-resolved: var(
+    --uc-pill-error-color,
+    var(--uc-table-pill-error-color, oklch(from var(--error-color) calc(l - 0.12) c h))
+  );
 
   --uc-pill-compact-padding-resolved: var(--uc-pill-compact-padding, 0.25rem 0.5rem);
   --uc-pill-compact-border-radius-resolved: var(--uc-pill-compact-border-radius, 0.25rem);
