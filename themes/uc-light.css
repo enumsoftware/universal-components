@@ -276,6 +276,7 @@
   --uc-info-error-background: oklch(from var(--error-color) l c h / 0.1);
   --uc-info-error-border: oklch(from var(--error-color) l c h / 0.3);
   --uc-info-warning-color: oklch(from var(--warning-color) calc(l * 0.58) c h);
+  --uc-info-warning-emphasis-color: oklch(from var(--warning-color) calc(l * 0.58) c h);
   --uc-info-warning-background: var(--warning-bg);
   --uc-info-warning-border: var(--warning-border);
 
@@ -315,6 +316,12 @@
   --uc-pill-color: var(--primary-color);
   --uc-pill-border-radius: 100px;
   --uc-pill-padding: 0.5rem 2rem;
+  --uc-pill-font-size: inherit;
+  --uc-pill-line-height: inherit;
+  --uc-pill-compact-padding: 0.25rem 0.5rem;
+  --uc-pill-compact-border-radius: 0.25rem;
+  --uc-pill-compact-font-size: 0.75rem;
+  --uc-pill-compact-line-height: 1rem;
 
   /* --- Select --- */
   --uc-select-label-color: oklch(from var(--foreground-color) l c h / 1);
