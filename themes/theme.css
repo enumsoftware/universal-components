@@ -43,6 +43,10 @@ body {
   line-height: var(--uc-content-line-height);
 }
 
+.cdk-overlay-backdrop.uc-sidebar-cdk-backdrop {
+  background-color: var(--uc-side-navigation-backdrop-background, rgba(0, 0, 0, 0.8)) !important;
+}
+
 :where(*) {
   --uc-scrollbar-track-color-resolved: var(--uc-scrollbar-track-color, oklch(from var(--foreground-color) l c h / 0.3));
   --uc-scrollbar-thumb-color-resolved: var(--uc-scrollbar-thumb-color, oklch(from var(--foreground-color) l c h / 0.9));

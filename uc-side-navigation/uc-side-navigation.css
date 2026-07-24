@@ -38,7 +38,7 @@
   grid-template-columns: var(--sidebar-width) 1fr;
 }
 
-.uc-sidebar-opened {
+.uc-sidebar-side.uc-sidebar-opened {
   transform: translateX(0%);
   opacity: 1;
   visibility: visible;
@@ -48,7 +48,7 @@
   width: var(--sidebar-width);
 }
 
-.uc-sidebar-closed {
+.uc-sidebar-side.uc-sidebar-closed {
   width: var(--sidebar-width);
   transform: translateX(-100%);
   opacity: 0;
@@ -75,59 +75,37 @@
   overflow: hidden;
 }
 
-.uc-wrapper-over::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--uc-side-navigation-backdrop-background-resolved);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 2;
-  transition: opacity var(--uc-side-navigation-animation-duration-resolved) ease-in-out;
+.uc-sidebar-cdk-backdrop {
+  background: var(--uc-side-navigation-backdrop-background, rgba(0, 0, 0, 0.8));
 }
 
-.uc-wrapper-over:has(.uc-sidebar-over.uc-sidebar-opened)::before {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.uc-sidebar-backdrop-button {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  border: 0;
-  padding: 0;
-  margin: 0;
-  background: transparent;
-  cursor: default;
+:host ::ng-deep .cdk-overlay-backdrop.uc-sidebar-cdk-backdrop {
+  background: var(--uc-side-navigation-backdrop-background, rgba(0, 0, 0, 0.8));
 }
 
 .uc-sidebar-over {
-  --sidebar-animation-duration: var(--uc-side-navigation-animation-duration-resolved);
+  --sidebar-animation-duration: var(--uc-side-navigation-animation-duration, 0.3s);
 
   position: absolute;
-  background-color: var(--uc-side-navigation-sidebar-background-resolved);
+  background-color: var(--uc-side-navigation-sidebar-background, var(--sidebar-background-color));
   inline-size: fit-content;
   min-inline-size: 250px;
-  max-inline-size: calc(100% - 2rem);
-  block-size: calc(100% - 2rem);
-  top: 1rem;
-  bottom: 1rem;
-  left: 1rem;
+  max-inline-size: 100%;
+  block-size: 100%;
+  top: 0;
+  bottom: auto;
+  left: 0;
   right: auto;
-  border-radius: var(--uc-side-navigation-sidebar-border-radius-resolved);
+  border-radius: var(--uc-side-navigation-sidebar-border-radius, 1rem);
   opacity: 0;
   pointer-events: none;
   overflow-x: hidden;
   overflow-y: hidden;
   z-index: 3;
-  transform: translateX(calc(-100% - 1rem));
-
-  &.animations-enabled {
-    transition:
-      transform var(--sidebar-animation-duration) ease-in-out,
-      opacity var(--sidebar-animation-duration) ease-in-out;
-  }
+  transform: translateX(-100%);
+  transition:
+    transform var(--sidebar-animation-duration) ease-in-out,
+    opacity var(--sidebar-animation-duration) ease-in-out;
 
   &.uc-sidebar-opened {
     opacity: 1;
@@ -138,7 +116,7 @@
   &.uc-sidebar-closed {
     opacity: 0;
     pointer-events: none;
-    transform: translateX(calc(-100% - 1rem));
+    transform: translateX(-100%);
   }
 }
 
@@ -149,10 +127,18 @@
 }
 
 .uc-sidebar-scroll-wrapper-enabled {
-  block-size: 100%;
   margin: 0;
   padding-block: 0.5rem;
   box-sizing: border-box;
+}
+
+.uc-sidebar-scroll-content {
+  block-size: 100%;
+  min-block-size: 0;
+  overflow: hidden;
+}
+
+.uc-sidebar-scroll-content-enabled {
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
@@ -175,8 +161,4 @@
   overflow-y: auto;
   pointer-events: auto;
   min-block-size: 0;
-}
-
-.uc-wrapper-over:has(.uc-sidebar-over.uc-sidebar-opened) .uc-content-over {
-  pointer-events: none;
 }

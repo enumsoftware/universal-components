@@ -1,43 +1,99 @@
 <section
+  #layoutRoot
+  cdkOverlayOrigin
+  #overlayOrigin="cdkOverlayOrigin"
   [class.uc-wrapper-over]="sidebarMode() === 'over'"
   [class.uc-wrapper-side]="sidebarMode() === 'side'"
 >
-  @if (sidebarMode() === 'over' && isSidebarOpen() && closeOnBackdropClick()) {
-    <button
-      type="button"
-      class="uc-sidebar-backdrop-button"
-      aria-label="Close sidebar"
-      (click)="closeSidebar()"
-    ></button>
+  <ng-template #sidebarHeaderTemplate>
+    <ng-content select="[ucSidebarHeader]" />
+  </ng-template>
+
+  <ng-template #sidebarBodyTemplate>
+    <ng-content select="uc-sidebar">Sidebar</ng-content>
+  </ng-template>
+
+  <ng-template #sidebarFooterTemplate>
+    <ng-content select="[ucSidebarFooter]" />
+  </ng-template>
+
+  @if (sidebarMode() === 'side') {
+    <aside
+      [id]="instanceId()"
+      [class.uc-sidebar-opened]="isSidebarOpen()"
+      [class.uc-sidebar-closed]="!isSidebarOpen()"
+      class="uc-sidebar-side"
+      [attr.inert]="!isSidebarOpen() ? '' : null"
+      [attr.aria-hidden]="!isSidebarOpen() ? 'true' : 'false'"
+    >
+      <div class="uc-sidebar-layout">
+        <div class="uc-sidebar-header">
+          <ng-container [ngTemplateOutlet]="sidebarHeaderTemplate" />
+        </div>
+
+        <div
+          class="uc-sidebar-scroll-wrapper"
+          [class.uc-sidebar-scroll-wrapper-enabled]="sidebarScrollable()"
+        >
+          <div
+            class="uc-sidebar-scroll-content"
+            [class.uc-sidebar-scroll-content-enabled]="sidebarScrollable()"
+          >
+            <ng-container [ngTemplateOutlet]="sidebarBodyTemplate" />
+          </div>
+        </div>
+
+        <div class="uc-sidebar-footer">
+          <ng-container [ngTemplateOutlet]="sidebarFooterTemplate" />
+        </div>
+      </div>
+    </aside>
   }
 
-  <aside
-    [id]="instanceId()"
-    [class.uc-sidebar-opened]="isSidebarOpen()"
-    [class.uc-sidebar-closed]="!isSidebarOpen()"
-    [class.uc-sidebar-over]="sidebarMode() === 'over'"
-    [class.uc-sidebar-side]="sidebarMode() === 'side'"
-    [attr.inert]="sidebarMode() === 'side' && !isSidebarOpen() ? '' : null"
-    [attr.aria-hidden]="sidebarMode() === 'side' && !isSidebarOpen() ? 'true' : 'false'"
-    #sidebarAside
-  >
-    <div class="uc-sidebar-layout">
-      <div class="uc-sidebar-header">
-        <ng-content select="[ucSidebarHeader]" />
-      </div>
-
-      <div
-        class="uc-sidebar-scroll-wrapper"
-        [class.uc-sidebar-scroll-wrapper-enabled]="sidebarScrollable()"
+  @if (sidebarMode() === 'over') {
+    <ng-template
+      cdkConnectedOverlay
+      [cdkConnectedOverlayOpen]="isOverlayMounted()"
+      [cdkConnectedOverlayOrigin]="overlayOrigin"
+      [cdkConnectedOverlayPositions]="overlayPositions"
+      [cdkConnectedOverlayHasBackdrop]="true"
+      [cdkConnectedOverlayBackdropClass]="'uc-sidebar-cdk-backdrop'"
+      [cdkConnectedOverlayPush]="false"
+      [cdkConnectedOverlayFlexibleDimensions]="false"
+      (backdropClick)="onOverlayBackdropClick()"
+    >
+      <aside
+        [id]="instanceId()"
+        class="uc-sidebar-over"
+        [class.uc-sidebar-opened]="isOverlayVisible()"
+        [class.uc-sidebar-closed]="!isOverlayVisible()"
+        [style.block-size.px]="overlayHeightPx()"
+        [style.max-inline-size.px]="overlayMaxWidthPx()"
       >
-        <ng-content select="uc-sidebar">Sidebar</ng-content>
-      </div>
+        <div class="uc-sidebar-layout">
+          <div class="uc-sidebar-header">
+            <ng-container [ngTemplateOutlet]="sidebarHeaderTemplate" />
+          </div>
 
-      <div class="uc-sidebar-footer">
-        <ng-content select="[ucSidebarFooter]" />
-      </div>
-    </div>
-  </aside>
+          <div
+            class="uc-sidebar-scroll-wrapper"
+            [class.uc-sidebar-scroll-wrapper-enabled]="sidebarScrollable()"
+          >
+            <div
+              class="uc-sidebar-scroll-content"
+              [class.uc-sidebar-scroll-content-enabled]="sidebarScrollable()"
+            >
+              <ng-container [ngTemplateOutlet]="sidebarBodyTemplate" />
+            </div>
+          </div>
+
+          <div class="uc-sidebar-footer">
+            <ng-container [ngTemplateOutlet]="sidebarFooterTemplate" />
+          </div>
+        </div>
+      </aside>
+    </ng-template>
+  }
 
   <main
     [class.uc-content-over]="sidebarMode() === 'over'"
