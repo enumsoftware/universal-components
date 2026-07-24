@@ -164,9 +164,9 @@
   --uc-chart-series-8: #a0d468;
   --uc-chart-axis-color: var(--foreground-color);
   --uc-chart-axis-muted-color: var(--paragraph-text-color);
-  --uc-chart-axis-line-color: oklch(from var(--foreground-color) l c h / 0.22);
-  --uc-chart-axis-muted-line-color: oklch(from var(--foreground-color) l c h / 0.16);
-  --uc-chart-grid-color: oklch(from var(--foreground-color) l c h / 0.1);
+  --uc-chart-axis-line-color: oklch(from var(--foreground-color) l c h / 0.28);
+  --uc-chart-axis-muted-line-color: oklch(from var(--foreground-color) l c h / 0.22);
+  --uc-chart-grid-color: oklch(from var(--foreground-color) l c h / 0.14);
   --uc-chart-label-color: var(--foreground-color);
   --uc-chart-label-muted-color: var(--paragraph-text-color);
 
