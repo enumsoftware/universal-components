@@ -1,1 +1,24 @@
-<div class="uc-bar-chart" #svgContainer></div>
+<div class="uc-bar-chart">
+  <div class="uc-bar-chart__chart" #svgContainer></div>
+
+  @if (showLegend()) {
+    <ul class="uc-bar-chart__legend">
+      @for (item of getLegendSeries(); track item.name; let i = $index) {
+        <li class="uc-bar-chart__legend-item" [class.uc-bar-chart__legend-item--disabled]="!isSeriesEnabled(item.name)">
+          <button
+            class="uc-bar-chart__legend-button"
+            type="button"
+            [disabled]="!canToggleSeries(item.name)"
+            [attr.aria-pressed]="isSeriesEnabled(item.name)"
+            [attr.aria-label]="(isSeriesEnabled(item.name) ? 'Disable' : 'Enable') + ' ' + item.name"
+            (click)="toggleSeries(item.name)"
+          >
+            <span class="uc-bar-chart__legend-dot" [style.background-color]="getSeriesColor(item, i)"></span>
+            <span class="uc-bar-chart__legend-label">{{ item.name }}</span>
+            <span class="uc-bar-chart__legend-value">{{ getSeriesLegendValue(item) }}</span>
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</div>

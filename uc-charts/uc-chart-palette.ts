@@ -21,7 +21,9 @@ const LINE_SERIES_FALLBACK_COLORS = [
 const BAR_HOVER_COLOR_FALLBACK = '#5b51f3';
 const AXIS_COLOR_FALLBACK = 'var(--foreground-color)';
 const MUTED_AXIS_COLOR_FALLBACK = 'var(--paragraph-text-color)';
-const GRID_COLOR_FALLBACK = 'var(--background-color-90)';
+const AXIS_LINE_COLOR_FALLBACK = 'rgba(255, 255, 255, 0.28)';
+const MUTED_AXIS_LINE_COLOR_FALLBACK = 'rgba(255, 255, 255, 0.2)';
+const GRID_COLOR_FALLBACK = 'rgba(255, 255, 255, 0.14)';
 const LABEL_COLOR_FALLBACK = 'var(--foreground-color)';
 const MUTED_LABEL_COLOR_FALLBACK = 'var(--paragraph-text-color)';
 
@@ -69,6 +71,14 @@ export function getChartAxisColor(): string {
 
 export function getChartMutedAxisColor(): string {
   return getCssVariableExpression('--uc-chart-axis-muted-color', MUTED_AXIS_COLOR_FALLBACK);
+}
+
+export function getChartAxisLineColor(): string {
+  return getCssVariableExpression('--uc-chart-axis-line-color', AXIS_LINE_COLOR_FALLBACK);
+}
+
+export function getChartMutedAxisLineColor(): string {
+  return getCssVariableExpression('--uc-chart-axis-muted-line-color', MUTED_AXIS_LINE_COLOR_FALLBACK);
 }
 
 export function getChartGridColor(): string {

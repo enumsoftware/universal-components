@@ -10,7 +10,14 @@ import {
   viewChild,
 } from '@angular/core';
 import * as d3 from 'd3';
-import { getChartAxisColor, getChartGridColor, getChartMutedAxisColor, getLineChartSeriesColor } from '../uc-chart-palette';
+import {
+  getChartAxisColor,
+  getChartAxisLineColor,
+  getChartGridColor,
+  getChartMutedAxisColor,
+  getChartMutedAxisLineColor,
+  getLineChartSeriesColor,
+} from '../uc-chart-palette';
 import { UcLineChartInterpolation, UcLineChartSeries } from './uc-line-chart.model';
 
 const TOOLTIP_OFFSET_X = 12;
@@ -84,7 +91,9 @@ export class UcLineChart implements OnDestroy {
   private render(series: UcLineChartSeries[], chartHeight: number, interpolation: UcLineChartInterpolation): void {
     const container = this.svgContainer().nativeElement;
     const axisColor = getChartAxisColor();
+    const axisLineColor = getChartAxisLineColor();
     const mutedAxisColor = getChartMutedAxisColor();
+    const mutedAxisLineColor = getChartMutedAxisLineColor();
     const gridColor = getChartGridColor();
     const mappedSeries = series.map((item, originalIndex) => ({
       ...item,
@@ -159,22 +168,22 @@ export class UcLineChart implements OnDestroy {
       )
       .call((grid) => grid.select('.domain').remove())
       .call((grid) => grid.selectAll('.tick text').remove())
-      .call((grid) => grid.selectAll('.tick line').attr('stroke', gridColor).attr('stroke-opacity', 0.35));
+      .call((grid) => grid.selectAll('.tick line').attr('stroke', gridColor).attr('stroke-dasharray', '3,3').attr('stroke-opacity', 1));
 
     svg
       .append('g')
       .attr('transform', `translate(0,${height})`)
       .call(d3.axisBottom(xScale))
-      .call((axis) => axis.select('.domain').attr('stroke', mutedAxisColor))
-      .call((axis) => axis.selectAll('.tick line').attr('stroke', mutedAxisColor))
+      .call((axis) => axis.select('.domain').remove())
+      .call((axis) => axis.selectAll('.tick line').attr('stroke', mutedAxisLineColor))
       .call((axis) => axis.selectAll('text').attr('fill', mutedAxisColor))
       .style('font-size', '12px');
 
     svg
       .append('g')
       .call(d3.axisLeft(yScale))
-      .call((axis) => axis.select('.domain').attr('stroke', axisColor))
-      .call((axis) => axis.selectAll('.tick line').attr('stroke', axisColor))
+      .call((axis) => axis.select('.domain').remove())
+      .call((axis) => axis.selectAll('.tick line').attr('stroke', axisLineColor))
       .call((axis) => axis.selectAll('text').attr('fill', axisColor))
       .style('font-size', '12px');
 

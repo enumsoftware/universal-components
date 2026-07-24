@@ -164,7 +164,9 @@
   --uc-chart-series-8: #c792ea;
   --uc-chart-axis-color: var(--foreground-color);
   --uc-chart-axis-muted-color: var(--paragraph-text-color);
-  --uc-chart-grid-color: var(--background-color-90);
+  --uc-chart-axis-line-color: rgba(255, 255, 255, 0.28);
+  --uc-chart-axis-muted-line-color: rgba(255, 255, 255, 0.2);
+  --uc-chart-grid-color: rgba(255, 255, 255, 0.14);
   --uc-chart-label-color: var(--foreground-color);
   --uc-chart-label-muted-color: var(--paragraph-text-color);
 

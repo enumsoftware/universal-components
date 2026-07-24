@@ -7,16 +7,19 @@ import {
   OnDestroy,
   ChangeDetectionStrategy,
   ViewEncapsulation,
+  signal,
 } from '@angular/core';
 import * as d3 from 'd3';
-import { UcBarChartDataPoint } from './uc-bar-chart.model';
+import { UcBarChartDataPoint, UcBarChartInput, UcBarChartSeries } from './uc-bar-chart.model';
 import {
   getBarChartColor,
   getBarChartHoverColor,
   getChartAxisColor,
+  getChartAxisLineColor,
   getChartGridColor,
   getChartMutedAxisColor,
-  getChartMutedLabelColor,
+  getChartMutedAxisLineColor,
+  getChartSeriesColor,
 } from '../uc-chart-palette';
 
 const TOOLTIP_OFFSET_X = 12;
@@ -30,16 +33,19 @@ const TOOLTIP_OFFSET_Y = 12;
   encapsulation: ViewEncapsulation.None,
 })
 export class UcBarChart implements OnDestroy {
-  data = input.required<UcBarChartDataPoint[]>();
+  data = input.required<UcBarChartInput>();
   height = input<number>(200);
+  showLegend = input<boolean>(true);
 
   private svgContainer = viewChild.required<ElementRef<HTMLElement>>('svgContainer');
   private resizeObserver: ResizeObserver | null = null;
+  private seriesState = signal<Record<string, boolean>>({});
 
   constructor() {
     effect(() => {
       const data = this.data();
       const height = this.height();
+      this.seriesState();
       if (data) {
         this.render(data, height);
       }
@@ -50,14 +56,92 @@ export class UcBarChart implements OnDestroy {
     this.resizeObserver?.disconnect();
   }
 
-  private render(data: UcBarChartDataPoint[], chartHeight: number): void {
+  getLegendSeries(): UcBarChartSeries[] {
+    return this.normalizeSeries(this.data());
+  }
+
+  getSeriesColor(series: UcBarChartSeries, index: number): string {
+    return series.color || getChartSeriesColor(index);
+  }
+
+  getSeriesLegendValue(series: UcBarChartSeries): string {
+    const lastPoint = series.data.at(-1);
+    return lastPoint ? `${lastPoint.value}` : '-';
+  }
+
+  formatTooltipValue(point: UcBarChartDataPoint & { seriesName: string; color: string }): string {
+    return point.percentage !== undefined ? `${point.value} (${point.percentage}%)` : `${point.value}`;
+  }
+
+  isSeriesEnabled(name: string): boolean {
+    return this.seriesState()[name] ?? true;
+  }
+
+  canToggleSeries(name: string): boolean {
+    const isEnabled = this.isSeriesEnabled(name);
+    const enabledCount = this.getLegendSeries().filter((series) => this.isSeriesEnabled(series.name)).length;
+
+    return !isEnabled || enabledCount > 1;
+  }
+
+  toggleSeries(name: string): void {
+    if (!this.canToggleSeries(name)) {
+      return;
+    }
+
+    this.seriesState.update((state) => ({
+      ...state,
+      [name]: !(state[name] ?? true),
+    }));
+  }
+
+  private normalizeSeries(data: UcBarChartInput): UcBarChartSeries[] {
+    if (!data.length) {
+      return [];
+    }
+
+    // Preserve backward compatibility by adapting legacy flat data into a single synthetic series.
+    const firstItem = data[0];
+    const isMultiSeries = Array.isArray((firstItem as UcBarChartSeries).data);
+
+    if (isMultiSeries) {
+      return (data as UcBarChartSeries[]).map((series, index) => ({
+        ...series,
+        color: series.color || getChartSeriesColor(index),
+      }));
+    }
+
+    return [
+      {
+        name: 'Series 1',
+        data: data as UcBarChartDataPoint[],
+        color: getBarChartColor(),
+      },
+    ];
+  }
+
+  private render(data: UcBarChartInput, chartHeight: number): void {
     const container = this.svgContainer().nativeElement;
-    const barColor = getBarChartColor();
-    const barHoverColor = getBarChartHoverColor();
     const axisColor = getChartAxisColor();
+    const axisLineColor = getChartAxisLineColor();
     const mutedAxisColor = getChartMutedAxisColor();
+    const mutedAxisLineColor = getChartMutedAxisLineColor();
     const gridColor = getChartGridColor();
-    const mutedLabelColor = getChartMutedLabelColor();
+    const normalizedSeries = this.normalizeSeries(data)
+      .map((series, index) => ({
+        ...series,
+        enabled: this.isSeriesEnabled(series.name),
+        color: series.color || getChartSeriesColor(index),
+      }))
+      .filter((series) => series.enabled);
+
+    if (!normalizedSeries.length) {
+      d3.select(container).selectAll('*').remove();
+      return;
+    }
+
+    const categories = Array.from(new Set(normalizedSeries.flatMap((series) => series.data.map((point) => point.label))));
+    const maxValue = Math.max(...normalizedSeries.flatMap((series) => series.data.map((point) => point.value)), 0);
 
     d3.select(container).selectAll('*').remove();
 
@@ -87,89 +171,108 @@ export class UcBarChart implements OnDestroy {
 
     const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
 
-    const x = d3
-      .scaleLinear()
-      .domain([0, d3.max(data, (d) => d.value) ?? 1])
-      .nice()
-      .range([0, width]);
+    const x0 = d3
+      .scaleBand<string>()
+      .domain(categories)
+      .range([0, width])
+      .padding(0.2);
+
+    const x1 = d3
+      .scaleBand<string>()
+      .domain(normalizedSeries.map((series) => series.name))
+      .range([0, x0.bandwidth()])
+      .padding(0.12);
 
     const y = d3
-      .scaleBand<string>()
-      .domain(data.map((d) => d.label))
-      .range([0, height])
-      .padding(0.3);
+      .scaleLinear()
+      .domain([0, Math.max(maxValue, 1)])
+      .nice()
+      .range([height, 0]);
 
     g.append('g')
       .attr('transform', `translate(0,${height})`)
-      .call(d3.axisBottom(x).ticks(5).tickSizeOuter(0))
+      .call(d3.axisBottom(x0).tickSizeOuter(0))
       .call((axis) => axis.select('.domain').remove())
-      .call((axis) => axis.selectAll('.tick line').attr('stroke', mutedAxisColor))
+      .call((axis) => axis.selectAll('.tick line').attr('stroke', mutedAxisLineColor))
       .selectAll('text')
       .attr('fill', mutedAxisColor)
       .attr('font-size', '0.75rem');
 
     g.append('g')
-      .call(d3.axisLeft(y).tickSizeOuter(0))
+      .call(d3.axisLeft(y).ticks(5).tickSizeOuter(0))
       .call((axis) => axis.select('.domain').remove())
-      .call((axis) => axis.selectAll('.tick line').attr('stroke', axisColor))
+      .call((axis) => axis.selectAll('.tick line').attr('stroke', axisLineColor))
       .selectAll('text')
       .attr('fill', axisColor)
       .attr('font-size', '0.875rem');
 
     g.selectAll('.grid-line')
-      .data(x.ticks(5))
+      .data(y.ticks(5))
       .join('line')
       .attr('class', 'grid-line')
-      .attr('x1', (d) => x(d))
-      .attr('x2', (d) => x(d))
-      .attr('y1', 0)
-      .attr('y2', height)
+      .attr('x1', 0)
+      .attr('x2', width)
+      .attr('y1', (d) => y(d))
+      .attr('y2', (d) => y(d))
       .attr('stroke', gridColor)
       .attr('stroke-dasharray', '3,3');
 
-    const bars = g
-      .selectAll<SVGRectElement, UcBarChartDataPoint>('.bar')
-      .data(data)
-      .join('rect')
-      .attr('class', 'bar')
-      .attr('y', (d) => y(d.label) ?? 0)
-      .attr('height', y.bandwidth())
-      .attr('x', 0)
-      .attr('width', 0)
-      .attr('fill', barColor)
-      .attr('rx', 4)
-      .style('cursor', 'pointer')
-      .on('mouseenter', function (event: MouseEvent, d) {
-        d3.select(this).attr('fill', barHoverColor);
+    normalizedSeries.forEach((series, index) => {
+      const hoverColor = this.getSeriesHoverColor(series.color, normalizedSeries.length === 1);
+      const seriesPoints = categories.map((label) => {
+        const matchingPoint = series.data.find((point) => point.label === label);
 
-        tooltip.style('opacity', 1);
-        tooltipLabel.text(d.label);
-        tooltipValue.text(`${d.value} (${d.percentage}%)`);
-
-        positionTooltip(event);
-      })
-      .on('mousemove', function (event: MouseEvent) {
-        positionTooltip(event);
-      })
-      .on('mouseleave', function () {
-        d3.select(this).attr('fill', barColor);
-        tooltip.style('opacity', 0);
+        return {
+          label,
+          value: matchingPoint?.value ?? 0,
+          percentage: matchingPoint?.percentage ?? 0,
+          seriesName: series.name,
+          color: this.getSeriesColor(series, index),
+        };
       });
 
-    bars
-      .transition()
-      .duration(400)
-      .attr('width', (d) => x(d.value));
+      const bars = g
+        .selectAll<SVGRectElement, (UcBarChartDataPoint & { seriesName: string; color: string })>(`.bar-${index}`)
+        .data(seriesPoints)
+        .join('rect')
+        .attr('class', `bar-${index}`)
+        .attr('x', (d) => (x0(d.label) ?? 0) + (x1(series.name) ?? 0))
+        .attr('y', (d) => y(Math.max(d.value, 0)))
+        .attr('width', x1.bandwidth())
+        .attr('height', (d) => height - y(Math.max(d.value, 0)))
+        .attr('fill', series.color)
+        .attr('rx', 4)
+        .style('cursor', 'pointer')
+        .on('mouseenter', (event: MouseEvent, d) => {
+          d3.select(event.currentTarget as Element).attr('fill', hoverColor);
 
-    g.selectAll<SVGTextElement, UcBarChartDataPoint>('.bar-label')
-      .data(data)
-      .join('text')
-      .attr('class', 'bar-label')
-      .attr('y', (d) => (y(d.label) ?? 0) + y.bandwidth() / 2 + 1)
-      .attr('x', (d) => x(d.value) + 6)
-      .attr('dominant-baseline', 'middle')
-      .attr('font-size', '0.75rem')
-      .attr('fill', mutedLabelColor)
-      .text((d) => `${d.value} (${d.percentage}%)`);
+          tooltip.style('opacity', 1);
+          tooltipLabel.text(normalizedSeries.length > 1 ? `${d.seriesName} · ${d.label}` : d.label);
+          tooltipValue.text(this.formatTooltipValue(d));
+
+          positionTooltip(event);
+        })
+        .on('mousemove', function (event: MouseEvent) {
+          positionTooltip(event);
+        })
+        .on('mouseleave', function (event: MouseEvent) {
+          d3.select(event.currentTarget as Element).attr('fill', series.color);
+          tooltip.style('opacity', 0);
+        });
+
+      bars
+        .transition()
+        .duration(400)
+        .attr('y', (d) => y(Math.max(d.value, 0)))
+        .attr('height', (d) => height - y(Math.max(d.value, 0)));
+    });
+  }
+
+  private getSeriesHoverColor(seriesColor: string, isSingleSeries: boolean): string {
+    if (isSingleSeries) {
+      return getBarChartHoverColor();
+    }
+
+    return `color-mix(in srgb, ${seriesColor} 82%, black)`;
   }
 }

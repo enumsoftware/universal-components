@@ -1,4 +1,4 @@
-export type { UcBarChartDataPoint } from './uc-charts/uc-bar-chart/uc-bar-chart.model';
+export type { UcBarChartDataPoint, UcBarChartSeries, UcBarChartInput } from './uc-charts/uc-bar-chart/uc-bar-chart.model';
 export type { UcLineChartSeries, UcLineChartDataPoint } from './uc-charts/uc-line-chart/uc-line-chart.model';
 export type { UcDoughnutChartDataPoint } from './uc-charts/uc-doughnut-chart/uc-doughnut-chart.model';
 export type { UcConfirmationDialogData } from './uc-confirmation-dialog/uc-confirmation-dialog';
