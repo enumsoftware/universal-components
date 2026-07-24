@@ -127,21 +127,29 @@ export class UcBarChart implements OnDestroy {
     const mutedAxisColor = getChartMutedAxisColor();
     const mutedAxisLineColor = getChartMutedAxisLineColor();
     const gridColor = getChartGridColor();
-    const normalizedSeries = this.normalizeSeries(data)
+    const allSeries = this.normalizeSeries(data).map((series, index) => ({
+      ...series,
+      color: series.color || getChartSeriesColor(index),
+      originalIndex: index,
+    }));
+    const visibleSeries = allSeries
       .map((series, index) => ({
         ...series,
         enabled: this.isSeriesEnabled(series.name),
         color: series.color || getChartSeriesColor(index),
+        originalIndex: series.originalIndex ?? index,
       }))
       .filter((series) => series.enabled);
 
-    if (!normalizedSeries.length) {
+    if (!visibleSeries.length) {
       d3.select(container).selectAll('*').remove();
       return;
     }
 
-    const categories = Array.from(new Set(normalizedSeries.flatMap((series) => series.data.map((point) => point.label))));
-    const maxValue = Math.max(...normalizedSeries.flatMap((series) => series.data.map((point) => point.value)), 0);
+    const categories = Array.from(new Set(allSeries.flatMap((series) => series.data.map((point) => point.label))));
+    const maxValue = Math.max(...allSeries.flatMap((series) => series.data.map((point) => point.value)), 0);
+
+    const measuredContainerWidth = container.clientWidth || Math.round(container.getBoundingClientRect().width) || 400;
 
     d3.select(container).selectAll('*').remove();
 
@@ -157,7 +165,7 @@ export class UcBarChart implements OnDestroy {
     };
 
     const margin = { top: 8, right: 16, bottom: 24, left: 32 };
-    const containerWidth = container.clientWidth || 400;
+    const containerWidth = measuredContainerWidth;
     const width = containerWidth - margin.left - margin.right;
     const height = chartHeight - margin.top - margin.bottom;
 
@@ -179,7 +187,7 @@ export class UcBarChart implements OnDestroy {
 
     const x1 = d3
       .scaleBand<string>()
-      .domain(normalizedSeries.map((series) => series.name))
+      .domain(visibleSeries.map((series) => series.name))
       .range([0, x0.bandwidth()])
       .padding(0.12);
 
@@ -217,8 +225,8 @@ export class UcBarChart implements OnDestroy {
       .attr('stroke', gridColor)
       .attr('stroke-dasharray', '3,3');
 
-    normalizedSeries.forEach((series, index) => {
-      const hoverColor = this.getSeriesHoverColor(series.color, normalizedSeries.length === 1);
+    visibleSeries.forEach((series) => {
+      const hoverColor = this.getSeriesHoverColor(series.color, allSeries.length === 1);
       const seriesPoints = categories.map((label) => {
         const matchingPoint = series.data.find((point) => point.label === label);
 
@@ -227,15 +235,15 @@ export class UcBarChart implements OnDestroy {
           value: matchingPoint?.value ?? 0,
           percentage: matchingPoint?.percentage ?? 0,
           seriesName: series.name,
-          color: this.getSeriesColor(series, index),
+          color: this.getSeriesColor(series, series.originalIndex),
         };
       });
 
       const bars = g
-        .selectAll<SVGRectElement, (UcBarChartDataPoint & { seriesName: string; color: string })>(`.bar-${index}`)
+        .selectAll<SVGRectElement, (UcBarChartDataPoint & { seriesName: string; color: string })>(`.bar-${series.originalIndex}`)
         .data(seriesPoints)
         .join('rect')
-        .attr('class', `bar-${index}`)
+        .attr('class', `bar-${series.originalIndex}`)
         .attr('x', (d) => (x0(d.label) ?? 0) + (x1(series.name) ?? 0))
         .attr('y', (d) => y(Math.max(d.value, 0)))
         .attr('width', x1.bandwidth())
@@ -247,7 +255,7 @@ export class UcBarChart implements OnDestroy {
           d3.select(event.currentTarget as Element).attr('fill', hoverColor);
 
           tooltip.style('opacity', 1);
-          tooltipLabel.text(normalizedSeries.length > 1 ? `${d.seriesName} · ${d.label}` : d.label);
+          tooltipLabel.text(allSeries.length > 1 ? `${d.seriesName} · ${d.label}` : d.label);
           tooltipValue.text(this.formatTooltipValue(d));
 
           positionTooltip(event);

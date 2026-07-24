@@ -103,6 +103,8 @@ export class UcLineChart implements OnDestroy {
     const visibleSeries = mappedSeries.filter((item) => item.enabled);
     const xLabels = series[0]?.data.map((point) => point.label) || [];
 
+    const measuredContainerWidth = container.clientWidth || Math.round(container.getBoundingClientRect().width) || 400;
+
     d3.select(container).selectAll('*').remove();
 
     const tooltip = d3.select(container).append('div').attr('class', 'uc-line-chart__tooltip').style('opacity', 0);
@@ -117,11 +119,11 @@ export class UcLineChart implements OnDestroy {
     };
 
     const margin = { top: 8, right: 16, bottom: 24, left: 32 };
-    const containerWidth = container.clientWidth || 400;
+    const containerWidth = measuredContainerWidth;
     const width = containerWidth - margin.left - margin.right;
     const height = chartHeight - margin.top - margin.bottom;
 
-    const allValues = visibleSeries.flatMap((s) => s.data.map((d) => d.value));
+    const allValues = series.flatMap((s) => s.data.map((d) => d.value));
     const minValue = allValues.length > 0 ? Math.min(...allValues, 0) : 0;
     const maxValue = allValues.length > 0 ? Math.max(...allValues) : 0;
     const padding = (maxValue - minValue) * 0.1 || 1;
