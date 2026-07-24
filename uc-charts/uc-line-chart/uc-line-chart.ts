@@ -6,6 +6,7 @@ import {
   ViewEncapsulation,
   effect,
   input,
+  signal,
   viewChild,
 } from '@angular/core';
 import * as d3 from 'd3';
@@ -25,15 +26,18 @@ const TOOLTIP_OFFSET_Y = 12;
 export class UcLineChart implements OnDestroy {
   data = input.required<UcLineChartSeries[]>();
   height = input<number>(200);
+  showLegend = input<boolean>(true);
   interpolationMode = input<UcLineChartInterpolation>('linear', { alias: 'interpolation' });
 
   private svgContainer = viewChild.required<ElementRef<HTMLElement>>('svgContainer');
   private resizeObserver: ResizeObserver | null = null;
+  private seriesState = signal<Record<string, boolean>>({});
 
   constructor() {
     effect(() => {
       const data = this.data();
       const height = this.height();
+      this.seriesState();
       const interpolation = this.interpolationMode();
 
       if (data) {
@@ -46,11 +50,49 @@ export class UcLineChart implements OnDestroy {
     this.resizeObserver?.disconnect();
   }
 
+  getSeriesColor(series: UcLineChartSeries, index: number): string {
+    return series.color || getLineChartSeriesColor(index);
+  }
+
+  getSeriesLegendValue(series: UcLineChartSeries): string {
+    const lastPoint = series.data.at(-1);
+    return lastPoint ? `${lastPoint.value}` : '-';
+  }
+
+  isSeriesEnabled(name: string): boolean {
+    return this.seriesState()[name] ?? true;
+  }
+
+  canToggleSeries(name: string): boolean {
+    const isEnabled = this.isSeriesEnabled(name);
+    const enabledCount = this.data().filter((series) => this.isSeriesEnabled(series.name)).length;
+
+    return !isEnabled || enabledCount > 1;
+  }
+
+  toggleSeries(name: string): void {
+    if (!this.canToggleSeries(name)) {
+      return;
+    }
+
+    this.seriesState.update((state) => ({
+      ...state,
+      [name]: !(state[name] ?? true),
+    }));
+  }
+
   private render(series: UcLineChartSeries[], chartHeight: number, interpolation: UcLineChartInterpolation): void {
     const container = this.svgContainer().nativeElement;
     const axisColor = getChartAxisColor();
     const mutedAxisColor = getChartMutedAxisColor();
     const gridColor = getChartGridColor();
+    const mappedSeries = series.map((item, originalIndex) => ({
+      ...item,
+      originalIndex,
+      enabled: this.isSeriesEnabled(item.name),
+    }));
+    const visibleSeries = mappedSeries.filter((item) => item.enabled);
+    const xLabels = series[0]?.data.map((point) => point.label) || [];
 
     d3.select(container).selectAll('*').remove();
 
@@ -70,9 +112,9 @@ export class UcLineChart implements OnDestroy {
     const width = containerWidth - margin.left - margin.right;
     const height = chartHeight - margin.top - margin.bottom;
 
-    const allValues = series.flatMap(s => s.data.map(d => d.value));
-    const minValue = Math.min(...allValues, 0);
-    const maxValue = Math.max(...allValues);
+    const allValues = visibleSeries.flatMap((s) => s.data.map((d) => d.value));
+    const minValue = allValues.length > 0 ? Math.min(...allValues, 0) : 0;
+    const maxValue = allValues.length > 0 ? Math.max(...allValues) : 0;
     const padding = (maxValue - minValue) * 0.1 || 1;
 
     const svg = d3
@@ -85,7 +127,7 @@ export class UcLineChart implements OnDestroy {
 
     const xScale = d3
       .scalePoint<string>()
-      .domain(series[0]?.data.map(d => d.label) || [])
+      .domain(xLabels)
       .range([0, width])
       .padding(0.1);
 
@@ -136,8 +178,8 @@ export class UcLineChart implements OnDestroy {
       .call((axis) => axis.selectAll('text').attr('fill', axisColor))
       .style('font-size', '12px');
 
-    series.forEach((s, index) => {
-      const color = s.color || getLineChartSeriesColor(index);
+    visibleSeries.forEach((s) => {
+      const color = this.getSeriesColor(s, s.originalIndex);
       const points = s.data.map((point) => ({ ...point, seriesName: s.name }));
 
       svg
@@ -149,11 +191,11 @@ export class UcLineChart implements OnDestroy {
         .attr('d', line as any);
 
       svg
-        .selectAll(`.dot-${index}`)
+        .selectAll(`.dot-${s.originalIndex}`)
         .data(points)
         .enter()
         .append('circle')
-        .attr('class', `dot-${index}`)
+        .attr('class', `dot-${s.originalIndex}`)
         .attr('cx', d => xScale(d.label)!)
         .attr('cy', d => yScale(d.value))
         .attr('r', 3)

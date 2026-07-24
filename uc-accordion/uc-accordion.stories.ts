@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/angular';
-import { moduleMetadata } from '@storybook/angular';
-import { UcAccordion } from './uc-accordion';
-import { UcAccordionItem } from './uc-accordion-item';
+import type { Meta, StoryObj } from "@storybook/angular";
+import { moduleMetadata } from "@storybook/angular";
+import { UcAccordion } from "./uc-accordion";
+import { UcAccordionItem } from "./uc-accordion-item";
 
 const meta: Meta<UcAccordion> = {
-  title: 'Components/Accordion',
+  title: "Components/Accordion",
   component: UcAccordion,
   decorators: [
     moduleMetadata({
@@ -14,17 +14,19 @@ const meta: Meta<UcAccordion> = {
   render: () => ({
     props: {},
     template: `
-      <uc-accordion>
-        <uc-accordion-item [title]="'First Item'">
-          <ng-template #content>Content for the first accordion item.</ng-template>
-        </uc-accordion-item>
-        <uc-accordion-item [title]="'Second Item'">
-          <ng-template #content>Content for the second accordion item.</ng-template>
-        </uc-accordion-item>
-        <uc-accordion-item [title]="'Third Item'">
-          <ng-template #content>Content for the third accordion item.</ng-template>
-        </uc-accordion-item>
-      </uc-accordion>
+      <div style="width: 300px; min-height: 700px; margin: 20px auto;">
+        <uc-accordion>
+          <uc-accordion-item [title]="'First Item'">
+            <ng-template #content>Content for the first accordion item.</ng-template>
+          </uc-accordion-item>
+          <uc-accordion-item [title]="'Second Item'">
+            <ng-template #content>Content for the second accordion item.</ng-template>
+          </uc-accordion-item>
+          <uc-accordion-item [title]="'Third Item'">
+            <ng-template #content>Content for the third accordion item.</ng-template>
+          </uc-accordion-item>
+        </uc-accordion>
+      </div>
     `,
   }),
 };

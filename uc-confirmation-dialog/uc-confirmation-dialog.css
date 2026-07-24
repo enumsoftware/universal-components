@@ -1,0 +1,42 @@
+:host {
+  --uc-confirmation-dialog-background-resolved: var(
+    --uc-confirmation-dialog-background,
+    var(--card-background-color)
+  );
+  --uc-confirmation-dialog-border-radius-resolved: var(--uc-confirmation-dialog-border-radius, 1rem);
+  --uc-confirmation-dialog-box-shadow-resolved: var(--uc-confirmation-dialog-box-shadow, var(--card-box-shadow));
+  --uc-confirmation-dialog-padding-resolved: var(--uc-confirmation-dialog-padding, 2rem);
+  --uc-confirmation-dialog-margin-resolved: var(--uc-confirmation-dialog-margin, 2rem);
+  --uc-confirmation-dialog-title-color-resolved: var(--uc-confirmation-dialog-title-color, var(--foreground-color));
+  --uc-confirmation-dialog-message-color-resolved: var(
+    --uc-confirmation-dialog-message-color,
+    var(--paragraph-text-color)
+  );
+  --uc-confirmation-dialog-actions-gap-resolved: var(--uc-confirmation-dialog-actions-gap, 0.5rem);
+  display: block;
+}
+
+.uc-confirmation-dialog {
+  display: block;
+  padding: var(--uc-confirmation-dialog-padding-resolved);
+  margin: var(--uc-confirmation-dialog-margin-resolved);
+  background-color: var(--uc-confirmation-dialog-background-resolved);
+  border-radius: var(--uc-confirmation-dialog-border-radius-resolved);
+  box-shadow: var(--uc-confirmation-dialog-box-shadow-resolved);
+}
+
+.uc-confirmation-dialog__title {
+  margin: 0;
+  color: var(--uc-confirmation-dialog-title-color-resolved);
+}
+
+.uc-confirmation-dialog__message {
+  margin: 1rem 0 0 0;
+  color: var(--uc-confirmation-dialog-message-color-resolved);
+}
+
+.uc-confirmation-dialog__actions {
+  display: flex;
+  gap: var(--uc-confirmation-dialog-actions-gap-resolved);
+  margin-top: 1.5rem;
+}

@@ -1,6 +1,7 @@
 export type { UcBarChartDataPoint } from './uc-charts/uc-bar-chart/uc-bar-chart.model';
 export type { UcLineChartSeries, UcLineChartDataPoint } from './uc-charts/uc-line-chart/uc-line-chart.model';
 export type { UcDoughnutChartDataPoint } from './uc-charts/uc-doughnut-chart/uc-doughnut-chart.model';
+export type { UcConfirmationDialogData } from './uc-confirmation-dialog/uc-confirmation-dialog';
 export type { SelectOption } from './uc-select/uc-select';
 export type { UcSidebarMode } from './uc-side-navigation/uc-side-navigation';
 export type { UcTab } from './uc-tabs/uc-tabs';
@@ -14,6 +15,7 @@ export { UcLineChart } from './uc-charts/uc-line-chart/uc-line-chart';
 export { UcDoughnutChart } from './uc-charts/uc-doughnut-chart/uc-doughnut-chart';
 export { UcCheckbox } from './uc-checkbox/uc-checkbox';
 export { UcColorPicker } from './uc-color-picker/uc-color-picker';
+export { UcConfirmationDialog } from './uc-confirmation-dialog/uc-confirmation-dialog';
 export { UcDateTimePicker } from './uc-date-time-picker/uc-date-time-picker';
 export { UcDivider } from './uc-divider/uc-divider';
 export { UcFilePicker } from './uc-file-picker/uc-file-picker';

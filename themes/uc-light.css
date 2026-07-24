@@ -80,8 +80,6 @@
   --uc-input-background-error-color: oklch(from var(--error-color) l c h / 0.1);
   --uc-input-disabled-background-color: #f1f3f5;
   --uc-input-disabled-color: oklch(from var(--foreground-color) l c h / 0.55);
-  --uc-textarea-disabled-background-color: #f1f3f5;
-  --uc-textarea-disabled-color: oklch(from var(--foreground-color) l c h / 0.55);
 
   /* --- Checkbox --- */
   --uc-checkbox-background-color: var(--background-color);
@@ -106,13 +104,6 @@
   --uc-accordion-content-font-size: 0.875rem;
   --uc-accordion-content-line-height: 1.5;
   --uc-accordion-gap: 0.5rem;
-
-  /* --- Arrow Button --- */
-  --uc-arrow-button-primary-color: var(--primary-color);
-  --uc-arrow-button-secondary-color: var(--secondary-color);
-  --uc-arrow-button-font-weight: 700;
-  --uc-arrow-button-padding-block: 0.75rem;
-  --uc-arrow-button-padding-inline: 2rem;
 
   /* --- Button --- */
   --uc-button-background: var(--primary-color, #007bff);
@@ -151,6 +142,16 @@
   --uc-card-border-radius: var(--card-border-radius);
   --uc-card-box-shadow: var(--card-box-shadow);
   --uc-card-padding: var(--card-padding);
+
+  /* --- Confirmation Dialog --- */
+  --uc-confirmation-dialog-background: var(--card-background-color);
+  --uc-confirmation-dialog-border-radius: 1rem;
+  --uc-confirmation-dialog-box-shadow: var(--card-box-shadow);
+  --uc-confirmation-dialog-padding: 2rem;
+  --uc-confirmation-dialog-margin: 2rem;
+  --uc-confirmation-dialog-title-color: var(--foreground-color);
+  --uc-confirmation-dialog-message-color: var(--paragraph-text-color);
+  --uc-confirmation-dialog-actions-gap: 0.5rem;
 
   /* --- Charts Shared --- */
   --uc-chart-series-1: #473bf0;
@@ -345,6 +346,12 @@
   --uc-pill-compact-border-radius: 0.25rem;
   --uc-pill-compact-font-size: 0.75rem;
   --uc-pill-compact-line-height: 1rem;
+  --uc-pill-info-background: var(--background-color-90);
+  --uc-pill-info-color: var(--foreground-color);
+  --uc-pill-valid-background: oklch(from var(--success-color) l c h / 0.2);
+  --uc-pill-valid-color: oklch(from var(--success-color) calc(l - 0.22) c h);
+  --uc-pill-error-background: oklch(from var(--error-color) l c h / 0.2);
+  --uc-pill-error-color: oklch(from var(--error-color) calc(l - 0.12) c h);
 
   /* --- Select --- */
   --uc-select-label-color: oklch(from var(--foreground-color) l c h / 1);
@@ -404,20 +411,6 @@
   --uc-stepper-indicator-font-size: 0.875rem;
   --uc-stepper-connector-height: 2px;
 
-  /* --- Table Pill --- */
-  --uc-pill-info-background: var(--background-color-90);
-  --uc-pill-info-color: var(--foreground-color);
-  --uc-pill-valid-background: oklch(from var(--success-color) l c h / 0.2);
-  --uc-pill-valid-color: oklch(from var(--success-color) calc(l - 0.22) c h);
-  --uc-pill-error-background: oklch(from var(--error-color) l c h / 0.2);
-  --uc-pill-error-color: oklch(from var(--error-color) calc(l - 0.12) c h);
-  --uc-table-pill-info-background: var(--uc-pill-info-background);
-  --uc-table-pill-info-color: var(--uc-pill-info-color);
-  --uc-table-pill-valid-background: var(--uc-pill-valid-background);
-  --uc-table-pill-valid-color: var(--uc-pill-valid-color);
-  --uc-table-pill-error-background: var(--uc-pill-error-background);
-  --uc-table-pill-error-color: var(--uc-pill-error-color);
-
   /* --- Tabs --- */
   --uc-tabs-border-color: var(--background-color-90);
   --uc-tabs-tab-color: var(--paragraph-text-color);
@@ -431,6 +424,8 @@
   --uc-textarea-placeholder-color: oklch(from var(--foreground-color) l c h / 0.35);
   --uc-textarea-border-error-color: var(--error-color);
   --uc-textarea-background-error-color: oklch(from var(--error-color) l c h / 0.1);
+  --uc-textarea-disabled-background-color: #f1f3f5;
+  --uc-textarea-disabled-color: oklch(from var(--foreground-color) l c h / 0.55);
 
   /* --- Toggle --- */
   --uc-toggle-background: oklch(from var(--foreground-color) l c h / 0.3);

@@ -58,12 +58,16 @@ const meta: Meta<UcLineChart> = {
   args: {
     data: sampleData,
     height: 200,
+    showLegend: true,
     interpolation: 'linear',
   },
   argTypes: {
     interpolation: {
       control: 'select',
       options: ['linear', 'cubic', 'cubic-monotone'] satisfies UcLineChartInterpolation[],
+    },
+    showLegend: {
+      control: 'boolean',
     },
   },
 };
@@ -100,5 +104,11 @@ export const WithCustomColors: Story = {
         ],
       },
     ],
+  },
+};
+
+export const WithoutLegend: Story = {
+  args: {
+    showLegend: false,
   },
 };

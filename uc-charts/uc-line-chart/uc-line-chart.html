@@ -1,1 +1,24 @@
-<div class="uc-line-chart" #svgContainer></div>
+<div class="uc-line-chart">
+	<div class="uc-line-chart__chart" #svgContainer></div>
+
+	@if (showLegend()) {
+		<ul class="uc-line-chart__legend">
+			@for (item of data(); track item.name; let i = $index) {
+				<li class="uc-line-chart__legend-item" [class.uc-line-chart__legend-item--disabled]="!isSeriesEnabled(item.name)">
+					<button
+						class="uc-line-chart__legend-button"
+						type="button"
+						[disabled]="!canToggleSeries(item.name)"
+						[attr.aria-pressed]="isSeriesEnabled(item.name)"
+						[attr.aria-label]="(isSeriesEnabled(item.name) ? 'Disable' : 'Enable') + ' ' + item.name"
+						(click)="toggleSeries(item.name)"
+					>
+						<span class="uc-line-chart__legend-dot" [style.background-color]="getSeriesColor(item, i)"></span>
+						<span class="uc-line-chart__legend-label">{{ item.name }}</span>
+						<span class="uc-line-chart__legend-value">{{ getSeriesLegendValue(item) }}</span>
+					</button>
+				</li>
+			}
+		</ul>
+	}
+</div>

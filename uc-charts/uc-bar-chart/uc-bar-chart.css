@@ -26,6 +26,7 @@ uc-bar-chart .uc-bar-chart {
     strong {
       font-size: 0.78rem;
       font-weight: 700;
+      color: inherit;
     }
   }
 

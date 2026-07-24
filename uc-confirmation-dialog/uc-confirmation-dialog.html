@@ -1,0 +1,28 @@
+<section
+  class="uc-confirmation-dialog"
+  role="alertdialog"
+  aria-modal="true"
+  [attr.aria-labelledby]="titleId"
+  [attr.aria-describedby]="messageId"
+>
+  <h4 [id]="titleId" class="uc-confirmation-dialog__title">{{ title() }}</h4>
+
+  <p [id]="messageId" class="uc-confirmation-dialog__message">
+    {{ message() }}
+  </p>
+
+  <div class="uc-confirmation-dialog__actions">
+    <uc-button
+      class="uc-confirmation-dialog__action"
+      [text]="negativeButtonText()"
+      [variant]="'secondary'"
+      (clicked)="negativeClicked()"
+    />
+    <uc-button
+      class="uc-confirmation-dialog__action"
+      [variant]="'error'"
+      [text]="positiveButtonText()"
+      (clicked)="positiveClicked()"
+    />
+  </div>
+</section>
