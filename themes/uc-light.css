@@ -39,6 +39,12 @@
   /* --- Sidebar --- */
   --sidebar-background-color: #ffffff;
 
+  /* --- Scrollbar --- */
+  --uc-scrollbar-size: 0.6rem;
+  --uc-scrollbar-track-color: oklch(from var(--foreground-color) l c h / 0.18);
+  --uc-scrollbar-thumb-color: oklch(from var(--primary-color) calc(l * 0.9) c h / 0.85);
+  --uc-scrollbar-thumb-hover-color: var(--primary-color);
+
   /* --- App Semantic Defaults --- */
   --table-header-background: transparent;
   --table-background: var(--background-color);

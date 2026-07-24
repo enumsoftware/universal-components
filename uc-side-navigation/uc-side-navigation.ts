@@ -3,17 +3,15 @@ import {
   inject,
   input,
   signal,
-  computed,
   Renderer2,
   viewChild,
   ElementRef,
   afterRenderEffect,
-  DOCUMENT,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { UcSidebar } from './uc-sidebar/uc-sidebar';
 
-export type UcSidebarMode = 'over' | 'side';
+export const SIDEBAR_MODE_OPTIONS = ['over', 'side'] as const;
+export type UcSidebarMode = (typeof SIDEBAR_MODE_OPTIONS)[number];
 @Component({
   selector: 'uc-side-navigation',
   templateUrl: './uc-side-navigation.html',
@@ -24,15 +22,13 @@ export class UcSideNavigation {
   private static nextId = 0;
   public readonly instanceId = signal<string>('');
   public readonly sidebarMode = input<UcSidebarMode>('over');
+  public readonly sidebarScrollable = input<boolean>(true);
+  public readonly closeOnBackdropClick = input<boolean>(true);
   readonly isSidebarOpen = signal<boolean>(false);
-  readonly sidebarAnimationClass = computed(() =>
-    this.isSidebarOpen() ? 'sidebar-opened' : 'sidebar-closed',
-  );
 
-  readonly aside = viewChild.required<ElementRef<HTMLElement>>('testAside');
+  readonly aside = viewChild.required<ElementRef<HTMLElement>>('sidebarAside');
 
   private readonly renderer = inject(Renderer2);
-  private readonly document = inject(DOCUMENT);
   private animationsEnabled = false;
 
   constructor() {
@@ -43,20 +39,10 @@ export class UcSideNavigation {
       const asideEl = this.aside().nativeElement;
 
       if (mode === 'side') {
-        if (asideEl.hasAttribute('popover')) {
-          try {
-            asideEl.hidePopover();
-          } catch {}
-          this.renderer.removeAttribute(asideEl, 'popover');
-        }
         this.isSidebarOpen.set(true);
       } else if (mode === 'over') {
-        if (!asideEl.hasAttribute('popover')) {
-          this.renderer.setAttribute(asideEl, 'popover', 'auto');
-        }
         this.isSidebarOpen.set(false);
 
-        // Enable animations after initial render to prevent animation on page load
         if (!this.animationsEnabled) {
           this.animationsEnabled = true;
           setTimeout(() => {
@@ -67,41 +53,15 @@ export class UcSideNavigation {
     });
   }
 
-
-
   toggleSidebar() {
     this.isSidebarOpen.set(!this.isSidebarOpen());
-
-    if (this.sidebarMode() == 'over') {
-      const sidebar = this.document.getElementById(this.instanceId());
-
-      if (sidebar) {
-        sidebar.togglePopover();
-      }
-    }
   }
 
   openSidebar() {
     this.isSidebarOpen.set(true);
-
-    if (this.sidebarMode() == 'over') {
-      const sidebar = this.document.getElementById(this.instanceId());
-
-      if (sidebar) {
-        sidebar.showPopover();
-      }
-    }
   }
 
   closeSidebar() {
     this.isSidebarOpen.set(false);
-
-    if (this.sidebarMode() == 'over') {
-      const sidebar = this.document.getElementById(this.instanceId());
-
-      if (sidebar) {
-        sidebar.hidePopover();
-      }
-    }
   }
 }

@@ -4,6 +4,10 @@
   --uc-side-navigation-sidebar-border-radius-resolved: var(--uc-side-navigation-sidebar-border-radius, 1rem);
   --uc-side-navigation-backdrop-background-resolved: var(--uc-side-navigation-backdrop-background, rgba(0, 0, 0, 0.8));
   --uc-side-navigation-animation-duration-resolved: var(--uc-side-navigation-animation-duration, 0.3s);
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: 0;
   background-color: var(--background-color);
 }
 
@@ -15,13 +19,19 @@
   grid-template-columns: 0rem 1fr;
   grid-template-areas: 'uc-sidebar uc-content';
   transition: grid-template-columns 0.3s ease;
-  height: 100dvh;
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: 0;
+  overflow: hidden;
 }
 .uc-sidebar-side {
   background-color: var(--uc-side-navigation-sidebar-background-resolved);
   z-index: 1;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
   grid-area: uc-sidebar;
+  block-size: 100%;
+  max-block-size: 100%;
 }
 
 .uc-wrapper-side:has(.uc-sidebar-opened) {
@@ -30,92 +40,143 @@
 
 .uc-sidebar-opened {
   transform: translateX(0%);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
   transition: transform 0.3s ease allow-discrete;
-  overflow: hidden;
+  overflow-x: hidden;
   width: var(--sidebar-width);
 }
 
 .uc-sidebar-closed {
   width: var(--sidebar-width);
   transform: translateX(-100%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
   transition: transform 0.3s ease allow-discrete;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .uc-content-side {
   overflow-y: auto;
   grid-area: uc-content;
   z-index: 1;
+  min-block-size: 0;
 }
 
 /* Over Mode */
 .uc-wrapper-over {
   display: grid;
-  height: 100dvh;
-  anchor-name: --side-navigation-anchor;
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: 0;
   position: relative;
+  overflow: hidden;
 }
+
+.uc-wrapper-over::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--uc-side-navigation-backdrop-background-resolved);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity var(--uc-side-navigation-animation-duration-resolved) ease-in-out;
+}
+
+.uc-wrapper-over:has(.uc-sidebar-over.uc-sidebar-opened)::before {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.uc-sidebar-backdrop-button {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  cursor: default;
+}
+
 .uc-sidebar-over {
   --sidebar-animation-duration: var(--uc-side-navigation-animation-duration-resolved);
 
-  position-anchor: --side-navigation-anchor;
   position: absolute;
   background-color: var(--uc-side-navigation-sidebar-background-resolved);
-  height: calc(100dvh - 2rem);
-  min-width: 250px;
-  width: fit-content;
-  z-index: 9999;
+  inline-size: fit-content;
+  min-inline-size: 250px;
+  max-inline-size: calc(100% - 2rem);
+  block-size: calc(100% - 2rem);
   top: 1rem;
   bottom: 1rem;
   left: 1rem;
-  right: 1rem;
-  transform: translateX(-110%);
+  right: auto;
   border-radius: var(--uc-side-navigation-sidebar-border-radius-resolved);
   opacity: 0;
   pointer-events: none;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  z-index: 3;
+  transform: translateX(calc(-100% - 1rem));
 
   &.animations-enabled {
     transition:
       transform var(--sidebar-animation-duration) ease-in-out,
-      opacity var(--sidebar-animation-duration) ease-in-out,
-      display var(--sidebar-animation-duration) allow-discrete,
-      overlay var(--sidebar-animation-duration) allow-discrete;
+      opacity var(--sidebar-animation-duration) ease-in-out;
   }
 
-  &:popover-open {
+  &.uc-sidebar-opened {
     opacity: 1;
     transform: translateX(0);
     pointer-events: auto;
-
-    @starting-style {
-      opacity: 0;
-      transform: translateX(-110%);
-    }
-
-    ~ .uc-content-over {
-      pointer-events: none;
-    }
   }
 
-  &::backdrop {
-    background: var(--uc-side-navigation-backdrop-background-resolved);
-    opacity: 1;
-    pointer-events: auto;
-
-    @starting-style {
-      opacity: 0;
-    }
+  &.uc-sidebar-closed {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(calc(-100% - 1rem));
   }
+}
 
-  &.animations-enabled::backdrop {
-    transition: 
-      opacity var(--sidebar-animation-duration) ease-in-out,
-      display var(--sidebar-animation-duration) allow-discrete,
-      overlay var(--sidebar-animation-duration) allow-discrete;
-  }
+.uc-sidebar-scroll-wrapper {
+  block-size: 100%;
+  min-block-size: 0;
+  overflow: hidden;
+}
+
+.uc-sidebar-scroll-wrapper-enabled {
+  block-size: 100%;
+  margin: 0;
+  padding-block: 0.5rem;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.uc-sidebar-layout {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  block-size: 100%;
+  min-block-size: 0;
+  overflow: hidden;
+}
+
+.uc-sidebar-header,
+.uc-sidebar-footer {
+  z-index: 1;
 }
 
 .uc-content-over {
   overflow-y: auto;
   pointer-events: auto;
+  min-block-size: 0;
+}
+
+.uc-wrapper-over:has(.uc-sidebar-over.uc-sidebar-opened) .uc-content-over {
+  pointer-events: none;
 }

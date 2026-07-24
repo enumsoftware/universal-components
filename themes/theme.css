@@ -43,6 +43,41 @@ body {
   line-height: var(--uc-content-line-height);
 }
 
+:where(*) {
+  --uc-scrollbar-track-color-resolved: var(--uc-scrollbar-track-color, oklch(from var(--foreground-color) l c h / 0.3));
+  --uc-scrollbar-thumb-color-resolved: var(--uc-scrollbar-thumb-color, oklch(from var(--foreground-color) l c h / 0.9));
+  --uc-scrollbar-thumb-hover-color-resolved: var(--uc-scrollbar-thumb-hover-color, oklch(from var(--foreground-color) l c h / 0.95));
+  --uc-scrollbar-size-resolved: var(--uc-scrollbar-size, 0.6rem);
+}
+
+/* https://webkit.org/blog/363/styling-scrollbars/ */
+:where(*)::-webkit-scrollbar {
+  width: var(--uc-scrollbar-size-resolved);
+  height: var(--uc-scrollbar-size-resolved);
+}
+
+:where(*)::-webkit-scrollbar-track {
+  background: var(--uc-scrollbar-track-color-resolved);
+  border-radius: 15px;
+}
+
+:where(*)::-webkit-scrollbar-thumb {
+  background: var(--uc-scrollbar-thumb-color-resolved);
+  border-radius: 15px;
+}
+
+:where(*)::-webkit-scrollbar-thumb:hover {
+  background: var(--uc-scrollbar-thumb-hover-color-resolved);
+  cursor: pointer;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  :where(*) {
+    scrollbar-width: thin;
+    scrollbar-color: var(--uc-scrollbar-thumb-color-resolved) var(--uc-scrollbar-track-color-resolved);
+  }
+}
+
 :where(.uc-content) {
   max-width: var(--uc-content-max-width);
   color: var(--uc-content-body-color, var(--font-color));

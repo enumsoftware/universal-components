@@ -2,15 +2,41 @@
   [class.uc-wrapper-over]="sidebarMode() === 'over'"
   [class.uc-wrapper-side]="sidebarMode() === 'side'"
 >
+  @if (sidebarMode() === 'over' && isSidebarOpen() && closeOnBackdropClick()) {
+    <button
+      type="button"
+      class="uc-sidebar-backdrop-button"
+      aria-label="Close sidebar"
+      (click)="closeSidebar()"
+    ></button>
+  }
+
   <aside
     [id]="instanceId()"
     [class.uc-sidebar-opened]="isSidebarOpen()"
     [class.uc-sidebar-closed]="!isSidebarOpen()"
     [class.uc-sidebar-over]="sidebarMode() === 'over'"
     [class.uc-sidebar-side]="sidebarMode() === 'side'"
-    #testAside
+    [attr.inert]="sidebarMode() === 'side' && !isSidebarOpen() ? '' : null"
+    [attr.aria-hidden]="sidebarMode() === 'side' && !isSidebarOpen() ? 'true' : 'false'"
+    #sidebarAside
   >
-    <ng-content select="uc-sidebar">Sidebar</ng-content>
+    <div class="uc-sidebar-layout">
+      <div class="uc-sidebar-header">
+        <ng-content select="[ucSidebarHeader]" />
+      </div>
+
+      <div
+        class="uc-sidebar-scroll-wrapper"
+        [class.uc-sidebar-scroll-wrapper-enabled]="sidebarScrollable()"
+      >
+        <ng-content select="uc-sidebar">Sidebar</ng-content>
+      </div>
+
+      <div class="uc-sidebar-footer">
+        <ng-content select="[ucSidebarFooter]" />
+      </div>
+    </div>
   </aside>
 
   <main
