@@ -1,49 +1,50 @@
 /**
- * Universal Components - Dark Theme
+ * Universal Components - Midnight Theme
  *
- * Import this file in your project to apply the default dark theme variables
+ * A dark-mode variant with a sky blue/purple palette.
+ * Import this file in your project to apply the Midnight theme variables
  * required by @enumsoftware/universal-components.
  */
 
-[data-theme='dark'] {
+[data-theme='midnight'] {
   color-scheme: dark;
 
   /* --- Palette --- */
-  --primary-color: #68d585;
-  --primary-contrast-color: #161c2d;
-  --secondary-color: #958ef6;
-  --foreground-color: #ffffff;
-  --inverse-foreground-color: #161c2d;
-  --inverse-background-color: #ffffff;
-  --background-color: #161c2d;
+  --primary-color: #7dd3fc;
+  --primary-contrast-color: #082032;
+  --secondary-color: #a78bfa;
+  --foreground-color: #e2e8f0;
+  --inverse-foreground-color: #082032;
+  --inverse-background-color: #e2e8f0;
+  --background-color: #0b1120;
   --background-color-80: oklch(from var(--background-color) calc(l * 0.8) c h);
   --background-color-90: oklch(from var(--background-color) calc(l * 0.9) c h);
 
   /* --- Semantic Colours --- */
-  --error-color: #ff6f6f;
-  --success-color: #00b69b;
-  --warning-color: #ffb74d;
+  --error-color: #fb7185;
+  --success-color: #2dd4bf;
+  --warning-color: #fbbf24;
   --warning-bg: oklch(from #ffb74d l c h / 0.1);
   --warning-border: oklch(from #ffb74d l c h / 0.3);
 
   /* --- Typography --- */
   --font-color: var(--foreground-color);
-  --paragraph-text-color: oklch(from #ffffff l c h / 0.7);
+  --paragraph-text-color: oklch(from #e2e8f0 l c h / 0.72);
 
   /* --- Card --- */
-  --card-background-color: oklch(from #161c2d calc(l * 0.8) c h);
+  --card-background-color: #111a2e;
   --card-border-radius: 1rem;
   --card-box-shadow: 0 0.25rem 3rem oklch(from #000000 l c h / 0.2);
   --card-padding: 1rem 2rem;
 
   /* --- Sidebar --- */
-  --sidebar-background-color: oklch(from #161c2d calc(l * 0.8) c h);
+  --sidebar-background-color: #0f172a;
 
   /* --- Scrollbar --- */
   --uc-scrollbar-size: 0.6rem;
-  --uc-scrollbar-track-color: oklch(from var(--foreground-color) l c h / 0.2);
-  --uc-scrollbar-thumb-color: oklch(from var(--primary-color) l c h / 0.85);
-  --uc-scrollbar-thumb-hover-color: var(--primary-color);
+  --uc-scrollbar-track-color: oklch(from var(--foreground-color) l c h / 0.16);
+  --uc-scrollbar-thumb-color: oklch(from var(--primary-color) l c h / 0.78);
+  --uc-scrollbar-thumb-hover-color: #38bdf8;
 
   /* --- App Semantic Defaults --- */
   --table-header-background: transparent;
@@ -53,7 +54,7 @@
   --uc-content-body-color: var(--font-color);
   --uc-content-muted-color: var(--paragraph-text-color);
   --uc-content-link-color: var(--primary-color);
-  --uc-content-link-hover-color: #95e1d3;
+  --uc-content-link-hover-color: #93c5fd;
   --uc-content-code-background: oklch(from #ffffff l c h / 0.08);
   --uc-content-code-color: var(--foreground-color);
   --uc-content-pre-background: oklch(from #000000 l c h / 0.22);
@@ -154,14 +155,14 @@
   --uc-confirmation-dialog-actions-gap: 0.5rem;
 
   /* --- Charts Shared --- */
-  --uc-chart-series-1: #68d585;
-  --uc-chart-series-2: #958ef6;
-  --uc-chart-series-3: #7cc3ff;
-  --uc-chart-series-4: #ffb74d;
-  --uc-chart-series-5: #ff6f6f;
-  --uc-chart-series-6: #4ecdc4;
-  --uc-chart-series-7: #ffd166;
-  --uc-chart-series-8: #c792ea;
+  --uc-chart-series-1: #7dd3fc;
+  --uc-chart-series-2: #a78bfa;
+  --uc-chart-series-3: #34d399;
+  --uc-chart-series-4: #fbbf24;
+  --uc-chart-series-5: #fb7185;
+  --uc-chart-series-6: #22d3ee;
+  --uc-chart-series-7: #f472b6;
+  --uc-chart-series-8: #c4b5fd;
   --uc-chart-axis-color: var(--foreground-color);
   --uc-chart-axis-muted-color: var(--paragraph-text-color);
   --uc-chart-axis-line-color: rgba(255, 255, 255, 0.28);
@@ -175,7 +176,7 @@
   --uc-line-chart-series-2: var(--uc-chart-series-5);
   --uc-line-chart-series-3: var(--uc-chart-series-6);
   --uc-line-chart-series-4: var(--uc-chart-series-4);
-  --uc-line-chart-series-5: #95e1d3;
+  --uc-line-chart-series-5: #93c5fd;
   --uc-line-chart-series-6: var(--uc-chart-series-8);
   --uc-line-chart-legend-label-color: var(--foreground-color);
   --uc-line-chart-legend-value-color: var(--paragraph-text-color);
@@ -183,7 +184,7 @@
 
   /* --- Bar Chart --- */
   --uc-bar-chart-color: var(--uc-chart-series-1);
-  --uc-bar-chart-hover-color: #7ae39e;
+  --uc-bar-chart-hover-color: #38bdf8;
   --uc-bar-chart-legend-label-color: var(--foreground-color);
   --uc-bar-chart-legend-value-color: var(--paragraph-text-color);
   --uc-bar-chart-legend-disabled-opacity: 0.5;
@@ -340,7 +341,7 @@
   --uc-pagination-select-padding-block: 0.5rem;
   --uc-pagination-select-padding-inline: 0.75rem;
   --uc-pagination-select-font-size: 0.95rem;
-  --uc-pagination-select-focus-ring: 0 0 0 2px oklch(from var(--primary-color, #473bf0) l c h / 0.25);
+  --uc-pagination-select-focus-ring: 0 0 0 2px oklch(from var(--primary-color, #7dd3fc) l c h / 0.25);
   --uc-pagination-select-panel-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
   /* --- Pill --- */

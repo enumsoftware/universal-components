@@ -4,7 +4,9 @@
 @import url('@phosphor-icons/web/fill');
 @import url('flag-icons/css/flag-icons.min.css');
 @import 'uc-light.css';
+@import 'uc-aurora.css';
 @import 'uc-dark.css';
+@import 'uc-midnight.css';
 
 :root {
   interpolate-size: allow-keywords;
