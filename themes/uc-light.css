@@ -5,7 +5,7 @@
  * required by @enumsoftware/universal-components.
  */
 
-[data-theme="light"] {
+[data-theme='light'] {
   color-scheme: light;
 
   /* --- Palette --- */
@@ -177,10 +177,16 @@
   --uc-line-chart-series-4: #ffe66d;
   --uc-line-chart-series-5: #95e1d3;
   --uc-line-chart-series-6: #f38181;
+  --uc-line-chart-legend-label-color: var(--foreground-color);
+  --uc-line-chart-legend-value-color: var(--paragraph-text-color);
+  --uc-line-chart-legend-disabled-opacity: 0.5;
 
   /* --- Bar Chart --- */
   --uc-bar-chart-color: var(--uc-chart-series-1);
   --uc-bar-chart-hover-color: #5b51f3;
+  --uc-bar-chart-legend-label-color: var(--foreground-color);
+  --uc-bar-chart-legend-value-color: var(--paragraph-text-color);
+  --uc-bar-chart-legend-disabled-opacity: 0.5;
 
   /* --- Doughnut Chart --- */
   --uc-doughnut-chart-series-1: var(--uc-chart-series-1);

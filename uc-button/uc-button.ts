@@ -1,4 +1,12 @@
-import { Component, input, model, output, ChangeDetectionStrategy } from '@angular/core';
+import {
+  afterNextRender,
+  Component,
+  input,
+  model,
+  output,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 export const BUTTON_VARIANT_OPTIONS = ['primary', 'secondary', 'error'] as const;
 export type ButtonVariant = (typeof BUTTON_VARIANT_OPTIONS)[number];
@@ -26,6 +34,18 @@ export class UcButton {
   disabled = input<boolean>(false);
   clicked = output<void>();
   type = input<ButtonType>('button');
+
+  /**
+   * Color transitions stay off until the frame after the variant and size classes have been
+   * rendered, so the button never animates from its unstyled colors to its variant colors.
+   */
+  readonly transitionsEnabled = signal(false);
+
+  constructor() {
+    afterNextRender(() => {
+      requestAnimationFrame(() => this.transitionsEnabled.set(true));
+    });
+  }
 
   onClick(event: MouseEvent) {
     if (this.disabled()) {

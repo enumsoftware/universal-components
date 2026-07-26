@@ -42,16 +42,22 @@
   font-weight: var(--uc-button-medium-font-weight-resolved);
   font-size: var(--uc-button-medium-font-size-resolved);
   line-height: var(--uc-button-medium-line-height-resolved);
-  transition:
-    background 0.3s,
-    border 0.3s,
-    color 0.3s;
   background-color: var(--uc-button-background-resolved);
   color: var(--uc-button-color-resolved);
   padding-block: var(--uc-button-medium-padding-block-resolved);
   padding-inline: var(--uc-button-medium-padding-inline-resolved);
   border-radius: var(--uc-button-medium-border-radius-resolved);
   border: 0px solid transparent;
+}
+
+/* Angular applies the variant and size classes one style-change event after the button element
+   is inserted, so a transition that is live on first render animates the button from its
+   unstyled colors to its variant colors. `uc-transitions` is added after the first paint. */
+.uc-button.uc-transitions {
+  transition:
+    background 0.3s,
+    border 0.3s,
+    color 0.3s;
 }
 
 .uc-button.uc-size-small {
