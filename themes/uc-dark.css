@@ -42,8 +42,8 @@
   /* --- Scrollbar --- */
   --uc-scrollbar-size: 0.6rem;
   --uc-scrollbar-track-color: oklch(from var(--foreground-color) l c h / 0.2);
-  --uc-scrollbar-thumb-color: oklch(from var(--primary-color) l c h / 0.85);
-  --uc-scrollbar-thumb-hover-color: var(--primary-color);
+  --uc-scrollbar-thumb-color: oklch(from var(--primary-color) calc(l * 0.65) 0.02 h / 0.9);
+  --uc-scrollbar-thumb-hover-color: oklch(from var(--primary-color) calc(l * 0.55) 0.02 h);
 
   /* --- App Semantic Defaults --- */
   --table-header-background: transparent;
