@@ -1,49 +1,50 @@
 /**
- * Universal Components - Light Theme
+ * Universal Components - Midnight Theme
  *
- * Import this file in your project to apply the default light theme variables
+ * A dark-mode variant with a sky blue/purple palette.
+ * Import this file in your project to apply the Midnight theme variables
  * required by @enumsoftware/universal-components.
  */
 
-[data-theme='light'] {
-  color-scheme: light;
+[data-theme='midnight'] {
+  color-scheme: dark;
 
   /* --- Palette --- */
-  --primary-color: #473bf0;
-  --primary-contrast-color: #ffffff;
-  --secondary-color: #68d585;
-  --foreground-color: #161c2d;
-  --inverse-foreground-color: #ffffff;
-  --inverse-background-color: #161c2d;
-  --background-color: #ffffff;
+  --primary-color: #7dd3fc;
+  --primary-contrast-color: #082032;
+  --secondary-color: #a78bfa;
+  --foreground-color: #e2e8f0;
+  --inverse-foreground-color: #082032;
+  --inverse-background-color: #e2e8f0;
+  --background-color: #0b1120;
   --background-color-80: oklch(from var(--background-color) calc(l * 0.8) c h);
   --background-color-90: oklch(from var(--background-color) calc(l * 0.9) c h);
 
   /* --- Semantic Colours --- */
-  --error-color: #c62828;
-  --success-color: #00b69b;
-  --warning-color: #f57c00;
-  --warning-bg: oklch(from #f57c00 l c h / 0.1);
-  --warning-border: oklch(from #f57c00 l c h / 0.3);
+  --error-color: #fb7185;
+  --success-color: #2dd4bf;
+  --warning-color: #fbbf24;
+  --warning-bg: oklch(from #ffb74d l c h / 0.1);
+  --warning-border: oklch(from #ffb74d l c h / 0.3);
 
   /* --- Typography --- */
   --font-color: var(--foreground-color);
-  --paragraph-text-color: oklch(from #161c2d l c h / 0.7);
+  --paragraph-text-color: oklch(from #e2e8f0 l c h / 0.72);
 
   /* --- Card --- */
-  --card-background-color: #ffffff;
+  --card-background-color: #111a2e;
   --card-border-radius: 1rem;
-  --card-box-shadow: 0 0.25rem 3rem oklch(from #161c2d l c h / 0.2);
+  --card-box-shadow: 0 0.25rem 3rem oklch(from #000000 l c h / 0.2);
   --card-padding: 1rem 2rem;
 
   /* --- Sidebar --- */
-  --sidebar-background-color: #ffffff;
+  --sidebar-background-color: #0f172a;
 
   /* --- Scrollbar --- */
   --uc-scrollbar-size: 0.6rem;
-  --uc-scrollbar-track-color: oklch(from var(--foreground-color) l c h / 0.18);
-  --uc-scrollbar-thumb-color: oklch(from var(--primary-color) calc(l * 0.65) 0.02 h / 0.9);
-  --uc-scrollbar-thumb-hover-color: oklch(from var(--primary-color) calc(l * 0.55) 0.02 h);
+  --uc-scrollbar-track-color: oklch(from var(--foreground-color) l c h / 0.16);
+  --uc-scrollbar-thumb-color: oklch(from var(--primary-color) l c h / 0.78);
+  --uc-scrollbar-thumb-hover-color: #38bdf8;
 
   /* --- App Semantic Defaults --- */
   --table-header-background: transparent;
@@ -53,53 +54,53 @@
   --uc-content-body-color: var(--font-color);
   --uc-content-muted-color: var(--paragraph-text-color);
   --uc-content-link-color: var(--primary-color);
-  --uc-content-link-hover-color: oklch(from var(--primary-color) calc(l - 0.08) c h);
-  --uc-content-code-background: oklch(from var(--foreground-color) l c h / 0.06);
+  --uc-content-link-hover-color: #93c5fd;
+  --uc-content-code-background: oklch(from #ffffff l c h / 0.08);
   --uc-content-code-color: var(--foreground-color);
-  --uc-content-pre-background: oklch(from var(--foreground-color) l c h / 0.04);
-  --uc-content-pre-border-color: oklch(from var(--foreground-color) l c h / 0.12);
-  --uc-content-blockquote-background: oklch(from var(--primary-color) l c h / 0.08);
-  --uc-content-blockquote-border-color: oklch(from var(--primary-color) l c h / 0.22);
-  --uc-content-mark-background: oklch(from var(--warning-color) l c h / 0.22);
+  --uc-content-pre-background: oklch(from #000000 l c h / 0.22);
+  --uc-content-pre-border-color: oklch(from #ffffff l c h / 0.12);
+  --uc-content-blockquote-background: oklch(from var(--primary-color) l c h / 0.12);
+  --uc-content-blockquote-border-color: oklch(from var(--primary-color) l c h / 0.32);
+  --uc-content-mark-background: oklch(from var(--warning-color) l c h / 0.28);
   --uc-content-mark-color: var(--foreground-color);
-  --uc-content-hr-color: oklch(from var(--foreground-color) l c h / 0.12);
-  --uc-table-border-color: oklch(from var(--foreground-color) l c h / 0.12);
-  --uc-table-row-hover-background: oklch(from var(--primary-color) l c h / 0.08);
+  --uc-content-hr-color: oklch(from #ffffff l c h / 0.12);
+  --uc-table-border-color: oklch(from #ffffff l c h / 0.12);
+  --uc-table-row-hover-background: oklch(from var(--primary-color) l c h / 0.1);
   --uc-table-caption-color: var(--paragraph-text-color);
   --dialog-background-color: var(--card-background-color);
   --dialog-box-shadow-color: oklch(from #161c2d l c h / 0.2);
   --dialog-box-shadow: 0 0 1rem var(--dialog-box-shadow-color);
 
   /* --- Input --- */
-  --uc-input-background-color: #ffffff;
-  --uc-input-border-color: oklch(from black l c h / 0.2);
+  --uc-input-background-color: oklch(from #161c2d calc(l * 0.9) c h);
+  --uc-input-border-color: transparent;
   --uc-input-border-radius: 0.5rem;
   --uc-input-label-color: oklch(from var(--foreground-color) l c h / 1);
   --uc-input-placeholder-color: oklch(from var(--foreground-color) l c h / 0.35);
   --uc-input-border-error-color: var(--error-color);
   --uc-input-background-error-color: oklch(from var(--error-color) l c h / 0.1);
-  --uc-input-disabled-background-color: #f1f3f5;
+  --uc-input-disabled-background-color: oklch(from var(--background-color) calc(l * 1.12) c h);
   --uc-input-disabled-color: oklch(from var(--foreground-color) l c h / 0.55);
 
   /* --- Checkbox --- */
-  --uc-checkbox-background-color: var(--background-color);
-  --uc-checkbox-border-color: oklch(from black l c h / 0.2);
+  --uc-checkbox-background-color: var(--background-color-90);
+  --uc-checkbox-border-color: oklch(from white l c h / 0.45);
   --uc-checkbox-selected-color: var(--secondary-color);
 
   /* --- Accordion --- */
-  --uc-accordion-border: oklch(from var(--primary-color) l c h / 0.2);
+  --uc-accordion-border: transparent;
   --uc-accordion-border-radius: 0.375rem;
   --uc-accordion-padding: 1rem;
-  --uc-accordion-header-background: oklch(from var(--primary-color) l c h / 0.1);
-  --uc-accordion-header-hover-background: oklch(from var(--primary-color) l c h / 0.18);
+  --uc-accordion-header-background: var(--background-color-90);
+  --uc-accordion-header-hover-background: var(--background-color-80);
   --uc-accordion-header-focus-outline-color: var(--primary-color);
   --uc-accordion-title-font-size: 1rem;
   --uc-accordion-title-font-weight: 500;
   --uc-accordion-title-color: var(--foreground-color);
-  --uc-accordion-icon-color: var(--primary-color);
+  --uc-accordion-icon-color: var(--foreground-color);
   --uc-accordion-icon-hover-color: var(--primary-color);
   --uc-accordion-content-padding: 1rem;
-  --uc-accordion-content-background: oklch(from var(--primary-color) l c h / 0.04);
+  --uc-accordion-content-background: var(--background-color);
   --uc-accordion-content-color: var(--paragraph-text-color);
   --uc-accordion-content-font-size: 0.875rem;
   --uc-accordion-content-line-height: 1.5;
@@ -154,36 +155,36 @@
   --uc-confirmation-dialog-actions-gap: 0.5rem;
 
   /* --- Charts Shared --- */
-  --uc-chart-series-1: #473bf0;
-  --uc-chart-series-2: #68d585;
-  --uc-chart-series-3: #958ef6;
-  --uc-chart-series-4: #f0a733;
-  --uc-chart-series-5: #e05c5c;
-  --uc-chart-series-6: #4ab5d4;
-  --uc-chart-series-7: #f07c3b;
-  --uc-chart-series-8: #a0d468;
+  --uc-chart-series-1: #7dd3fc;
+  --uc-chart-series-2: #a78bfa;
+  --uc-chart-series-3: #34d399;
+  --uc-chart-series-4: #fbbf24;
+  --uc-chart-series-5: #fb7185;
+  --uc-chart-series-6: #22d3ee;
+  --uc-chart-series-7: #f472b6;
+  --uc-chart-series-8: #c4b5fd;
   --uc-chart-axis-color: var(--foreground-color);
   --uc-chart-axis-muted-color: var(--paragraph-text-color);
-  --uc-chart-axis-line-color: oklch(from var(--foreground-color) l c h / 0.28);
-  --uc-chart-axis-muted-line-color: oklch(from var(--foreground-color) l c h / 0.22);
-  --uc-chart-grid-color: oklch(from var(--foreground-color) l c h / 0.14);
+  --uc-chart-axis-line-color: rgba(255, 255, 255, 0.28);
+  --uc-chart-axis-muted-line-color: rgba(255, 255, 255, 0.2);
+  --uc-chart-grid-color: rgba(255, 255, 255, 0.14);
   --uc-chart-label-color: var(--foreground-color);
   --uc-chart-label-muted-color: var(--paragraph-text-color);
 
   /* --- Line Chart --- */
   --uc-line-chart-series-1: var(--uc-chart-series-1);
-  --uc-line-chart-series-2: #ff6b6b;
-  --uc-line-chart-series-3: #4ecdc4;
-  --uc-line-chart-series-4: #ffe66d;
-  --uc-line-chart-series-5: #95e1d3;
-  --uc-line-chart-series-6: #f38181;
+  --uc-line-chart-series-2: var(--uc-chart-series-5);
+  --uc-line-chart-series-3: var(--uc-chart-series-6);
+  --uc-line-chart-series-4: var(--uc-chart-series-4);
+  --uc-line-chart-series-5: #93c5fd;
+  --uc-line-chart-series-6: var(--uc-chart-series-8);
   --uc-line-chart-legend-label-color: var(--foreground-color);
   --uc-line-chart-legend-value-color: var(--paragraph-text-color);
   --uc-line-chart-legend-disabled-opacity: 0.5;
 
   /* --- Bar Chart --- */
   --uc-bar-chart-color: var(--uc-chart-series-1);
-  --uc-bar-chart-hover-color: #5b51f3;
+  --uc-bar-chart-hover-color: #38bdf8;
   --uc-bar-chart-legend-label-color: var(--foreground-color);
   --uc-bar-chart-legend-value-color: var(--paragraph-text-color);
   --uc-bar-chart-legend-disabled-opacity: 0.5;
@@ -229,7 +230,7 @@
   --uc-google-sign-in-button-background: var(--background-color);
   --uc-google-sign-in-button-color: var(--foreground-color);
   --uc-google-sign-in-button-hover-background: var(--background-color-90);
-  --uc-google-sign-in-button-hover-box-shadow: 0 0 0 3px oklch(from var(--primary-color) l c h / 0.2);
+  --uc-google-sign-in-button-hover-box-shadow: 0 0 0 3px oklch(from var(--primary-color) l c h / 0.25);
 
   /* --- Icon Button --- */
   --uc-icon-button-background: var(--background-color);
@@ -258,7 +259,7 @@
   --uc-color-picker-trigger-focus-color: var(--primary-color);
   --uc-color-picker-trigger-error-color: var(--error-color);
   --uc-color-picker-dropdown-background: var(--card-background-color);
-  --uc-color-picker-dropdown-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  --uc-color-picker-dropdown-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
   --uc-color-picker-dropdown-border: oklch(from var(--foreground-color) l c h / 0.1);
   --uc-color-picker-swatch-border: oklch(from var(--foreground-color) l c h / 0.15);
   --uc-color-picker-value-color: oklch(from var(--foreground-color) l c h / 0.8);
@@ -280,7 +281,7 @@
   --uc-dtp-value-color: var(--foreground-color);
   --uc-dtp-icon-color: oklch(from var(--foreground-color) l c h / 0.5);
   --uc-dtp-dropdown-bg: var(--card-background-color);
-  --uc-dtp-dropdown-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  --uc-dtp-dropdown-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
   --uc-dtp-dropdown-border: oklch(from var(--foreground-color) l c h / 0.1);
   --uc-dtp-weekday-color: oklch(from var(--foreground-color) l c h / 0.4);
   --uc-dtp-day-hover-bg: oklch(from var(--primary-color) l c h / 0.1);
@@ -307,7 +308,7 @@
   --uc-info-error-color: var(--error-color);
   --uc-info-error-background: oklch(from var(--error-color) l c h / 0.1);
   --uc-info-error-border: oklch(from var(--error-color) l c h / 0.3);
-  --uc-info-warning-color: oklch(from var(--warning-color) calc(l * 0.58) c h);
+  --uc-info-warning-color: var(--warning-color);
   --uc-info-warning-emphasis-color: oklch(from var(--warning-color) calc(l * 0.58) c h);
   --uc-info-warning-background: var(--warning-bg);
   --uc-info-warning-border: var(--warning-border);
@@ -340,7 +341,7 @@
   --uc-pagination-select-padding-block: 0.5rem;
   --uc-pagination-select-padding-inline: 0.75rem;
   --uc-pagination-select-font-size: 0.95rem;
-  --uc-pagination-select-focus-ring: 0 0 0 2px oklch(from var(--primary-color, #473bf0) l c h / 0.25);
+  --uc-pagination-select-focus-ring: 0 0 0 2px oklch(from var(--primary-color, #7dd3fc) l c h / 0.25);
   --uc-pagination-select-panel-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
   /* --- Pill --- */
@@ -432,7 +433,7 @@
   --uc-textarea-placeholder-color: oklch(from var(--foreground-color) l c h / 0.35);
   --uc-textarea-border-error-color: var(--error-color);
   --uc-textarea-background-error-color: oklch(from var(--error-color) l c h / 0.1);
-  --uc-textarea-disabled-background-color: #f1f3f5;
+  --uc-textarea-disabled-background-color: oklch(from var(--background-color) calc(l * 1.12) c h);
   --uc-textarea-disabled-color: oklch(from var(--foreground-color) l c h / 0.55);
 
   /* --- Toggle --- */

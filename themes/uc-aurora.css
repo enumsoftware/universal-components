@@ -1,34 +1,35 @@
 /**
- * Universal Components - Light Theme
+ * Universal Components - Aurora Theme
  *
- * Import this file in your project to apply the default light theme variables
+ * A light-mode variant with a purple/cyan palette.
+ * Import this file in your project to apply the Aurora theme variables
  * required by @enumsoftware/universal-components.
  */
 
-[data-theme='light'] {
+[data-theme='aurora'] {
   color-scheme: light;
 
   /* --- Palette --- */
-  --primary-color: #473bf0;
+  --primary-color: #7c4dff;
   --primary-contrast-color: #ffffff;
-  --secondary-color: #68d585;
-  --foreground-color: #161c2d;
-  --inverse-foreground-color: #ffffff;
-  --inverse-background-color: #161c2d;
-  --background-color: #ffffff;
+  --secondary-color: #00c2ff;
+  --foreground-color: #14213d;
+  --inverse-foreground-color: #f8fafc;
+  --inverse-background-color: #14213d;
+  --background-color: #f7f8ff;
   --background-color-80: oklch(from var(--background-color) calc(l * 0.8) c h);
   --background-color-90: oklch(from var(--background-color) calc(l * 0.9) c h);
 
   /* --- Semantic Colours --- */
-  --error-color: #c62828;
-  --success-color: #00b69b;
-  --warning-color: #f57c00;
+  --error-color: #e23d62;
+  --success-color: #0ea5a4;
+  --warning-color: #f59e0b;
   --warning-bg: oklch(from #f57c00 l c h / 0.1);
   --warning-border: oklch(from #f57c00 l c h / 0.3);
 
   /* --- Typography --- */
   --font-color: var(--foreground-color);
-  --paragraph-text-color: oklch(from #161c2d l c h / 0.7);
+  --paragraph-text-color: oklch(from #14213d l c h / 0.72);
 
   /* --- Card --- */
   --card-background-color: #ffffff;
@@ -37,13 +38,13 @@
   --card-padding: 1rem 2rem;
 
   /* --- Sidebar --- */
-  --sidebar-background-color: #ffffff;
+  --sidebar-background-color: #f9faff;
 
   /* --- Scrollbar --- */
   --uc-scrollbar-size: 0.6rem;
-  --uc-scrollbar-track-color: oklch(from var(--foreground-color) l c h / 0.18);
-  --uc-scrollbar-thumb-color: oklch(from var(--primary-color) calc(l * 0.65) 0.02 h / 0.9);
-  --uc-scrollbar-thumb-hover-color: oklch(from var(--primary-color) calc(l * 0.55) 0.02 h);
+  --uc-scrollbar-track-color: oklch(from var(--foreground-color) l c h / 0.12);
+  --uc-scrollbar-thumb-color: oklch(from var(--primary-color) calc(l * 0.9) c h / 0.82);
+  --uc-scrollbar-thumb-hover-color: var(--primary-color);
 
   /* --- App Semantic Defaults --- */
   --table-header-background: transparent;
@@ -154,14 +155,14 @@
   --uc-confirmation-dialog-actions-gap: 0.5rem;
 
   /* --- Charts Shared --- */
-  --uc-chart-series-1: #473bf0;
-  --uc-chart-series-2: #68d585;
-  --uc-chart-series-3: #958ef6;
-  --uc-chart-series-4: #f0a733;
-  --uc-chart-series-5: #e05c5c;
-  --uc-chart-series-6: #4ab5d4;
-  --uc-chart-series-7: #f07c3b;
-  --uc-chart-series-8: #a0d468;
+  --uc-chart-series-1: #7c4dff;
+  --uc-chart-series-2: #00c2ff;
+  --uc-chart-series-3: #8f9dff;
+  --uc-chart-series-4: #f59e0b;
+  --uc-chart-series-5: #e23d62;
+  --uc-chart-series-6: #14b8a6;
+  --uc-chart-series-7: #6366f1;
+  --uc-chart-series-8: #22d3ee;
   --uc-chart-axis-color: var(--foreground-color);
   --uc-chart-axis-muted-color: var(--paragraph-text-color);
   --uc-chart-axis-line-color: oklch(from var(--foreground-color) l c h / 0.28);
@@ -172,11 +173,11 @@
 
   /* --- Line Chart --- */
   --uc-line-chart-series-1: var(--uc-chart-series-1);
-  --uc-line-chart-series-2: #ff6b6b;
-  --uc-line-chart-series-3: #4ecdc4;
-  --uc-line-chart-series-4: #ffe66d;
-  --uc-line-chart-series-5: #95e1d3;
-  --uc-line-chart-series-6: #f38181;
+  --uc-line-chart-series-2: var(--uc-chart-series-5);
+  --uc-line-chart-series-3: var(--uc-chart-series-6);
+  --uc-line-chart-series-4: var(--uc-chart-series-4);
+  --uc-line-chart-series-5: #8f9dff;
+  --uc-line-chart-series-6: var(--uc-chart-series-8);
   --uc-line-chart-legend-label-color: var(--foreground-color);
   --uc-line-chart-legend-value-color: var(--paragraph-text-color);
   --uc-line-chart-legend-disabled-opacity: 0.5;
@@ -340,7 +341,7 @@
   --uc-pagination-select-padding-block: 0.5rem;
   --uc-pagination-select-padding-inline: 0.75rem;
   --uc-pagination-select-font-size: 0.95rem;
-  --uc-pagination-select-focus-ring: 0 0 0 2px oklch(from var(--primary-color, #473bf0) l c h / 0.25);
+  --uc-pagination-select-focus-ring: 0 0 0 2px oklch(from var(--primary-color, #7c4dff) l c h / 0.25);
   --uc-pagination-select-panel-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
   /* --- Pill --- */

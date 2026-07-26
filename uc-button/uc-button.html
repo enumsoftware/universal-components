@@ -1,6 +1,7 @@
 <button
   class="uc-button uc-{{variant()}} uc-size-{{size()}}"
   [class.uc-disabled]="disabled()"
+  [class.uc-transitions]="transitionsEnabled()"
   [disabled]="disabled()"
   [style.justify-content]="align()"
   (click)="onClick($event)"

@@ -30,7 +30,7 @@ import { UcButton } from '@enumsoftware/universal-components/uc-button/uc-button
 ## Icons
 
 - Phosphor icons are the default icon set.
-- The package loads Phosphor styles from [themes/theme.css](themes/theme.css), matching usage in the dynamic-qr-code app.
+- The package loads Phosphor styles from [themes/theme.css](themes/theme.css).
 - Use the [uc-phosphor-icon/uc-phosphor-icon.ts](uc-phosphor-icon/uc-phosphor-icon.ts) component to render Phosphor icons (for example `trash`, `x`, or `arrow-right`).
 - The [uc-sidebar-button/uc-sidebar-button.ts](uc-sidebar-button/uc-sidebar-button.ts) component now uses content projection for icons, so any icon element or component can be inserted.
 
@@ -105,11 +105,13 @@ Global theme files are exported from the `themes/` directory. Import one of the 
 
 | Import | What it includes |
 |--------|-----------------|
-| `@enumsoftware/universal-components/themes/theme.css` | **Recommended.** Includes both light and dark themes, Google Fonts (Poppins), Phosphor icon styles, and flag-icons. |
+| `@enumsoftware/universal-components/themes/theme.css` | **Recommended.** Includes all built-in themes (`light`, `dark`, `aurora`, `midnight`), Google Fonts (Poppins), Phosphor icon styles, and flag-icons. |
 | `@enumsoftware/universal-components/themes/uc-light.css` | Light theme variables only. Use when you need a single fixed theme or want to load themes on demand. |
 | `@enumsoftware/universal-components/themes/uc-dark.css` | Dark theme variables only. Same use-case as above. |
 
-> `theme.css` already `@import`s both `uc-light.css` and `uc-dark.css`, so importing it alone is sufficient for apps that support both themes.
+> `theme.css` already `@import`s both `uc-light.css` and `uc-dark.css`, and each now defines two themes (`light` + `aurora`, `dark` + `midnight`), so importing it alone is sufficient for apps that support all built-in themes.
+
+Use `data-theme="light"`, `data-theme="dark"`, `data-theme="aurora"`, or `data-theme="midnight"` on `html` or `body` to switch themes. Storybook exposes the same options from the global **Theme** toolbar.
 
 Standard override model:
 
