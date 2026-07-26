@@ -2,6 +2,8 @@ import type { Preview } from '@storybook/angular';
 
 import '../themes/theme.css';
 
+const SUPPORTED_THEMES = ['light', 'dark', 'aurora', 'midnight'] as const;
+
 const preview: Preview = {
   tags: ['autodocs'],
   globalTypes: {
@@ -13,6 +15,8 @@ const preview: Preview = {
         items: [
           { value: 'light', title: 'Light' },
           { value: 'dark', title: 'Dark' },
+          { value: 'aurora', title: 'Aurora' },
+          { value: 'midnight', title: 'Midnight' },
         ],
         dynamicTitle: true,
       },
@@ -23,10 +27,13 @@ const preview: Preview = {
   },
   decorators: [
     (storyFn, context) => {
-      const selectedTheme = context.globals['theme'] === 'dark' ? 'dark' : 'light';
+      const selectedTheme = String(context.globals['theme'] ?? 'light');
+      const resolvedTheme = SUPPORTED_THEMES.includes(selectedTheme as (typeof SUPPORTED_THEMES)[number])
+        ? selectedTheme
+        : 'light';
 
-      document.documentElement.setAttribute('data-theme', selectedTheme);
-      document.body.setAttribute('data-theme', selectedTheme);
+      document.documentElement.setAttribute('data-theme', resolvedTheme);
+      document.body.setAttribute('data-theme', resolvedTheme);
 
       return storyFn();
     },
