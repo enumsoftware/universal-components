@@ -1,0 +1,15 @@
+<button
+  type="button"
+  class="uc-button-toggle-item__button"
+  [class.uc-button-toggle-item__button--selected]="selected()"
+  [class.uc-button-toggle-item__button--disabled]="isDisabled()"
+  [disabled]="isDisabled()"
+  role="radio"
+  aria-checked="false"
+  [attr.aria-checked]="selected()"
+  [attr.aria-label]="ariaLabel()"
+  [attr.aria-disabled]="isDisabled()"
+  (click)="onClick($event)"
+>
+  <ng-content></ng-content>
+</button>

@@ -1,0 +1,11 @@
+<div class="uc-menu-item-content">
+  @if (icon()) {
+    <i class="uc-menu-item-icon" [class]="icon()" aria-hidden="true"></i>
+  }
+
+  @if (text()) {
+    <span class="uc-menu-item-label">{{ text() }}</span>
+  } @else {
+    <ng-content></ng-content>
+  }
+</div>

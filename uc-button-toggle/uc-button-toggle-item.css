@@ -1,0 +1,88 @@
+:host {
+  --uc-button-toggle-item-color-resolved: var(--uc-button-toggle-item-color, var(--paragraph-text-color));
+  --uc-button-toggle-item-selected-color-resolved: var(
+    --uc-button-toggle-item-selected-color,
+    var(--inverse-foreground-color)
+  );
+  --uc-button-toggle-item-selected-background-resolved: var(
+    --uc-button-toggle-item-selected-background,
+    var(--primary-color)
+  );
+  --uc-button-toggle-item-hover-background-resolved: var(
+    --uc-button-toggle-item-hover-background,
+    oklch(from var(--background-color-90) l c h / 0.35)
+  );
+  --uc-button-toggle-item-separator-color-resolved: var(
+    --uc-button-toggle-item-separator-color,
+    var(--background-color-90)
+  );
+  --uc-button-toggle-item-font-size-resolved: var(--uc-button-toggle-item-font-size, 0.95rem);
+  --uc-button-toggle-item-font-weight-resolved: var(--uc-button-toggle-item-font-weight, 600);
+  --uc-button-toggle-item-line-height-resolved: var(--uc-button-toggle-item-line-height, 1.25rem);
+  --uc-button-toggle-item-padding-block-resolved: var(--uc-button-toggle-item-padding-block, 0.65rem);
+  --uc-button-toggle-item-padding-inline-resolved: var(--uc-button-toggle-item-padding-inline, 1rem);
+  --uc-button-toggle-item-disabled-opacity-resolved: var(--uc-button-toggle-item-disabled-opacity, 0.55);
+  display: flex;
+}
+
+.uc-button-toggle-item__button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--uc-button-toggle-item-color-resolved);
+  font-size: var(--uc-button-toggle-item-font-size-resolved);
+  font-weight: var(--uc-button-toggle-item-font-weight-resolved);
+  line-height: var(--uc-button-toggle-item-line-height-resolved);
+  padding-block: var(--uc-button-toggle-item-padding-block-resolved);
+  padding-inline: var(--uc-button-toggle-item-padding-inline-resolved);
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+:host(:not(:last-child)) .uc-button-toggle-item__button {
+  border-right: 1px solid var(--uc-button-toggle-item-separator-color-resolved);
+}
+
+.uc-button-toggle-item__button:hover {
+  background: var(--uc-button-toggle-item-hover-background-resolved);
+}
+
+.uc-button-toggle-item__button:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: -2px;
+}
+
+.uc-button-toggle-item__button.uc-button-toggle-item__button--selected {
+  color: var(--uc-button-toggle-item-selected-color-resolved);
+  background: var(--uc-button-toggle-item-selected-background-resolved);
+}
+
+.uc-button-toggle-item__button.uc-button-toggle-item__button--selected:hover {
+  background: oklch(
+    from var(--uc-button-toggle-item-selected-background-resolved) calc(l * 0.9) calc(c * 1) calc(h * 1)
+  );
+}
+
+.uc-button-toggle-item__button:disabled,
+.uc-button-toggle-item__button.uc-button-toggle-item__button--disabled {
+  cursor: not-allowed;
+  opacity: var(--uc-button-toggle-item-disabled-opacity-resolved);
+}
+
+.uc-button-toggle-item__button:disabled:hover,
+.uc-button-toggle-item__button.uc-button-toggle-item__button--disabled:hover {
+  background: transparent;
+}
+
+.uc-button-toggle-item__button.uc-button-toggle-item__button--selected:disabled,
+.uc-button-toggle-item__button.uc-button-toggle-item__button--selected.uc-button-toggle-item__button--disabled,
+.uc-button-toggle-item__button.uc-button-toggle-item__button--selected:disabled:hover,
+.uc-button-toggle-item__button.uc-button-toggle-item__button--selected.uc-button-toggle-item__button--disabled:hover {
+  background: var(--uc-button-toggle-item-selected-background-resolved);
+}

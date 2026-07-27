@@ -1,0 +1,45 @@
+:host {
+  --uc-menu-item-hover-background-resolved: var(--uc-menu-item-hover-background, oklch(from var(--primary-color) l c h / 0.12));
+  --uc-menu-item-border-radius-resolved: var(--uc-menu-item-border-radius, 0.5rem);
+  --uc-menu-item-color-resolved: var(--uc-menu-item-color, var(--foreground-color));
+  --uc-menu-item-padding-block-resolved: var(--uc-menu-item-padding-block, 0.55rem);
+  --uc-menu-item-padding-inline-resolved: var(--uc-menu-item-padding-inline, 0.75rem);
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  color: var(--uc-menu-item-color-resolved);
+  border-radius: var(--uc-menu-item-border-radius-resolved);
+  cursor: pointer;
+}
+
+:host([aria-disabled='true']) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+:host(:focus-visible),
+:host(:hover) {
+  outline: none;
+  background: var(--uc-menu-item-hover-background-resolved);
+}
+
+.uc-menu-item-content {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.5rem;
+  padding: var(--uc-menu-item-padding-block-resolved) var(--uc-menu-item-padding-inline-resolved);
+  box-sizing: border-box;
+  line-height: 1.2;
+}
+
+.uc-menu-item-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.uc-menu-item-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
