@@ -18,5 +18,5 @@ export class UcPill {
   href = input<string | null>(null);
   variant = input<PillVariant>('default');
   size = input<PillSize>('default');
-  pillClick = output<void>();
+  clicked = output<void>();
 }
