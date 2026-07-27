@@ -138,6 +138,30 @@
   --uc-button-big-font-weight: 700;
   --uc-button-big-gap: 1rem;
 
+  /* --- Button Toggle --- */
+  --uc-button-toggle-background: var(--background-color);
+  --uc-button-toggle-border-color: var(--uc-input-border-color);
+  --uc-button-toggle-border-radius: 0.75rem;
+  --uc-button-toggle-disabled-opacity: 0.65;
+  --uc-button-toggle-item-color: var(--paragraph-text-color);
+  --uc-button-toggle-item-disabled-opacity: 0.55;
+  --uc-button-toggle-item-font-size: 0.95rem;
+  --uc-button-toggle-item-font-weight: 600;
+  --uc-button-toggle-item-hover-background: oklch(from var(--background-color-90) l c h / 0.35);
+  --uc-button-toggle-item-line-height: 1.25rem;
+  --uc-button-toggle-item-padding-block: 0.65rem;
+  --uc-button-toggle-item-padding-inline: 1rem;
+  --uc-button-toggle-item-selected-background: var(--primary-color);
+  --uc-button-toggle-item-selected-color: var(--inverse-foreground-color);
+  --uc-button-toggle-item-separator-color: var(--background-color-90);
+
+  /* --- Menu Item --- */
+  --uc-menu-item-border-radius: 0.5rem;
+  --uc-menu-item-color: var(--foreground-color);
+  --uc-menu-item-hover-background: oklch(from var(--primary-color) l c h / 0.12);
+  --uc-menu-item-padding-block: 0.55rem;
+  --uc-menu-item-padding-inline: 0.75rem;
+
   /* --- Card Component --- */
   --uc-card-background: var(--card-background-color);
   --uc-card-border-radius: var(--card-border-radius);

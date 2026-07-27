@@ -2,9 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 const root = process.cwd();
-const componentsRoot = path.join(root, 'uc-');
-const lightThemePath = path.join(root, 'themes', 'uc-light.css');
-const darkThemePath = path.join(root, 'themes', 'uc-dark.css');
+const themesDir = path.join(root, 'themes');
+const themeIndexPath = path.join(themesDir, 'theme.css');
 
 function walk(dir) {
   const out = [];
@@ -63,41 +62,82 @@ function extractThemeDefinitions(themeFilePath) {
   return themeTokens;
 }
 
-const cssFiles = walk(root).filter((p) => p.endsWith('.css') && p.includes(path.sep + 'uc-'));
-const { tokens: usedTokens, usage } = extractComponentTokens(cssFiles);
-const lightTokens = extractThemeDefinitions(lightThemePath);
-const darkTokens = extractThemeDefinitions(darkThemePath);
+function getThemeFiles() {
+  if (fs.existsSync(themeIndexPath)) {
+    const indexContent = fs.readFileSync(themeIndexPath, 'utf8');
+    const importRegex = /@import\s+['"]([^'"]+)['"];?/g;
+    const importedThemeFiles = [];
 
-const missingInLight = [];
-const missingInDark = [];
+    let match;
+    while ((match = importRegex.exec(indexContent)) !== null) {
+      const importPath = match[1].trim();
+      if (!importPath.endsWith('.css')) {
+        continue;
+      }
+      const baseName = path.basename(importPath);
+      if (!baseName.startsWith('uc-')) {
+        continue;
+      }
 
-for (const token of [...usedTokens].sort()) {
-  if (!lightTokens.has(token)) {
-    missingInLight.push(token);
+      importedThemeFiles.push(path.join(themesDir, baseName));
+    }
+
+    if (importedThemeFiles.length > 0) {
+      return [...new Set(importedThemeFiles)].sort((a, b) => a.localeCompare(b));
+    }
   }
-  if (!darkTokens.has(token)) {
-    missingInDark.push(token);
+
+  if (!fs.existsSync(themesDir)) {
+    return [];
   }
+
+  return fs
+    .readdirSync(themesDir, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && entry.name.startsWith('uc-') && entry.name.endsWith('.css'))
+    .map((entry) => path.join(themesDir, entry.name))
+    .sort((a, b) => a.localeCompare(b));
 }
 
-if (missingInLight.length === 0 && missingInDark.length === 0) {
+const cssFiles = walk(root).filter((p) => p.endsWith('.css') && p.includes(path.sep + 'uc-'));
+const { tokens: usedTokens, usage } = extractComponentTokens(cssFiles);
+const themeFiles = getThemeFiles();
+
+if (themeFiles.length === 0) {
+  console.error('Token parity check failed. No theme files were found under themes/uc-*.css.');
+  process.exit(1);
+}
+
+const missingByTheme = new Map();
+for (const themeFilePath of themeFiles) {
+  const themeTokens = extractThemeDefinitions(themeFilePath);
+  const missing = [];
+
+  for (const token of [...usedTokens].sort()) {
+    if (!themeTokens.has(token)) {
+      missing.push(token);
+    }
+  }
+
+  missingByTheme.set(themeFilePath, missing);
+}
+
+const hasMissingTokens = [...missingByTheme.values()].some((missing) => missing.length > 0);
+
+if (!hasMissingTokens) {
   console.log(`Token parity check passed. Checked ${usedTokens.size} component tokens.`);
   process.exit(0);
 }
 
 console.error('Token parity check failed.');
 
-if (missingInLight.length > 0) {
-  console.error('Missing in themes/uc-light.css:');
-  for (const token of missingInLight) {
-    const refs = [...(usage.get(token) || [])].join(', ');
-    console.error(`  ${token} (used in: ${refs})`);
+for (const [themeFilePath, missingTokens] of missingByTheme.entries()) {
+  if (missingTokens.length === 0) {
+    continue;
   }
-}
 
-if (missingInDark.length > 0) {
-  console.error('Missing in themes/uc-dark.css:');
-  for (const token of missingInDark) {
+  const relativeThemePath = path.relative(root, themeFilePath).replace(/\\/g, '/');
+  console.error(`Missing in ${relativeThemePath}:`);
+  for (const token of missingTokens) {
     const refs = [...(usage.get(token) || [])].join(', ');
     console.error(`  ${token} (used in: ${refs})`);
   }

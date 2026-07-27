@@ -25,6 +25,7 @@ export class UcMenuTriggerFor {
 
   private overlayRef: OverlayRef | null = null;
   private opened = false;
+  private openedStateVersion = 0;
 
   @HostBinding('attr.aria-haspopup')
   readonly hasPopup = 'menu';
@@ -125,6 +126,7 @@ export class UcMenuTriggerFor {
     });
 
     this.overlayRef.attach(new TemplatePortal(menu.templateRef, this.viewContainerRef));
+    this.openedStateVersion++;
     this.opened = true;
 
     this.overlayRef.backdropClick().subscribe(() => this.closeMenu(false));
@@ -141,18 +143,29 @@ export class UcMenuTriggerFor {
 
   closeMenu(restoreFocus = true): void {
     if (!this.overlayRef) {
-      this.opened = false;
+      this.deferClosedState();
       return;
     }
 
     const overlayRef = this.overlayRef;
     this.overlayRef = null;
-    this.opened = false;
+    this.deferClosedState();
     overlayRef.dispose();
 
     if (restoreFocus) {
       this.triggerElement.nativeElement.focus();
     }
+  }
+
+  private deferClosedState(): void {
+    const version = ++this.openedStateVersion;
+    queueMicrotask(() => {
+      if (version !== this.openedStateVersion) {
+        return;
+      }
+
+      this.opened = false;
+    });
   }
 
   private onOverlayKeydown(event: KeyboardEvent): void {
