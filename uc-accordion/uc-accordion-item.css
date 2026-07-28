@@ -98,19 +98,36 @@
 }
 
 .accordion-content {
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height 300ms ease-in-out;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms ease-in-out;
 
   &.open {
-    max-height: 2000px;
+    grid-template-rows: 1fr;
   }
 }
 
 .accordion-content-inner {
-  padding: var(--uc-accordion-content-padding-resolved);
+  min-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  padding: 0;
+  transition:
+    opacity 200ms ease-in-out,
+    visibility 0s linear 200ms,
+    padding 300ms ease-in-out;
   background-color: var(--uc-accordion-content-background-resolved);
   color: var(--uc-accordion-content-color-resolved);
   font-size: var(--uc-accordion-content-font-size-resolved);
   line-height: var(--uc-accordion-content-line-height-resolved);
+}
+
+.accordion-content.open .accordion-content-inner {
+  padding: var(--uc-accordion-content-padding-resolved);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 80ms, 0s, 0s;
 }
