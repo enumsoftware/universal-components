@@ -15,7 +15,6 @@ import {
   ValidationError,
   WithOptionalFieldTree,
 } from '@angular/forms/signals';
-import { UcButton } from '../uc-button/uc-button';
 import { UcIconButton } from '../uc-icon-button/uc-icon-button';
 
 export const DATE_TIME_PICKER_MODE_OPTIONS = ['single', 'range'] as const;
@@ -41,7 +40,7 @@ export interface DateRange {
 
 @Component({
   selector: 'uc-date-time-picker',
-  imports: [OverlayModule, UcButton, UcIconButton],
+  imports: [OverlayModule, UcIconButton],
   templateUrl: './uc-date-time-picker.html',
   styleUrl: './uc-date-time-picker.css',
   encapsulation: ViewEncapsulation.None,
@@ -77,7 +76,7 @@ export class UcDateTimePicker implements FormValueControl<string> {
   readonly viewYear = signal<number>(new Date().getFullYear());
   readonly viewMonth = signal<number>(new Date().getMonth());
 
-  /** Draft values edited inside the dropdown before Apply */
+  /** Draft values used while editing in the open dropdown */
   readonly draftDateStr = signal<string>('');
   readonly draftHours = signal<number>(0);
   readonly draftMinutes = signal<number>(0);
@@ -173,7 +172,8 @@ export class UcDateTimePicker implements FormValueControl<string> {
       );
     }
 
-    const remaining = (7 - (days.length % 7)) % 7;
+    // Keep a stable 6-week calendar matrix so layout does not jump between months.
+    const remaining = 42 - days.length;
     for (let d = 1; d <= remaining; d++) {
       const date = new Date(year, month + 1, d);
       days.push(
@@ -332,6 +332,7 @@ export class UcDateTimePicker implements FormValueControl<string> {
         if (clickedDate < startDate) {
           this.draftRangeStart.set(clickedStr);
           this.draftRangeEnd.set('');
+          this.rangeStep.set('end');
         } else {
           this.draftRangeEnd.set(clickedStr);
           this.rangeStep.set('start');
@@ -498,4 +499,5 @@ export class UcDateTimePicker implements FormValueControl<string> {
       return val;
     }
   }
+
 }

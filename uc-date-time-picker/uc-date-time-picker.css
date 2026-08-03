@@ -4,21 +4,42 @@
  * The uc-date-time-picker-host class keeps the layout styles scoped.
  */
 :root {
-  --uc-dtp-label-color-resolved: var(--uc-dtp-label-color, oklch(from var(--foreground-color) l c h / 1));
+  --uc-dtp-label-color-resolved: var(
+    --uc-dtp-label-color,
+    oklch(from var(--foreground-color) l c h / 1)
+  );
   --uc-dtp-trigger-hover-bg-resolved: var(
     --uc-dtp-trigger-hover-bg,
     oklch(from var(--uc-input-background-color) l c h / 0.85)
   );
-  --uc-dtp-trigger-focus-color-resolved: var(--uc-dtp-trigger-focus-color, var(--primary-color));
-  --uc-dtp-trigger-error-color-resolved: var(--uc-dtp-trigger-error-color, var(--error-color));
+  --uc-dtp-trigger-focus-color-resolved: var(
+    --uc-dtp-trigger-focus-color,
+    var(--primary-color)
+  );
+  --uc-dtp-trigger-error-color-resolved: var(
+    --uc-dtp-trigger-error-color,
+    var(--error-color)
+  );
   --uc-dtp-placeholder-color-resolved: var(
     --uc-dtp-placeholder-color,
     oklch(from var(--foreground-color) l c h / 0.35)
   );
-  --uc-dtp-value-color-resolved: var(--uc-dtp-value-color, var(--foreground-color));
-  --uc-dtp-icon-color-resolved: var(--uc-dtp-icon-color, oklch(from var(--foreground-color) l c h / 0.5));
-  --uc-dtp-dropdown-bg-resolved: var(--uc-dtp-dropdown-bg, var(--card-background-color));
-  --uc-dtp-dropdown-shadow-resolved: var(--uc-dtp-dropdown-shadow, 0 10px 40px rgba(0, 0, 0, 0.2));
+  --uc-dtp-value-color-resolved: var(
+    --uc-dtp-value-color,
+    var(--foreground-color)
+  );
+  --uc-dtp-icon-color-resolved: var(
+    --uc-dtp-icon-color,
+    oklch(from var(--foreground-color) l c h / 0.5)
+  );
+  --uc-dtp-dropdown-bg-resolved: var(
+    --uc-dtp-dropdown-bg,
+    var(--card-background-color)
+  );
+  --uc-dtp-dropdown-shadow-resolved: var(
+    --uc-dtp-dropdown-shadow,
+    0 10px 40px rgba(0, 0, 0, 0.2)
+  );
   --uc-dtp-dropdown-border-resolved: var(
     --uc-dtp-dropdown-border,
     oklch(from var(--foreground-color) l c h / 0.1)
@@ -27,26 +48,56 @@
     --uc-dtp-weekday-color,
     oklch(from var(--foreground-color) l c h / 0.4)
   );
-  --uc-dtp-day-hover-bg-resolved: var(--uc-dtp-day-hover-bg, oklch(from var(--primary-color) l c h / 0.1));
-  --uc-dtp-day-today-color-resolved: var(--uc-dtp-day-today-color, var(--primary-color));
-  --uc-dtp-day-today-border-resolved: var(--uc-dtp-day-today-border, var(--primary-color));
-  --uc-dtp-day-selected-bg-resolved: var(--uc-dtp-day-selected-bg, var(--primary-color));
-  --uc-dtp-day-selected-color-resolved: var(--uc-dtp-day-selected-color, var(--primary-contrast-color));
+  --uc-dtp-day-hover-bg-resolved: var(
+    --uc-dtp-day-hover-bg,
+    oklch(from var(--primary-color) l c h / 0.1)
+  );
+  --uc-dtp-day-today-color-resolved: var(
+    --uc-dtp-day-today-color,
+    var(--primary-color)
+  );
+  --uc-dtp-day-today-border-resolved: var(
+    --uc-dtp-day-today-border,
+    var(--primary-color)
+  );
+  --uc-dtp-day-selected-bg-resolved: var(
+    --uc-dtp-day-selected-bg,
+    var(--primary-color)
+  );
+  --uc-dtp-day-selected-color-resolved: var(
+    --uc-dtp-day-selected-color,
+    var(--primary-contrast-color)
+  );
   --uc-dtp-day-other-month-color-resolved: var(
     --uc-dtp-day-other-month-color,
     oklch(from var(--foreground-color) l c h / 0.3)
   );
-  --uc-dtp-time-input-bg-resolved: var(--uc-dtp-time-input-bg, var(--uc-input-background-color));
-  --uc-dtp-time-input-border-resolved: var(--uc-dtp-time-input-border, var(--uc-input-border-color));
+  --uc-dtp-time-input-bg-resolved: var(
+    --uc-dtp-time-input-bg,
+    var(--uc-input-background-color)
+  );
+  --uc-dtp-time-input-border-resolved: var(
+    --uc-dtp-time-input-border,
+    var(--uc-input-border-color)
+  );
   --uc-dtp-error-color-resolved: var(--uc-dtp-error-color, var(--error-color));
   --uc-dtp-disabled-opacity-resolved: var(--uc-dtp-disabled-opacity, 0.5);
-  --uc-dtp-backdrop-resolved: var(--uc-dtp-backdrop, oklch(from var(--foreground-color) l c h / 0.45));
-  --uc-dtp-today-btn-color-resolved: var(--uc-dtp-today-btn-color, var(--primary-color));
+  --uc-dtp-backdrop-resolved: var(
+    --uc-dtp-backdrop,
+    oklch(from var(--foreground-color) l c h / 0.45)
+  );
+  --uc-dtp-today-btn-color-resolved: var(
+    --uc-dtp-today-btn-color,
+    var(--primary-color)
+  );
   --uc-dtp-today-btn-hover-bg-resolved: var(
     --uc-dtp-today-btn-hover-bg,
     oklch(from var(--primary-color) l c h / 0.1)
   );
-  --uc-dtp-range-bg-resolved: var(--uc-dtp-range-bg, oklch(from var(--primary-color) l c h / 0.15));
+  --uc-dtp-range-bg-resolved: var(
+    --uc-dtp-range-bg,
+    oklch(from var(--primary-color) l c h / 0.15)
+  );
   --uc-dtp-range-preview-bg-resolved: var(
     --uc-dtp-range-preview-bg,
     oklch(from var(--primary-color) l c h / 0.08)
@@ -170,6 +221,7 @@
 /* Month navigation */
 .uc-date-time-picker__nav {
   display: flex;
+  align-self: stretch;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
@@ -197,6 +249,9 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 0;
+  max-height: 350px;
+  max-width: 350px;
+  overflow-y: auto;
 }
 
 .uc-date-time-picker__weekday {
@@ -218,7 +273,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  aspect-ratio: 1;
+  aspect-ratio: 1 / 1;
   border: none;
   border-radius: 0;
   background: transparent;
@@ -243,13 +298,16 @@
   align-items: center;
   justify-content: center;
   width: 78%;
-  height: 78%;
+  aspect-ratio: 1 / 1;
+  height: auto;
   border-radius: 50%;
   font-size: 0.875rem;
   color: var(--uc-dtp-value-color-resolved);
   transition:
     background-color 0.12s ease,
     color 0.12s ease;
+  padding: 0.4rem;
+  margin: 0.125rem;
 }
 
 /* Hover - highlight the circle */
@@ -269,9 +327,10 @@
 
 /* Today */
 .uc-date-time-picker__day--today .uc-date-time-picker__day-circle {
-  border: 2px solid var(--uc-dtp-day-today-border-resolved);
+  outline: 2px solid var(--uc-dtp-day-today-border-resolved);
   color: var(--uc-dtp-day-today-color-resolved);
   font-weight: 700;
+  outline-offset: -2px;
 }
 
 /* Selected (single mode) */
@@ -341,7 +400,8 @@
 }
 
 /* Preview end day: strip goes left only, lighter circle */
-.uc-date-time-picker__day--range-preview-end .uc-date-time-picker__day-range-bg {
+.uc-date-time-picker__day--range-preview-end
+  .uc-date-time-picker__day-range-bg {
   right: 50%;
   background: var(--uc-dtp-range-preview-bg-resolved);
 }
@@ -396,7 +456,9 @@
 /* Actions row */
 .uc-date-time-picker__actions {
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  align-self: stretch;
+  align-items: start;
   justify-content: space-between;
   gap: 0.5rem;
   padding-top: 0.5rem;
@@ -406,10 +468,6 @@
 .uc-date-time-picker__action-buttons {
   display: flex;
   gap: 0.5rem;
-}
-
-.uc-date-time-picker__action-buttons > uc-button {
-  min-width: 5rem;
 }
 
 /* Errors */
@@ -451,9 +509,17 @@
     right: 0.75rem;
     bottom: calc(env(safe-area-inset-bottom, 0px) + 0.75rem);
     border-radius: 1rem;
-    max-height: min(85dvh, 36rem);
+    height: auto;
+    max-height: calc(
+      100dvh - env(safe-area-inset-top, 0px) -
+        env(safe-area-inset-bottom, 0px) - 1.5rem
+    );
     overflow-y: auto;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   .uc-date-time-picker__actions {

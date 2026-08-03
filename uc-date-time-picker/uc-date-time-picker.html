@@ -140,15 +140,25 @@
 
       <!-- Actions -->
       <div class="uc-date-time-picker__actions">
-        <uc-button [text]="'Today'" type="button" (click)="selectToday()" />
+        <uc-icon-button
+          [label]="'Today'"
+          [phosphorIcon]="'calendar-blank'"
+          [phosphorWeight]="'bold'"
+          [variant]="'secondary'"
+          (clicked)="selectToday()"
+        />
         <div class="uc-date-time-picker__action-buttons">
-          <uc-button
-            [text]="'Cancel'"
+          <uc-icon-button
+            [label]="'Cancel'"
+            [phosphorIcon]="'x'"
+            [phosphorWeight]="'bold'"
             [variant]="'secondary'"
             (clicked)="cancelChanges()"
           />
-          <uc-button
-            [text]="'Apply'"
+          <uc-icon-button
+            [label]="'Save'"
+            [phosphorIcon]="'check'"
+            [phosphorWeight]="'bold'"
             [disabled]="isSaveDisabled()"
             (clicked)="saveChanges()"
           />
