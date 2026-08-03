@@ -4,7 +4,7 @@
   [class.uc-date-time-picker--hidden]="hidden()"
 >
   @if (label()) {
-    <label class="uc-date-time-picker__label" [for]="id()">{{ label() }}</label>
+  <label class="uc-date-time-picker__label" [for]="id()">{{ label() }}</label>
   }
 
   <!-- Trigger -->
@@ -25,13 +25,19 @@
     (click)="toggleDropdown()"
     (keydown)="onTriggerKeydown($event)"
   >
-    <i class="uc-date-time-picker__trigger-icon ph ph-calendar" aria-hidden="true"></i>
+    <i
+      class="uc-date-time-picker__trigger-icon ph ph-calendar"
+      aria-hidden="true"
+    ></i>
     @if (displayValue()) {
-      <span class="uc-date-time-picker__value">{{ displayValue() }}</span>
+    <span class="uc-date-time-picker__value">{{ displayValue() }}</span>
     } @else {
-      <span class="uc-date-time-picker__placeholder">{{ placeholder() }}</span>
+    <span class="uc-date-time-picker__placeholder">{{ placeholder() }}</span>
     }
-    <i class="uc-date-time-picker__caret ph ph-caret-down" aria-hidden="true"></i>
+    <i
+      class="uc-date-time-picker__caret ph ph-caret-down"
+      aria-hidden="true"
+    ></i>
   </div>
 
   <!-- CDK Overlay dropdown -->
@@ -48,104 +54,118 @@
     ]"
     (backdropClick)="cancelChanges()"
   >
-    <div class="uc-date-time-picker__dropdown" role="dialog" [attr.aria-label]="'Date picker'">
+    <div
+      class="uc-date-time-picker__dropdown"
+      role="dialog"
+      [attr.aria-label]="'Date picker'"
+    >
       <!-- Month/Year navigation -->
       <div class="uc-date-time-picker__nav">
         <uc-icon-button
           [phosphorIcon]="'caret-left'"
           [phosphorWeight]="'bold'"
           (clicked)="previousMonth()"
+          [variant]="'secondary'"
         />
-        <span class="uc-date-time-picker__month-label">{{ viewMonthLabel() }}</span>
+        <span class="uc-date-time-picker__month-label"
+          >{{ viewMonthLabel() }}</span
+        >
         <uc-icon-button
           [phosphorIcon]="'caret-right'"
           [phosphorWeight]="'bold'"
           (clicked)="nextMonth()"
+          [variant]="'secondary'"
         />
       </div>
 
       <!-- Range selection hint -->
       @if (mode() === 'range') {
-        <p class="uc-date-time-picker__range-hint">{{ rangeSelectionHint() }}</p>
+      <p class="uc-date-time-picker__range-hint">{{ rangeSelectionHint() }}</p>
       }
 
       <!-- Weekday headers -->
       <div class="uc-date-time-picker__grid">
         @for (day of weekDays; track day) {
-          <div class="uc-date-time-picker__weekday">{{ day }}</div>
+        <div class="uc-date-time-picker__weekday">{{ day }}</div>
         }
 
         <!-- Day cells -->
         @for (day of calendarDays(); track day.date.getTime()) {
-          <button
-            type="button"
-            class="uc-date-time-picker__day"
-            [class.uc-date-time-picker__day--other-month]="!day.isCurrentMonth"
-            [class.uc-date-time-picker__day--today]="day.isToday"
-            [class.uc-date-time-picker__day--selected]="day.isSelected"
-            [class.uc-date-time-picker__day--range-start]="day.isRangeStart"
-            [class.uc-date-time-picker__day--range-end]="day.isRangeEnd"
-            [class.uc-date-time-picker__day--in-range]="day.isInRange"
-            [class.uc-date-time-picker__day--range-preview]="day.isRangePreview"
-            [class.uc-date-time-picker__day--range-preview-end]="day.isRangePreviewEnd"
-            [attr.aria-label]="day.date.toDateString()"
-            [attr.aria-pressed]="day.isSelected || day.isRangeStart || day.isRangeEnd"
-            (click)="selectDay(day)"
-            (mouseenter)="onDayHover(day)"
-            (mouseleave)="onDayLeave()"
+        <button
+          type="button"
+          class="uc-date-time-picker__day"
+          [class.uc-date-time-picker__day--other-month]="!day.isCurrentMonth"
+          [class.uc-date-time-picker__day--today]="day.isToday"
+          [class.uc-date-time-picker__day--selected]="day.isSelected"
+          [class.uc-date-time-picker__day--range-start]="day.isRangeStart"
+          [class.uc-date-time-picker__day--range-end]="day.isRangeEnd"
+          [class.uc-date-time-picker__day--in-range]="day.isInRange"
+          [class.uc-date-time-picker__day--range-preview]="day.isRangePreview"
+          [class.uc-date-time-picker__day--range-preview-end]="day.isRangePreviewEnd"
+          [attr.aria-label]="day.date.toDateString()"
+          [attr.aria-pressed]="day.isSelected || day.isRangeStart || day.isRangeEnd"
+          (click)="selectDay(day)"
+          (mouseenter)="onDayHover(day)"
+          (mouseleave)="onDayLeave()"
+        >
+          <span class="uc-date-time-picker__day-range-bg"></span>
+          <span class="uc-date-time-picker__day-circle"
+            >{{ day.dayNumber }}</span
           >
-            <span class="uc-date-time-picker__day-range-bg"></span>
-            <span class="uc-date-time-picker__day-circle">{{ day.dayNumber }}</span>
-          </button>
+        </button>
         }
       </div>
 
       <!-- Time picker section (optional) -->
       @if (showTime()) {
-        <div class="uc-date-time-picker__time">
-          <i class="ph ph-clock" aria-hidden="true"></i>
-          <input
-            type="number"
-            class="uc-date-time-picker__time-input"
-            [value]="draftHours()"
-            min="0"
-            max="23"
-            aria-label="Hours"
-            (change)="onHoursChange($event)"
-          />
-          <span class="uc-date-time-picker__time-sep">:</span>
-          <input
-            type="number"
-            class="uc-date-time-picker__time-input"
-            [value]="draftMinutes()"
-            min="0"
-            max="59"
-            aria-label="Minutes"
-            (change)="onMinutesChange($event)"
-          />
-        </div>
+      <div class="uc-date-time-picker__time">
+        <i class="ph ph-clock" aria-hidden="true"></i>
+        <input
+          type="number"
+          class="uc-date-time-picker__time-input"
+          [value]="draftHours()"
+          min="0"
+          max="23"
+          aria-label="Hours"
+          (change)="onHoursChange($event)"
+        />
+        <span class="uc-date-time-picker__time-sep">:</span>
+        <input
+          type="number"
+          class="uc-date-time-picker__time-input"
+          [value]="draftMinutes()"
+          min="0"
+          max="59"
+          aria-label="Minutes"
+          (change)="onMinutesChange($event)"
+        />
+      </div>
       }
 
       <!-- Actions -->
       <div class="uc-date-time-picker__actions">
-        <uc-button
-          [text]="'Today'"
-          type="button"
-          (click)="selectToday()"
-        />
+        <uc-button [text]="'Today'" type="button" (click)="selectToday()" />
         <div class="uc-date-time-picker__action-buttons">
-          <uc-button [text]="'Cancel'" [variant]="'secondary'" (clicked)="cancelChanges()" />
-          <uc-button [text]="'Apply'" [disabled]="isSaveDisabled()" (clicked)="saveChanges()" />
+          <uc-button
+            [text]="'Cancel'"
+            [variant]="'secondary'"
+            (clicked)="cancelChanges()"
+          />
+          <uc-button
+            [text]="'Apply'"
+            [disabled]="isSaveDisabled()"
+            (clicked)="saveChanges()"
+          />
         </div>
       </div>
     </div>
   </ng-template>
 
   @if (showErrorState()) {
-    <div class="uc-date-time-picker__errors">
-      @for (error of errors(); track error) {
-        <span class="uc-date-time-picker__error">{{ error.message }}</span>
-      }
-    </div>
+  <div class="uc-date-time-picker__errors">
+    @for (error of errors(); track error) {
+    <span class="uc-date-time-picker__error">{{ error.message }}</span>
+    }
+  </div>
   }
 </div>
