@@ -4,7 +4,7 @@
   [class.uc-color-picker--hidden]="hidden()"
 >
   @if (label()) {
-    <label class="uc-color-picker__label" [for]="id()">{{ label() }}</label>
+  <label class="uc-color-picker__label" [for]="id()">{{ label() }}</label>
   }
 
   <!-- Trigger: swatch + value -->
@@ -16,6 +16,7 @@
     (click)="toggleDropdown()"
   >
     <button
+      title="uc-color-picker"
       type="button"
       class="uc-color-picker__swatch"
       [style.backgroundColor]="value()"
@@ -38,7 +39,11 @@
   >
     <div class="uc-color-picker__dropdown">
       <!-- Mode toggle + picker -->
-      <uc-tabs [tabs]="colorModeTabs" [activeTab]="colorMode()" (activeTabChange)="setColorMode($event)">
+      <uc-tabs
+        [tabs]="colorModeTabs"
+        [activeTab]="colorMode()"
+        (activeTabChange)="setColorMode($event)"
+      >
         <ng-template ucTabPanel="area">
           <div class="uc-color-picker__canvas-area">
             <uc-color-area
@@ -76,36 +81,48 @@
               class="uc-color-picker__format-btn"
               [class.uc-color-picker__format-btn--active]="colorFormat() === 'hex'"
               (click)="setColorFormat('hex')"
-            >HEX</button>
+            >
+              HEX
+            </button>
             <button
               type="button"
               class="uc-color-picker__format-btn"
               [class.uc-color-picker__format-btn--active]="colorFormat() === 'rgb'"
               (click)="setColorFormat('rgb')"
-            >RGB</button>
+            >
+              RGB
+            </button>
             <button
               type="button"
               class="uc-color-picker__format-btn"
               [class.uc-color-picker__format-btn--active]="colorFormat() === 'hsl'"
               (click)="setColorFormat('hsl')"
-            >HSL</button>
+            >
+              HSL
+            </button>
           </div>
-          <span class="uc-color-picker__formatted-value">{{ formattedValue() }}</span>
+          <span class="uc-color-picker__formatted-value"
+            >{{ formattedValue() }}</span
+          >
         </div>
       </div>
 
       <div class="uc-color-picker__actions">
-        <uc-button [text]="'Cancel'" variant="secondary" (clicked)="cancelChanges()" />
+        <uc-button
+          [text]="'Cancel'"
+          variant="secondary"
+          (clicked)="cancelChanges()"
+        />
         <uc-button [text]="'Save'" (clicked)="saveChanges()" />
       </div>
     </div>
   </ng-template>
 
   @if (showErrorState()) {
-    <div>
-      @for (error of errors(); track error) {
-        <span class="uc-color-picker__error">{{ error.message }}</span>
-      }
-    </div>
+  <div>
+    @for (error of errors(); track error) {
+    <span class="uc-color-picker__error">{{ error.message }}</span>
+    }
+  </div>
   }
 </div>
