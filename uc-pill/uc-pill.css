@@ -57,6 +57,11 @@
   display: inline-block;
 }
 
-.uc-pill--link:hover {
+.uc-pill--clickable {
+  cursor: pointer;
+}
+
+.uc-pill--link:hover,
+.uc-pill--clickable:hover {
   opacity: 0.8;
 }

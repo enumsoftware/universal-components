@@ -18,6 +18,7 @@
     [class.uc-pill--valid]="variant() === 'valid'"
     [class.uc-pill--error]="variant() === 'error'"
     [class.uc-pill--compact]="size() === 'compact'"
+    [class.uc-pill--clickable]="isClickable()"
     (click)="clicked.emit()"
   >
     <ng-content>{{ text() }}</ng-content>

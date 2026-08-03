@@ -55,3 +55,13 @@ export const TableError: Story = {
     size: 'compact',
   },
 };
+
+export const Clickable: Story = {
+  args: {
+    text: 'Click me',
+  },
+  render: (args) => ({
+    props: { ...args, clicked: () => {} },
+    template: `<uc-pill [text]="text" [variant]="variant" [size]="size" (clicked)="clicked()"></uc-pill>`,
+  }),
+};
