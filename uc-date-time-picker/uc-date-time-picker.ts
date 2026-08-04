@@ -192,10 +192,19 @@ export class UcDateTimePicker implements FormValueControl<string> {
     return days;
   });
 
+  readonly calendarWeeks = computed<CalendarDay[][]>(() => {
+    const days = this.calendarDays();
+    const weeks: CalendarDay[][] = [];
+    for (let i = 0; i < days.length; i += 7) {
+      weeks.push(days.slice(i, i + 7));
+    }
+    return weeks;
+  });
+
   readonly displayValue = computed<string>(() => {
     if (this.mode() === 'range') {
-      const start = this.rangeStart();
-      const end = this.rangeEnd();
+      const start = this.isOpen() ? this.draftRangeStart() : this.rangeStart();
+      const end = this.isOpen() ? this.draftRangeEnd() : this.rangeEnd();
       if (!start) return '';
       const startDisplay = this.formatDateOnly(start);
       if (!end || end === start) return startDisplay;
@@ -404,6 +413,7 @@ export class UcDateTimePicker implements FormValueControl<string> {
       this.cancelChanges();
     }
   }
+
 
   private buildDay(
     date: Date,

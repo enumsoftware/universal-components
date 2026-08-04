@@ -51,7 +51,7 @@
     (backdropClick)="cancelChanges()"
   >
     <div
-      class="uc-date-time-picker__dropdown"
+      class="uc-date-time-picker__dropdown uc-date-time-picker__dropdown-content"
       role="dialog"
       [attr.aria-label]="'Date picker'"
     >
@@ -74,42 +74,51 @@
         />
       </div>
 
-      <!-- Range selection hint -->
-      @if (mode() === 'range') {
-      <p class="uc-date-time-picker__range-hint">{{ rangeSelectionHint() }}</p>
-      }
-
-      <!-- Weekday headers -->
-      <div class="uc-date-time-picker__grid">
-        @for (day of weekDays; track day) {
-        <div class="uc-date-time-picker__weekday">{{ day }}</div>
-        }
-
-        <!-- Day cells -->
-        @for (day of calendarDays(); track day.date.getTime()) {
-        <button
-          type="button"
-          class="uc-date-time-picker__day"
-          [class.uc-date-time-picker__day--other-month]="!day.isCurrentMonth"
-          [class.uc-date-time-picker__day--today]="day.isToday"
-          [class.uc-date-time-picker__day--selected]="day.isSelected"
-          [class.uc-date-time-picker__day--range-start]="day.isRangeStart"
-          [class.uc-date-time-picker__day--range-end]="day.isRangeEnd"
-          [class.uc-date-time-picker__day--in-range]="day.isInRange"
-          [class.uc-date-time-picker__day--range-preview]="day.isRangePreview"
-          [class.uc-date-time-picker__day--range-preview-end]="day.isRangePreviewEnd"
-          [attr.aria-label]="day.date.toDateString()"
-          [attr.aria-pressed]="day.isSelected || day.isRangeStart || day.isRangeEnd"
-          (click)="selectDay(day)"
-          (mouseenter)="onDayHover(day)"
-          (mouseleave)="onDayLeave()"
+      <div class="uc-date-time-picker__calendar-wrap">
+        <table
+          class="uc-date-time-picker__grid"
+          [class.uc-date-time-picker__grid--previewing-range]="mode() === 'range' && rangeStep() === 'end'"
         >
-          <span class="uc-date-time-picker__day-range-bg"></span>
-          <span class="uc-date-time-picker__day-circle"
-            >{{ day.dayNumber }}</span
-          >
-        </button>
-        }
+          <thead>
+            <tr>
+              @for (day of weekDays; track day) {
+              <th scope="col" class="uc-date-time-picker__weekday">
+                <span class="uc-date-time-picker__weekday-label">{{ day }}</span>
+              </th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (week of calendarWeeks(); track $index) {
+            <tr class="uc-date-time-picker__week-row">
+              @for (day of week; track $index) {
+              <td class="uc-date-time-picker__day-cell">
+                <button
+                  type="button"
+                  class="uc-date-time-picker__day"
+                  [class.uc-date-time-picker__day--other-month]="!day.isCurrentMonth"
+                  [class.uc-date-time-picker__day--today]="day.isToday"
+                  [class.uc-date-time-picker__day--selected]="day.isSelected"
+                  [class.uc-date-time-picker__day--range-start]="day.isRangeStart"
+                  [class.uc-date-time-picker__day--range-end]="day.isRangeEnd"
+                  [class.uc-date-time-picker__day--in-range]="day.isInRange"
+                  [class.uc-date-time-picker__day--range-preview]="day.isRangePreview"
+                  [class.uc-date-time-picker__day--range-preview-end]="day.isRangePreviewEnd"
+                  [attr.aria-label]="day.date.toDateString()"
+                  [attr.aria-pressed]="day.isSelected || day.isRangeStart || day.isRangeEnd"
+                  (click)="selectDay(day)"
+                  (mouseenter)="onDayHover(day)"
+                  (mouseleave)="onDayLeave()"
+                >
+                  <span class="uc-date-time-picker__day-range-bg"></span>
+                  <span class="uc-date-time-picker__day-circle">{{ day.dayNumber }}</span>
+                </button>
+              </td>
+              }
+            </tr>
+            }
+          </tbody>
+        </table>
       </div>
 
       <!-- Time picker section (optional) -->
