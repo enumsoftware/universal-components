@@ -55,7 +55,58 @@
       role="dialog"
       [attr.aria-label]="'Date picker'"
     >
-      <!-- Month/Year navigation -->
+      <!-- Year picker -->
+      @if (pickerView() === 'year') {
+      <div class="uc-date-time-picker__nav">
+        <uc-icon-button
+          [phosphorIcon]="'caret-left'"
+          [phosphorWeight]="'bold'"
+          (clicked)="previousYearPage()"
+          [variant]="'secondary'"
+        />
+        <span class="uc-date-time-picker__month-label">{{ yearPageStart() }} – {{ yearPageStart() + 11 }}</span>
+        <uc-icon-button
+          [phosphorIcon]="'caret-right'"
+          [phosphorWeight]="'bold'"
+          (clicked)="nextYearPage()"
+          [variant]="'secondary'"
+        />
+      </div>
+      <div class="uc-date-time-picker__year-grid">
+        @for (year of yearGrid(); track year) {
+        <button
+          type="button"
+          class="uc-date-time-picker__year-btn"
+          [class.uc-date-time-picker__year-btn--current]="year === viewYear()"
+          (click)="selectYear(year)"
+        >{{ year }}</button>
+        }
+      </div>
+      }
+
+      <!-- Month picker -->
+      @if (pickerView() === 'month') {
+      <div class="uc-date-time-picker__nav">
+        <button
+          type="button"
+          class="uc-date-time-picker__month-label uc-date-time-picker__month-label--btn"
+          (click)="openYearPicker()"
+        >{{ viewYear() }}</button>
+      </div>
+      <div class="uc-date-time-picker__month-grid">
+        @for (month of monthNames; track $index) {
+        <button
+          type="button"
+          class="uc-date-time-picker__month-btn"
+          [class.uc-date-time-picker__month-btn--current]="$index === viewMonth()"
+          (click)="selectMonth($index)"
+        >{{ month.slice(0, 3) }}</button>
+        }
+      </div>
+      }
+
+      <!-- Calendar view: Month/Year navigation + grid -->
+      @if (pickerView() === 'calendar') {
       <div class="uc-date-time-picker__nav">
         <uc-icon-button
           [phosphorIcon]="'caret-left'"
@@ -63,9 +114,11 @@
           (clicked)="previousMonth()"
           [variant]="'secondary'"
         />
-        <span class="uc-date-time-picker__month-label"
-          >{{ viewMonthLabel() }}</span
-        >
+        <button
+          type="button"
+          class="uc-date-time-picker__month-label uc-date-time-picker__month-label--btn"
+          (click)="openYearPicker()"
+        >{{ viewMonthLabel() }}</button>
         <uc-icon-button
           [phosphorIcon]="'caret-right'"
           [phosphorWeight]="'bold'"
@@ -120,6 +173,7 @@
           </tbody>
         </table>
       </div>
+      }
 
       <!-- Time picker section (optional) -->
       @if (showTime()) {

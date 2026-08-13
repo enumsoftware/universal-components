@@ -72,9 +72,19 @@ export class UcDateTimePicker implements FormValueControl<string> {
 
   readonly isOpen = signal<boolean>(false);
 
+  /** Controls which panel is shown inside the dropdown */
+  readonly pickerView = signal<'calendar' | 'year' | 'month'>('calendar');
+
   /** Calendar state - month/year currently displayed */
   readonly viewYear = signal<number>(new Date().getFullYear());
   readonly viewMonth = signal<number>(new Date().getMonth());
+
+  /** First year shown in the 12-year year-selection grid */
+  readonly yearPageStart = signal<number>(Math.floor(new Date().getFullYear() / 12) * 12);
+
+  readonly yearGrid = computed<number[]>(() =>
+    Array.from({ length: 12 }, (_, i) => this.yearPageStart() + i),
+  );
 
   /** Draft values used while editing in the open dropdown */
   readonly draftDateStr = signal<string>('');
@@ -236,6 +246,7 @@ export class UcDateTimePicker implements FormValueControl<string> {
   }
 
   openDropdown(): void {
+    this.pickerView.set('calendar');
     if (this.mode() === 'range') {
       const start = this.rangeStart();
       if (start) {
@@ -366,6 +377,29 @@ export class UcDateTimePicker implements FormValueControl<string> {
     if (this.mode() === 'range') {
       this.hoverDate.set(null);
     }
+  }
+
+  openYearPicker(): void {
+    this.yearPageStart.set(Math.floor(this.viewYear() / 12) * 12);
+    this.pickerView.set('year');
+  }
+
+  selectYear(year: number): void {
+    this.viewYear.set(year);
+    this.pickerView.set('month');
+  }
+
+  selectMonth(month: number): void {
+    this.viewMonth.set(month);
+    this.pickerView.set('calendar');
+  }
+
+  previousYearPage(): void {
+    this.yearPageStart.update(s => s - 12);
+  }
+
+  nextYearPage(): void {
+    this.yearPageStart.update(s => s + 12);
   }
 
   previousMonth(): void {

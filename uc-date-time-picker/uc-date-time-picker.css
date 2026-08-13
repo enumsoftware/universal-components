@@ -266,6 +266,105 @@
   white-space: nowrap;
 }
 
+.uc-date-time-picker__month-label--btn {
+  background: none;
+  border: none;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color 0.12s ease;
+
+  &:hover {
+    background-color: var(--uc-dtp-day-hover-bg-resolved);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--uc-dtp-trigger-focus-color-resolved);
+    outline-offset: 2px;
+  }
+}
+
+/* Year grid (4 × 3) */
+.uc-date-time-picker__year-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.4rem;
+  padding: 0.25rem 0;
+}
+
+.uc-date-time-picker__year-btn {
+  background: none;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.55rem 0.25rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  color: var(--uc-dtp-value-color-resolved);
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.12s ease;
+
+  &:hover {
+    background-color: var(--uc-dtp-day-hover-bg-resolved);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--uc-dtp-trigger-focus-color-resolved);
+    outline-offset: 2px;
+  }
+}
+
+.uc-date-time-picker__year-btn--current {
+  background-color: var(--uc-dtp-day-selected-bg-resolved);
+  color: var(--uc-dtp-day-selected-color-resolved);
+  font-weight: 700;
+
+  &:hover {
+    background-color: var(--uc-dtp-day-selected-bg-resolved);
+  }
+}
+
+/* Month grid (4 × 3) */
+.uc-date-time-picker__month-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.4rem;
+  padding: 0.25rem 0;
+}
+
+.uc-date-time-picker__month-btn {
+  background: none;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.65rem 0.25rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  color: var(--uc-dtp-value-color-resolved);
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.12s ease;
+
+  &:hover {
+    background-color: var(--uc-dtp-day-hover-bg-resolved);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--uc-dtp-trigger-focus-color-resolved);
+    outline-offset: 2px;
+  }
+}
+
+.uc-date-time-picker__month-btn--current {
+  background-color: var(--uc-dtp-day-selected-bg-resolved);
+  color: var(--uc-dtp-day-selected-color-resolved);
+  font-weight: 700;
+
+  &:hover {
+    background-color: var(--uc-dtp-day-selected-bg-resolved);
+  }
+}
+
 /* Range selection hint */
 .uc-date-time-picker__range-hint {
   font-size: 0.8rem;
