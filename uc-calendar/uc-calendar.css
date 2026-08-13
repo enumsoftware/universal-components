@@ -1,0 +1,260 @@
+/**
+ * Styles use the --uc-dtp-* custom properties defined in uc-date-time-picker.css
+ * so the calendar integrates seamlessly when used inside UcDateTimePicker.
+ * Override those variables on a parent element to theme the standalone calendar.
+ */
+
+uc-calendar {
+  display: block;
+  min-width: 312px;
+  max-width: 312px;
+  overflow: hidden;
+  margin-inline: auto;
+}
+
+.uc-calendar__grid {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+
+  thead {
+    display: table-header-group;
+  }
+
+  tbody {
+    display: table-row-group;
+  }
+
+  tr {
+    display: table-row;
+  }
+}
+
+.uc-calendar__grid th,
+.uc-calendar__grid td {
+  display: table-cell;
+  width: 14.2857%;
+  vertical-align: middle;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font: inherit;
+  line-height: inherit;
+}
+
+.uc-calendar__grid thead,
+.uc-calendar__grid tbody,
+.uc-calendar__grid tr {
+  border: none;
+}
+
+.uc-calendar__day-cell {
+  width: 14.2857%;
+  text-align: center;
+}
+
+.uc-calendar__weekday {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0;
+}
+
+.uc-calendar__weekday-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 1.85rem;
+  height: 1.85rem;
+  padding: 0.2rem 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--uc-dtp-weekday-color-resolved);
+  text-transform: uppercase;
+}
+
+/* Day cell button */
+.uc-calendar__day {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-inline: auto;
+  aspect-ratio: 1 / 1;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+/* Range background strip — sits behind the circle */
+.uc-calendar__day-range-bg {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* Visible circle with the day number */
+.uc-calendar__day-circle {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  border-radius: 50%;
+  font-size: 0.82rem;
+  color: var(--uc-dtp-value-color-resolved);
+  transition: background-color 0.12s ease;
+  padding: 0.22rem;
+}
+
+.uc-calendar__day:hover .uc-calendar__day-circle {
+  background-color: var(--uc-dtp-day-hover-bg-resolved);
+}
+
+.uc-calendar__day:focus {
+  outline: none;
+}
+
+.uc-calendar__day:focus-visible .uc-calendar__day-circle {
+  outline: 2px solid var(--uc-dtp-trigger-focus-color-resolved);
+  outline-offset: 1px;
+}
+
+/* Today */
+.uc-calendar__day--today .uc-calendar__day-circle {
+  color: var(--uc-dtp-day-today-color-resolved);
+  font-weight: 700;
+  box-shadow: inset 0 0 0 2px var(--uc-dtp-day-today-border-resolved);
+  width: calc(100% - (var(--uc-dtp-day-state-padding-resolved) * 2));
+}
+
+/* Selected (single mode) */
+.uc-calendar__day--selected .uc-calendar__day-circle {
+  background-color: var(--uc-dtp-day-selected-bg-resolved);
+  color: var(--uc-dtp-day-selected-color-resolved);
+  font-weight: 700;
+  width: calc(100% - (var(--uc-dtp-day-selected-inset-resolved) * 2));
+  aspect-ratio: 1 / 1;
+  height: auto;
+  padding: 0;
+}
+
+.uc-calendar__day--selected:hover .uc-calendar__day-circle {
+  background-color: var(--uc-dtp-day-selected-bg-resolved);
+}
+
+/* Other month */
+.uc-calendar__day--other-month .uc-calendar__day-circle {
+  color: var(--uc-dtp-day-other-month-color-resolved);
+}
+
+/* --- Range mode styles --- */
+
+.uc-calendar__day--in-range .uc-calendar__day-range-bg,
+.uc-calendar__day--range-start .uc-calendar__day-range-bg,
+.uc-calendar__day--range-end .uc-calendar__day-range-bg {
+  top: var(--uc-dtp-range-row-gap-resolved);
+  bottom: var(--uc-dtp-range-row-gap-resolved);
+  background: var(--uc-dtp-range-bg-resolved);
+  border: none;
+}
+
+.uc-calendar__day--range-start .uc-calendar__day-range-bg {
+  left: var(--uc-dtp-range-endcap-inset-resolved);
+  border-top-left-radius: 999px;
+  border-bottom-left-radius: 999px;
+}
+
+.uc-calendar__day--range-start .uc-calendar__day-circle {
+  background-color: var(--uc-dtp-day-selected-bg-resolved);
+  color: var(--uc-dtp-day-selected-color-resolved);
+  font-weight: 700;
+  width: calc(100% - (var(--uc-dtp-day-selected-inset-resolved) * 2));
+  aspect-ratio: 1 / 1;
+  height: auto;
+  padding: 0;
+}
+
+.uc-calendar__day--range-start:hover .uc-calendar__day-circle {
+  background-color: var(--uc-dtp-day-selected-bg-resolved);
+}
+
+.uc-calendar__day--range-end .uc-calendar__day-range-bg {
+  right: var(--uc-dtp-range-endcap-inset-resolved);
+  border-top-right-radius: 999px;
+  border-bottom-right-radius: 999px;
+}
+
+.uc-calendar__day--range-end .uc-calendar__day-circle {
+  background-color: var(--uc-dtp-day-selected-bg-resolved);
+  color: var(--uc-dtp-day-selected-color-resolved);
+  font-weight: 700;
+  width: calc(100% - (var(--uc-dtp-day-selected-inset-resolved) * 2));
+  aspect-ratio: 1 / 1;
+  height: auto;
+  padding: 0;
+}
+
+.uc-calendar__day--range-end:hover .uc-calendar__day-circle {
+  background-color: var(--uc-dtp-day-selected-bg-resolved);
+}
+
+/* When start and end are the same day — no strip */
+.uc-calendar__day--range-start.uc-calendar__day--range-end .uc-calendar__day-range-bg {
+  background: transparent;
+  border: none;
+}
+
+/* Preview range (hover before confirming) */
+.uc-calendar__day--range-preview .uc-calendar__day-range-bg,
+.uc-calendar__day--range-preview-end .uc-calendar__day-range-bg {
+  top: var(--uc-dtp-range-preview-row-gap-resolved);
+  bottom: var(--uc-dtp-range-preview-row-gap-resolved);
+  background: var(--uc-dtp-range-preview-bg-resolved);
+  border-top: 1.5px dashed var(--uc-dtp-range-preview-outline-color-resolved);
+  border-bottom: 1.5px dashed var(--uc-dtp-range-preview-outline-color-resolved);
+}
+
+.uc-calendar__grid--previewing-range
+  .uc-calendar__day--range-start
+  .uc-calendar__day-range-bg {
+  left: var(--uc-dtp-range-preview-endcap-inset-resolved);
+  top: var(--uc-dtp-range-preview-row-gap-resolved);
+  bottom: var(--uc-dtp-range-preview-row-gap-resolved);
+  background: var(--uc-dtp-range-preview-bg-resolved);
+  border-top: 1.5px dashed var(--uc-dtp-range-preview-outline-color-resolved);
+  border-bottom: 1.5px dashed var(--uc-dtp-range-preview-outline-color-resolved);
+  border-left: 1.5px dashed var(--uc-dtp-range-preview-outline-color-resolved);
+  border-top-left-radius: 999px;
+  border-bottom-left-radius: 999px;
+}
+
+.uc-calendar__day--range-preview-end .uc-calendar__day-range-bg {
+  right: var(--uc-dtp-range-preview-endcap-inset-resolved);
+  top: var(--uc-dtp-range-preview-row-gap-resolved);
+  bottom: var(--uc-dtp-range-preview-row-gap-resolved);
+  border-right: 1.5px dashed var(--uc-dtp-range-preview-outline-color-resolved);
+  border-top-right-radius: 999px;
+  border-bottom-right-radius: 999px;
+}
+
+.uc-calendar__day--range-preview-end .uc-calendar__day-circle {
+  background-color: var(--uc-dtp-range-preview-circle-bg-resolved);
+}

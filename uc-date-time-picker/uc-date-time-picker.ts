@@ -16,22 +16,12 @@ import {
   WithOptionalFieldTree,
 } from '@angular/forms/signals';
 import { UcIconButton } from '../uc-icon-button/uc-icon-button';
+import { UcCalendar, CalendarDay } from '../uc-calendar/uc-calendar';
 
 export const DATE_TIME_PICKER_MODE_OPTIONS = ['single', 'range'] as const;
 export type DateTimePickerMode = (typeof DATE_TIME_PICKER_MODE_OPTIONS)[number];
 
-interface CalendarDay {
-  date: Date;
-  dayNumber: number;
-  isCurrentMonth: boolean;
-  isToday: boolean;
-  isSelected: boolean;
-  isRangeStart: boolean;
-  isRangeEnd: boolean;
-  isInRange: boolean;
-  isRangePreview: boolean;
-  isRangePreviewEnd: boolean;
-}
+export type { CalendarDay } from '../uc-calendar/uc-calendar';
 
 export interface DateRange {
   start: string;
@@ -40,7 +30,7 @@ export interface DateRange {
 
 @Component({
   selector: 'uc-date-time-picker',
-  imports: [OverlayModule, UcIconButton],
+  imports: [OverlayModule, UcIconButton, UcCalendar],
   templateUrl: './uc-date-time-picker.html',
   styleUrl: './uc-date-time-picker.css',
   encapsulation: ViewEncapsulation.None,
@@ -99,8 +89,6 @@ export class UcDateTimePicker implements FormValueControl<string> {
 
   readonly showErrorState = computed(() => this.invalid() && this.touched());
 
-  readonly weekDays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-
   readonly monthNames = [
     'January',
     'February',
@@ -118,97 +106,6 @@ export class UcDateTimePicker implements FormValueControl<string> {
 
   readonly viewMonthLabel = computed(() => {
     return `${this.monthNames[this.viewMonth()]} ${this.viewYear()}`;
-  });
-
-  readonly calendarDays = computed<CalendarDay[]>(() => {
-    const year = this.viewYear();
-    const month = this.viewMonth();
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const isRange = this.mode() === 'range';
-    const draftStr = !isRange ? this.draftDateStr() : null;
-    const selectedDate = draftStr ? this.parseDateStr(draftStr) : null;
-
-    const rangeStartDate =
-      isRange && this.draftRangeStart() ? this.parseDateStr(this.draftRangeStart()) : null;
-    const rangeEndDate =
-      isRange && this.draftRangeEnd() ? this.parseDateStr(this.draftRangeEnd()) : null;
-
-    let previewEndDate: Date | null = null;
-    if (rangeStartDate && !rangeEndDate) {
-      const hover = this.hoverDate();
-      if (hover) {
-        const h = new Date(hover);
-        h.setHours(0, 0, 0, 0);
-        if (h >= rangeStartDate) {
-          previewEndDate = h;
-        }
-      }
-    }
-
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-    const days: CalendarDay[] = [];
-
-    const startDow = firstDay.getDay();
-    for (let i = startDow - 1; i >= 0; i--) {
-      const date = new Date(year, month, -i);
-      days.push(
-        this.buildDay(
-          date,
-          false,
-          today,
-          selectedDate,
-          rangeStartDate,
-          rangeEndDate,
-          previewEndDate,
-        ),
-      );
-    }
-
-    for (let d = 1; d <= lastDay.getDate(); d++) {
-      const date = new Date(year, month, d);
-      days.push(
-        this.buildDay(
-          date,
-          true,
-          today,
-          selectedDate,
-          rangeStartDate,
-          rangeEndDate,
-          previewEndDate,
-        ),
-      );
-    }
-
-    // Keep a stable 6-week calendar matrix so layout does not jump between months.
-    const remaining = 42 - days.length;
-    for (let d = 1; d <= remaining; d++) {
-      const date = new Date(year, month + 1, d);
-      days.push(
-        this.buildDay(
-          date,
-          false,
-          today,
-          selectedDate,
-          rangeStartDate,
-          rangeEndDate,
-          previewEndDate,
-        ),
-      );
-    }
-
-    return days;
-  });
-
-  readonly calendarWeeks = computed<CalendarDay[][]>(() => {
-    const days = this.calendarDays();
-    const weeks: CalendarDay[][] = [];
-    for (let i = 0; i < days.length; i += 7) {
-      weeks.push(days.slice(i, i + 7));
-    }
-    return weeks;
   });
 
   readonly displayValue = computed<string>(() => {
@@ -446,47 +343,6 @@ export class UcDateTimePicker implements FormValueControl<string> {
     if (event.key === 'Escape') {
       this.cancelChanges();
     }
-  }
-
-
-  private buildDay(
-    date: Date,
-    isCurrentMonth: boolean,
-    today: Date,
-    selectedDate: Date | null,
-    rangeStartDate: Date | null,
-    rangeEndDate: Date | null,
-    previewEndDate: Date | null,
-  ): CalendarDay {
-    const dateOnly = new Date(date);
-    dateOnly.setHours(0, 0, 0, 0);
-
-    const isRangeStart = rangeStartDate !== null && dateOnly.getTime() === rangeStartDate.getTime();
-    const isRangeEnd = rangeEndDate !== null && dateOnly.getTime() === rangeEndDate.getTime();
-    const isInRange =
-      rangeStartDate !== null && rangeEndDate !== null
-        ? dateOnly > rangeStartDate && dateOnly < rangeEndDate
-        : false;
-
-    const isRangePreviewEnd =
-      previewEndDate !== null && dateOnly.getTime() === previewEndDate.getTime();
-    const isRangePreview =
-      !isRangePreviewEnd && rangeStartDate !== null && previewEndDate !== null
-        ? dateOnly > rangeStartDate && dateOnly < previewEndDate
-        : false;
-
-    return {
-      date,
-      dayNumber: date.getDate(),
-      isCurrentMonth,
-      isToday: dateOnly.getTime() === today.getTime(),
-      isSelected: selectedDate !== null && dateOnly.getTime() === selectedDate.getTime(),
-      isRangeStart,
-      isRangeEnd,
-      isInRange,
-      isRangePreview,
-      isRangePreviewEnd,
-    };
   }
 
   private toDateStr(date: Date): string {

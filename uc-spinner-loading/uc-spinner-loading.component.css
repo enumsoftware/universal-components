@@ -1,0 +1,27 @@
+:host {
+  display: inline-block;
+  line-height: 0;
+  --uc-spinner-loading-size-resolved: var(--uc-spinner-loading-size, 2.5rem);
+  --uc-spinner-loading-thickness-resolved: var(--uc-spinner-loading-thickness, 0.25rem);
+  --uc-spinner-loading-track-background-resolved: var(--uc-spinner-loading-track-background, rgba(0, 0, 0, 0.05));
+  --uc-spinner-loading-indicator-background-resolved: var(--uc-spinner-loading-indicator-background, var(--primary-color));
+}
+
+.spinner-loader {
+  box-sizing: border-box;
+  width: var(--uc-spinner-loading-size-resolved);
+  height: var(--uc-spinner-loading-size-resolved);
+  border-radius: 50%;
+  border: var(--uc-spinner-loading-thickness-resolved) solid var(--uc-spinner-loading-track-background-resolved);
+  border-top-color: var(--uc-spinner-loading-indicator-background-resolved);
+  animation: spinning 1.2s linear infinite;
+}
+
+@keyframes spinning {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

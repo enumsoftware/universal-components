@@ -341,6 +341,12 @@
   --uc-linear-loading-track-background: rgba(0, 0, 0, 0.05);
   --uc-linear-loading-bar-background: var(--primary-color);
 
+  /* --- Spinner Loading --- */
+  --uc-spinner-loading-size: 2.5rem;
+  --uc-spinner-loading-thickness: 0.25rem;
+  --uc-spinner-loading-track-background: rgba(255, 255, 255, 0.12);
+  --uc-spinner-loading-indicator-background: var(--primary-color);
+
   /* --- Pagination --- */
   --uc-pagination-info-color: var(--paragraph-text-color);
   --uc-pagination-page-button-size: calc((var(--uc-icon-button-padding, 0.75rem) * 2) + 1rem);

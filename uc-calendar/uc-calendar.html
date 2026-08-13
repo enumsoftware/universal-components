@@ -1,0 +1,44 @@
+<table
+  class="uc-calendar__grid"
+  [class.uc-calendar__grid--previewing-range]="mode() === 'range' && rangeStep() === 'end'"
+>
+  <thead>
+    <tr>
+      @for (day of weekDays; track day) {
+      <th scope="col" class="uc-calendar__weekday">
+        <span class="uc-calendar__weekday-label">{{ day }}</span>
+      </th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    @for (week of calendarWeeks(); track $index) {
+    <tr class="uc-calendar__week-row">
+      @for (day of week; track $index) {
+      <td class="uc-calendar__day-cell">
+        <button
+          type="button"
+          class="uc-calendar__day"
+          [class.uc-calendar__day--other-month]="!day.isCurrentMonth"
+          [class.uc-calendar__day--today]="day.isToday"
+          [class.uc-calendar__day--selected]="day.isSelected"
+          [class.uc-calendar__day--range-start]="day.isRangeStart"
+          [class.uc-calendar__day--range-end]="day.isRangeEnd"
+          [class.uc-calendar__day--in-range]="day.isInRange"
+          [class.uc-calendar__day--range-preview]="day.isRangePreview"
+          [class.uc-calendar__day--range-preview-end]="day.isRangePreviewEnd"
+          [attr.aria-label]="day.date.toDateString()"
+          [attr.aria-pressed]="day.isSelected || day.isRangeStart || day.isRangeEnd"
+          (click)="daySelect.emit(day)"
+          (mouseenter)="dayHover.emit(day)"
+          (mouseleave)="dayLeave.emit()"
+        >
+          <span class="uc-calendar__day-range-bg"></span>
+          <span class="uc-calendar__day-circle">{{ day.dayNumber }}</span>
+        </button>
+      </td>
+      }
+    </tr>
+    }
+  </tbody>
+</table>

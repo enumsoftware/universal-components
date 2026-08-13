@@ -18,6 +18,8 @@ export { UcDoughnutChart } from './uc-charts/uc-doughnut-chart/uc-doughnut-chart
 export { UcCheckbox } from './uc-checkbox/uc-checkbox';
 export { UcColorPicker } from './uc-color-picker/uc-color-picker';
 export { UcConfirmationDialog } from './uc-confirmation-dialog/uc-confirmation-dialog';
+export { UcCalendar } from './uc-calendar/uc-calendar';
+export type { CalendarDay, CalendarMode } from './uc-calendar/uc-calendar';
 export { UcDateTimePicker } from './uc-date-time-picker/uc-date-time-picker';
 export { UcDivider } from './uc-divider/uc-divider';
 export { UcFilePicker } from './uc-file-picker/uc-file-picker';
@@ -40,6 +42,7 @@ export { UcSideNavigationModule } from './uc-side-navigation/uc-side-navigation-
 export { UcSidebar } from './uc-side-navigation/uc-sidebar/uc-sidebar';
 export { UcSidebarButton } from './uc-sidebar-button/uc-sidebar-button';
 export { UcSlider } from './uc-slider/uc-slider';
+export { UcSpinnerLoading } from './uc-spinner-loading/uc-spinner-loading.component';
 export { UcStep } from './uc-stepper/uc-step';
 export { UcStepper } from './uc-stepper/uc-stepper';
 export { UcTabPanel, UcTabs } from './uc-tabs/uc-tabs';

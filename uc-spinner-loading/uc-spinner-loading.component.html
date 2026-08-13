@@ -1,0 +1,11 @@
+@if (loading()) {
+  <div
+    class="spinner-loader"
+    role="status"
+    aria-label="Loading"
+    [style.width]="size()"
+    [style.height]="size()"
+    [style.border-width]="thickness()"
+    [style.border-top-color]="color()"
+  ></div>
+}
