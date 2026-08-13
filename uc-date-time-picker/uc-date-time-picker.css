@@ -68,10 +68,7 @@
     --uc-dtp-day-selected-color,
     var(--primary-contrast-color)
   );
-  --uc-dtp-day-state-padding-resolved: var(
-    --uc-dtp-day-state-padding,
-    0.1rem
-  );
+  --uc-dtp-day-state-padding-resolved: var(--uc-dtp-day-state-padding, 0.1rem);
   --uc-dtp-day-today-outline-offset-resolved: var(
     --uc-dtp-day-today-outline-offset,
     -2px
@@ -132,10 +129,7 @@
   );
   --uc-dtp-range-row-gap-resolved: var(--uc-dtp-range-row-gap, 2px);
   --uc-dtp-range-endcap-inset-resolved: var(--uc-dtp-range-endcap-inset, 5%);
-  --uc-dtp-day-selected-inset-resolved: var(
-    --uc-dtp-day-selected-inset,
-    3px
-  );
+  --uc-dtp-day-selected-inset-resolved: var(--uc-dtp-day-selected-inset, 3px);
 }
 
 .uc-date-time-picker-host {
@@ -291,13 +285,15 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 0.4rem;
   padding: 0.25rem 0;
+  width: 312px;
+  max-width: 100%;
 }
 
 .uc-date-time-picker__year-btn {
   background: none;
   border: none;
   border-radius: 0.5rem;
-  padding: 0.55rem 0.25rem;
+  padding: 1.25rem 0.25rem;
   font-size: 0.85rem;
   font-family: inherit;
   color: var(--uc-dtp-value-color-resolved);
@@ -331,13 +327,15 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 0.4rem;
   padding: 0.25rem 0;
+  width: 312px;
+  max-width: 100%;
 }
 
 .uc-date-time-picker__month-btn {
   background: none;
   border: none;
   border-radius: 0.5rem;
-  padding: 0.65rem 0.25rem;
+  padding: 1.25rem 0.25rem;
   font-size: 0.85rem;
   font-family: inherit;
   color: var(--uc-dtp-value-color-resolved);
@@ -376,7 +374,8 @@
 /* Calendar grid */
 .uc-date-time-picker__dropdown-content {
   .uc-date-time-picker__calendar-wrap {
-    width: min(100%, 312px);
+    /* width: min(100%, 312px); */
+    min-width: 312px;
     max-width: 312px;
     max-height: none;
     overflow: hidden;
@@ -567,7 +566,8 @@
     padding: 0;
   }
 
-  .uc-date-time-picker__day--range-start:hover .uc-date-time-picker__day-circle {
+  .uc-date-time-picker__day--range-start:hover
+    .uc-date-time-picker__day-circle {
     background-color: var(--uc-dtp-day-selected-bg-resolved);
   }
 
@@ -601,12 +601,14 @@
 
   /* Preview range (hover before applying) */
   .uc-date-time-picker__day--range-preview .uc-date-time-picker__day-range-bg,
-  .uc-date-time-picker__day--range-preview-end .uc-date-time-picker__day-range-bg {
+  .uc-date-time-picker__day--range-preview-end
+    .uc-date-time-picker__day-range-bg {
     top: var(--uc-dtp-range-preview-row-gap-resolved);
     bottom: var(--uc-dtp-range-preview-row-gap-resolved);
     background: var(--uc-dtp-range-preview-bg-resolved);
     border-top: 1.5px dashed var(--uc-dtp-range-preview-outline-color-resolved);
-    border-bottom: 1.5px dashed var(--uc-dtp-range-preview-outline-color-resolved);
+    border-bottom: 1.5px dashed
+      var(--uc-dtp-range-preview-outline-color-resolved);
   }
 
   .uc-date-time-picker__grid--previewing-range
@@ -617,7 +619,8 @@
     bottom: var(--uc-dtp-range-preview-row-gap-resolved);
     background: var(--uc-dtp-range-preview-bg-resolved);
     border-top: 1.5px dashed var(--uc-dtp-range-preview-outline-color-resolved);
-    border-bottom: 1.5px dashed var(--uc-dtp-range-preview-outline-color-resolved);
+    border-bottom: 1.5px dashed
+      var(--uc-dtp-range-preview-outline-color-resolved);
     border-left: 1.5px dashed var(--uc-dtp-range-preview-outline-color-resolved);
     border-top-left-radius: 999px;
     border-bottom-left-radius: 999px;
@@ -629,12 +632,14 @@
     right: var(--uc-dtp-range-preview-endcap-inset-resolved);
     top: var(--uc-dtp-range-preview-row-gap-resolved);
     bottom: var(--uc-dtp-range-preview-row-gap-resolved);
-    border-right: 1.5px dashed var(--uc-dtp-range-preview-outline-color-resolved);
+    border-right: 1.5px dashed
+      var(--uc-dtp-range-preview-outline-color-resolved);
     border-top-right-radius: 999px;
     border-bottom-right-radius: 999px;
   }
 
-  .uc-date-time-picker__day--range-preview-end .uc-date-time-picker__day-circle {
+  .uc-date-time-picker__day--range-preview-end
+    .uc-date-time-picker__day-circle {
     background-color: var(--uc-dtp-range-preview-circle-bg-resolved);
   }
 }
