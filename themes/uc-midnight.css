@@ -75,6 +75,7 @@
   --uc-input-background-color: oklch(from #161c2d calc(l * 0.9) c h);
   --uc-input-border-color: transparent;
   --uc-button-toggle-border-color: var(--uc-input-border-color);
+  --uc-button-toggle-border: 1px solid var(--uc-button-toggle-border-color);
   --uc-input-border-radius: 0.5rem;
   --uc-input-label-color: oklch(from var(--foreground-color) l c h / 1);
   --uc-input-placeholder-color: oklch(from var(--foreground-color) l c h / 0.35);

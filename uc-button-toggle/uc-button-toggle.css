@@ -1,6 +1,10 @@
 :host {
   --uc-button-toggle-background-resolved: var(--uc-button-toggle-background, var(--background-color-95));
   --uc-button-toggle-border-color-resolved: var(--uc-button-toggle-border-color, var(--background-color-90));
+  --uc-button-toggle-border-resolved: var(
+    --uc-button-toggle-border,
+    1px solid var(--uc-button-toggle-border-color-resolved)
+  );
   --uc-button-toggle-border-radius-resolved: var(--uc-button-toggle-border-radius, 0.75rem);
   --uc-button-toggle-disabled-opacity-resolved: var(--uc-button-toggle-disabled-opacity, 0.65);
   display: inline-flex;
@@ -13,7 +17,7 @@
   align-items: stretch;
   overflow: hidden;
   width: 100%;
-  border: 1px solid var(--uc-button-toggle-border-color-resolved);
+  border: var(--uc-button-toggle-border-resolved);
   border-radius: var(--uc-button-toggle-border-radius-resolved);
   background: var(--uc-button-toggle-background-resolved);
 }

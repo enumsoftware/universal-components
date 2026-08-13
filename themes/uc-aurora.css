@@ -141,6 +141,7 @@
   /* --- Button Toggle --- */
   --uc-button-toggle-background: var(--background-color);
   --uc-button-toggle-border-color: var(--uc-input-border-color);
+  --uc-button-toggle-border: 1px solid var(--uc-button-toggle-border-color);
   --uc-button-toggle-border-radius: 0.75rem;
   --uc-button-toggle-disabled-opacity: 0.65;
   --uc-button-toggle-item-color: var(--paragraph-text-color);
