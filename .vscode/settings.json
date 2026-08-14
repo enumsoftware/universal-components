@@ -9,11 +9,6 @@
 	"[json]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
-	"github.copilot.chat.commitMessageGeneration.instructions": [
-		{
-			"file": "./.agents/skills/git-commit-message/SKILL.md"
-		}
-	],
 	"js/ts.tsdk.path": "./node_modules/typescript/lib",
 	"js/ts.tsdk.promptToUseWorkspaceVersion": true
 }
