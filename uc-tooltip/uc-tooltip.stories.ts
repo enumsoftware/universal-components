@@ -18,7 +18,7 @@ const meta: Meta<UcTooltip> = {
     props: args,
     template: `
       <div style="padding: 80px; display: flex; justify-content: center;">
-        <uc-button [ucTooltip]="ucTooltip" [text]="'Hover over me'" style="cursor: pointer;"></uc-button>
+        <uc-button [ucTooltip]="ucTooltip" [text]="'Hover over me'"></uc-button>
       </div>
     `,
   }),
