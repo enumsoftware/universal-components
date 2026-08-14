@@ -5,6 +5,7 @@ export type { UcConfirmationDialogData } from './uc-confirmation-dialog/uc-confi
 export type { SelectOption } from './uc-select/uc-select';
 export type { UcSidebarMode } from './uc-side-navigation/uc-side-navigation';
 export type { UcTab } from './uc-tabs/uc-tabs';
+export type { UcTooltipPosition, UcTooltipConfig } from './uc-tooltip/uc-tooltip';
 
 export { UcAccordion } from './uc-accordion/uc-accordion';
 export { UcAccordionItem } from './uc-accordion/uc-accordion-item';
@@ -48,4 +49,4 @@ export { UcStepper } from './uc-stepper/uc-stepper';
 export { UcTabPanel, UcTabs } from './uc-tabs/uc-tabs';
 export { UcTextarea } from './uc-textarea/uc-textarea';
 export { UcToggle } from './uc-toggle/uc-toggle';
-export { UcTooltip } from './uc-tooltip/uc-tooltip';
+export { UcTooltip, UC_TOOLTIP_CONFIG, provideUcTooltipConfig } from './uc-tooltip/uc-tooltip';
