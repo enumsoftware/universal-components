@@ -1,5 +1,5 @@
-/// <reference types="jasmine" />
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { UcPagination } from './uc-pagination';
 
 describe('UcPagination', () => {
@@ -36,7 +36,7 @@ describe('UcPagination', () => {
   });
 
   it('should emit page change event', () => {
-    spyOn(component.pageChange, 'emit');
+    vi.spyOn(component.pageChange, 'emit');
     component.goToPage(2);
     expect(component.pageChange.emit).toHaveBeenCalledWith(2);
   });
@@ -57,7 +57,7 @@ describe('UcPagination', () => {
   });
 
   it('should fast jump forward by 3 pages', () => {
-    spyOn(component.pageChange, 'emit');
+    vi.spyOn(component.pageChange, 'emit');
     fixture.componentRef.setInput('currentPage', 2);
     fixture.detectChanges();
 
@@ -67,7 +67,7 @@ describe('UcPagination', () => {
   });
 
   it('should fast jump backward by 3 pages', () => {
-    spyOn(component.pageChange, 'emit');
+    vi.spyOn(component.pageChange, 'emit');
     fixture.componentRef.setInput('currentPage', 5);
     fixture.detectChanges();
 
@@ -92,7 +92,7 @@ describe('UcPagination', () => {
   });
 
   it('should accept selected page from page-select component', () => {
-    spyOn(component.pageChange, 'emit');
+    vi.spyOn(component.pageChange, 'emit');
 
     component.goToPage(5);
 
@@ -131,7 +131,7 @@ describe('UcPagination', () => {
   });
 
   it('should emit page size change when selecting a different size', () => {
-    spyOn(component.pageSizeChange, 'emit');
+    vi.spyOn(component.pageSizeChange, 'emit');
 
     component.onPageSizeSelect(25);
 
@@ -139,7 +139,7 @@ describe('UcPagination', () => {
   });
 
   it('should ignore page size selection when same as current page size', () => {
-    spyOn(component.pageSizeChange, 'emit');
+    vi.spyOn(component.pageSizeChange, 'emit');
 
     component.onPageSizeSelect(10);
 

@@ -1,5 +1,5 @@
-/// <reference types="jasmine" />
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UcAccordionItem } from './uc-accordion-item';
 
@@ -28,7 +28,7 @@ describe('UcAccordionItem', () => {
   });
 
   it('should emit itemToggled output on toggle', () => {
-    spyOn(component.itemToggled, 'emit');
+    vi.spyOn(component.itemToggled, 'emit');
     component.toggleOpen();
     expect(component.itemToggled.emit).toHaveBeenCalledWith(true);
   });

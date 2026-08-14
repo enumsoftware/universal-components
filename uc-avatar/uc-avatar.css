@@ -1,0 +1,39 @@
+:host {
+  display: inline-flex;
+  flex: 0 0 auto;
+  vertical-align: middle;
+}
+
+.uc-avatar {
+  align-items: center;
+  background-color: var(--uc-avatar-background, var(--primary-color));
+  border-radius: 50%;
+  color: var(--uc-avatar-color, var(--primary-contrast-color));
+  display: inline-flex;
+  flex: 0 0 var(--uc-avatar-size, 2.5rem);
+  font-size: calc(var(--uc-avatar-size, 2.5rem) * 0.4);
+  font-weight: 600;
+  height: var(--uc-avatar-size, 2.5rem);
+  justify-content: center;
+  line-height: 1;
+  overflow: hidden;
+  width: var(--uc-avatar-size, 2.5rem);
+}
+
+.uc-avatar__image {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.uc-avatar__initials {
+  overflow: hidden;
+  padding-inline: 0.2em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.uc-avatar__icon {
+  display: inline-flex;
+  font-size: 1.2em;
+}

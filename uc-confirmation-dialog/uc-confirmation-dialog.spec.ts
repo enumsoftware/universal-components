@@ -1,14 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
+import { vi } from 'vitest';
 import { UcConfirmationDialog } from './uc-confirmation-dialog';
 
 describe('UcConfirmationDialog', () => {
   let component: UcConfirmationDialog;
   let fixture: ComponentFixture<UcConfirmationDialog>;
-  let dialogRefSpy: jasmine.SpyObj<DialogRef<boolean>>;
+  let dialogRefSpy: Pick<DialogRef<boolean>, 'close'>;
 
   beforeEach(async () => {
-    dialogRefSpy = jasmine.createSpyObj<DialogRef<boolean>>('DialogRef', ['close']);
+    dialogRefSpy = { close: vi.fn() };
 
     await TestBed.configureTestingModule({
       imports: [UcConfirmationDialog],

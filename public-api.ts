@@ -9,6 +9,7 @@ export type { UcTooltipPosition, UcTooltipConfig } from './uc-tooltip/uc-tooltip
 
 export { UcAccordion } from './uc-accordion/uc-accordion';
 export { UcAccordionItem } from './uc-accordion/uc-accordion-item';
+export { UcAvatar } from './uc-avatar/uc-avatar';
 export { UcButton } from './uc-button/uc-button';
 export { UcButtonToggle } from './uc-button-toggle/uc-button-toggle';
 export { UcButtonToggleItem } from './uc-button-toggle/uc-button-toggle-item';

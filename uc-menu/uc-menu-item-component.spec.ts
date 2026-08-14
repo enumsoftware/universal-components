@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { UcMenuItemComponent } from './uc-menu-item-component';
 
 describe('UcMenuItemComponent', () => {
@@ -26,7 +27,7 @@ describe('UcMenuItemComponent', () => {
   });
 
   it('should emit selected when clicked', () => {
-    const selectedSpy = jasmine.createSpy('selected');
+    const selectedSpy = vi.fn();
     component.selected.subscribe(selectedSpy);
 
     const host = fixture.nativeElement as HTMLElement;
@@ -36,7 +37,7 @@ describe('UcMenuItemComponent', () => {
   });
 
   it('should not emit selected when disabled', () => {
-    const selectedSpy = jasmine.createSpy('selected');
+    const selectedSpy = vi.fn();
     component.selected.subscribe(selectedSpy);
     fixture.componentRef.setInput('disabled', true);
     fixture.detectChanges();

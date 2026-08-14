@@ -1,0 +1,15 @@
+<span
+  class="uc-avatar"
+  [style.--uc-avatar-size]="size()"
+  [style.background-color]="backgroundColor()"
+  [attr.role]="!displayedImageUrl() && alt() ? 'img' : null"
+  [attr.aria-label]="!displayedImageUrl() && alt() ? alt() : null"
+>
+  @if (displayedImageUrl(); as imageUrl) {
+    <img class="uc-avatar__image" [src]="imageUrl" [alt]="alt()" (error)="handleImageError()" />
+  } @else if (displayedInitials()) {
+    <span class="uc-avatar__initials" aria-hidden="true">{{ displayedInitials() }}</span>
+  } @else {
+    <uc-phosphor-icon class="uc-avatar__icon" [icon]="icon()" />
+  }
+</span>

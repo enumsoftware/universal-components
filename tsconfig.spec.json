@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
-    "types": ["jasmine"]
+    "types": ["vitest/globals"]
   },
   "exclude": ["node_modules", "storybook-static"],
   "include": ["**/*.spec.ts", "**/*.d.ts"]

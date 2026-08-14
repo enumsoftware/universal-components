@@ -1,5 +1,3 @@
-/// <reference types="jasmine" />
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UcIconButton } from './uc-icon-button';
@@ -36,7 +34,7 @@ describe('UcImageButton', () => {
   it('should not render an empty title when no label is provided', () => {
     const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
 
-    expect(button.hasAttribute('title')).toBeFalse();
-    expect(button.hasAttribute('aria-label')).toBeFalse();
+    expect(button.hasAttribute('title')).toBe(false);
+    expect(button.hasAttribute('aria-label')).toBe(false);
   });
 });

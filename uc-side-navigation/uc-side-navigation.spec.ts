@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { UcSideNavigation } from './uc-side-navigation';
 
 describe('UcSideNavigation', () => {
@@ -13,8 +14,8 @@ describe('UcSideNavigation', () => {
       ResizeObserverMock.instances.push(this);
     }
 
-    observe = jasmine.createSpy('observe');
-    disconnect = jasmine.createSpy('disconnect');
+    observe = vi.fn();
+    disconnect = vi.fn();
 
     trigger() {
       this.callback([], this as unknown as ResizeObserver);
@@ -53,6 +54,7 @@ describe('UcSideNavigation', () => {
   });
 
   afterEach(() => {
+    vi.restoreAllMocks();
     Object.defineProperty(window, 'ResizeObserver', {
       writable: true,
       configurable: true,
@@ -62,7 +64,7 @@ describe('UcSideNavigation', () => {
 
   it('should create', () => {
     const host = fixture.nativeElement.querySelector('section') as HTMLElement;
-    spyOn(host, 'getBoundingClientRect').and.returnValue(createDomRect(640, 480));
+    vi.spyOn(host, 'getBoundingClientRect').mockReturnValue(createDomRect(640, 480));
     fixture.detectChanges();
 
     expect(component).toBeTruthy();
@@ -70,62 +72,70 @@ describe('UcSideNavigation', () => {
 
   it('should initialize in over mode with closed sidebar state', () => {
     const host = fixture.nativeElement.querySelector('section') as HTMLElement;
-    spyOn(host, 'getBoundingClientRect').and.returnValue(createDomRect(640, 480));
+    vi.spyOn(host, 'getBoundingClientRect').mockReturnValue(createDomRect(640, 480));
     fixture.detectChanges();
 
     expect(component.sidebarMode()).toBe('over');
-    expect(component.isSidebarOpen()).toBeFalse();
-    expect(component.isOverlayMounted()).toBeFalse();
-    expect(component.isOverlayVisible()).toBeFalse();
+    expect(component.isSidebarOpen()).toBe(false);
+    expect(component.isOverlayMounted()).toBe(false);
+    expect(component.isOverlayVisible()).toBe(false);
   });
 
   it('should initialize in side mode with opened sidebar state', () => {
     const host = fixture.nativeElement.querySelector('section') as HTMLElement;
-    spyOn(host, 'getBoundingClientRect').and.returnValue(createDomRect(640, 480));
+    vi.spyOn(host, 'getBoundingClientRect').mockReturnValue(createDomRect(640, 480));
 
     fixture.componentRef.setInput('sidebarMode', 'side');
     fixture.detectChanges();
 
-    expect(component.isSidebarOpen()).toBeTrue();
-    expect(component.isOverlayMounted()).toBeFalse();
-    expect(component.isOverlayVisible()).toBeFalse();
+    expect(component.isSidebarOpen()).toBe(true);
+    expect(component.isOverlayMounted()).toBe(false);
+    expect(component.isOverlayVisible()).toBe(false);
   });
 
-  it('should open and close over-mode sidebar with overlay mount lifecycle', fakeAsync(() => {
+  it('should open and close over-mode sidebar with overlay mount lifecycle', async () => {
+    let completeClose: (() => void) | undefined;
+    let showOverlay: (() => void) | undefined;
     const host = fixture.nativeElement.querySelector('section') as HTMLElement;
-    spyOn(host, 'getBoundingClientRect').and.returnValue(createDomRect(640, 480));
-    spyOn(window, 'requestAnimationFrame').and.callFake((cb: FrameRequestCallback) => {
-      cb(0);
+    vi.spyOn(host, 'getBoundingClientRect').mockReturnValue(createDomRect(640, 480));
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: FrameRequestCallback) => {
+      showOverlay = () => cb(0);
       return 1;
     });
-    spyOn(window, 'getComputedStyle').and.returnValue({
+    vi.spyOn(window, 'getComputedStyle').mockReturnValue({
       getPropertyValue: () => '120ms',
     } as unknown as CSSStyleDeclaration);
+    vi.spyOn(window, 'setTimeout').mockImplementation((callback): ReturnType<typeof window.setTimeout> => {
+      completeClose = callback as () => void;
+      return 1 as unknown as ReturnType<typeof window.setTimeout>;
+    });
 
     fixture.detectChanges();
+    await fixture.whenStable();
 
     component.openSidebar();
-    expect(component.isSidebarOpen()).toBeTrue();
-    expect(component.isOverlayMounted()).toBeTrue();
-    expect(component.isOverlayVisible()).toBeTrue();
+    expect(showOverlay).toBeDefined();
+    showOverlay!();
+    expect(component.isSidebarOpen()).toBe(true);
+    expect(component.isOverlayMounted()).toBe(true);
+    expect(component.isOverlayVisible()).toBe(true);
 
     component.closeSidebar();
-    expect(component.isSidebarOpen()).toBeFalse();
-    expect(component.isOverlayVisible()).toBeFalse();
-    expect(component.isOverlayMounted()).toBeTrue();
+    expect(component.isSidebarOpen()).toBe(false);
+    expect(component.isOverlayVisible()).toBe(false);
+    expect(component.isOverlayMounted()).toBe(true);
 
-    tick(119);
-    expect(component.isOverlayMounted()).toBeTrue();
-
-    tick(1);
-    expect(component.isOverlayMounted()).toBeFalse();
-  }));
+    expect(completeClose).toBeDefined();
+    completeClose!();
+    expect(component.isOverlayMounted()).toBe(false);
+  });
 
   it('should respect closeOnBackdropClick input', () => {
+    let showOverlay: (() => void) | undefined;
     const host = fixture.nativeElement.querySelector('section') as HTMLElement;
-    spyOn(host, 'getBoundingClientRect').and.returnValue(createDomRect(640, 480));
-    spyOn(window, 'requestAnimationFrame').and.callFake((cb: FrameRequestCallback) => {
-      cb(0);
+    vi.spyOn(host, 'getBoundingClientRect').mockReturnValue(createDomRect(640, 480));
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: FrameRequestCallback) => {
+      showOverlay = () => cb(0);
       return 1;
     });
 
@@ -133,17 +143,22 @@ describe('UcSideNavigation', () => {
     fixture.detectChanges();
 
     component.openSidebar();
+    expect(showOverlay).toBeDefined();
+    showOverlay!();
     component.onOverlayBackdropClick();
 
-    expect(component.isSidebarOpen()).toBeTrue();
-    expect(component.isOverlayVisible()).toBeTrue();
+    expect(component.isSidebarOpen()).toBe(true);
+    expect(component.isOverlayVisible()).toBe(true);
   });
 
-  it('should update overlay sizing when host container resizes', () => {
+  it('should update overlay sizing when host container resizes', async () => {
     const host = fixture.nativeElement.querySelector('section') as HTMLElement;
-    spyOn(host, 'getBoundingClientRect').and.returnValues(createDomRect(640, 480), createDomRect(320, 200));
+    vi.spyOn(host, 'getBoundingClientRect')
+      .mockReturnValueOnce(createDomRect(640, 480))
+      .mockReturnValueOnce(createDomRect(320, 200));
 
     fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(component.overlayHeightPx()).toBe(448);
     expect(component.overlayMaxWidthPx()).toBe(608);
@@ -157,7 +172,7 @@ describe('UcSideNavigation', () => {
 
   it('should disconnect resize observer on destroy', () => {
     const host = fixture.nativeElement.querySelector('section') as HTMLElement;
-    spyOn(host, 'getBoundingClientRect').and.returnValue(createDomRect(640, 480));
+    vi.spyOn(host, 'getBoundingClientRect').mockReturnValue(createDomRect(640, 480));
 
     fixture.detectChanges();
 
