@@ -27,7 +27,6 @@
   </div>
 
   <div class="uc-image-editor-dialog__ratio-control">
-    <span>Aspect ratio</span>
     <uc-button-toggle
       [value]="aspectRatio()"
       ariaLabel="Aspect ratio"
@@ -90,40 +89,49 @@
   </div>
 
   @if (!loading() && !errorMessage() && hasCrop()) {
-    <fieldset class="uc-image-editor-dialog__crop-fields">
-      <legend>Crop region in pixels</legend>
-      <p>Fine-tune the position and dimensions of your selection.</p>
-      <div class="uc-image-editor-dialog__crop-grid">
-        <label>
-          <span>X position</span>
-          <span class="uc-image-editor-dialog__number-control">
-            <input type="number" min="0" [value]="crop().x" (change)="updateCrop('x', $event)" />
-            <span aria-hidden="true">px</span>
-          </span>
-        </label>
-        <label>
-          <span>Y position</span>
-          <span class="uc-image-editor-dialog__number-control">
-            <input type="number" min="0" [value]="crop().y" (change)="updateCrop('y', $event)" />
-            <span aria-hidden="true">px</span>
-          </span>
-        </label>
-        <label>
-          <span>Width</span>
-          <span class="uc-image-editor-dialog__number-control">
-            <input type="number" min="1" [value]="crop().width" (change)="updateCrop('width', $event)" />
-            <span aria-hidden="true">px</span>
-          </span>
-        </label>
-        <label>
-          <span>Height</span>
-          <span class="uc-image-editor-dialog__number-control">
-            <input type="number" min="1" [value]="crop().height" (change)="updateCrop('height', $event)" />
-            <span aria-hidden="true">px</span>
-          </span>
-        </label>
-      </div>
-    </fieldset>
+    <uc-accordion-item class="uc-image-editor-dialog__crop-details" title="Crop region in pixels">
+      <ng-template #content>
+        <p>Fine-tune the position and dimensions of your selection.</p>
+        <div class="uc-image-editor-dialog__crop-grid">
+          <uc-input
+            [id]="instanceId + '-crop-x'"
+            label="X position"
+            type="number"
+            [value]="crop().x"
+            (valueChange)="updateCrop('x', $event)"
+          >
+            <span ucInputSuffix aria-hidden="true">px</span>
+          </uc-input>
+          <uc-input
+            [id]="instanceId + '-crop-y'"
+            label="Y position"
+            type="number"
+            [value]="crop().y"
+            (valueChange)="updateCrop('y', $event)"
+          >
+            <span ucInputSuffix aria-hidden="true">px</span>
+          </uc-input>
+          <uc-input
+            [id]="instanceId + '-crop-width'"
+            label="Width"
+            type="number"
+            [value]="crop().width"
+            (valueChange)="updateCrop('width', $event)"
+          >
+            <span ucInputSuffix aria-hidden="true">px</span>
+          </uc-input>
+          <uc-input
+            [id]="instanceId + '-crop-height'"
+            label="Height"
+            type="number"
+            [value]="crop().height"
+            (valueChange)="updateCrop('height', $event)"
+          >
+            <span ucInputSuffix aria-hidden="true">px</span>
+          </uc-input>
+        </div>
+      </ng-template>
+    </uc-accordion-item>
   }
 
   @if (errorMessage()) {

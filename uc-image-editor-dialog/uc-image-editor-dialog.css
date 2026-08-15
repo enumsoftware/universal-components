@@ -132,22 +132,14 @@
   color: #ffffff;
 }
 
-.uc-image-editor-dialog__crop-fields {
-  margin: 0;
-  padding: 0.75rem 1rem 1rem;
-  border: 1px solid oklch(from var(--primary-color) l c h / 0.2);
-  border-radius: var(--uc-input-border-radius);
-  background: oklch(from var(--primary-color) l c h / 0.045);
+.uc-image-editor-dialog__crop-details {
+  --uc-accordion-border-radius: var(--uc-input-border-radius);
+  --uc-accordion-title-font-size: 0.875rem;
+  --uc-accordion-title-font-weight: 700;
+  --uc-accordion-content-background: oklch(from var(--primary-color) l c h / 0.045);
 }
 
-.uc-image-editor-dialog__crop-fields legend {
-  padding: 0 0.5rem;
-  color: var(--foreground-color);
-  font-size: 0.875rem;
-  font-weight: 700;
-}
-
-.uc-image-editor-dialog__crop-fields > p {
+.uc-image-editor-dialog__crop-details p {
   margin: 0 0 0.75rem;
   color: var(--paragraph-text-color);
   font-size: 0.75rem;
@@ -160,57 +152,10 @@
   gap: 0.75rem;
 }
 
-.uc-image-editor-dialog__crop-grid label {
-  display: grid;
-  gap: 0.375rem;
-  min-width: 0;
-}
-
-.uc-image-editor-dialog__crop-grid label > span:first-child {
-  color: var(--paragraph-text-color);
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.uc-image-editor-dialog__number-control {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.uc-image-editor-dialog__number-control input {
-  width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-  padding: 0.65rem 2.25rem 0.65rem 0.75rem;
-  border: 2px solid var(--uc-input-border-color);
-  border-radius: var(--uc-input-border-radius);
-  background: var(--uc-input-background-color);
-  color: var(--foreground-color);
-  font: inherit;
-  font-size: 0.875rem;
-  outline: none;
-  transition:
-    border-color 0.12s ease-in-out,
-    box-shadow 0.12s ease-in-out;
-}
-
-.uc-image-editor-dialog__number-control input:hover {
-  border-color: oklch(from var(--primary-color) l c h / 0.55);
-}
-
-.uc-image-editor-dialog__number-control input:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px oklch(from var(--primary-color) l c h / 0.12);
-}
-
-.uc-image-editor-dialog__number-control > span {
-  position: absolute;
-  right: 0.75rem;
+.uc-image-editor-dialog__crop-grid [ucInputSuffix] {
   color: var(--paragraph-text-color);
   font-size: 0.7rem;
   font-weight: 600;
-  pointer-events: none;
 }
 
 .uc-image-editor-dialog__error {

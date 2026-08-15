@@ -8,10 +8,12 @@ import {
   viewChild,
 } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
+import { UcAccordionItem } from '../uc-accordion/uc-accordion-item';
 import { UcButton } from '../uc-button/uc-button';
 import { UcButtonToggle } from '../uc-button-toggle/uc-button-toggle';
 import { UcButtonToggleItem } from '../uc-button-toggle/uc-button-toggle-item';
 import { UcIconButton } from '../uc-icon-button/uc-icon-button';
+import { UcInput, UcInputSuffix } from '../uc-input/uc-input';
 
 export type UcImageEditorDialogData = {
   file: File;
@@ -40,7 +42,15 @@ const HANDLE_HIT_RADIUS_PX = 18;
 
 @Component({
   selector: 'uc-image-editor-dialog',
-  imports: [UcButton, UcButtonToggle, UcButtonToggleItem, UcIconButton],
+  imports: [
+    UcAccordionItem,
+    UcButton,
+    UcButtonToggle,
+    UcButtonToggleItem,
+    UcIconButton,
+    UcInput,
+    UcInputSuffix,
+  ],
   templateUrl: './uc-image-editor-dialog.html',
   styleUrl: './uc-image-editor-dialog.css',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -183,8 +193,8 @@ export class UcImageEditorDialog {
     }
   }
 
-  updateCrop(field: keyof CropRect, event: Event): void {
-    const value = Number((event.target as HTMLInputElement).value);
+  updateCrop(field: keyof CropRect, inputValue: string | number | null): void {
+    const value = Number(inputValue);
     if (!Number.isFinite(value) || !this.workingCanvas) {
       return;
     }
