@@ -12,9 +12,6 @@
   --uc-file-picker-preview-border-resolved: var(--uc-file-picker-preview-border, var(--uc-input-border-color));
   --uc-file-picker-preview-background-resolved: var(--uc-file-picker-preview-background, var(--uc-input-background-color));
   --uc-file-picker-helper-text-resolved: var(--uc-file-picker-helper-text, var(--paragraph-text-color));
-}
-
-.uc-file-picker {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -25,6 +22,7 @@
   align-items: center;
   justify-content: center;
   min-height: 96px;
+  box-sizing: border-box;
   border: 2px dashed var(--uc-file-picker-dropzone-border-resolved);
   border-radius: 12px;
   background: var(--uc-file-picker-dropzone-background-resolved);
@@ -54,13 +52,6 @@
   font-size: 0.9rem;
 }
 
-.uc-file-picker__control {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-}
-
 .uc-file-picker__input {
   display: none;
 }
@@ -76,7 +67,8 @@
   justify-content: center;
   width: 100%;
   height: 200px;
-  border: 1px dashed var(--uc-file-picker-preview-border-resolved);
+  box-sizing: border-box;
+  border: 2px dashed var(--uc-file-picker-preview-border-resolved);
   border-radius: 12px;
   background: var(--uc-file-picker-preview-background-resolved);
   overflow: hidden;

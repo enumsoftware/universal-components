@@ -2,6 +2,7 @@ export type { UcBarChartDataPoint, UcBarChartSeries, UcBarChartInput } from './u
 export type { UcLineChartSeries, UcLineChartDataPoint } from './uc-charts/uc-line-chart/uc-line-chart.model';
 export type { UcDoughnutChartDataPoint } from './uc-charts/uc-doughnut-chart/uc-doughnut-chart.model';
 export type { UcConfirmationDialogData } from './uc-confirmation-dialog/uc-confirmation-dialog';
+export type { UcImageEditorDialogData } from './uc-image-editor-dialog/uc-image-editor-dialog';
 export type { SelectOption } from './uc-select/uc-select';
 export type { UcSidebarMode } from './uc-side-navigation/uc-side-navigation';
 export type { UcTab } from './uc-tabs/uc-tabs';
@@ -28,6 +29,7 @@ export { UcFilePicker } from './uc-file-picker/uc-file-picker';
 export { UcFlag } from './uc-flag/uc-flag';
 export { UcGoogleSignInButton } from './uc-google-sign-in-button/uc-google-sign-in-button';
 export { UcIconButton } from './uc-icon-button/uc-icon-button';
+export { UcImageEditorDialog } from './uc-image-editor-dialog/uc-image-editor-dialog';
 export { UcInfo } from './uc-info/uc-info';
 export { UcInput } from './uc-input/uc-input';
 export { UcLinearLoading } from './uc-linear-loading/uc-linear-loading.component';

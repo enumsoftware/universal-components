@@ -1,0 +1,137 @@
+<section
+  class="uc-image-editor-dialog"
+  role="dialog"
+  aria-modal="true"
+  [attr.aria-labelledby]="titleId"
+>
+  <header class="uc-image-editor-dialog__header">
+    <h3 [id]="titleId">{{ title() }}</h3>
+    <uc-icon-button
+      phosphorIcon="x"
+      variant="secondary"
+      label="Close image editor"
+      (clicked)="cancel()"
+    />
+  </header>
+
+  <div class="uc-image-editor-dialog__toolbar" role="toolbar" aria-label="Image tools">
+    <uc-icon-button phosphorIcon="arrow-counter-clockwise" label="Rotate left" (clicked)="rotate(-90)" />
+    <uc-icon-button phosphorIcon="arrow-clockwise" label="Rotate right" (clicked)="rotate(90)" />
+    <uc-icon-button phosphorIcon="flip-horizontal" label="Flip horizontally" (clicked)="flip(true)" />
+    <uc-icon-button phosphorIcon="flip-vertical" label="Flip vertically" (clicked)="flip(false)" />
+    @if (hasCrop()) {
+      <button class="uc-image-editor-dialog__reset" type="button" (click)="clearCrop()">
+        Clear crop
+      </button>
+    }
+  </div>
+
+  <div class="uc-image-editor-dialog__ratio-control">
+    <span>Aspect ratio</span>
+    <uc-button-toggle
+      [value]="aspectRatio()"
+      ariaLabel="Aspect ratio"
+      (valueChange)="setAspectRatio($event)"
+    >
+      <uc-button-toggle-item value="free">Free</uc-button-toggle-item>
+      <uc-button-toggle-item value="1:1">1:1</uc-button-toggle-item>
+      <uc-button-toggle-item value="16:9">16:9</uc-button-toggle-item>
+      <uc-button-toggle-item value="9:16">9:16</uc-button-toggle-item>
+    </uc-button-toggle>
+  </div>
+
+  <div class="uc-image-editor-dialog__stage" [class.uc-image-editor-dialog__stage--loading]="loading()">
+    @if (loading()) {
+      <span>Loading image...</span>
+    }
+    <div
+      #canvasShell
+      class="uc-image-editor-dialog__canvas-shell"
+      [style.cursor]="canvasCursor()"
+      (pointerdown)="onPointerDown($event)"
+      (pointermove)="onPointerMove($event)"
+      (pointerup)="onPointerUp($event)"
+      (pointercancel)="onPointerUp($event)"
+      (pointerleave)="onPointerLeave()"
+    >
+      <div class="uc-image-editor-dialog__canvas-surface">
+        <canvas
+          #canvas
+          aria-label="Image crop area. Drag inside the selection to move it, drag its corner handles to resize it, or drag outside to select a new region."
+        ></canvas>
+        @if (hasCrop()) {
+          <span
+            class="uc-image-editor-dialog__crop-handle uc-image-editor-dialog__crop-handle--north-west"
+            [style.left]="cornerLeft('north-west')"
+            [style.top]="cornerTop('north-west')"
+            aria-hidden="true"
+          ></span>
+          <span
+            class="uc-image-editor-dialog__crop-handle uc-image-editor-dialog__crop-handle--north-east"
+            [style.left]="cornerLeft('north-east')"
+            [style.top]="cornerTop('north-east')"
+            aria-hidden="true"
+          ></span>
+          <span
+            class="uc-image-editor-dialog__crop-handle uc-image-editor-dialog__crop-handle--south-east"
+            [style.left]="cornerLeft('south-east')"
+            [style.top]="cornerTop('south-east')"
+            aria-hidden="true"
+          ></span>
+          <span
+            class="uc-image-editor-dialog__crop-handle uc-image-editor-dialog__crop-handle--south-west"
+            [style.left]="cornerLeft('south-west')"
+            [style.top]="cornerTop('south-west')"
+            aria-hidden="true"
+          ></span>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (!loading() && !errorMessage() && hasCrop()) {
+    <fieldset class="uc-image-editor-dialog__crop-fields">
+      <legend>Crop region in pixels</legend>
+      <p>Fine-tune the position and dimensions of your selection.</p>
+      <div class="uc-image-editor-dialog__crop-grid">
+        <label>
+          <span>X position</span>
+          <span class="uc-image-editor-dialog__number-control">
+            <input type="number" min="0" [value]="crop().x" (change)="updateCrop('x', $event)" />
+            <span aria-hidden="true">px</span>
+          </span>
+        </label>
+        <label>
+          <span>Y position</span>
+          <span class="uc-image-editor-dialog__number-control">
+            <input type="number" min="0" [value]="crop().y" (change)="updateCrop('y', $event)" />
+            <span aria-hidden="true">px</span>
+          </span>
+        </label>
+        <label>
+          <span>Width</span>
+          <span class="uc-image-editor-dialog__number-control">
+            <input type="number" min="1" [value]="crop().width" (change)="updateCrop('width', $event)" />
+            <span aria-hidden="true">px</span>
+          </span>
+        </label>
+        <label>
+          <span>Height</span>
+          <span class="uc-image-editor-dialog__number-control">
+            <input type="number" min="1" [value]="crop().height" (change)="updateCrop('height', $event)" />
+            <span aria-hidden="true">px</span>
+          </span>
+        </label>
+      </div>
+    </fieldset>
+  }
+
+  @if (errorMessage()) {
+    <p class="uc-image-editor-dialog__error" role="alert">{{ errorMessage() }}</p>
+  }
+
+  <footer class="uc-image-editor-dialog__actions">
+    <uc-button text="Cancel" variant="secondary" (clicked)="cancel()" />
+    <uc-button text="Apply" [disabled]="loading() || !!errorMessage() || !hasCrop()" (clicked)="apply()" />
+  </footer>
+</section>

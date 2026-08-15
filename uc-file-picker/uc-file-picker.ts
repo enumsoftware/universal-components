@@ -2,6 +2,7 @@ import {
   Component,
   ElementRef,
   computed,
+  inject,
   input,
   output,
   signal,
@@ -9,7 +10,12 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Dialog } from '@angular/cdk/dialog';
 import { UcIconButton } from '../uc-icon-button/uc-icon-button';
+import {
+  UcImageEditorDialog,
+  type UcImageEditorDialogData,
+} from '../uc-image-editor-dialog/uc-image-editor-dialog';
 
 @Component({
   selector: 'uc-file-picker',
@@ -25,12 +31,16 @@ import { UcIconButton } from '../uc-icon-button/uc-icon-button';
   },
 })
 export class UcFilePicker {
+  private readonly dialog = inject(Dialog);
+
   readonly id = input.required<string>();
   readonly label = input<string>('Choose file');
   readonly accept = input<string>('image/*,image/svg+xml');
   readonly helperText = input<string>('');
   readonly disabled = input<boolean>(false);
   readonly maxFileSizeBytes = input<number | null>(null);
+  readonly editImages = input<boolean>(false);
+  readonly imageEditorTitle = input<string>('Edit image');
 
   readonly selectedFile = signal<File | null>(null);
   readonly previewUrl = signal<string | null>(null);
@@ -100,9 +110,9 @@ export class UcFilePicker {
 
   private processSelectedFile(file: File | null, input?: HTMLInputElement | null): void {
     this.errorMessage.set(null);
-    this.selectedFile.set(file);
 
     if (!file) {
+      this.selectedFile.set(null);
       this.previewUrl.set(null);
       this.fileSelected.emit(null);
       this.fileChanged.emit(null);
@@ -124,6 +134,37 @@ export class UcFilePicker {
       return;
     }
 
+    if (this.editImages() && file.type.startsWith('image/')) {
+      this.openImageEditor(file, input);
+      return;
+    }
+
+    this.commitFile(file);
+  }
+
+  private openImageEditor(file: File, input?: HTMLInputElement | null): void {
+    const dialogRef = this.dialog.open<File | null, UcImageEditorDialogData>(
+      UcImageEditorDialog,
+      {
+        data: { file, title: this.imageEditorTitle() },
+        disableClose: true,
+      },
+    );
+
+    dialogRef.closed.subscribe((editedFile) => {
+      if (editedFile) {
+        this.commitFile(editedFile);
+        return;
+      }
+
+      if (input) {
+        input.value = '';
+      }
+    });
+  }
+
+  private commitFile(file: File): void {
+    this.selectedFile.set(file);
     this.readFile(file);
   }
 

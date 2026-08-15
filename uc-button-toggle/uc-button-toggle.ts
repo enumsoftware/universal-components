@@ -18,6 +18,7 @@ export const UC_BUTTON_TOGGLE = new InjectionToken<UcButtonToggleController>('UC
 export class UcButtonToggle implements UcButtonToggleController {
   readonly value = model.required<string>();
   readonly disabled = input<boolean>(false);
+  readonly ariaLabel = input<string | null>(null);
   readonly selectedValue: Signal<string> = this.value;
 
   selectValue(value: string): void {

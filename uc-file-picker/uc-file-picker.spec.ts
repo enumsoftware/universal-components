@@ -1,12 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Dialog } from '@angular/cdk/dialog';
+import { Subject } from 'rxjs';
 import { UcFilePicker } from './uc-file-picker';
 
 describe('UcFilePicker', () => {
   let component: UcFilePicker;
   let fixture: ComponentFixture<UcFilePicker>;
+  let dialogClosed: Subject<File | null | undefined>;
+  let dialogOpen: ReturnType<typeof vi.fn>;
 
-  const makeFile = (sizeBytes: number, name = 'logo.png'): File =>
-    new File(['a'.repeat(sizeBytes)], name, { type: 'image/png' });
+  const makeFile = (sizeBytes: number, name = 'logo.png', type = 'image/png'): File =>
+    new File(['a'.repeat(sizeBytes)], name, { type });
 
   const dropFile = (file: File): void => {
     component.onDrop({
@@ -16,8 +20,12 @@ describe('UcFilePicker', () => {
   };
 
   beforeEach(async () => {
+    dialogClosed = new Subject<File | null | undefined>();
+    dialogOpen = vi.fn(() => ({ closed: dialogClosed.asObservable() }));
+
     await TestBed.configureTestingModule({
       imports: [UcFilePicker],
+      providers: [{ provide: Dialog, useValue: { open: dialogOpen } }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UcFilePicker);
@@ -104,5 +112,42 @@ describe('UcFilePicker', () => {
     dropFile(makeFile(6 * 1024 * 1024));
 
     expect(component.errorMessage()).toBe('File is too large. Maximum size is 5.0 MB.');
+  });
+
+  it('should open the image editor before selecting an image when enabled', () => {
+    fixture.componentRef.setInput('editImages', true);
+    fixture.detectChanges();
+
+    const original = makeFile(512);
+    dropFile(original);
+
+    expect(dialogOpen).toHaveBeenCalledOnce();
+    expect(component.selectedFile()).toBeNull();
+
+    const edited = makeFile(256, 'edited.png');
+    dialogClosed.next(edited);
+
+    expect(component.selectedFile()).toBe(edited);
+  });
+
+  it('should bypass the image editor for non-image files', () => {
+    fixture.componentRef.setInput('editImages', true);
+    fixture.detectChanges();
+
+    const document = makeFile(512, 'document.pdf', 'application/pdf');
+    dropFile(document);
+
+    expect(dialogOpen).not.toHaveBeenCalled();
+    expect(component.selectedFile()).toBe(document);
+  });
+
+  it('should leave the current selection unchanged when editing is cancelled', () => {
+    fixture.componentRef.setInput('editImages', true);
+    fixture.detectChanges();
+
+    dropFile(makeFile(512));
+    dialogClosed.next(null);
+
+    expect(component.selectedFile()).toBeNull();
   });
 });

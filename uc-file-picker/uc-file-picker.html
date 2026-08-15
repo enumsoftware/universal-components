@@ -7,20 +7,20 @@
   <span class="uc-file-picker__dropzone-text"> Drag & drop a logo here or click to browse </span>
 </div>
 
-<div class="uc-file-picker__control">
-  <input
-    #fileInput
-    [id]="id()"
-    class="uc-file-picker__input"
-    type="file"
-    [accept]="accept()"
-    [disabled]="disabled()"
-    (change)="onFileChange($event)"
-  />
-</div>
+<input
+  #fileInput
+  [id]="id()"
+  class="uc-file-picker__input"
+  type="file"
+  title="Choose file"
+  [attr.aria-label]="label()"
+  [accept]="accept()"
+  [disabled]="disabled()"
+  (change)="onFileChange($event)"
+/>
 
 @if (previewUrl()) {
-  <div class="uc-file-picker-preview mt-2">
+  <div class="uc-file-picker-preview">
     <uc-icon-button
       class="uc-clear-button"
       [phosphorIcon]="'x-circle'"

@@ -11,6 +11,8 @@ const meta: Meta<UcFilePicker> = {
     helperText: 'PNG, JPG or SVG (max 5MB)',
     disabled: false,
     maxFileSizeBytes: null,
+    editImages: false,
+    imageEditorTitle: 'Crop image',
   },
   argTypes: {
     maxFileSizeBytes: {
@@ -24,6 +26,13 @@ export default meta;
 type Story = StoryObj<UcFilePicker>;
 
 export const Default: Story = {};
+
+export const ImageEditor: Story = {
+  args: {
+    editImages: true,
+    helperText: 'Choose an image to crop, rotate or flip it before selection',
+  },
+};
 
 export const Disabled: Story = {
   args: {
