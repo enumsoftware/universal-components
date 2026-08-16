@@ -7,6 +7,7 @@ import {
   signal,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import { UcSpinnerLoading } from '../uc-spinner-loading/uc-spinner-loading.component';
 
 export const BUTTON_VARIANT_OPTIONS = ['primary', 'secondary', 'error'] as const;
 export type ButtonVariant = (typeof BUTTON_VARIANT_OPTIONS)[number];
@@ -22,6 +23,7 @@ export type ButtonSize = (typeof BUTTON_SIZE_OPTIONS)[number];
 
 @Component({
   selector: 'uc-button',
+  imports: [UcSpinnerLoading],
   templateUrl: './uc-button.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './uc-button.css',
@@ -36,6 +38,18 @@ export class UcButton {
   type = input<ButtonType>('button');
 
   /**
+   * The consumer owns the loading state. Keep this an `input` rather than a `model` so callers can
+   * bind a derived signal straight in, for example `[loading]="resource.isLoading()"`.
+   */
+  loading = input<boolean>(false);
+
+  /**
+   * Optional label shown next to the spinner. Leaving it unset keeps the button at its resting
+   * width while loading; setting it swaps the label, which reflows the button.
+   */
+  loadingText = input<string | undefined>(undefined);
+
+  /**
    * Color transitions stay off until the frame after the variant and size classes have been
    * rendered, so the button never animates from its unstyled colors to its variant colors.
    */
@@ -48,11 +62,10 @@ export class UcButton {
   }
 
   onClick(event: MouseEvent) {
-    if (this.disabled()) {
-      event.preventDefault();
+    event.preventDefault();
+    if (this.disabled() || this.loading()) {
       return;
     }
-    event.preventDefault();
     this.clicked.emit();
   }
 }

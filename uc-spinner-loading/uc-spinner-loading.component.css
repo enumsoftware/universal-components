@@ -17,6 +17,14 @@
   animation: spinning 1.2s linear infinite;
 }
 
+/* Keep the spin as the busy cue but slow it down for motion-sensitive users; stopping it entirely
+   would leave a static ring that reads as decoration rather than progress. */
+@media (prefers-reduced-motion: reduce) {
+  .spinner-loader {
+    animation-duration: 3s;
+  }
+}
+
 @keyframes spinning {
   0% {
     transform: rotate(0deg);

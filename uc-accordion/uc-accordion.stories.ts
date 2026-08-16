@@ -56,7 +56,7 @@ export const CustomHeader: Story = {
             <ng-template #header>
               <uc-phosphor-icon icon="rocket-launch" style="margin-right: 0.5rem;"></uc-phosphor-icon>
               <span style="flex: 1;">Custom header with icon</span>
-              <uc-pill [text]="'New'" variant="info" size="compact"></uc-pill>
+              <uc-pill [text]="'New'" variant="primary" size="compact"></uc-pill>
             </ng-template>
             <ng-template #content>The header above is fully projected content (icon + title + pill), not just the title input.</ng-template>
           </uc-accordion-item>

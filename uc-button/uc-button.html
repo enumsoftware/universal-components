@@ -1,13 +1,28 @@
 <button
   class="uc-button uc-{{variant()}} uc-size-{{size()}}"
   [class.uc-disabled]="disabled()"
+  [class.uc-loading]="loading()"
+  [class.uc-loading-labeled]="loading() && !!loadingText()"
   [class.uc-transitions]="transitionsEnabled()"
   [disabled]="disabled()"
+  [attr.aria-disabled]="disabled() || loading()"
+  [attr.aria-busy]="loading()"
   [style.justify-content]="align()"
   (click)="onClick($event)"
   [type]="type()"
 >
-  <ng-content select="[ucButtonPrefix]"></ng-content>
-  {{ text() }}
-  <ng-content select="[ucButtonSuffix]"></ng-content>
+  <span class="uc-button-content">
+    <ng-content select="[ucButtonPrefix]"></ng-content>
+    {{ text() }}
+    <ng-content select="[ucButtonSuffix]"></ng-content>
+  </span>
+
+  @if (loading()) {
+    <span class="uc-button-loader">
+      <uc-spinner-loading [loading]="true" />
+      @if (loadingText()) {
+        <span class="uc-button-loading-text">{{ loadingText() }}</span>
+      }
+    </span>
+  }
 </button>

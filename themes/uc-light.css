@@ -141,6 +141,13 @@
   --uc-button-big-line-height: 1.5rem;
   --uc-button-big-font-weight: 700;
   --uc-button-big-gap: 1rem;
+  --uc-button-small-spinner-size: 0.85rem;
+  --uc-button-medium-spinner-size: 1.15rem;
+  --uc-button-big-spinner-size: 1.35rem;
+  --uc-button-spinner-thickness: 0.15rem;
+  --uc-button-spinner-track-background: color-mix(in oklab, currentColor 25%, transparent);
+  --uc-button-spinner-indicator-background: currentColor;
+  --uc-button-loading-opacity: 0.85;
 
   /* --- Button Toggle --- */
   --uc-button-toggle-background: var(--background-color);

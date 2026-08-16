@@ -31,9 +31,24 @@
     oklch(from var(--foreground-color) l c h / 0.3)
   );
   --uc-button-error-background-resolved: var(--uc-button-error-background, var(--error-color));
+
+  --uc-button-small-spinner-size-resolved: var(--uc-button-small-spinner-size, 0.85rem);
+  --uc-button-medium-spinner-size-resolved: var(--uc-button-medium-spinner-size, 1.15rem);
+  --uc-button-big-spinner-size-resolved: var(--uc-button-big-spinner-size, 1.35rem);
+  --uc-button-spinner-thickness-resolved: var(--uc-button-spinner-thickness, 0.15rem);
+  --uc-button-spinner-track-background-resolved: var(
+    --uc-button-spinner-track-background,
+    color-mix(in oklab, currentColor 25%, transparent)
+  );
+  --uc-button-spinner-indicator-background-resolved: var(
+    --uc-button-spinner-indicator-background,
+    currentColor
+  );
+  --uc-button-loading-opacity-resolved: var(--uc-button-loading-opacity, 0.85);
   display: inline-flex;
 }
 .uc-button {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--uc-button-medium-gap-resolved);
@@ -144,4 +159,71 @@
 .uc-button.uc-secondary:disabled:hover,
 .uc-button.uc-secondary.uc-disabled:hover {
   background-color: transparent;
+}
+
+/* `display: contents` keeps the projected prefix, label and suffix as direct flex items of the
+   button, so turning loading on and off never changes the layout of the resting state. */
+.uc-button-content {
+  display: contents;
+}
+
+.uc-button.uc-loading {
+  cursor: progress;
+  opacity: var(--uc-button-loading-opacity-resolved);
+}
+
+.uc-button.uc-loading:hover {
+  background-color: var(--uc-button-background-resolved);
+}
+
+.uc-button.uc-secondary.uc-loading:hover {
+  background-color: transparent;
+  border: 1px solid var(--uc-button-secondary-border-color-resolved);
+}
+
+.uc-button.uc-error.uc-loading:hover {
+  background-color: var(--uc-button-error-background-resolved);
+}
+
+/* Hidden rather than removed: removing the label collapses the button width and the surrounding
+   layout jumps every time a request starts. `visibility` is inherited through `display: contents`. */
+.uc-button.uc-loading .uc-button-content {
+  visibility: hidden;
+}
+
+.uc-button-loader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--uc-button-medium-gap-resolved);
+
+  /* Inherited into uc-spinner-loading's :host, where it overrides the :root theme values. Without
+     this the spinner keeps its standalone 2.5rem size and bursts out of the button. */
+  --uc-spinner-loading-size: var(--uc-button-medium-spinner-size-resolved);
+  --uc-spinner-loading-thickness: var(--uc-button-spinner-thickness-resolved);
+  --uc-spinner-loading-track-background: var(--uc-button-spinner-track-background-resolved);
+  --uc-spinner-loading-indicator-background: var(--uc-button-spinner-indicator-background-resolved);
+}
+
+.uc-button.uc-size-small .uc-button-loader {
+  gap: var(--uc-button-small-gap-resolved);
+  --uc-spinner-loading-size: var(--uc-button-small-spinner-size-resolved);
+}
+
+.uc-button.uc-size-big .uc-button-loader {
+  gap: var(--uc-button-big-gap-resolved);
+  --uc-spinner-loading-size: var(--uc-button-big-spinner-size-resolved);
+}
+
+/* With `loadingText` the caller has opted into a label swap, so the loader flows normally and the
+   button resizes to it instead of overlaying the hidden resting label. */
+.uc-button.uc-loading-labeled .uc-button-content {
+  display: none;
+}
+
+.uc-button.uc-loading-labeled .uc-button-loader {
+  position: static;
+  inset: auto;
 }

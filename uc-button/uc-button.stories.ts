@@ -16,6 +16,8 @@ const meta: Meta<UcButton> = {
     size: 'medium',
     align: 'center',
     disabled: false,
+    loading: false,
+    loadingText: undefined,
     type: 'button',
   },
   argTypes: {
@@ -142,6 +144,95 @@ export const TableActionSecondaryEquivalent: Story = {
       <uc-button [text]="text" [variant]="variant" [size]="size" [align]="align" [disabled]="disabled" [type]="type">
         <i ucButtonPrefix class="ph-bold ph-eye"></i>
       </uc-button>
+    `,
+  }),
+};
+
+export const Loading: Story = {
+  args: {
+    text: 'Save invoice',
+    loading: true,
+  },
+};
+
+export const LoadingWithText: Story = {
+  args: {
+    text: 'Save invoice',
+    loading: true,
+    loadingText: 'Saving…',
+  },
+};
+
+export const LoadingSmall: Story = {
+  args: {
+    text: 'Edit',
+    size: 'small',
+    loading: true,
+  },
+};
+
+export const LoadingBig: Story = {
+  args: {
+    text: 'Larger Action',
+    size: 'big',
+    loading: true,
+  },
+};
+
+export const LoadingVariants: Story = {
+  args: {
+    loading: true,
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <uc-button text="Primary" variant="primary" [size]="size" [loading]="loading" />
+        <uc-button text="Secondary" variant="secondary" [size]="size" [loading]="loading" />
+        <uc-button text="Delete" variant="error" [size]="size" [loading]="loading" />
+      </div>
+    `,
+  }),
+};
+
+/**
+ * The consumer owns the state: a signal flipped around the async call. The button stays dumb, and
+ * the repeated clicks show that it refuses to re-emit while a request is in flight.
+ */
+export const ConsumerOwnedSignal: Story = {
+  args: {
+    text: 'Save invoice',
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      saving: false,
+      clickCount: 0,
+      save(this: { saving: boolean; clickCount: number }) {
+        if (this.saving) {
+          return;
+        }
+        this.clickCount += 1;
+        this.saving = true;
+        setTimeout(() => (this.saving = false), 2000);
+      },
+    },
+    template: `
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <uc-button
+          [text]="text"
+          [variant]="variant"
+          [size]="size"
+          [align]="align"
+          [disabled]="disabled"
+          [type]="type"
+          [loading]="saving"
+          (clicked)="save()"
+        >
+          <i ucButtonPrefix class="ph-bold ph-floppy-disk"></i>
+        </uc-button>
+        <span>Emitted clicks: {{ clickCount }}</span>
+      </div>
     `,
   }),
 };
