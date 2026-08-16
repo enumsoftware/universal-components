@@ -108,6 +108,11 @@
   --uc-accordion-content-line-height: 1.5;
   --uc-accordion-gap: 0.5rem;
 
+  /* --- Avatar --- */
+  --uc-avatar-background: var(--primary-color);
+  --uc-avatar-color: var(--primary-contrast-color, #fff);
+  --uc-avatar-size: 2.5rem;
+
   /* --- Button --- */
   --uc-button-background: var(--primary-color, #007bff);
   --uc-button-color: var(--inverse-foreground-color, white);
@@ -325,6 +330,15 @@
   --uc-dtp-range-bg: oklch(from var(--primary-color) l c h / 0.15);
   --uc-dtp-range-preview-bg: oklch(from var(--primary-color) l c h / 0.08);
   --uc-dtp-range-preview-circle-bg: oklch(from var(--primary-color) l c h / 0.25);
+  --uc-dtp-range-outline-color: oklch(from var(--primary-color) l c h / 0.7);
+  --uc-dtp-range-preview-outline-color: oklch(from var(--primary-color) l c h / 0.5);
+  --uc-dtp-range-row-gap: 2px;
+  --uc-dtp-range-preview-row-gap: 2px;
+  --uc-dtp-range-endcap-inset: 5%;
+  --uc-dtp-range-preview-endcap-inset: 5%;
+  --uc-dtp-day-selected-inset: 3px;
+  --uc-dtp-day-state-padding: 0.1rem;
+  --uc-dtp-day-today-outline-offset: -2px;
 
   /* --- Info --- */
   --uc-info-color: var(--primary-color);
