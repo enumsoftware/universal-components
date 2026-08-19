@@ -19,6 +19,13 @@ const meta: Meta<UcCalendar> = {
       control: { type: 'number', min: 0, max: 11 },
       description: '0-indexed month (0 = January, 11 = December)',
     },
+    // Forced to text: the global `date` control matcher (/Date$/i) would turn this
+    // into a date picker that writes back a numeric timestamp, which the component's
+    // YYYY-MM-DD string input cannot parse.
+    selectedDate: {
+      control: { type: 'text' },
+      description: 'Selected date as YYYY-MM-DD (single mode only)',
+    },
     mode: {
       control: { type: 'select' },
       options: ['single', 'range'],

@@ -157,30 +157,33 @@ interface CalendarDay {
 
 ## Theming
 
-`UcCalendar` reads `--uc-dtp-*` CSS custom properties. When the component is placed inside a `UcDateTimePicker` these variables are inherited automatically. For standalone use, declare them on a parent element:
+`UcCalendar` reads `--uc-dtp-*` CSS custom properties and resolves them on its own
+host element, so it renders correctly standalone — no wrapper setup is required
+beyond importing the theme. Override any of the plain (non-`-resolved`) variables
+on the calendar or any ancestor to re-theme it:
 
 ```css
 .my-calendar-wrapper {
-  --uc-dtp-weekday-color-resolved: #888;
-  --uc-dtp-value-color-resolved: #111;
-  --uc-dtp-day-hover-bg-resolved: oklch(from var(--primary-color) l c h / 0.1);
-  --uc-dtp-day-today-color-resolved: var(--primary-color);
-  --uc-dtp-day-today-border-resolved: var(--primary-color);
-  --uc-dtp-day-state-padding-resolved: 0.1rem;
-  --uc-dtp-day-selected-bg-resolved: var(--primary-color);
-  --uc-dtp-day-selected-color-resolved: #fff;
-  --uc-dtp-day-selected-inset-resolved: 3px;
-  --uc-dtp-day-other-month-color-resolved: #bbb;
-  --uc-dtp-trigger-focus-color-resolved: var(--primary-color);
+  --uc-dtp-weekday-color: #888;
+  --uc-dtp-value-color: #111;
+  --uc-dtp-day-hover-bg: oklch(from var(--primary-color) l c h / 0.1);
+  --uc-dtp-day-today-color: var(--primary-color);
+  --uc-dtp-day-today-border: var(--primary-color);
+  --uc-dtp-day-state-padding: 0.1rem;
+  --uc-dtp-day-selected-bg: var(--primary-color);
+  --uc-dtp-day-selected-color: #fff;
+  --uc-dtp-day-selected-inset: 3px;
+  --uc-dtp-day-other-month-color: #bbb;
+  --uc-dtp-trigger-focus-color: var(--primary-color);
   /* range */
-  --uc-dtp-range-bg-resolved: oklch(from var(--primary-color) l c h / 0.15);
-  --uc-dtp-range-row-gap-resolved: 2px;
-  --uc-dtp-range-endcap-inset-resolved: 5%;
+  --uc-dtp-range-bg: oklch(from var(--primary-color) l c h / 0.15);
+  --uc-dtp-range-row-gap: 2px;
+  --uc-dtp-range-endcap-inset: 5%;
   /* range preview */
-  --uc-dtp-range-preview-bg-resolved: oklch(from var(--primary-color) l c h / 0.08);
-  --uc-dtp-range-preview-circle-bg-resolved: oklch(from var(--primary-color) l c h / 0.25);
-  --uc-dtp-range-preview-outline-color-resolved: oklch(from var(--primary-color) l c h / 0.5);
-  --uc-dtp-range-preview-row-gap-resolved: 2px;
-  --uc-dtp-range-preview-endcap-inset-resolved: 5%;
+  --uc-dtp-range-preview-bg: oklch(from var(--primary-color) l c h / 0.08);
+  --uc-dtp-range-preview-circle-bg: oklch(from var(--primary-color) l c h / 0.25);
+  --uc-dtp-range-preview-outline-color: oklch(from var(--primary-color) l c h / 0.5);
+  --uc-dtp-range-preview-row-gap: 2px;
+  --uc-dtp-range-preview-endcap-inset: 5%;
 }
 ```
