@@ -20,4 +20,11 @@ describe('UcDivider', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('applies the inverse class for the inverse variant', () => {
+    fixture.componentRef.setInput('variant', 'inverse');
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.classList.contains('uc-divider--inverse')).toBe(true);
+  });
 });

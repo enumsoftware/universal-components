@@ -7,13 +7,13 @@ import { Component, input, ChangeDetectionStrategy } from '@angular/core';
   styleUrl: './uc-divider.css',
   changeDetection: ChangeDetectionStrategy.Eager,
   host: {
-    '[class.uc-divider--inverse]': 'inverse()',
+    '[class.uc-divider--inverse]': "variant() === 'inverse'",
     '[class.uc-divider--vertical]': 'vertical()',
     '[class.uc-divider--with-text]': 'text()',
   },
 })
 export class UcDivider {
-  inverse = input<boolean>(false);
+  variant = input<'default' | 'inverse'>('default');
   vertical = input<boolean>(false);
   text = input<string>();
 }

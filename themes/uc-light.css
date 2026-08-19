@@ -243,7 +243,7 @@
   /* --- Divider --- */
   --uc-divider-color: oklch(from var(--foreground-color) l c h / 0.15);
   --uc-divider-text-color: var(--paragraph-text-color);
-  --uc-divider-inverse-color: oklch(from var(--inverse-foreground-color) l c h / 0.15);
+  --uc-divider-inverse-color: #ffffff;
   --uc-divider-inverse-text-color: var(--inverse-foreground-color);
   --uc-divider-margin: 1rem 0;
 

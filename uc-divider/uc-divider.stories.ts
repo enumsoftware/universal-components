@@ -5,7 +5,7 @@ const meta: Meta<UcDivider> = {
   title: 'Components/Divider',
   component: UcDivider,
   args: {
-    inverse: false,
+    variant: 'default',
     vertical: false,
   },
 };
@@ -14,7 +14,7 @@ export default meta;
 type Story = StoryObj<UcDivider>;
 
 const HORIZONTAL_STORY_TEMPLATE =
-  '<div style="display: block; width: 28rem; max-width: calc(100vw - 2rem);"><uc-divider [inverse]="inverse" [vertical]="vertical" [text]="text" /></div>';
+  '<div style="display: block; width: 28rem; max-width: calc(100vw - 2rem);"><uc-divider [variant]="variant" [vertical]="vertical" [text]="text" /></div>';
 
 export const Default: Story = {
   render: (args) => ({
@@ -35,11 +35,12 @@ export const WithText: Story = {
 
 export const Inverse: Story = {
   args: {
-    inverse: true,
+    variant: 'inverse',
   },
   render: (args) => ({
     props: args,
-    template: HORIZONTAL_STORY_TEMPLATE,
+    template:
+      '<div style="width: 28rem; max-width: calc(100vw - 2rem); padding: 1rem; background-color: var(--inverse-background-color);"><uc-divider [variant]="variant" [vertical]="vertical" [text]="text" /></div>',
   }),
 };
 
@@ -49,6 +50,6 @@ export const Vertical: Story = {
   },
   render: (args) => ({
     props: args,
-    template: `<div style="height: 60px; display: flex; align-items: center;"><uc-divider [vertical]="vertical" [inverse]="inverse" /></div>`,
+    template: `<div style="height: 60px; display: flex; align-items: center;"><uc-divider [vertical]="vertical" [variant]="variant" /></div>`,
   }),
 };
