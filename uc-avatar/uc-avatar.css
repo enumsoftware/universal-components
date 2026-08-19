@@ -1,4 +1,7 @@
 :host {
+  --uc-avatar-background-resolved: var(--uc-avatar-background, var(--primary-color));
+  --uc-avatar-color-resolved: var(--uc-avatar-color, var(--primary-contrast-color));
+  --uc-avatar-size-resolved: var(--uc-avatar-size, 2.5rem);
   display: inline-flex;
   flex: 0 0 auto;
   vertical-align: middle;
@@ -6,18 +9,18 @@
 
 .uc-avatar {
   align-items: center;
-  background-color: var(--uc-avatar-background, var(--primary-color));
+  background-color: var(--uc-avatar-background-resolved);
   border-radius: 50%;
-  color: var(--uc-avatar-color, var(--primary-contrast-color));
+  color: var(--uc-avatar-color-resolved);
   display: inline-flex;
-  flex: 0 0 var(--uc-avatar-size, 2.5rem);
-  font-size: calc(var(--uc-avatar-size, 2.5rem) * 0.4);
+  flex: 0 0 var(--uc-avatar-size-resolved);
+  font-size: calc(var(--uc-avatar-size-resolved) * 0.4);
   font-weight: 600;
-  height: var(--uc-avatar-size, 2.5rem);
+  height: var(--uc-avatar-size-resolved);
   justify-content: center;
   line-height: 1;
   overflow: hidden;
-  width: var(--uc-avatar-size, 2.5rem);
+  width: var(--uc-avatar-size-resolved);
 }
 
 .uc-avatar__image {
