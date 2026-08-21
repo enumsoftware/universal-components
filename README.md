@@ -25,6 +25,7 @@ import { UcButton } from '@enumsoftware/universal-components/uc-button/uc-button
 ## Component Docs
 
 - [UcButtonToggle](uc-button-toggle/README.md)
+- [UcEditor](uc-editor/README.md)
 - [UcMenu](uc-menu/README.md)
 
 ## Compatibility

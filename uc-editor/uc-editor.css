@@ -1,0 +1,225 @@
+:host {
+  --uc-editor-background-resolved: var(--uc-editor-background, var(--background-color));
+  --uc-editor-color-resolved: var(--uc-editor-color, var(--foreground-color));
+  --uc-editor-border-color-resolved: var(--uc-editor-border-color, var(--uc-input-border-color));
+  --uc-editor-border-radius-resolved: var(--uc-editor-border-radius, 0.75rem);
+  --uc-editor-focus-color-resolved: var(--uc-editor-focus-color, var(--primary-color));
+  --uc-editor-label-color-resolved: var(--uc-editor-label-color, var(--foreground-color));
+  --uc-editor-toolbar-background-resolved: var(
+    --uc-editor-toolbar-background,
+    oklch(from var(--foreground-color) l c h / 0.04)
+  );
+  --uc-editor-toolbar-border-color-resolved: var(
+    --uc-editor-toolbar-border-color,
+    var(--uc-input-border-color)
+  );
+  --uc-editor-toolbar-gap-resolved: var(--uc-editor-toolbar-gap, 0.375rem);
+  --uc-editor-toolbar-padding-resolved: var(--uc-editor-toolbar-padding, 0.5rem);
+  --uc-editor-content-padding-resolved: var(--uc-editor-content-padding, 1rem 1.25rem);
+  --uc-editor-min-height-resolved: var(--uc-editor-min-height, 14rem);
+  --uc-editor-max-height-resolved: var(--uc-editor-max-height, 32rem);
+  --uc-editor-font-family-resolved: var(--uc-editor-font-family, inherit);
+  --uc-editor-font-size-resolved: var(--uc-editor-font-size, 1rem);
+  --uc-editor-line-height-resolved: var(--uc-editor-line-height, 1.6);
+  --uc-editor-placeholder-color-resolved: var(
+    --uc-editor-placeholder-color,
+    var(--paragraph-text-color)
+  );
+  --uc-editor-panel-background-resolved: var(
+    --uc-editor-panel-background,
+    oklch(from var(--primary-color) l c h / 0.06)
+  );
+  --uc-editor-source-background-resolved: var(
+    --uc-editor-source-background,
+    oklch(from var(--foreground-color) l c h / 0.04)
+  );
+  --uc-editor-source-color-resolved: var(--uc-editor-source-color, var(--foreground-color));
+  --uc-editor-source-font-family-resolved: var(
+    --uc-editor-source-font-family,
+    ui-monospace,
+    SFMono-Regular,
+    Consolas,
+    'Liberation Mono',
+    monospace
+  );
+  --uc-editor-status-background-resolved: var(--uc-editor-status-background, transparent);
+  --uc-editor-status-color-resolved: var(--uc-editor-status-color, var(--paragraph-text-color));
+  --uc-editor-error-color-resolved: var(--uc-editor-error-color, var(--error-color));
+  --uc-editor-disabled-opacity-resolved: var(--uc-editor-disabled-opacity, 0.6);
+  display: block;
+  font-family: var(--uc-editor-font-family-resolved);
+}
+
+.uc-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.uc-editor--disabled {
+  opacity: var(--uc-editor-disabled-opacity-resolved);
+}
+
+.uc-editor__label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--uc-editor-label-color-resolved);
+}
+
+.uc-editor__shell {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--uc-editor-background-resolved);
+  color: var(--uc-editor-color-resolved);
+  border: 1px solid var(--uc-editor-border-color-resolved);
+  border-radius: var(--uc-editor-border-radius-resolved);
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.uc-editor__shell:focus-within {
+  border-color: var(--uc-editor-focus-color-resolved);
+  box-shadow: 0 0 0 3px oklch(from var(--uc-editor-focus-color-resolved) l c h / 0.18);
+}
+
+.uc-editor__shell--error {
+  border-color: var(--uc-editor-error-color-resolved);
+}
+
+.uc-editor__toolbar {
+  /* Toolbar-sized overrides for the projected building blocks. */
+  --uc-icon-button-padding: 0.4rem;
+  --uc-icon-button-border-radius: 0.5rem;
+  --uc-button-toggle-border-radius: 0.5rem;
+  --uc-button-toggle-item-padding-block: 0.375rem;
+  --uc-button-toggle-item-padding-inline: 0.6rem;
+  --uc-button-toggle-item-font-size: 0.8rem;
+  --uc-divider-margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--uc-editor-toolbar-gap-resolved);
+  padding: var(--uc-editor-toolbar-padding-resolved);
+  background: var(--uc-editor-toolbar-background-resolved);
+  border-bottom: 1px solid var(--uc-editor-toolbar-border-color-resolved);
+}
+
+.uc-editor__group {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.uc-editor__toolbar uc-divider {
+  align-self: stretch;
+  min-height: 1.5rem;
+}
+
+.uc-editor__view-toggle {
+  margin-inline-start: auto;
+}
+
+.uc-editor__insert-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--uc-editor-panel-background-resolved);
+  border-bottom: 1px solid var(--uc-editor-toolbar-border-color-resolved);
+}
+
+.uc-editor__insert-field {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+.uc-editor__insert-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.uc-editor__insert-error {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--uc-editor-error-color-resolved);
+}
+
+.uc-editor__surface-wrapper {
+  position: relative;
+  display: flex;
+  min-width: 0;
+}
+
+.uc-editor__surface {
+  /* The surface renders format output through `innerHTML`, so its children are styled by the global
+     content defaults in `themes/theme.css`. Only the scale is tuned down for editor context. */
+  --uc-content-h1-size: 1.75rem;
+  --uc-content-h2-size: 1.45rem;
+  --uc-content-h3-size: 1.2rem;
+  --uc-content-h4-size: 1.05rem;
+  --uc-content-h5-size: 1rem;
+  --uc-content-h6-size: 0.95rem;
+  --uc-content-heading-letter-spacing: -0.01em;
+  flex: 1;
+  min-width: 0;
+  min-height: var(--uc-editor-min-height-resolved);
+  max-height: var(--uc-editor-max-height-resolved);
+  overflow-y: auto;
+  padding: var(--uc-editor-content-padding-resolved);
+  font-size: var(--uc-editor-font-size-resolved);
+  line-height: var(--uc-editor-line-height-resolved);
+  outline: none;
+}
+
+.uc-editor__placeholder {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  margin: 0;
+  padding: var(--uc-editor-content-padding-resolved);
+  color: var(--uc-editor-placeholder-color-resolved);
+  pointer-events: none;
+}
+
+.uc-editor__source {
+  width: 100%;
+  min-height: var(--uc-editor-min-height-resolved);
+  max-height: var(--uc-editor-max-height-resolved);
+  padding: var(--uc-editor-content-padding-resolved);
+  border: 0;
+  resize: vertical;
+  background: var(--uc-editor-source-background-resolved);
+  color: var(--uc-editor-source-color-resolved);
+  font-family: var(--uc-editor-source-font-family-resolved);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  tab-size: 2;
+  outline: none;
+}
+
+.uc-editor__status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.375rem 0.75rem;
+  background: var(--uc-editor-status-background-resolved);
+  border-top: 1px solid var(--uc-editor-toolbar-border-color-resolved);
+  color: var(--uc-editor-status-color-resolved);
+  font-size: 0.75rem;
+}
+
+.uc-editor__errors {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.uc-editor__error {
+  color: var(--uc-editor-error-color-resolved);
+  font-size: 0.8rem;
+}

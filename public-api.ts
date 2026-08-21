@@ -3,6 +3,14 @@ export type { UcLineChartSeries, UcLineChartDataPoint } from './uc-charts/uc-lin
 export type { UcDoughnutChartDataPoint } from './uc-charts/uc-doughnut-chart/uc-doughnut-chart.model';
 export type { UcConfirmationDialogData } from './uc-confirmation-dialog/uc-confirmation-dialog';
 export type { UcImageEditorDialogData } from './uc-image-editor-dialog/uc-image-editor-dialog';
+export type {
+  UcEditorCommand,
+  UcEditorCommandDescriptor,
+  UcEditorCommandKind,
+  UcEditorFormat,
+} from './uc-editor/uc-editor-format';
+export type { UcEditorFormatId, UcEditorFormatInput } from './uc-editor/uc-editor-formats';
+export type { UcEditorView } from './uc-editor/uc-editor';
 export type { SelectOption } from './uc-select/uc-select';
 export type { UcSidebarMode } from './uc-side-navigation/uc-side-navigation';
 export type { UcTab } from './uc-tabs/uc-tabs';
@@ -25,6 +33,22 @@ export { UcCalendar } from './uc-calendar/uc-calendar';
 export type { CalendarDay, CalendarMode } from './uc-calendar/uc-calendar';
 export { UcDateTimePicker } from './uc-date-time-picker/uc-date-time-picker';
 export { UcDivider } from './uc-divider/uc-divider';
+export { UcEditor } from './uc-editor/uc-editor';
+export {
+  UC_EDITOR_COMMAND_DESCRIPTORS,
+  UC_EDITOR_COMMAND_OPTIONS,
+} from './uc-editor/uc-editor-format';
+export {
+  UC_EDITOR_HTML_FORMAT,
+  UC_EDITOR_MARKDOWN_FORMAT,
+  resolveUcEditorFormat,
+  ucEditorFormatForFileName,
+} from './uc-editor/uc-editor-formats';
+export { UcHtmlEditorFormat } from './uc-editor/uc-html-editor-format';
+export { UcMarkdownEditorFormat } from './uc-editor/uc-markdown-editor-format';
+export { sanitizeEditorHtml } from './uc-editor/uc-editor-sanitizer';
+export { markdownToHtml } from './uc-editor/uc-markdown-parser';
+export { htmlToMarkdown } from './uc-editor/uc-markdown-serializer';
 export { UcFilePicker } from './uc-file-picker/uc-file-picker';
 export { UcFlag } from './uc-flag/uc-flag';
 export { UcGoogleSignInButton } from './uc-google-sign-in-button/uc-google-sign-in-button';

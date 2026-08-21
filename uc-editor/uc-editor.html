@@ -1,0 +1,191 @@
+<div class="uc-editor" [class.uc-editor--disabled]="disabled()" [hidden]="hidden()">
+  @if (label() && !hideLabel()) {
+    <span class="uc-editor__label" [id]="labelId()">{{ label() }}</span>
+  }
+
+  <div class="uc-editor__shell" [class.uc-editor__shell--error]="showErrorState()">
+    <div
+      class="uc-editor__toolbar"
+      role="toolbar"
+      aria-label="Formatting"
+      (mousedown)="onToolbarMouseDown($event)"
+    >
+      @if (blockTypeCommands().length) {
+        <uc-button-toggle
+          class="uc-editor__block-toggle"
+          ariaLabel="Block type"
+          [value]="activeBlock()"
+          [disabled]="isReadOnly()"
+          (valueChange)="runCommand($any($event))"
+        >
+          @for (descriptor of blockTypeCommands(); track descriptor.command) {
+            <uc-button-toggle-item [value]="descriptor.command" [ariaLabel]="descriptor.label">
+              {{ descriptor.shortLabel ?? descriptor.label }}
+            </uc-button-toggle-item>
+          }
+        </uc-button-toggle>
+      }
+
+      @if (inlineCommands().length) {
+        <uc-divider [vertical]="true" />
+        <div class="uc-editor__group">
+          @for (descriptor of inlineCommands(); track descriptor.command) {
+            <uc-icon-button
+              [phosphorIcon]="descriptor.icon"
+              [label]="descriptor.label"
+              [variant]="toolbarVariant(descriptor.command)"
+              [disabled]="isReadOnly()"
+              (clicked)="runCommand(descriptor.command)"
+            />
+          }
+        </div>
+      }
+
+      @if (structureCommands().length) {
+        <uc-divider [vertical]="true" />
+        <div class="uc-editor__group">
+          @for (descriptor of structureCommands(); track descriptor.command) {
+            <uc-icon-button
+              [phosphorIcon]="descriptor.icon"
+              [label]="descriptor.label"
+              [variant]="toolbarVariant(descriptor.command)"
+              [disabled]="isReadOnly()"
+              (clicked)="runCommand(descriptor.command)"
+            />
+          }
+        </div>
+      }
+
+      @if (insertCommands().length) {
+        <uc-divider [vertical]="true" />
+        <div class="uc-editor__group">
+          @for (descriptor of insertCommands(); track descriptor.command) {
+            <uc-icon-button
+              [phosphorIcon]="descriptor.icon"
+              [label]="descriptor.label"
+              [variant]="toolbarVariant(descriptor.command)"
+              [disabled]="isReadOnly()"
+              (clicked)="runCommand(descriptor.command)"
+            />
+          }
+        </div>
+      }
+
+      @if (actionCommands().length) {
+        <uc-divider [vertical]="true" />
+        <div class="uc-editor__group">
+          @for (descriptor of actionCommands(); track descriptor.command) {
+            <uc-icon-button
+              [phosphorIcon]="descriptor.icon"
+              [label]="descriptor.label"
+              variant="secondary"
+              [disabled]="isReadOnly()"
+              (clicked)="runCommand(descriptor.command)"
+            />
+          }
+        </div>
+      }
+
+      @if (showSourceToggle()) {
+        <uc-button-toggle
+          class="uc-editor__view-toggle"
+          ariaLabel="Editor view"
+          [value]="view()"
+          (valueChange)="setView($any($event))"
+        >
+          <uc-button-toggle-item value="wysiwyg" ariaLabel="Rich text view">
+            <i class="ph-bold ph-text-aa" aria-hidden="true"></i>
+          </uc-button-toggle-item>
+          <uc-button-toggle-item value="source" [ariaLabel]="activeFormat().label + ' source view'">
+            <i class="ph-bold ph-code" aria-hidden="true"></i>
+          </uc-button-toggle-item>
+        </uc-button-toggle>
+      }
+    </div>
+
+    @if (insertTarget(); as target) {
+      <div class="uc-editor__insert-panel">
+        <uc-input
+          class="uc-editor__insert-field"
+          [id]="id() + '-insert-url'"
+          [label]="target === 'image' ? 'Image URL' : 'Link URL'"
+          placeholder="https://"
+          type="url"
+          [value]="insertUrl()"
+          (valueChange)="insertUrl.set(($any($event) ?? '').toString())"
+        />
+        <uc-input
+          class="uc-editor__insert-field"
+          [id]="id() + '-insert-label'"
+          [label]="target === 'image' ? 'Alt text' : 'Link text'"
+          [value]="insertLabel()"
+          (valueChange)="insertLabel.set(($any($event) ?? '').toString())"
+        />
+        <div class="uc-editor__insert-actions">
+          <uc-button text="Insert" size="small" (clicked)="applyInsert()" />
+          <uc-button text="Cancel" size="small" variant="secondary" (clicked)="closeInsertPanel()" />
+        </div>
+
+        @if (insertError()) {
+          <p class="uc-editor__insert-error" role="alert">{{ insertError() }}</p>
+        }
+      </div>
+    }
+
+    @if (view() === 'wysiwyg') {
+      <div class="uc-editor__surface-wrapper">
+        <div
+          #surface
+          class="uc-editor__surface"
+          role="textbox"
+          aria-multiline="true"
+          [attr.id]="id()"
+          [attr.aria-labelledby]="label() ? labelId() : null"
+          [attr.aria-label]="surfaceAriaLabel()"
+          [attr.aria-readonly]="isReadOnly()"
+          [attr.contenteditable]="isReadOnly() ? 'false' : 'true'"
+          [attr.spellcheck]="true"
+          (input)="onSurfaceInput()"
+          (blur)="onSurfaceBlur()"
+          (keyup)="onSelectionChange()"
+          (mouseup)="onSelectionChange()"
+          (focus)="onSelectionChange()"
+          (paste)="onPaste($event)"
+        ></div>
+
+        @if (isEmpty()) {
+          <p class="uc-editor__placeholder" aria-hidden="true">{{ placeholder() }}</p>
+        }
+      </div>
+    } @else {
+      <textarea
+        class="uc-editor__source"
+        [attr.id]="id()"
+        [attr.aria-labelledby]="label() ? labelId() : null"
+        [attr.aria-label]="sourceAriaLabel()"
+        [attr.placeholder]="placeholder()"
+        [value]="value()"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        spellcheck="false"
+        (input)="onSourceInput($any($event.target).value)"
+        (blur)="touched.set(true)"
+      ></textarea>
+    }
+
+    @if (showStatusBar()) {
+      <div class="uc-editor__status">
+        <span class="uc-editor__status-format">{{ activeFormat().label }}</span>
+        <span class="uc-editor__status-count">{{ characterCount() }} characters</span>
+      </div>
+    }
+  </div>
+
+  @if (showErrorState()) {
+    <div class="uc-editor__errors">
+      @for (error of errors(); track error) {
+        <span class="uc-editor__error">{{ error.message }}</span>
+      }
+    </div>
+  }
+</div>
