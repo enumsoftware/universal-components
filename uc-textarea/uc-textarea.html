@@ -1,17 +1,18 @@
 <div class="uc-textarea">
   @if (label() && !hideLabel()) {
-    <label class="uc-textarea-label" [for]="id()">{{ label() }}</label>
+  <label class="uc-textarea-label" [for]="id()">{{ label() }}</label>
   }
 
   <textarea
+    title="{{ label() }}"
     [id]="id()"
     class="uc-textarea-control"
     [class.uc-textarea-error]="showErrorState()"
     [value]="value()"
     (input)="value.set(($any($event.target)).value)"
+    [attr.aria-label]="controlAriaLabel()"
     [attr.placeholder]="placeholder() || undefined"
     [attr.autocomplete]="autocomplete() || undefined"
-    [placeholder]="placeholder()"
     [rows]="rows()"
     (blur)="touched.set(true)"
     [disabled]="disabled()"
@@ -19,10 +20,10 @@
   ></textarea>
 
   @if (showErrorState()) {
-    <div>
-      @for (error of errors(); track error) {
-        <span class="uc-textarea-error">{{ error.message }}</span>
-      }
-    </div>
+  <div>
+    @for (error of errors(); track error) {
+    <span class="uc-textarea-error">{{ error.message }}</span>
+    }
+  </div>
   }
 </div>

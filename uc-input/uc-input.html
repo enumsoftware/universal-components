@@ -1,10 +1,11 @@
 <div class="uc-input">
   @if (label() && !hideLabel()) {
-    <label class="uc-input-label" [for]="id()">{{ label() }}</label>
+  <label class="uc-input-label" [for]="id()">{{ label() }}</label>
   }
 
   <div class="uc-input-wrapper">
     <input
+      title="{{ label() }}"
       [id]="id()"
       class="uc-input-control"
       [class.uc-input-control--has-suffix]="hasSuffix()"
@@ -12,43 +13,46 @@
       [value]="value()"
       (input)="value.set($any($event.target).value)"
       [type]="effectiveType()"
+      [attr.aria-label]="controlAriaLabel()"
       [attr.placeholder]="placeholder() || undefined"
       [attr.autocomplete]="autocomplete() || undefined"
-      [placeholder]="placeholder()"
       (blur)="touched.set(true)"
       [disabled]="disabled()"
       [readonly]="readonly()"
     />
 
-    <span class="uc-input-suffix" [class.uc-input-suffix--hidden]="!hasSuffix()">
+    <span
+      class="uc-input-suffix"
+      [class.uc-input-suffix--hidden]="!hasSuffix()"
+    >
       <ng-content select="[ucInputSuffix]">
         @if (isPasswordToggle()) {
-          <button
-            type="button"
-            class="uc-input-suffix-button"
-            [attr.aria-label]="isPasswordRevealed() ? 'Hide password' : 'Show password'"
-            [attr.title]="isPasswordRevealed() ? 'Hide password' : 'Show password'"
-            [attr.aria-pressed]="isPasswordRevealed()"
-            (click)="togglePasswordVisibility()"
-            tabindex="-1"
-          >
-            <i
-              class="ph"
-              [class.ph-eye-slash]="isPasswordRevealed()"
-              [class.ph-eye]="!isPasswordRevealed()"
-              aria-hidden="true"
-            ></i>
-          </button>
+        <button
+          title="{{ passwordToggleTitle() }}"
+          type="button"
+          class="uc-input-suffix-button"
+          [attr.aria-label]="isPasswordRevealed() ? 'Hide password' : 'Show password'"
+          [attr.aria-pressed]="isPasswordRevealed()"
+          (click)="togglePasswordVisibility()"
+          tabindex="-1"
+        >
+          <i
+            class="ph"
+            [class.ph-eye-slash]="isPasswordRevealed()"
+            [class.ph-eye]="!isPasswordRevealed()"
+            aria-hidden="true"
+          ></i>
+        </button>
         }
       </ng-content>
     </span>
   </div>
 
   @if (showErrorState()) {
-    <div>
-      @for (error of errors(); track error) {
-        <span class="uc-input-error">{{ error.message }}</span>
-      }
-    </div>
+  <div>
+    @for (error of errors(); track error) {
+    <span class="uc-input-error">{{ error.message }}</span>
+    }
+  </div>
   }
 </div>

@@ -112,12 +112,20 @@ export class UcEditor implements FormValueControl<string> {
   readonly isReadOnly = computed(() => this.disabled() || this.readonly());
   readonly isEmpty = computed(() => !this.value().trim());
   readonly labelId = computed(() => `${this.id()}-label`);
-  readonly surfaceAriaLabel = computed(() =>
-    this.label() ? null : this.placeholder().trim() || `${this.activeFormat().label} editor`,
-  );
-  readonly sourceAriaLabel = computed(() =>
-    this.label() ? null : `${this.activeFormat().label} source`,
-  );
+  /** Only reference the visible label element while it is actually rendered. */
+  readonly labelledBy = computed(() => (this.label() && !this.hideLabel() ? this.labelId() : null));
+  readonly surfaceAriaLabel = computed(() => {
+    if (this.label()) {
+      return this.hideLabel() ? this.label() : null;
+    }
+    return this.placeholder().trim() || `${this.activeFormat().label} editor`;
+  });
+  readonly sourceAriaLabel = computed(() => {
+    if (this.label()) {
+      return this.hideLabel() ? `${this.label()} source` : null;
+    }
+    return `${this.activeFormat().label} source`;
+  });
 
   readonly activeCommands = signal<ReadonlySet<UcEditorCommand>>(new Set());
   readonly activeBlock = signal<UcEditorCommand | ''>('paragraph');

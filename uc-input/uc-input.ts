@@ -49,6 +49,8 @@ export class UcInput implements FormValueControl<string | number | null> {
   invalid = input<boolean>(false);
   touched = model<boolean>(false);
   showErrorState = computed(() => this.invalid() && this.touched());
+  /** Keeps the control named when the visible label is hidden. */
+  readonly controlAriaLabel = computed(() => (this.label() && this.hideLabel() ? this.label() : null));
 
   private readonly projectedSuffix = contentChildren(UcInputSuffix, { descendants: true });
   private readonly passwordRevealed = signal<boolean>(false);
@@ -68,6 +70,9 @@ export class UcInput implements FormValueControl<string | number | null> {
   );
 
   readonly isPasswordRevealed = computed<boolean>(() => this.passwordRevealed());
+  readonly passwordToggleTitle = computed<string>(() =>
+    this.isPasswordRevealed() ? 'Hide password' : 'Show password',
+  );
 
   togglePasswordVisibility(): void {
     this.passwordRevealed.update((v) => !v);
