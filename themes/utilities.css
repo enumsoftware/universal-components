@@ -1,0 +1,23 @@
+/*
+ * @enumsoftware/universal-components - layout utilities
+ *
+ * GENERATED FILE - do not edit by hand.
+ * Regenerate with `npm run utilities:build`.
+ *
+ * Imports the whole layer. To ship less CSS, import the parts you use from
+ * themes/utilities/ instead - gap, margin and padding also need scale.css, and
+ * flex and grid also need alignment.css.
+ *
+ * Naming: .uc-<utility> applies at every width, .uc-<breakpoint>-<utility>
+ * applies from that breakpoint up. Breakpoints: sm (>=640px), md (>=768px), lg (>=1024px), xl (>=1280px).
+ */
+
+@import 'utilities/scale.css';
+@import 'utilities/display.css';
+@import 'utilities/flex.css';
+@import 'utilities/grid.css';
+@import 'utilities/alignment.css';
+@import 'utilities/gap.css';
+@import 'utilities/margin.css';
+@import 'utilities/padding.css';
+@import 'utilities/composites.css';

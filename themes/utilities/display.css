@@ -1,0 +1,206 @@
+/*
+ * @enumsoftware/universal-components - display utilities
+ *
+ * GENERATED FILE - do not edit by hand.
+ * Source: scripts/utilities/display.ts
+ * Regenerate with `npm run utilities:build`.
+ *
+ * Sets the outer and inner display type of an element.
+ */
+
+/* Display */
+.uc-block {
+  display: block;
+}
+
+.uc-inline-block {
+  display: inline-block;
+}
+
+.uc-inline {
+  display: inline;
+}
+
+.uc-flex {
+  display: flex;
+}
+
+.uc-inline-flex {
+  display: inline-flex;
+}
+
+.uc-grid {
+  display: grid;
+}
+
+.uc-inline-grid {
+  display: inline-grid;
+}
+
+.uc-contents {
+  display: contents;
+}
+
+.uc-hidden {
+  display: none;
+}
+
+/* ===== sm: >=640px ===== */
+@media (min-width: 40rem) {
+  /* Display */
+  .uc-sm-block {
+    display: block;
+  }
+
+  .uc-sm-inline-block {
+    display: inline-block;
+  }
+
+  .uc-sm-inline {
+    display: inline;
+  }
+
+  .uc-sm-flex {
+    display: flex;
+  }
+
+  .uc-sm-inline-flex {
+    display: inline-flex;
+  }
+
+  .uc-sm-grid {
+    display: grid;
+  }
+
+  .uc-sm-inline-grid {
+    display: inline-grid;
+  }
+
+  .uc-sm-contents {
+    display: contents;
+  }
+
+  .uc-sm-hidden {
+    display: none;
+  }
+}
+
+/* ===== md: >=768px ===== */
+@media (min-width: 48rem) {
+  /* Display */
+  .uc-md-block {
+    display: block;
+  }
+
+  .uc-md-inline-block {
+    display: inline-block;
+  }
+
+  .uc-md-inline {
+    display: inline;
+  }
+
+  .uc-md-flex {
+    display: flex;
+  }
+
+  .uc-md-inline-flex {
+    display: inline-flex;
+  }
+
+  .uc-md-grid {
+    display: grid;
+  }
+
+  .uc-md-inline-grid {
+    display: inline-grid;
+  }
+
+  .uc-md-contents {
+    display: contents;
+  }
+
+  .uc-md-hidden {
+    display: none;
+  }
+}
+
+/* ===== lg: >=1024px ===== */
+@media (min-width: 64rem) {
+  /* Display */
+  .uc-lg-block {
+    display: block;
+  }
+
+  .uc-lg-inline-block {
+    display: inline-block;
+  }
+
+  .uc-lg-inline {
+    display: inline;
+  }
+
+  .uc-lg-flex {
+    display: flex;
+  }
+
+  .uc-lg-inline-flex {
+    display: inline-flex;
+  }
+
+  .uc-lg-grid {
+    display: grid;
+  }
+
+  .uc-lg-inline-grid {
+    display: inline-grid;
+  }
+
+  .uc-lg-contents {
+    display: contents;
+  }
+
+  .uc-lg-hidden {
+    display: none;
+  }
+}
+
+/* ===== xl: >=1280px ===== */
+@media (min-width: 80rem) {
+  /* Display */
+  .uc-xl-block {
+    display: block;
+  }
+
+  .uc-xl-inline-block {
+    display: inline-block;
+  }
+
+  .uc-xl-inline {
+    display: inline;
+  }
+
+  .uc-xl-flex {
+    display: flex;
+  }
+
+  .uc-xl-inline-flex {
+    display: inline-flex;
+  }
+
+  .uc-xl-grid {
+    display: grid;
+  }
+
+  .uc-xl-inline-grid {
+    display: inline-grid;
+  }
+
+  .uc-xl-contents {
+    display: contents;
+  }
+
+  .uc-xl-hidden {
+    display: none;
+  }
+}

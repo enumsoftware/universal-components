@@ -22,6 +22,8 @@ Use these commands during validation:
 - Build library: `npm run build`
 - Unit tests: `npm run test`
 - Theme token parity check: `npm run tokens:check`
+- Regenerate layout utilities: `npm run utilities:build`
+- Typecheck build scripts: `npm run scripts:typecheck`
 - Storybook local: `npm run storybook`
 - Storybook static build: `npm run storybook:build`
 - Storybook accessibility checks: `npm run storybook:a11y`
@@ -46,6 +48,7 @@ For setup, import patterns, and Storybook publishing behavior, use `README.md` a
 - Main package usage and theming: `README.md`
 - Public export surface: `public-api.ts`
 - Theme files: `themes/theme.css`, `themes/uc-light.css`, `themes/uc-dark.css`
+- Layout utilities: `themes/utilities.css` (barrel) and `themes/utilities/*.css` (parts). All generated from `scripts/utilities/*.ts` via `scripts/build-utilities.ts`; never edit the CSS by hand. Documented in `README.md` and Storybook under `Utilities/`
 
 ## Instruction maintenance loop
 

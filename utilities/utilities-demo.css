@@ -1,0 +1,143 @@
+/*
+ * Styling for the Utilities/* Storybook stories only.
+ *
+ * Nothing here ships in the utility layer itself - these classes exist so the
+ * documentation can paint boxes while the `uc-*` utilities do the layout.
+ */
+
+.uc-demo-block {
+  margin-block-end: 2rem;
+}
+
+.uc-demo-block:last-child {
+  margin-block-end: 0;
+}
+
+.uc-demo-title {
+  margin-block-end: 0.25rem;
+  color: var(--font-color);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.uc-demo-note {
+  margin-block-end: 0.75rem;
+  max-width: 60ch;
+  color: var(--paragraph-text-color);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.uc-demo-code {
+  display: inline-block;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.35rem;
+  background: var(--uc-content-code-background);
+  color: var(--uc-content-code-color);
+  font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+  font-size: 0.8rem;
+}
+
+/* Dashed frame that makes the boundaries of a layout container visible. */
+.uc-demo-canvas {
+  border: 1px dashed color-mix(in oklab, var(--primary-color) 55%, transparent);
+  border-radius: 0.75rem;
+  background: color-mix(in oklab, var(--primary-color) 6%, transparent);
+  padding: 0.75rem;
+}
+
+.uc-demo-canvas-tall {
+  min-height: 9rem;
+}
+
+/* A generic child box used inside flex and grid demos. */
+.uc-demo-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid color-mix(in oklab, var(--primary-color) 35%, transparent);
+  border-radius: 0.5rem;
+  background: var(--card-background-color);
+  color: var(--font-color);
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.uc-demo-item-accent {
+  border-color: transparent;
+  background: var(--primary-color);
+  color: var(--primary-contrast-color);
+}
+
+.uc-demo-item-tall {
+  min-height: 5rem;
+}
+
+.uc-demo-item-taller {
+  min-height: 7rem;
+}
+
+/* Padding demo: the frame shows the padded area, the inner box shows content. */
+.uc-demo-pad {
+  display: inline-block;
+  border-radius: 0.5rem;
+  background: color-mix(in oklab, var(--primary-color) 22%, transparent);
+}
+
+.uc-demo-pad-content {
+  border-radius: 0.35rem;
+  background: var(--card-background-color);
+  color: var(--font-color);
+  padding: 0.4rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Margin demo: the outer band shows the space the margin creates. */
+.uc-demo-margin-frame {
+  display: inline-block;
+  border-radius: 0.5rem;
+  background: color-mix(in oklab, var(--primary-color) 22%, transparent);
+}
+
+/* Reference table used by the overview page. */
+.uc-demo-table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 46rem;
+  font-size: 0.85rem;
+}
+
+.uc-demo-table caption {
+  margin-block-end: 0.5rem;
+  color: var(--paragraph-text-color);
+  font-size: 0.85rem;
+  text-align: start;
+}
+
+.uc-demo-table th,
+.uc-demo-table td {
+  border-bottom: 1px solid color-mix(in oklab, var(--font-color) 15%, transparent);
+  padding: 0.5rem 0.75rem;
+  color: var(--font-color);
+  text-align: start;
+  vertical-align: top;
+}
+
+.uc-demo-table th {
+  color: var(--paragraph-text-color);
+  font-weight: 600;
+}
+
+.uc-demo-table code {
+  font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+  font-size: 0.8rem;
+}
+
+.uc-demo-scroll {
+  overflow-x: auto;
+}

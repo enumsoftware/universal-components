@@ -1,0 +1,41 @@
+/*
+ * @enumsoftware/universal-components - composites utilities
+ *
+ * GENERATED FILE - do not edit by hand.
+ * Source: scripts/utilities/composites.ts
+ * Regenerate with `npm run utilities:build`.
+ *
+ * Multi-property shorthands for layouts that come up constantly. These are
+ * base-breakpoint only - compose the single-purpose classes when you need a
+ * composite to change at a breakpoint.
+ */
+
+/* Layout composites */
+.uc-flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.uc-flex-col-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.uc-flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.uc-grid-auto-fit {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--uc-grid-min), 100%), 1fr));
+}
+
+.uc-grid-auto-fill {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--uc-grid-min), 100%), 1fr));
+}

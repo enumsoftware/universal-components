@@ -6,5 +6,5 @@
     "strict": true,
   },
   "include": ["./**/*.ts"],
-  "exclude": ["./**/*.spec.ts", "./node_modules/**", "./storybook-static/**"]
+  "exclude": ["./**/*.spec.ts", "./node_modules/**", "./scripts/**", "./storybook-static/**"]
 }

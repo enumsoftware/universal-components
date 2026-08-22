@@ -1,6 +1,8 @@
 import type { Preview } from '@storybook/angular';
 
 import '../themes/theme.css';
+import '../themes/utilities.css';
+import '../utilities/utilities-demo.css';
 
 const SUPPORTED_THEMES = ['light', 'dark', 'aurora', 'midnight'] as const;
 
@@ -61,7 +63,11 @@ const preview: Preview = {
             return 1;
           }
 
-          return 2;
+          if (title.startsWith('Utilities/')) {
+            return 2;
+          }
+
+          return 3;
         };
 
         const leftRank = getSectionRank(left.title);
@@ -69,6 +75,14 @@ const preview: Preview = {
 
         if (leftRank !== rightRank) {
           return leftRank - rightRank;
+        }
+
+        const utilityOrder = ['Utilities/Overview', 'Utilities/Spacing', 'Utilities/Flex', 'Utilities/Grid'];
+        const leftUtility = utilityOrder.indexOf(left.title);
+        const rightUtility = utilityOrder.indexOf(right.title);
+
+        if (leftUtility !== -1 && rightUtility !== -1 && leftUtility !== rightUtility) {
+          return leftUtility - rightUtility;
         }
 
         return left.title.localeCompare(right.title, undefined, { numeric: true });

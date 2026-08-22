@@ -15,6 +15,7 @@
     "**/*.spec.ts",
     "**/*.stories.ts",
     "storybook-host.ts",
+    "scripts",
     "storybook-static",
     "dist"
   ]

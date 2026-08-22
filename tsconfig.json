@@ -16,5 +16,5 @@
   "angularCompilerOptions": {
     "strictTemplates": true
   },
-  "exclude": ["node_modules", "storybook-static", "**/*.spec.ts"]
+  "exclude": ["node_modules", "storybook-static", "scripts", "**/*.spec.ts"]
 }
