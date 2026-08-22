@@ -449,6 +449,10 @@
   --uc-select-option-selected-background: oklch(from var(--primary-color) l c h / 0.15);
   --uc-select-option-selected-color: var(--primary-color);
   --uc-select-panel-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --uc-select-trigger-padding: 0.7rem 1rem;
+  --uc-select-trigger-font-size: 0.9rem;
+  --uc-select-option-padding: 0.7rem 1rem;
+  --uc-select-option-font-size: 0.9rem;
 
   /* --- Side Navigation --- */
   --uc-side-navigation-sidebar-width: 15rem;

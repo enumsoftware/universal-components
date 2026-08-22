@@ -31,6 +31,8 @@ export class UcSelect<T = string> implements FormValueControl<T | null> {
   // Input properties
   readonly id = input.required<string>();
   readonly label = input<string>('');
+  /** Keeps the label available to assistive tech while removing it from the layout. */
+  readonly hideLabel = input<boolean>(false);
   readonly placeholder = input<string>('Select an option');
   readonly options = input<SelectOption<T>[]>([]);
   readonly disabled = input<boolean>(false);
@@ -49,6 +51,17 @@ export class UcSelect<T = string> implements FormValueControl<T | null> {
 
   // Computed properties
   showErrorState = computed(() => this.invalid() && this.touched());
+
+  readonly labelId = computed(() => `${this.id()}-label`);
+  readonly showLabel = computed(() => !!this.label() && !this.hideLabel());
+
+  /** Only point at the label element while it is actually rendered. */
+  readonly triggerAriaLabelledBy = computed(() => (this.showLabel() ? this.labelId() : null));
+
+  /** Names the trigger from the label text, or the placeholder when there is no label. */
+  readonly triggerAriaLabel = computed(() =>
+    this.showLabel() ? null : this.label() || this.placeholder(),
+  );
 
   selectedOption = computed(() => {
     const currentValue = this.value();

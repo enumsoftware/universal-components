@@ -96,6 +96,10 @@
   --uc-button-toggle-item-padding-block: 0.375rem;
   --uc-button-toggle-item-padding-inline: 0.6rem;
   --uc-button-toggle-item-font-size: 0.8rem;
+  --uc-select-trigger-padding: 0.375rem 0.6rem;
+  --uc-select-trigger-font-size: 0.8rem;
+  --uc-select-option-padding: 0.45rem 0.75rem;
+  --uc-select-option-font-size: 0.8rem;
   --uc-divider-margin: 0;
   display: flex;
   flex-wrap: wrap;
@@ -115,6 +119,20 @@
 .uc-editor__toolbar uc-divider {
   align-self: stretch;
   min-height: 1.5rem;
+}
+
+/* The dropdown is positioned inside the shell, which clips overflow, so keep the list short
+   and the control compact enough that the panel stays within the editor body. */
+.uc-editor__block-select {
+  --uc-input-border-radius: 0.5rem;
+  display: flex;
+  flex: 0 0 auto;
+  width: 9rem;
+}
+
+.uc-editor__block-select uc-select {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .uc-editor__view-toggle {

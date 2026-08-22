@@ -22,6 +22,7 @@ import { UcButtonToggleItem } from '../uc-button-toggle/uc-button-toggle-item';
 import { UcDivider } from '../uc-divider/uc-divider';
 import { UcIconButton } from '../uc-icon-button/uc-icon-button';
 import { UcInput } from '../uc-input/uc-input';
+import { SelectOption, UcSelect } from '../uc-select/uc-select';
 import {
   UC_EDITOR_COMMAND_DESCRIPTORS,
   UC_EDITOR_COMMAND_OPTIONS,
@@ -35,7 +36,7 @@ import { isSafeEditorUrl, sanitizeEditorHtml } from './uc-editor-sanitizer';
 export const UC_EDITOR_VIEW_OPTIONS = ['wysiwyg', 'source'] as const;
 export type UcEditorView = (typeof UC_EDITOR_VIEW_OPTIONS)[number];
 
-/** Block types offered by the toolbar's block-type toggle, in display order. */
+/** Block types offered by the toolbar's block-type select, in display order. */
 const BLOCK_TYPE_COMMANDS: readonly UcEditorCommand[] = [
   'paragraph',
   'heading1',
@@ -76,7 +77,15 @@ type UcEditorInsertTarget = 'link' | 'image';
  */
 @Component({
   selector: 'uc-editor',
-  imports: [UcButton, UcButtonToggle, UcButtonToggleItem, UcDivider, UcIconButton, UcInput],
+  imports: [
+    UcButton,
+    UcButtonToggle,
+    UcButtonToggleItem,
+    UcDivider,
+    UcIconButton,
+    UcInput,
+    UcSelect,
+  ],
   templateUrl: './uc-editor.html',
   styleUrl: './uc-editor.css',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -128,7 +137,7 @@ export class UcEditor implements FormValueControl<string> {
   });
 
   readonly activeCommands = signal<ReadonlySet<UcEditorCommand>>(new Set());
-  readonly activeBlock = signal<UcEditorCommand | ''>('paragraph');
+  readonly activeBlock = signal<UcEditorCommand | null>('paragraph');
   readonly insertTarget = signal<UcEditorInsertTarget | null>(null);
   readonly insertUrl = signal<string>('');
   readonly insertLabel = signal<string>('');
@@ -151,11 +160,19 @@ export class UcEditor implements FormValueControl<string> {
     ),
   );
 
+  /** Block-type dropdown options; the full label reads better than the toolbar's short one. */
+  readonly blockTypeOptions = computed<SelectOption<UcEditorCommand>[]>(() =>
+    this.blockTypeCommands().map((descriptor) => ({
+      value: descriptor.command,
+      label: descriptor.label,
+    })),
+  );
+
   readonly inlineCommands = computed(() =>
     this.visibleCommands().filter((descriptor) => descriptor.kind === 'inline'),
   );
 
-  /** Lists plus the block types that are not part of the block-type toggle. */
+  /** Lists plus the block types that are not part of the block-type select. */
   readonly structureCommands = computed(() =>
     this.visibleCommands().filter(
       (descriptor) =>
@@ -178,6 +195,7 @@ export class UcEditor implements FormValueControl<string> {
   private renderedSurface: HTMLElement | null = null;
   private renderedFormat: UcEditorFormat | null = null;
   private savedRange: Range | null = null;
+  private blockSelectRange: Range | null = null;
 
   constructor() {
     afterNextRender(() => {
@@ -220,6 +238,32 @@ export class UcEditor implements FormValueControl<string> {
   /** Variant used for toolbar icon buttons, which carry their pressed state through the variant. */
   toolbarVariant(command: UcEditorCommand): 'primary' | 'secondary' {
     return this.isActive(command) ? 'primary' : 'secondary';
+  }
+
+  /**
+   * The block-type dropdown is the one toolbar control that needs focus of its own, so it opts
+   * out of the toolbar's focus guard and stashes the document selection to restore afterwards.
+   */
+  onBlockSelectMouseDown(event: MouseEvent): void {
+    event.stopPropagation();
+    this.blockSelectRange = this.currentRange()?.cloneRange() ?? null;
+  }
+
+  onBlockSelect(command: UcEditorCommand | null): void {
+    if (!command) {
+      return;
+    }
+
+    const surface = this.surfaceRef()?.nativeElement;
+    if (surface && this.blockSelectRange) {
+      surface.focus();
+      const selection = document.getSelection();
+      selection?.removeAllRanges();
+      selection?.addRange(this.blockSelectRange);
+    }
+
+    this.blockSelectRange = null;
+    this.runCommand(command);
   }
 
   setView(view: UcEditorView): void {
@@ -496,7 +540,7 @@ export class UcEditor implements FormValueControl<string> {
       }
 
       this.activeBlock.set(
-        blockCommand && BLOCK_TYPE_COMMANDS.includes(blockCommand) ? blockCommand : '',
+        blockCommand && BLOCK_TYPE_COMMANDS.includes(blockCommand) ? blockCommand : null,
       );
     }
 

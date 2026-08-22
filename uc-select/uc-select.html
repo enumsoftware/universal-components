@@ -1,6 +1,6 @@
 <div class="uc-select">
-  @if (label()) {
-    <label class="uc-select-label" [for]="id()">{{ label() }}</label>
+  @if (showLabel()) {
+    <label class="uc-select-label" [id]="labelId()" [for]="id()">{{ label() }}</label>
   }
 
   <div
@@ -12,8 +12,8 @@
     aria-haspopup="listbox"
     aria-controls="select-panel"
     [attr.aria-expanded]="isOpen()"
-    [attr.aria-label]="label() ? undefined : placeholder()"
-    [attr.aria-labelledby]="label() ? id() : undefined"
+    [attr.aria-label]="triggerAriaLabel()"
+    [attr.aria-labelledby]="triggerAriaLabelledBy()"
     [attr.aria-disabled]="disabled()"
     [attr.aria-invalid]="showErrorState()"
     [id]="id()"

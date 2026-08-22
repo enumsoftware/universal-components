@@ -17,23 +17,22 @@
       aria-label="Formatting"
       (mousedown)="onToolbarMouseDown($event)"
     >
-      @if (blockTypeCommands().length) {
-      <uc-button-toggle
-        class="uc-editor__block-toggle"
-        ariaLabel="Block type"
-        [value]="activeBlock()"
-        [disabled]="isReadOnly()"
-        (valueChange)="runCommand($any($event))"
+      @if (blockTypeOptions().length) {
+      <div
+        class="uc-editor__block-select"
+        (mousedown)="onBlockSelectMouseDown($event)"
       >
-        @for (descriptor of blockTypeCommands(); track descriptor.command) {
-        <uc-button-toggle-item
-          [value]="descriptor.command"
-          [ariaLabel]="descriptor.label"
-        >
-          {{ descriptor.shortLabel ?? descriptor.label }}
-        </uc-button-toggle-item>
-        }
-      </uc-button-toggle>
+        <uc-select
+          [id]="id() + '-block-type'"
+          label="Block type"
+          [hideLabel]="true"
+          placeholder="Block type"
+          [options]="blockTypeOptions()"
+          [value]="activeBlock()"
+          [disabled]="isReadOnly()"
+          (valueChange)="onBlockSelect($event)"
+        />
+      </div>
       } @if (inlineCommands().length) {
       <uc-divider [vertical]="true" />
       <div class="uc-editor__group">

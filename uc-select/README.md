@@ -94,6 +94,7 @@ options: SelectOption<string>[] = [
 | ----------------- | ------------------- | -------------------- | ------------------------------------------- |
 | `id`              | `string`            | Required             | Unique identifier for the select element    |
 | `label`           | `string`            | `''`                 | Label text displayed above the select       |
+| `hideLabel`       | `boolean`           | `false`              | Hides the label visually, keeps it for a11y |
 | `placeholder`     | `string`            | `'Select an option'` | Placeholder text when no option is selected |
 | `options`         | `SelectOption<T>[]` | `[]`                 | Array of available options                  |
 | `disabled`        | `boolean`           | `false`              | Disables the entire select                  |

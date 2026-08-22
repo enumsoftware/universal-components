@@ -7,6 +7,7 @@ const meta: Meta<UcSelect> = {
   args: {
     id: 'select-1',
     label: 'Country',
+    hideLabel: false,
     placeholder: 'Select a country',
     options: [
       { value: 'us', label: 'United States' },
@@ -23,6 +24,13 @@ export default meta;
 type Story = StoryObj<UcSelect>;
 
 export const Default: Story = {};
+
+/** The label still names the trigger for screen readers, it just is not painted. */
+export const HiddenLabel: Story = {
+  args: {
+    hideLabel: true,
+  },
+};
 
 export const WithValue: Story = {
   args: {
