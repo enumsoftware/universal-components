@@ -42,6 +42,10 @@
     'Liberation Mono',
     monospace
   );
+  --uc-editor-split-divider-color-resolved: var(
+    --uc-editor-split-divider-color,
+    var(--uc-editor-toolbar-border-color-resolved)
+  );
   --uc-editor-status-background-resolved: var(--uc-editor-status-background, transparent);
   --uc-editor-status-color-resolved: var(--uc-editor-status-color, var(--paragraph-text-color));
   --uc-editor-error-color-resolved: var(--uc-editor-error-color, var(--error-color));
@@ -171,6 +175,30 @@
   color: var(--uc-editor-error-color-resolved);
 }
 
+/* One pane in the single views, two side by side in the split view. */
+.uc-editor__panes {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.uc-editor__panes--split {
+  flex-direction: row;
+  align-items: stretch;
+}
+
+/* Equal halves regardless of content width: both panes scroll inside their own shared min/max
+   height rather than pushing the other one narrow. */
+.uc-editor__panes--split > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.uc-editor__panes--split .uc-editor__source {
+  border-inline-start: 1px solid var(--uc-editor-split-divider-color-resolved);
+  resize: none;
+}
+
 .uc-editor__surface-wrapper {
   position: relative;
   display: flex;
@@ -245,4 +273,15 @@
 .uc-editor__error {
   color: var(--uc-editor-error-color-resolved);
   font-size: 0.8rem;
+}
+
+@media (max-width: 767px) {
+  .uc-editor__panes--split {
+    flex-direction: column;
+  }
+
+  .uc-editor__panes--split .uc-editor__source {
+    border-inline-start: 0;
+    border-block-start: 1px solid var(--uc-editor-split-divider-color-resolved);
+  }
 }

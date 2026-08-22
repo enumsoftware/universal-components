@@ -10,6 +10,7 @@ const meta: Meta<UcIconButton> = {
     phosphorWeight: 'bold',
     variant: 'primary',
     disabled: false,
+    pressed: null,
     inverseColor: false,
   },
   argTypes: {
@@ -42,6 +43,28 @@ export const Disabled: Story = {
   args: {
     disabled: true,
   },
+};
+
+export const Toggle: Story = {
+  args: {
+    label: 'Bold',
+    phosphorIcon: 'text-b',
+    variant: 'secondary',
+    pressed: false,
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <uc-icon-button
+        [label]="label"
+        [phosphorIcon]="phosphorIcon"
+        [phosphorWeight]="phosphorWeight"
+        [variant]="variant"
+        [disabled]="disabled"
+        [(pressed)]="pressed"
+      />
+    `,
+  }),
 };
 
 export const Inverse: Story = {

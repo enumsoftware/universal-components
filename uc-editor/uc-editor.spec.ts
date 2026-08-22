@@ -229,6 +229,20 @@ describe('UcEditor', () => {
     expect(labels()).toContain('Underline');
   });
 
+  it('should mark the mark and structure buttons as toggles', () => {
+    const button = (label: string) =>
+      fixture.nativeElement.querySelector(
+        `.uc-editor__toolbar button[aria-label="${label}"]`,
+      ) as HTMLButtonElement;
+
+    expect(button('Bold').getAttribute('aria-pressed')).toBe('false');
+    expect(button('Bulleted list').getAttribute('aria-pressed')).toBe('false');
+
+    // Insert opens a panel and undo/redo are one-shot actions, so neither is a toggle.
+    expect(button('Image').hasAttribute('aria-pressed')).toBe(false);
+    expect(button('Undo').hasAttribute('aria-pressed')).toBe(false);
+  });
+
   it('should show the source text in the source view', async () => {
     host.content.set('# Hello');
     fixture.detectChanges();
@@ -248,6 +262,45 @@ describe('UcEditor', () => {
     await fixture.whenStable();
 
     expect(surface().innerHTML).toBe('<h1>Hello</h1>');
+  });
+
+  it('should show both panes in the split view', async () => {
+    host.content.set('# Hello');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const editor = fixture.debugElement.children[0].componentInstance as UcEditor;
+    editor.setView('split');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const textarea = fixture.nativeElement.querySelector(
+      '.uc-editor__source',
+    ) as HTMLTextAreaElement;
+    expect(surface().innerHTML).toBe('<h1>Hello</h1>');
+    expect(textarea.value).toBe('# Hello');
+
+    // Two textboxes at once, so the surface keeps `id` and the source pane derives its own.
+    expect(surface().getAttribute('id')).toBe('editor');
+    expect(textarea.getAttribute('id')).toBe('editor-source');
+  });
+
+  it('should mirror source edits onto the surface in the split view', async () => {
+    const editor = fixture.debugElement.children[0].componentInstance as UcEditor;
+    editor.setView('split');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const textarea = fixture.nativeElement.querySelector(
+      '.uc-editor__source',
+    ) as HTMLTextAreaElement;
+    textarea.value = '## Edited';
+    textarea.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(host.content()).toBe('## Edited');
+    expect(surface().innerHTML).toBe('<h2>Edited</h2>');
   });
 
   it('should make the surface non-editable when disabled', () => {

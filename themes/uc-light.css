@@ -269,6 +269,7 @@
   --uc-editor-source-background: oklch(from var(--foreground-color) l c h / 0.04);
   --uc-editor-source-color: var(--foreground-color);
   --uc-editor-source-font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+  --uc-editor-split-divider-color: var(--uc-input-border-color);
   --uc-editor-status-background: transparent;
   --uc-editor-status-color: var(--paragraph-text-color);
   --uc-editor-error-color: var(--error-color);
@@ -309,6 +310,9 @@
   --uc-icon-button-error-background: oklch(from var(--error-color) l c h / 0.1);
   --uc-icon-button-error-color: var(--error-color);
   --uc-icon-button-error-hover-background: var(--error-color);
+  --uc-icon-button-pressed-background: var(--primary-color);
+  --uc-icon-button-pressed-color: var(--inverse-foreground-color);
+  --uc-icon-button-pressed-border-color: transparent;
   --uc-icon-button-disabled-opacity: 0.6;
   --uc-icon-button-padding: 0.75rem;
   --uc-icon-button-border-radius: 0.75rem;

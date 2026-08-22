@@ -6,7 +6,8 @@ and Markdown are two implementations of the same contract and a third format is 
 
 ## Features
 
-- Rich text editing on a `contenteditable` surface, with a source view for the raw document
+- Rich text editing on a `contenteditable` surface, with a source view for the raw document and a
+  split view that shows both side by side
 - Toolbar assembled from library building blocks (`uc-select`, `uc-button-toggle`, `uc-icon-button`, `uc-button`,
   `uc-input`, `uc-divider`)
 - `UcEditorFormat` seam: parse, serialize and command support per format
@@ -50,6 +51,30 @@ notes = signal('# Hello\n\nWritten in Markdown.');
 
 `value` always holds the document in the active format's source text, never an intermediate
 representation.
+
+## Views
+
+The toolbar's view switch has three positions, and `view` is two-way bindable, so a consumer can
+drive it as well:
+
+- `wysiwyg` - the rich text surface only (default)
+- `source` - the raw document text only
+- `split` - both, surface on the left and source on the right
+
+```html
+<uc-editor id="article" label="Article" [(value)]="article" [(view)]="view" />
+```
+
+```typescript
+view = signal<UcEditorView>('split');
+```
+
+Both panes are live in the split view: typing on the surface rewrites the source text, and editing
+the source re-renders the surface, because both read and write the same `value`. Below 768px the
+panes stack instead of sitting side by side.
+
+Set `[showSplitToggle]="false"` to drop the split option from the switch, or
+`[showSourceToggle]="false"` to hide the switch entirely.
 
 ## Restricting The Toolbar
 
@@ -114,7 +139,8 @@ useful when opening a dropped file.
 - `placeholder: string` - Shown while the document is empty.
 - `format: 'html' | 'markdown' | UcEditorFormat` - Active document format. Defaults to `'html'`.
 - `commands: UcEditorCommand[] | null` - Toolbar allowlist. Defaults to everything the format supports.
-- `showSourceToggle: boolean` - Show the rich text / source switch. Defaults to `true`.
+- `showSourceToggle: boolean` - Show the view switch. Defaults to `true`.
+- `showSplitToggle: boolean` - Offer the split view in that switch. Defaults to `true`.
 - `showStatusBar: boolean` - Show the format and character count row. Defaults to `true`.
 - `disabled`, `readonly`, `hidden`, `invalid`, `errors`, `disabledReasons` - Signal forms inputs.
 
@@ -122,7 +148,7 @@ useful when opening a dropped file.
 
 - `value: string` - Document source text in the active format.
 - `touched: boolean` - Set when the surface loses focus.
-- `view: 'wysiwyg' | 'source'` - Active view.
+- `view: 'wysiwyg' | 'source' | 'split'` - Active view.
 
 ### Commands
 
@@ -150,6 +176,7 @@ Component tokens follow the library convention and are defined in every theme fi
 `--uc-editor-max-height`, `--uc-editor-font-family`, `--uc-editor-font-size`,
 `--uc-editor-line-height`, `--uc-editor-placeholder-color`, `--uc-editor-panel-background`,
 `--uc-editor-source-background`, `--uc-editor-source-color`, `--uc-editor-source-font-family`,
+`--uc-editor-split-divider-color`,
 `--uc-editor-status-background`, `--uc-editor-status-color`, `--uc-editor-error-color`,
 `--uc-editor-disabled-opacity`.
 
@@ -166,7 +193,12 @@ context, which means consumer theming of `--uc-content-*` applies here too.
 
 - The toolbar uses `role="toolbar"`; every control has a discernible name.
 - The surface uses `role="textbox"` with `aria-multiline` and is labelled by the rendered label.
-- Inline mark buttons show their pressed state through the primary button variant.
+- The split view shows two textboxes at once, so each one names itself ("Article rich text",
+  "Article source") instead of both pointing at the same label, and the source pane takes an
+  `${id}-source` id so `id` stays unique.
+- Mark and structure buttons are real toggles: they carry `aria-pressed`, driven from the caret
+  position rather than from the click, so the state matches the document. Insert buttons open a
+  panel instead of toggling, so they stay plain buttons.
 - `disabled` and `readonly` both set `contenteditable="false"` and `aria-readonly`.
 
 ## Notes

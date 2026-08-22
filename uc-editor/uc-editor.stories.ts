@@ -66,7 +66,9 @@ const meta: Meta<UcEditor> = {
     disabled: false,
     readonly: false,
     showSourceToggle: true,
+    showSplitToggle: true,
     showStatusBar: true,
+    view: 'wysiwyg',
   },
   render: (args) => ({
     props: args,
@@ -79,7 +81,9 @@ const meta: Meta<UcEditor> = {
         [disabled]="disabled"
         [readonly]="readonly"
         [showSourceToggle]="showSourceToggle"
+        [showSplitToggle]="showSplitToggle"
         [showStatusBar]="showStatusBar"
+        [view]="view"
         [(value)]="value"
       />
       <pre style="margin-top: 1rem; white-space: pre-wrap; color: var(--paragraph-text-color)">{{ value }}</pre>
@@ -97,6 +101,13 @@ export const Markdown: Story = {
   args: {
     format: 'markdown',
     value: markdownSample,
+  },
+};
+
+/** Rich text and source side by side; edits in either pane land in the other. */
+export const SplitView: Story = {
+  args: {
+    view: 'split',
   },
 };
 

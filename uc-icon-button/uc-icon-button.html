@@ -3,8 +3,10 @@
   (click)="onClick($event)"
   [class.inverse-color]="inverseColor()"
   [class.uc-image-button--disabled]="disabled()"
+  [class.uc-image-button--pressed]="pressed()"
   [disabled]="disabled()"
   [attr.aria-disabled]="disabled()"
+  [attr.aria-pressed]="pressed()"
   [attr.aria-label]="label() || null"
   [attr.title]="label() || null"
 >

@@ -41,7 +41,8 @@
         <uc-icon-button
           [phosphorIcon]="descriptor.icon"
           [label]="descriptor.label"
-          [variant]="toolbarVariant(descriptor.command)"
+          variant="secondary"
+          [pressed]="isActive(descriptor.command)"
           [disabled]="isReadOnly()"
           (clicked)="runCommand(descriptor.command)"
         />
@@ -54,7 +55,8 @@
         <uc-icon-button
           [phosphorIcon]="descriptor.icon"
           [label]="descriptor.label"
-          [variant]="toolbarVariant(descriptor.command)"
+          variant="secondary"
+          [pressed]="isActive(descriptor.command)"
           [disabled]="isReadOnly()"
           (clicked)="runCommand(descriptor.command)"
         />
@@ -67,7 +69,7 @@
         <uc-icon-button
           [phosphorIcon]="descriptor.icon"
           [label]="descriptor.label"
-          [variant]="toolbarVariant(descriptor.command)"
+          [variant]="insertVariant(descriptor.command)"
           [disabled]="isReadOnly()"
           (clicked)="runCommand(descriptor.command)"
         />
@@ -102,6 +104,14 @@
         >
           <i class="ph-bold ph-code" aria-hidden="true"></i>
         </uc-button-toggle-item>
+        @if (showSplitToggle()) {
+        <uc-button-toggle-item
+          value="split"
+          [ariaLabel]="'Split view, rich text and ' + activeFormat().label + ' source'"
+        >
+          <i class="ph-bold ph-columns" aria-hidden="true"></i>
+        </uc-button-toggle-item>
+        }
       </uc-button-toggle>
       }
     </div>
@@ -138,50 +148,58 @@
       <p class="uc-editor__insert-error" role="alert">{{ insertError() }}</p>
       }
     </div>
-    } @if (view() === 'wysiwyg') {
-    <div class="uc-editor__surface-wrapper">
-      <div
-        #surface
-        class="uc-editor__surface"
-        role="textbox"
-        aria-multiline="true"
-        title="{{ label() }}"
-        [attr.id]="id()"
-        [attr.aria-labelledby]="labelledBy()"
-        [attr.aria-label]="surfaceAriaLabel()"
-        [attr.aria-readonly]="isReadOnly()"
-        [attr.contenteditable]="isReadOnly() ? 'false' : 'true'"
-        [attr.spellcheck]="true"
-        (input)="onSurfaceInput()"
-        (blur)="onSurfaceBlur()"
-        (keyup)="onSelectionChange()"
-        (mouseup)="onSelectionChange()"
-        (focus)="onSelectionChange()"
-        (paste)="onPaste($event)"
-      ></div>
+    }
+    <div
+      class="uc-editor__panes"
+      [class.uc-editor__panes--split]="isSplitView()"
+    >
+      @if (showsSurface()) {
+      <div class="uc-editor__surface-wrapper">
+        <div
+          #surface
+          class="uc-editor__surface"
+          role="textbox"
+          aria-multiline="true"
+          title="{{ label() }}"
+          [attr.id]="id()"
+          [attr.aria-labelledby]="paneLabelledBy()"
+          [attr.aria-label]="surfaceAriaLabel()"
+          [attr.aria-readonly]="isReadOnly()"
+          [attr.contenteditable]="isReadOnly() ? 'false' : 'true'"
+          [attr.spellcheck]="true"
+          (input)="onSurfaceInput()"
+          (blur)="onSurfaceBlur()"
+          (keyup)="onSelectionChange()"
+          (mouseup)="onSelectionChange()"
+          (focus)="onSelectionChange()"
+          (paste)="onPaste($event)"
+        ></div>
 
-      @if (isEmpty()) {
-      <p class="uc-editor__placeholder" aria-hidden="true">
-        {{ placeholder() }}
-      </p>
+        @if (isEmpty()) {
+        <p class="uc-editor__placeholder" aria-hidden="true">
+          {{ placeholder() }}
+        </p>
+        }
+      </div>
+      } @if (showsSource()) {
+      <textarea
+        class="uc-editor__source"
+        title="{{ label() }}"
+        [attr.id]="sourceElementId()"
+        [attr.aria-labelledby]="paneLabelledBy()"
+        [attr.aria-label]="sourceAriaLabel()"
+        [attr.placeholder]="placeholder()"
+        [value]="value()"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        spellcheck="false"
+        (input)="onSourceInput($any($event.target).value)"
+        (blur)="touched.set(true)"
+      ></textarea>
       }
     </div>
-    } @else {
-    <textarea
-      class="uc-editor__source"
-      title="{{ label() }}"
-      [attr.id]="id()"
-      [attr.aria-labelledby]="labelledBy()"
-      [attr.aria-label]="sourceAriaLabel()"
-      [attr.placeholder]="placeholder()"
-      [value]="value()"
-      [disabled]="disabled()"
-      [readonly]="readonly()"
-      spellcheck="false"
-      (input)="onSourceInput($any($event.target).value)"
-      (blur)="touched.set(true)"
-    ></textarea>
-    } @if (showStatusBar()) {
+
+    @if (showStatusBar()) {
     <div class="uc-editor__status">
       <span class="uc-editor__status-format">{{ activeFormat().label }}</span>
       <span class="uc-editor__status-count"

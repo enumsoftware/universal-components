@@ -42,6 +42,18 @@
     --uc-icon-button-error-hover-background,
     var(--error-color)
   );
+  --uc-icon-button-pressed-background-resolved: var(
+    --uc-icon-button-pressed-background,
+    var(--primary-color)
+  );
+  --uc-icon-button-pressed-color-resolved: var(
+    --uc-icon-button-pressed-color,
+    var(--inverse-foreground-color)
+  );
+  --uc-icon-button-pressed-border-color-resolved: var(
+    --uc-icon-button-pressed-border-color,
+    transparent
+  );
   --uc-icon-button-disabled-opacity-resolved: var(--uc-icon-button-disabled-opacity, 0.6);
   --uc-icon-button-padding-resolved: var(--uc-icon-button-padding, 0.75rem);
   --uc-icon-button-border-radius-resolved: var(--uc-icon-button-border-radius, 0.75rem);
@@ -118,4 +130,13 @@
 .uc-image-button.uc-error:not(.uc-image-button--disabled):hover {
   background-color: var(--uc-icon-button-error-hover-background-resolved);
   color: var(--uc-icon-button-hover-color-resolved);
+}
+
+/* Pressed is its own axis, so it only swaps the fill and leaves each variant's geometry alone.
+   It sits after the variant rules to win on equal specificity, and below the hover rules so
+   pointer feedback still reads on a pressed button. */
+.uc-image-button.uc-image-button--pressed {
+  background-color: var(--uc-icon-button-pressed-background-resolved);
+  color: var(--uc-icon-button-pressed-color-resolved);
+  border-color: var(--uc-icon-button-pressed-border-color-resolved);
 }

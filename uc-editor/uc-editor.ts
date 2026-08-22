@@ -33,7 +33,7 @@ import {
 import { UcEditorFormatInput, resolveUcEditorFormat } from './uc-editor-formats';
 import { isSafeEditorUrl, sanitizeEditorHtml } from './uc-editor-sanitizer';
 
-export const UC_EDITOR_VIEW_OPTIONS = ['wysiwyg', 'source'] as const;
+export const UC_EDITOR_VIEW_OPTIONS = ['wysiwyg', 'source', 'split'] as const;
 export type UcEditorView = (typeof UC_EDITOR_VIEW_OPTIONS)[number];
 
 /** Block types offered by the toolbar's block-type select, in display order. */
@@ -103,6 +103,8 @@ export class UcEditor implements FormValueControl<string> {
   readonly commands = input<readonly UcEditorCommand[] | null>(null);
 
   readonly showSourceToggle = input<boolean>(true);
+  /** Offer the split view, which shows the surface and the source side by side. */
+  readonly showSplitToggle = input<boolean>(true);
   readonly showStatusBar = input<boolean>(true);
 
   /** Document source text, in the active format. */
@@ -117,21 +119,34 @@ export class UcEditor implements FormValueControl<string> {
   view = model<UcEditorView>('wysiwyg');
 
   readonly showErrorState = computed(() => this.invalid() && this.touched());
+  /** Both panes are live in the split view, so each pane has its own predicate. */
+  readonly showsSurface = computed(() => this.view() !== 'source');
+  readonly showsSource = computed(() => this.view() !== 'wysiwyg');
+  readonly isSplitView = computed(() => this.view() === 'split');
   readonly activeFormat = computed<UcEditorFormat>(() => resolveUcEditorFormat(this.format()));
   readonly isReadOnly = computed(() => this.disabled() || this.readonly());
   readonly isEmpty = computed(() => !this.value().trim());
   readonly labelId = computed(() => `${this.id()}-label`);
   /** Only reference the visible label element while it is actually rendered. */
   readonly labelledBy = computed(() => (this.label() && !this.hideLabel() ? this.labelId() : null));
+  /** Split shows two textboxes at once, so each names itself instead of sharing the label. */
+  readonly paneLabelledBy = computed(() => (this.isSplitView() ? null : this.labelledBy()));
   readonly surfaceAriaLabel = computed(() => {
     if (this.label()) {
+      if (this.isSplitView()) {
+        return `${this.label()} rich text`;
+      }
       return this.hideLabel() ? this.label() : null;
     }
     return this.placeholder().trim() || `${this.activeFormat().label} editor`;
   });
+  /** `id` stays on the surface whenever it is rendered, so the source pane takes a derived id. */
+  readonly sourceElementId = computed(() =>
+    this.showsSurface() ? `${this.id()}-source` : this.id(),
+  );
   readonly sourceAriaLabel = computed(() => {
     if (this.label()) {
-      return this.hideLabel() ? `${this.label()} source` : null;
+      return this.hideLabel() || this.isSplitView() ? `${this.label()} source` : null;
     }
     return `${this.activeFormat().label} source`;
   });
@@ -208,7 +223,7 @@ export class UcEditor implements FormValueControl<string> {
     effect(() => {
       const format = this.activeFormat();
       const value = this.value();
-      const surface = this.view() === 'wysiwyg' ? (this.surfaceRef()?.nativeElement ?? null) : null;
+      const surface = this.showsSurface() ? (this.surfaceRef()?.nativeElement ?? null) : null;
 
       if (!surface) {
         return;
@@ -235,8 +250,12 @@ export class UcEditor implements FormValueControl<string> {
     return this.activeCommands().has(command);
   }
 
-  /** Variant used for toolbar icon buttons, which carry their pressed state through the variant. */
-  toolbarVariant(command: UcEditorCommand): 'primary' | 'secondary' {
+  /**
+   * The insert buttons open a panel rather than toggling a mark, so they are not `aria-pressed`
+   * toggles. They still highlight when the caret sits inside a link, which is a hint about the
+   * caret rather than a state of the button, so it rides on the variant.
+   */
+  insertVariant(command: UcEditorCommand): 'primary' | 'secondary' {
     return this.isActive(command) ? 'primary' : 'secondary';
   }
 
