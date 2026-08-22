@@ -10,7 +10,7 @@
     "storybook:a11y": "test-storybook --url http://127.0.0.1:6006 --maxWorkers=2",
     "storybook:build": "ng run storybook:build-storybook",
     "test": "ng test universal-components",
-    "tokens:check": "node scripts/check-token-parity.cjs",
+    "tokens:check": "node scripts/check-token-parity.ts",
     "scripts:typecheck": "tsc -p scripts/tsconfig.json",
     "utilities:build": "node scripts/build-utilities.ts"
   },
