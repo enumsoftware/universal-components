@@ -8,6 +8,7 @@
   --uc-select-panel-shadow-resolved: var(--uc-select-panel-shadow, 0 4px 12px rgba(0, 0, 0, 0.15));
   --uc-select-trigger-padding-resolved: var(--uc-select-trigger-padding, 0.7rem 1rem);
   --uc-select-trigger-font-size-resolved: var(--uc-select-trigger-font-size, 0.9rem);
+  --uc-select-trigger-border-width-resolved: var(--uc-select-trigger-border-width, 2px);
   --uc-select-option-padding-resolved: var(--uc-select-option-padding, 0.7rem 1rem);
   --uc-select-option-font-size-resolved: var(--uc-select-option-font-size, 0.9rem);
   display: flex;
@@ -41,7 +42,7 @@
   padding: var(--uc-select-trigger-padding-resolved);
   font-size: var(--uc-select-trigger-font-size-resolved);
   background-color: var(--uc-input-background-color);
-  border: 2px solid var(--uc-input-border-color);
+  border: var(--uc-select-trigger-border-width-resolved) solid var(--uc-input-border-color);
   border-radius: var(--uc-input-border-radius);
   outline: none;
   cursor: pointer;
@@ -55,7 +56,7 @@
   user-select: none;
 
   &:focus {
-    border: 2px solid var(--primary-color);
+    border: var(--uc-select-trigger-border-width-resolved) solid var(--primary-color);
     outline: none;
   }
 
@@ -75,7 +76,7 @@
   }
 
   &.uc-select-error:focus {
-    border: 2px solid var(--error-color);
+    border: var(--uc-select-trigger-border-width-resolved) solid var(--error-color);
   }
 }
 

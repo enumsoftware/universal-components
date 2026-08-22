@@ -153,6 +153,11 @@ Component tokens follow the library convention and are defined in every theme fi
 `--uc-editor-status-background`, `--uc-editor-status-color`, `--uc-editor-error-color`,
 `--uc-editor-disabled-opacity`.
 
+The block-type `uc-select` is trimmed to toolbar scale through `.uc-editor__block-select-control`,
+which shrinks `--uc-select-trigger-padding`, `--uc-select-trigger-font-size`, and
+`--uc-select-trigger-border-width` so the trigger sits at roughly the icon buttons' height. No
+control has a pinned height, so the row still grows together if a consumer scales the icons.
+
 Document content inside the surface is rendered through `innerHTML`, so it is styled by the global
 prose defaults in `themes/theme.css`. The editor only scales the heading sizes down for editor
 context, which means consumer theming of `--uc-content-*` applies here too.

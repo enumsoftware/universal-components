@@ -450,6 +450,7 @@
   --uc-select-panel-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   --uc-select-trigger-padding: 0.7rem 1rem;
   --uc-select-trigger-font-size: 0.9rem;
+  --uc-select-trigger-border-width: 2px;
   --uc-select-option-padding: 0.7rem 1rem;
   --uc-select-option-font-size: 0.9rem;
 
