@@ -1,5 +1,10 @@
 import { Component, computed, effect, inject, input, signal } from "@angular/core";
 
+import { UcButton } from "../../uc-button/uc-button";
+import { UcCard } from "../../uc-card/uc-card";
+import { UcPill } from "../../uc-pill/uc-pill";
+import { UcSelect, type SelectOption } from "../../uc-select/uc-select";
+import { UcTabPanel, UcTabs, type UcTab } from "../../uc-tabs/uc-tabs";
 import type { RegistryEntry, ResolvedExample, ResolvedShowcase } from "../core";
 import { resolveShowcase } from "../core";
 import { WbCanvas } from "./canvas";
@@ -7,11 +12,9 @@ import { WbComponentHost, type WbAction } from "./component-host";
 import { WbKnobPanel, type KnobChange } from "./knob-panel";
 import { ThemeStore, WORKBENCH_THEMES, type WorkbenchTheme } from "./theme";
 
-type Tab = "playground" | "examples" | "docs";
-
 @Component({
   selector: "wb-showcase-view",
-  imports: [WbCanvas, WbComponentHost, WbKnobPanel],
+  imports: [UcButton, UcCard, UcPill, UcSelect, UcTabPanel, UcTabs, WbCanvas, WbComponentHost, WbKnobPanel],
   templateUrl: "./showcase-view.html",
   styleUrl: "./showcase-view.css",
 })
@@ -19,16 +22,26 @@ export class WbShowcaseView {
   /** Bound from route `data` by `withComponentInputBinding()`. */
   readonly entry = input.required<RegistryEntry>();
 
-  protected readonly themes = WORKBENCH_THEMES;
   protected readonly theme = inject(ThemeStore);
+
+  protected readonly themeOptions: SelectOption<string>[] = WORKBENCH_THEMES.map((theme) => ({
+    value: theme,
+    label: theme,
+  }));
 
   protected readonly showcase = signal<ResolvedShowcase | null>(null);
   protected readonly failure = signal<string | null>(null);
-  protected readonly tab = signal<Tab>("playground");
+  protected readonly activeTab = signal("playground");
   protected readonly values = signal<Record<string, unknown>>({});
   protected readonly actions = signal<readonly WbAction[]>([]);
 
   protected readonly docParagraphs = computed(() => (this.showcase()?.docs ?? "").split(/\n{2,}/).filter(Boolean));
+
+  protected readonly tabs = computed<UcTab[]>(() => [
+    { key: "playground", label: "Playground" },
+    { key: "examples", label: "Examples" },
+    { key: "docs", label: "Docs" },
+  ]);
 
   private loadToken = 0;
 
@@ -53,7 +66,7 @@ export class WbShowcaseView {
           this.showcase.set(resolved);
           this.values.set(defaultValues(resolved));
           this.actions.set([]);
-          this.tab.set("playground");
+          this.activeTab.set("playground");
         })
         .catch((error: unknown) => {
           if (token === this.loadToken) {
@@ -63,19 +76,14 @@ export class WbShowcaseView {
     });
   }
 
-  protected selectTab(tab: Tab): void {
-    this.tab.set(tab);
-  }
-
-  protected selectTheme(event: Event): void {
-    this.theme.set((event.target as HTMLSelectElement).value as WorkbenchTheme);
+  protected onCanvasTheme(theme: string | null): void {
+    if (theme !== null) {
+      this.theme.setCanvas(theme as WorkbenchTheme);
+    }
   }
 
   protected onKnobChange(change: KnobChange): void {
-    this.values.update((current) => ({
-      ...current,
-      [change.name]: change.value,
-    }));
+    this.values.update((current) => ({ ...current, [change.name]: change.value }));
   }
 
   protected resetKnobs(): void {

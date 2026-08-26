@@ -1,5 +1,10 @@
-import { Component, input, output } from "@angular/core";
+import { Component, computed, input, output } from "@angular/core";
 
+import { UcCheckbox } from "../../uc-checkbox/uc-checkbox";
+import { UcColorPicker } from "../../uc-color-picker/uc-color-picker";
+import { UcInput } from "../../uc-input/uc-input";
+import { UcSelect, type SelectOption } from "../../uc-select/uc-select";
+import { UcTextarea } from "../../uc-textarea/uc-textarea";
 import type { ResolvedKnob } from "../core";
 
 export interface KnobChange {
@@ -7,208 +12,116 @@ export interface KnobChange {
   readonly value: unknown;
 }
 
-/** The controls panel: one row per declared knob. */
+/**
+ * The controls panel, built from the library's own form controls.
+ *
+ * Values live in a single map on the parent keyed by knob name, so every
+ * control binds one way with an explicit change handler rather than `[(value)]`.
+ */
 @Component({
   selector: "wb-knob-panel",
-  template: `
-    @if (knobs().length === 0) {
-      <p class="wb-empty">This showcase declares no knobs.</p>
-    } @else {
-      <dl class="wb-knobs">
-        @for (entry of knobs(); track entry.name) {
-          <div class="wb-knob">
-            <dt>
-              <label [attr.for]="'knob-' + entry.name">{{ entry.label }}</label>
-              @if (entry.knob.description) {
-                <span class="wb-knob-hint">{{ entry.knob.description }}</span>
-              }
-            </dt>
-            <dd>
-              @switch (entry.knob.kind) {
-                @case ("boolean") {
-                  <input
-                    type="checkbox"
-                    [id]="'knob-' + entry.name"
-                    [checked]="asBoolean(values()[entry.name])"
-                    (change)="emitChecked(entry.name, $event)"
-                  />
-                }
-                @case ("number") {
-                  <input
-                    type="number"
-                    [id]="'knob-' + entry.name"
-                    [value]="asString(values()[entry.name])"
-                    (input)="emitNumber(entry.name, $event)"
-                  />
-                }
-                @case ("select") {
-                  <select
-                    [id]="'knob-' + entry.name"
-                    [value]="selectedIndex(entry)"
-                    (change)="emitOption(entry, $event)"
-                  >
-                    @for (option of options(entry); track $index) {
-                      <option [value]="$index">{{ asLabel(option) }}</option>
-                    }
-                  </select>
-                }
-                @case ("color") {
-                  <input
-                    type="color"
-                    [id]="'knob-' + entry.name"
-                    [value]="asString(values()[entry.name]) || '#000000'"
-                    (input)="emitText(entry.name, $event)"
-                  />
-                }
-                @case ("object") {
-                  <textarea
-                    [id]="'knob-' + entry.name"
-                    rows="4"
-                    [value]="asJson(values()[entry.name])"
-                    (change)="emitJson(entry.name, $event)"
-                  ></textarea>
-                }
-                @default {
-                  <input
-                    type="text"
-                    [id]="'knob-' + entry.name"
-                    [placeholder]="placeholder(entry)"
-                    [value]="asString(values()[entry.name])"
-                    (input)="emitText(entry.name, $event)"
-                  />
-                }
-              }
-            </dd>
-          </div>
-        }
-      </dl>
-    }
-  `,
-  styles: `
-    .wb-knobs {
-      margin: 0;
-      display: grid;
-      gap: 0.75rem;
-    }
-
-    .wb-knob {
-      display: grid;
-      grid-template-columns: minmax(6rem, 10rem) 1fr;
-      gap: 0.75rem;
-      align-items: start;
-    }
-
-    dt {
-      display: grid;
-      gap: 0.15rem;
-      font-size: 0.8125rem;
-      padding-top: 0.3rem;
-    }
-
-    dd {
-      margin: 0;
-    }
-
-    .wb-knob-hint {
-      color: var(--wb-muted);
-      font-size: 0.75rem;
-    }
-
-    input[type="text"],
-    input[type="number"],
-    select,
-    textarea {
-      width: 100%;
-      font: inherit;
-      font-size: 0.8125rem;
-      padding: 0.3rem 0.45rem;
-      border: 1px solid var(--wb-border);
-      border-radius: 0.375rem;
-      background: var(--wb-input-bg);
-      color: inherit;
-    }
-
-    textarea {
-      font-family: var(--wb-mono);
-      resize: vertical;
-    }
-
-    .wb-empty {
-      color: var(--wb-muted);
-      font-size: 0.8125rem;
-      margin: 0;
-    }
-  `,
+  imports: [UcCheckbox, UcColorPicker, UcInput, UcSelect, UcTextarea],
+  templateUrl: "./knob-panel.html",
+  styleUrl: "./knob-panel.css",
 })
 export class WbKnobPanel {
   readonly knobs = input.required<readonly ResolvedKnob[]>();
   readonly values = input.required<Record<string, unknown>>();
   readonly changed = output<KnobChange>();
 
+  /**
+   * Options are addressed by index so option values that are not strings -
+   * numbers, objects - survive the round trip through the select.
+   */
+  protected readonly optionsByKnob = computed(() => {
+    const map = new Map<string, SelectOption<string>[]>();
+
+    for (const entry of this.knobs()) {
+      map.set(
+        entry.name,
+        rawOptions(entry).map((option, index) => ({ value: String(index), label: labelFor(option) })),
+      );
+    }
+
+    return map;
+  });
+
+  protected optionsFor(entry: ResolvedKnob): SelectOption<string>[] {
+    return this.optionsByKnob().get(entry.name) ?? [];
+  }
+
+  protected selectedIndex(entry: ResolvedKnob): string {
+    const index = rawOptions(entry).indexOf(this.values()[entry.name]);
+
+    return String(index === -1 ? 0 : index);
+  }
+
+  protected controlId(entry: ResolvedKnob): string {
+    return `knob-${entry.name}`;
+  }
+
   protected asBoolean(value: unknown): boolean {
     return value === true;
   }
 
-  protected asString(value: unknown): string {
+  protected asText(value: unknown): string {
     return value === undefined || value === null ? "" : String(value);
   }
 
-  protected asLabel(value: unknown): string {
-    return typeof value === "string" ? value : JSON.stringify(value);
+  protected asNumber(value: unknown): number | null {
+    return typeof value === "number" ? value : null;
+  }
+
+  protected asColor(value: unknown): string {
+    return typeof value === "string" && value !== "" ? value : "#000000";
   }
 
   protected asJson(value: unknown): string {
     return JSON.stringify(value ?? null, null, 2);
   }
 
-  protected options(entry: ResolvedKnob): readonly unknown[] {
-    return "options" in entry.knob ? entry.knob.options : [];
-  }
-
   protected placeholder(entry: ResolvedKnob): string {
     return "placeholder" in entry.knob ? (entry.knob.placeholder ?? "") : "";
   }
 
-  /** Options are addressed by index so non-string option values survive the round trip. */
-  protected selectedIndex(entry: ResolvedKnob): string {
-    const index = this.options(entry).indexOf(this.values()[entry.name]);
-
-    return String(index === -1 ? 0 : index);
+  protected emit(name: string, value: unknown): void {
+    this.changed.emit({ name, value });
   }
 
-  protected emitChecked(name: string, event: Event): void {
-    this.changed.emit({
-      name,
-      value: (event.target as HTMLInputElement).checked,
-    });
+  protected emitText(name: string, value: string | number | null): void {
+    this.changed.emit({ name, value: value === null ? "" : String(value) });
   }
 
-  protected emitText(name: string, event: Event): void {
-    this.changed.emit({
-      name,
-      value: (event.target as HTMLInputElement).value,
-    });
+  protected emitNumber(name: string, value: string | number | null): void {
+    if (value === null || value === "") {
+      this.changed.emit({ name, value: undefined });
+      return;
+    }
+
+    this.changed.emit({ name, value: Number(value) });
   }
 
-  protected emitNumber(name: string, event: Event): void {
-    const raw = (event.target as HTMLInputElement).value;
+  protected emitOption(entry: ResolvedKnob, index: string | null): void {
+    if (index === null) {
+      return;
+    }
 
-    this.changed.emit({ name, value: raw === "" ? undefined : Number(raw) });
+    this.changed.emit({ name: entry.name, value: rawOptions(entry)[Number(index)] });
   }
 
-  protected emitOption(entry: ResolvedKnob, event: Event): void {
-    const index = Number((event.target as HTMLSelectElement).value);
-
-    this.changed.emit({ name: entry.name, value: this.options(entry)[index] });
-  }
-
-  protected emitJson(name: string, event: Event): void {
-    const raw = (event.target as HTMLTextAreaElement).value;
-
+  protected emitJson(name: string, raw: string | null): void {
     try {
-      this.changed.emit({ name, value: JSON.parse(raw) });
+      this.changed.emit({ name, value: JSON.parse(raw ?? "null") });
     } catch {
       // Keep the last valid value while the JSON is mid-edit.
     }
   }
+}
+
+function rawOptions(entry: ResolvedKnob): readonly unknown[] {
+  return "options" in entry.knob ? entry.knob.options : [];
+}
+
+function labelFor(option: unknown): string {
+  return typeof option === "string" ? option : JSON.stringify(option);
 }

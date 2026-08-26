@@ -1,7 +1,12 @@
-import { Component, computed, signal } from "@angular/core";
-import { RouterLink, RouterLinkActive } from "@angular/router";
+import { Component, computed, inject, signal } from "@angular/core";
+import { Router } from "@angular/router";
 
+import { UcDivider } from "../../uc-divider/uc-divider";
+import { UcInput } from "../../uc-input/uc-input";
+import { UcSelect, type SelectOption } from "../../uc-select/uc-select";
+import { UcSidebarButton } from "../../uc-sidebar-button/uc-sidebar-button";
 import { SHOWCASE_REGISTRY } from "../generated/registry";
+import { ThemeStore, WORKBENCH_THEMES, type WorkbenchTheme } from "./theme";
 
 interface SidebarGroup {
   readonly name: string;
@@ -10,39 +15,21 @@ interface SidebarGroup {
 
 @Component({
   selector: "wb-sidebar",
-  imports: [RouterLink, RouterLinkActive],
-  template: `
-    <div class="wb-brand">
-      <strong>Universal Components</strong>
-      <span>Workbench</span>
-    </div>
-
-    <label class="wb-search">
-      <span class="wb-visually-hidden">Filter showcases</span>
-      <input type="search" placeholder="Filter…" [value]="query()" (input)="onQuery($event)" />
-    </label>
-
-    <nav>
-      @for (group of groups(); track group.name) {
-        <section>
-          <h2>{{ group.name }}</h2>
-          <ul>
-            @for (entry of group.entries; track entry.id) {
-              <li>
-                <a [routerLink]="'/' + entry.id" routerLinkActive="wb-active">{{ entry.title }}</a>
-              </li>
-            }
-          </ul>
-        </section>
-      } @empty {
-        <p class="wb-empty">No match.</p>
-      }
-    </nav>
-  `,
+  imports: [UcDivider, UcInput, UcSelect, UcSidebarButton],
+  templateUrl: "./sidebar.html",
   styleUrl: "./sidebar.css",
 })
 export class WbSidebar {
+  protected readonly theme = inject(ThemeStore);
+  private readonly router = inject(Router);
+
   protected readonly query = signal("");
+  protected readonly activeId = signal(currentId(this.router.url));
+
+  protected readonly themeOptions: SelectOption<string>[] = WORKBENCH_THEMES.map((theme) => ({
+    value: theme,
+    label: theme,
+  }));
 
   protected readonly groups = computed<readonly SidebarGroup[]>(() => {
     const needle = this.query().trim().toLowerCase();
@@ -62,7 +49,25 @@ export class WbSidebar {
     return [...grouped].map(([name, entries]) => ({ name, entries }));
   });
 
-  protected onQuery(event: Event): void {
-    this.query.set((event.target as HTMLInputElement).value);
+  constructor() {
+    this.router.events.subscribe(() => this.activeId.set(currentId(this.router.url)));
   }
+
+  protected onQuery(value: string | number | null): void {
+    this.query.set(value === null ? "" : String(value));
+  }
+
+  protected onChromeTheme(theme: string | null): void {
+    if (theme !== null) {
+      this.theme.setChrome(theme as WorkbenchTheme);
+    }
+  }
+
+  protected open(id: string): void {
+    void this.router.navigateByUrl(`/${id}`);
+  }
+}
+
+function currentId(url: string): string {
+  return url.replace(/^\/+/, "").split("?")[0] ?? "";
 }

@@ -3,48 +3,76 @@ import { Injectable, effect, signal } from "@angular/core";
 export const WORKBENCH_THEMES = ["light", "dark", "aurora", "midnight"] as const;
 export type WorkbenchTheme = (typeof WORKBENCH_THEMES)[number];
 
-const STORAGE_KEY = "uc-workbench-theme";
+const CANVAS_KEY = "uc-workbench-theme";
+const CHROME_KEY = "uc-workbench-chrome-theme";
 
 const isTheme = (value: string | null): value is WorkbenchTheme =>
   value !== null && (WORKBENCH_THEMES as readonly string[]).includes(value);
 
 /**
- * The canvas theme. Applied as `data-theme` on the canvas wrapper rather than
- * on `<html>`, because every theme sheet keys off a bare `[data-theme='...']`
- * attribute selector - so the preview can be themed without dragging the
- * surrounding chrome along with it.
+ * Two independent themes.
+ *
+ * `chrome` themes the workbench itself, which is built out of the library, and
+ * is applied to `<html>`. `canvas` themes the preview and is applied to the
+ * canvas wrapper. They nest rather than fight: custom properties cascade, so
+ * the inner `[data-theme]` simply redefines the tokens for its own subtree.
+ *
+ * Keeping them apart is what lets you compare a component across themes
+ * without the surrounding UI moving underneath you.
  */
 @Injectable({ providedIn: "root" })
 export class ThemeStore {
-  readonly theme = signal<WorkbenchTheme>(readStoredTheme());
+  readonly canvas = signal<WorkbenchTheme>(read(CANVAS_KEY, "light"));
+  readonly chrome = signal<WorkbenchTheme>(read(CHROME_KEY, prefersDark() ? "dark" : "light"));
 
   constructor() {
     effect(() => {
-      const theme = this.theme();
+      const theme = this.chrome();
 
-      try {
-        localStorage.setItem(STORAGE_KEY, theme);
-      } catch {
-        // Private browsing or blocked storage: the picker still works in-session.
-      }
+      // The theme sheets nest a `body` rule inside `[data-theme]`, so this has
+      // to sit on `<html>` for the page background to follow along.
+      document.documentElement.setAttribute("data-theme", theme);
+      write(CHROME_KEY, theme);
     });
+
+    effect(() => write(CANVAS_KEY, this.canvas()));
   }
 
-  set(theme: WorkbenchTheme): void {
-    this.theme.set(theme);
+  setCanvas(theme: WorkbenchTheme): void {
+    this.canvas.set(theme);
+  }
+
+  setChrome(theme: WorkbenchTheme): void {
+    this.chrome.set(theme);
   }
 }
 
-function readStoredTheme(): WorkbenchTheme {
+function prefersDark(): boolean {
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  } catch {
+    return false;
+  }
+}
+
+function read(key: string, fallback: WorkbenchTheme): WorkbenchTheme {
+  try {
+    const stored = localStorage.getItem(key);
 
     if (isTheme(stored)) {
       return stored;
     }
   } catch {
-    // Fall through to the default.
+    // Private browsing or blocked storage: fall through to the default.
   }
 
-  return "light";
+  return fallback;
+}
+
+function write(key: string, theme: WorkbenchTheme): void {
+  try {
+    localStorage.setItem(key, theme);
+  } catch {
+    // The picker still works for the rest of the session.
+  }
 }

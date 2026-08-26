@@ -65,6 +65,41 @@ Outputs are discovered with `reflectComponentType` and logged in the Actions
 panel automatically - there is nothing to declare. A `model()` is skipped there,
 since every knob edit would otherwise echo back into the log.
 
+## The workbench is built from the library
+
+The chrome is assembled out of the components it documents - `uc-input`,
+`uc-select`, `uc-checkbox`, `uc-card`, `uc-tabs`, `uc-button`, `uc-pill`,
+`uc-divider`, `uc-sidebar-button` - and styled from library tokens
+(`--primary-color`, `--card-background-color`, `--sidebar-background-color`,
+`--paragraph-text-color`) rather than a private palette. The workbench is the
+library's largest consumer, so a regression shows up here before it reaches an
+app.
+
+Two consequences worth knowing:
+
+**Bind `id` as a property, never as a static attribute.** A `uc-*` component
+that declares an `id` input still receives a static `id="x"` on its host
+element, so the id lands in the DOM twice - once on the host, once on the inner
+control. Always write `[id]="'wb-filter'"`.
+
+**There are two themes, not one.** `chrome` themes the workbench and lives on
+`<html>`; `canvas` themes the preview and lives on the canvas wrapper. They
+nest rather than fight, because custom properties cascade and the inner
+`[data-theme]` redefines tokens for its own subtree. Keeping them separate is
+what lets you compare a component across themes without the surrounding UI
+moving underneath you.
+
+## Known library defects surfaced here
+
+`uc-checkbox` is mouse-only and invisible to assistive technology. Its painted
+control is a bare `div` with no `role`, no `tabindex` and no key handler; the
+real `input[type=checkbox]` is `visibility: hidden` and never bound to
+`checked()`, so it is neither focusable nor state-accurate, and the
+`<label for>` points at it. An aria snapshot of the controls panel reports
+zero checkbox roles - both boolean knobs collapse into a plain text node. The
+end-to-end suite asserts this defect explicitly, so fixing the component turns
+that check red and tells you to update it.
+
 ## Media hashing is load-bearing
 
 The build sets `outputHashing: "media"` on the base options, not just on a
