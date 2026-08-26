@@ -62,7 +62,8 @@
             "styles": [
               "workbench/styles.css"
             ],
-            "outputPath": "dist-workbench"
+            "outputPath": "dist-workbench",
+            "outputHashing": "media"
           },
           "configurations": {
             "production": {

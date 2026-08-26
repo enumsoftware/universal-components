@@ -65,6 +65,15 @@ Outputs are discovered with `reflectComponentType` and logged in the Actions
 panel automatically - there is nothing to declare. A `model()` is skipped there,
 since every knob edit would otherwise echo back into the log.
 
+## Media hashing is load-bearing
+
+The build sets `outputHashing: "media"` on the base options, not just on a
+configuration. `flag-icons` ships `flags/1x1/ad.svg` and `flags/4x3/ad.svg` -
+same basename, different bytes - and esbuild flattens every asset into
+`media/`, so without content hashes the two collide and the build fails with
+270-odd "Two output files share the same path" errors. Production happened to
+hide this behind `outputHashing: "all"`; the dev server did not.
+
 ## Not built yet
 
 Phase 0 covers the format, the registry, the playground, examples and the theme
