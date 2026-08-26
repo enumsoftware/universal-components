@@ -1,10 +1,10 @@
-import { Injectable, effect, signal } from "@angular/core";
+import { Injectable, effect, signal } from '@angular/core';
 
-export const WORKBENCH_THEMES = ["light", "dark", "aurora", "midnight"] as const;
+export const WORKBENCH_THEMES = ['light', 'dark', 'aurora', 'midnight'] as const;
 export type WorkbenchTheme = (typeof WORKBENCH_THEMES)[number];
 
-const CANVAS_KEY = "uc-workbench-theme";
-const CHROME_KEY = "uc-workbench-chrome-theme";
+const CANVAS_KEY = 'uc-workbench-theme';
+const CHROME_KEY = 'uc-workbench-chrome-theme';
 
 const isTheme = (value: string | null): value is WorkbenchTheme =>
   value !== null && (WORKBENCH_THEMES as readonly string[]).includes(value);
@@ -20,10 +20,10 @@ const isTheme = (value: string | null): value is WorkbenchTheme =>
  * Keeping them apart is what lets you compare a component across themes
  * without the surrounding UI moving underneath you.
  */
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class ThemeStore {
-  readonly canvas = signal<WorkbenchTheme>(read(CANVAS_KEY, "light"));
-  readonly chrome = signal<WorkbenchTheme>(read(CHROME_KEY, prefersDark() ? "dark" : "light"));
+  readonly canvas = signal<WorkbenchTheme>(read(CANVAS_KEY, 'light'));
+  readonly chrome = signal<WorkbenchTheme>(read(CHROME_KEY, prefersDark() ? 'dark' : 'light'));
 
   constructor() {
     effect(() => {
@@ -31,7 +31,7 @@ export class ThemeStore {
 
       // The theme sheets nest a `body` rule inside `[data-theme]`, so this has
       // to sit on `<html>` for the page background to follow along.
-      document.documentElement.setAttribute("data-theme", theme);
+      document.documentElement.setAttribute('data-theme', theme);
       write(CHROME_KEY, theme);
     });
 
@@ -49,7 +49,7 @@ export class ThemeStore {
 
 function prefersDark(): boolean {
   try {
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
   } catch {
     return false;
   }

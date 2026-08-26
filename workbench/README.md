@@ -100,6 +100,33 @@ zero checkbox roles - both boolean knobs collapse into a plain text node. The
 end-to-end suite asserts this defect explicitly, so fixing the component turns
 that check red and tells you to update it.
 
+## Shareable links
+
+Playground state rides in the query string, so a link carries what you were
+looking at:
+
+```
+#/components/button?args={"text":"Shared","variant":"error"}&theme=aurora&vw=768
+```
+
+- `args` - only the knobs that differ from their declared default, as JSON. A
+  showcase at rest writes no query string at all, so the common "open it and
+  send it" link stays clean.
+- `theme` - the preview theme. Omitted for `light`.
+- `vw` - the viewport preset. Omitted for `auto`.
+
+Writes are debounced and use `replaceUrl`, so typing in a text knob neither
+thrashes the router nor fills the back button. Decoding never throws: a
+hand-edited or truncated `args` falls back to the defaults.
+
+## Canvas layouts
+
+`centered` (the default), `padded` and `fullscreen`, set per showcase or per
+example. The canvas is deliberately `box-sizing: border-box` **scoped to
+itself** rather than via a page-wide reset - a global `border-box` would change
+how library components lay out inside the canvas versus inside a consuming app,
+which would make the preview a liar.
+
 ## Media hashing is load-bearing
 
 The build sets `outputHashing: "media"` on the base options, not just on a
@@ -111,6 +138,11 @@ hide this behind `outputHashing: "all"`; the dev server did not.
 
 ## Not built yet
 
-Phase 0 covers the format, the registry, the playground, examples and the theme
-toolbar. Still to come: markdown and API tables on the Docs tab (phase 2), the
-axe-core run in CI (phase 4), and the other 40 story files (phase 3).
+Phases 0 and 1 cover the format, the registry, the playground, examples, both
+theme toolbars, shareable URL state and viewport presets. Still to come:
+markdown and API tables on the Docs tab (phase 2), the axe-core run in CI
+(phase 4), and the other 40 story files (phase 3).
+
+The `padded` and `fullscreen` canvas layouts are implemented but no migrated
+showcase uses them yet - they get their first real exercise in phase 3, when
+`uc-side-navigation` and the utilities pages come across.

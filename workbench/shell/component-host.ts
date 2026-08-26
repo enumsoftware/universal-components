@@ -15,7 +15,7 @@ import {
   signal,
   untracked,
   viewChild,
-} from "@angular/core";
+} from '@angular/core';
 
 export interface WbAction {
   readonly name: string;
@@ -44,7 +44,7 @@ interface Unsubscribable {
  * styles and axe rules that key off it.
  */
 @Component({
-  selector: "wb-component-host",
+  selector: 'wb-component-host',
   template: `<div #anchor class="wb-host-anchor"></div>`,
   styles: `
     :host,
@@ -58,7 +58,7 @@ export class WbComponentHost {
   readonly props = input<Record<string, unknown>>({});
   readonly action = output<WbAction>();
 
-  private readonly anchor = viewChild.required<ElementRef<HTMLElement>>("anchor");
+  private readonly anchor = viewChild.required<ElementRef<HTMLElement>>('anchor');
   private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly applicationRef = inject(ApplicationRef);
 
@@ -166,14 +166,14 @@ export class WbComponentHost {
 
 /** `uc-button` from `uc-button`, `button` from `button[ucThing]`, `div` when there is no tag. */
 function hostTagFor(type: Type<unknown>): string {
-  const selector = reflectComponentType(type)?.selector ?? "";
+  const selector = reflectComponentType(type)?.selector ?? '';
   const tag = /^[a-z][a-z0-9-]*/i.exec(selector)?.[0];
 
-  return tag ?? "div";
+  return tag ?? 'div';
 }
 
 function isSubscribable(value: unknown): value is { subscribe(next: (payload: unknown) => void): Unsubscribable } {
   return (
-    typeof value === "object" && value !== null && typeof (value as { subscribe?: unknown }).subscribe === "function"
+    typeof value === 'object' && value !== null && typeof (value as { subscribe?: unknown }).subscribe === 'function'
   );
 }

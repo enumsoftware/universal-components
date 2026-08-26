@@ -1,8 +1,8 @@
-import type { InputSignalWithTransform, Type } from "@angular/core";
+import type { InputSignalWithTransform, Type } from '@angular/core';
 
-import type { Knob } from "./knobs";
+import type { Knob } from './knobs';
 
-export type ShowcaseLayout = "centered" | "padded" | "fullscreen";
+export type ShowcaseLayout = 'centered' | 'padded' | 'fullscreen';
 
 /**
  * The value you are allowed to *write* to a signal input.
@@ -110,7 +110,7 @@ export interface ResolvedExample {
 }
 
 const humanise = (name: string): string =>
-  name.replace(/([a-z0-9])([A-Z])/g, "$1 $2").replace(/^./, (character) => character.toUpperCase());
+  name.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/^./, (character) => character.toUpperCase());
 
 export function resolveShowcase(showcase: AnyShowcase): ResolvedShowcase {
   const knobEntries = Object.entries((showcase.knobs ?? {}) as Record<string, Knob<unknown>>);
@@ -122,7 +122,7 @@ export function resolveShowcase(showcase: AnyShowcase): ResolvedShowcase {
     order: showcase.order ?? 0,
     component: showcase.component,
     docs: showcase.docs,
-    layout: showcase.layout ?? "centered",
+    layout: showcase.layout ?? 'centered',
     knobs: knobEntries.map(([name, knob]) => ({
       name,
       label: knob.label ?? humanise(name),
@@ -131,7 +131,7 @@ export function resolveShowcase(showcase: AnyShowcase): ResolvedShowcase {
     examples: (showcase.examples ?? []).map((example) => ({
       name: example.name,
       description: example.description,
-      layout: example.layout ?? showcase.layout ?? "centered",
+      layout: example.layout ?? showcase.layout ?? 'centered',
       component: example.component,
       props: (example.props ?? {}) as Record<string, unknown>,
     })),

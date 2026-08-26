@@ -1,12 +1,12 @@
-import { Component, computed, inject, signal } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, computed, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { UcDivider } from "../../uc-divider/uc-divider";
-import { UcInput } from "../../uc-input/uc-input";
-import { UcSelect, type SelectOption } from "../../uc-select/uc-select";
-import { UcSidebarButton } from "../../uc-sidebar-button/uc-sidebar-button";
-import { SHOWCASE_REGISTRY } from "../generated/registry";
-import { ThemeStore, WORKBENCH_THEMES, type WorkbenchTheme } from "./theme";
+import { UcDivider } from '../../uc-divider/uc-divider';
+import { UcInput } from '../../uc-input/uc-input';
+import { UcSelect, type SelectOption } from '../../uc-select/uc-select';
+import { UcSidebarButton } from '../../uc-sidebar-button/uc-sidebar-button';
+import { SHOWCASE_REGISTRY } from '../generated/registry';
+import { ThemeStore, WORKBENCH_THEMES, type WorkbenchTheme } from './theme';
 
 interface SidebarGroup {
   readonly name: string;
@@ -14,16 +14,16 @@ interface SidebarGroup {
 }
 
 @Component({
-  selector: "wb-sidebar",
+  selector: 'wb-sidebar',
   imports: [UcDivider, UcInput, UcSelect, UcSidebarButton],
-  templateUrl: "./sidebar.html",
-  styleUrl: "./sidebar.css",
+  templateUrl: './sidebar.html',
+  styleUrl: './sidebar.css',
 })
 export class WbSidebar {
   protected readonly theme = inject(ThemeStore);
   private readonly router = inject(Router);
 
-  protected readonly query = signal("");
+  protected readonly query = signal('');
   protected readonly activeId = signal(currentId(this.router.url));
 
   protected readonly themeOptions: SelectOption<string>[] = WORKBENCH_THEMES.map((theme) => ({
@@ -36,7 +36,7 @@ export class WbSidebar {
     const grouped = new Map<string, { id: string; title: string }[]>();
 
     for (const entry of SHOWCASE_REGISTRY) {
-      if (needle !== "" && !`${entry.group} ${entry.title}`.toLowerCase().includes(needle)) {
+      if (needle !== '' && !`${entry.group} ${entry.title}`.toLowerCase().includes(needle)) {
         continue;
       }
 
@@ -54,7 +54,7 @@ export class WbSidebar {
   }
 
   protected onQuery(value: string | number | null): void {
-    this.query.set(value === null ? "" : String(value));
+    this.query.set(value === null ? '' : String(value));
   }
 
   protected onChromeTheme(theme: string | null): void {
@@ -69,5 +69,5 @@ export class WbSidebar {
 }
 
 function currentId(url: string): string {
-  return url.replace(/^\/+/, "").split("?")[0] ?? "";
+  return url.replace(/^\/+/, '').split('?')[0] ?? '';
 }

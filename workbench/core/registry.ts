@@ -1,4 +1,4 @@
-import type { AnyShowcase } from "./define-showcase";
+import type { AnyShowcase } from './define-showcase';
 
 /**
  * One row of the generated registry. `id`, `group` and `title` are lifted out

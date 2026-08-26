@@ -1,11 +1,11 @@
-import { Component, computed, input, output } from "@angular/core";
+import { Component, computed, input, output } from '@angular/core';
 
-import { UcCheckbox } from "../../uc-checkbox/uc-checkbox";
-import { UcColorPicker } from "../../uc-color-picker/uc-color-picker";
-import { UcInput } from "../../uc-input/uc-input";
-import { UcSelect, type SelectOption } from "../../uc-select/uc-select";
-import { UcTextarea } from "../../uc-textarea/uc-textarea";
-import type { ResolvedKnob } from "../core";
+import { UcCheckbox } from '../../uc-checkbox/uc-checkbox';
+import { UcColorPicker } from '../../uc-color-picker/uc-color-picker';
+import { UcInput } from '../../uc-input/uc-input';
+import { UcSelect, type SelectOption } from '../../uc-select/uc-select';
+import { UcTextarea } from '../../uc-textarea/uc-textarea';
+import type { ResolvedKnob } from '../core';
 
 export interface KnobChange {
   readonly name: string;
@@ -19,10 +19,10 @@ export interface KnobChange {
  * control binds one way with an explicit change handler rather than `[(value)]`.
  */
 @Component({
-  selector: "wb-knob-panel",
+  selector: 'wb-knob-panel',
   imports: [UcCheckbox, UcColorPicker, UcInput, UcSelect, UcTextarea],
-  templateUrl: "./knob-panel.html",
-  styleUrl: "./knob-panel.css",
+  templateUrl: './knob-panel.html',
+  styleUrl: './knob-panel.css',
 })
 export class WbKnobPanel {
   readonly knobs = input.required<readonly ResolvedKnob[]>();
@@ -65,15 +65,15 @@ export class WbKnobPanel {
   }
 
   protected asText(value: unknown): string {
-    return value === undefined || value === null ? "" : String(value);
+    return value === undefined || value === null ? '' : String(value);
   }
 
   protected asNumber(value: unknown): number | null {
-    return typeof value === "number" ? value : null;
+    return typeof value === 'number' ? value : null;
   }
 
   protected asColor(value: unknown): string {
-    return typeof value === "string" && value !== "" ? value : "#000000";
+    return typeof value === 'string' && value !== '' ? value : '#000000';
   }
 
   protected asJson(value: unknown): string {
@@ -81,7 +81,7 @@ export class WbKnobPanel {
   }
 
   protected placeholder(entry: ResolvedKnob): string {
-    return "placeholder" in entry.knob ? (entry.knob.placeholder ?? "") : "";
+    return 'placeholder' in entry.knob ? (entry.knob.placeholder ?? '') : '';
   }
 
   protected emit(name: string, value: unknown): void {
@@ -89,11 +89,11 @@ export class WbKnobPanel {
   }
 
   protected emitText(name: string, value: string | number | null): void {
-    this.changed.emit({ name, value: value === null ? "" : String(value) });
+    this.changed.emit({ name, value: value === null ? '' : String(value) });
   }
 
   protected emitNumber(name: string, value: string | number | null): void {
-    if (value === null || value === "") {
+    if (value === null || value === '') {
       this.changed.emit({ name, value: undefined });
       return;
     }
@@ -111,7 +111,7 @@ export class WbKnobPanel {
 
   protected emitJson(name: string, raw: string | null): void {
     try {
-      this.changed.emit({ name, value: JSON.parse(raw ?? "null") });
+      this.changed.emit({ name, value: JSON.parse(raw ?? 'null') });
     } catch {
       // Keep the last valid value while the JSON is mid-edit.
     }
@@ -119,9 +119,9 @@ export class WbKnobPanel {
 }
 
 function rawOptions(entry: ResolvedKnob): readonly unknown[] {
-  return "options" in entry.knob ? entry.knob.options : [];
+  return 'options' in entry.knob ? entry.knob.options : [];
 }
 
 function labelFor(option: unknown): string {
-  return typeof option === "string" ? option : JSON.stringify(option);
+  return typeof option === 'string' ? option : JSON.stringify(option);
 }

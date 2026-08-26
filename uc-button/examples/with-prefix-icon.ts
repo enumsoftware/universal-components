@@ -1,9 +1,9 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
-import { UcButton } from "../uc-button";
+import { UcButton } from '../uc-button';
 
 @Component({
-  selector: "uc-button-with-prefix-icon-example",
+  selector: 'uc-button-with-prefix-icon-example',
   imports: [UcButton],
   template: `
     <uc-button text="Save">

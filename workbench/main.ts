@@ -1,9 +1,9 @@
-import { provideZonelessChangeDetection } from "@angular/core";
-import { bootstrapApplication } from "@angular/platform-browser";
-import { provideRouter, withComponentInputBinding, withHashLocation } from "@angular/router";
+import { provideZonelessChangeDetection } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideRouter, withComponentInputBinding, withHashLocation } from '@angular/router';
 
-import { WbApp } from "./app";
-import { routes } from "./routes";
+import { WbApp } from './app';
+import { routes } from './routes';
 
 bootstrapApplication(WbApp, {
   providers: [

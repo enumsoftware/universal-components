@@ -1,6 +1,6 @@
-import { Component, signal } from "@angular/core";
+import { Component, signal } from '@angular/core';
 
-import { UcButton } from "../uc-button";
+import { UcButton } from '../uc-button';
 
 /**
  * The consumer owns the state: a signal flipped around the async call. The
@@ -8,7 +8,7 @@ import { UcButton } from "../uc-button";
  * while a request is in flight.
  */
 @Component({
-  selector: "uc-button-consumer-owned-signal-example",
+  selector: 'uc-button-consumer-owned-signal-example',
   imports: [UcButton],
   styles: `
     :host {

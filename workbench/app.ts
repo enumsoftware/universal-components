@@ -1,10 +1,10 @@
-import { Component } from "@angular/core";
-import { RouterOutlet } from "@angular/router";
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
-import { WbSidebar } from "./shell/sidebar";
+import { WbSidebar } from './shell/sidebar';
 
 @Component({
-  selector: "wb-app",
+  selector: 'wb-app',
   imports: [RouterOutlet, WbSidebar],
   template: `
     <wb-sidebar />

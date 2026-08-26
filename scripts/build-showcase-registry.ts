@@ -10,16 +10,16 @@
  * Runs on Node's native type stripping (`node scripts/build-showcase-registry.ts`),
  * so it must stay erasable syntax. `npm run scripts:typecheck` enforces that.
  */
-import fs from "node:fs";
-import path from "node:path";
-import process from "node:process";
+import fs from 'node:fs';
+import path from 'node:path';
+import process from 'node:process';
 
-import ts from "typescript";
+import ts from 'typescript';
 
-const REPO_ROOT = path.resolve(import.meta.dirname, "..");
-const OUTPUT_FILE = path.join(REPO_ROOT, "workbench", "generated", "registry.ts");
-const SHOWCASE_SUFFIX = ".showcase.ts";
-const SKIPPED_DIRECTORIES = new Set(["node_modules", "dist", "dist-workbench", ".git", ".angular", "storybook-static"]);
+const REPO_ROOT = path.resolve(import.meta.dirname, '..');
+const OUTPUT_FILE = path.join(REPO_ROOT, 'workbench', 'generated', 'registry.ts');
+const SHOWCASE_SUFFIX = '.showcase.ts';
+const SKIPPED_DIRECTORIES = new Set(['node_modules', 'dist', 'dist-workbench', '.git', '.angular', 'storybook-static']);
 
 interface ShowcaseMeta {
   readonly id: string;
@@ -53,8 +53,8 @@ function findShowcaseFiles(directory: string, found: string[] = []): string[] {
 
 /** Pulls the literal `id`/`group`/`title`/`order` out of `defineShowcase({ ... })`. */
 function readShowcaseMeta(absolutePath: string): ShowcaseMeta {
-  const sourcePath = path.relative(REPO_ROOT, absolutePath).split(path.sep).join("/");
-  const source = ts.createSourceFile(absolutePath, fs.readFileSync(absolutePath, "utf8"), ts.ScriptTarget.Latest, true);
+  const sourcePath = path.relative(REPO_ROOT, absolutePath).split(path.sep).join('/');
+  const source = ts.createSourceFile(absolutePath, fs.readFileSync(absolutePath, 'utf8'), ts.ScriptTarget.Latest, true);
 
   let literal: ts.ObjectLiteralExpression | undefined;
 
@@ -63,7 +63,7 @@ function readShowcaseMeta(absolutePath: string): ShowcaseMeta {
       literal === undefined &&
       ts.isCallExpression(node) &&
       ts.isIdentifier(node.expression) &&
-      node.expression.text === "defineShowcase" &&
+      node.expression.text === 'defineShowcase' &&
       node.arguments.length > 0 &&
       node.arguments[0] !== undefined &&
       ts.isObjectLiteralExpression(node.arguments[0])
@@ -104,21 +104,21 @@ function readShowcaseMeta(absolutePath: string): ShowcaseMeta {
     return value.text;
   };
 
-  const orderNode = readProperty("order");
+  const orderNode = readProperty('order');
   const order = orderNode !== undefined && ts.isNumericLiteral(orderNode) ? Number(orderNode.text) : 0;
 
   const importPath = path
     .relative(path.dirname(OUTPUT_FILE), absolutePath)
     .split(path.sep)
-    .join("/")
-    .replace(/\.ts$/, "");
+    .join('/')
+    .replace(/\.ts$/, '');
 
   return {
-    id: readString("id"),
-    group: readString("group"),
-    title: readString("title"),
+    id: readString('id'),
+    group: readString('group'),
+    title: readString('title'),
     order,
-    importPath: importPath.startsWith(".") ? importPath : `./${importPath}`,
+    importPath: importPath.startsWith('.') ? importPath : `./${importPath}`,
     sourcePath,
   };
 }
@@ -153,7 +153,7 @@ function renderRegistry(entries: readonly ShowcaseMeta[]): string {
 import type { RegistryEntry } from '../core/registry';
 
 export const SHOWCASE_REGISTRY: readonly RegistryEntry[] = [
-${rows.join("\n")}
+${rows.join('\n')}
 ];
 `;
 }
@@ -177,15 +177,15 @@ function build(): number {
 
   assertUniqueIds(entries);
   fs.mkdirSync(path.dirname(OUTPUT_FILE), { recursive: true });
-  fs.writeFileSync(OUTPUT_FILE, renderRegistry(entries), "utf8");
+  fs.writeFileSync(OUTPUT_FILE, renderRegistry(entries), 'utf8');
 
   return entries.length;
 }
 
 const count = build();
-console.log(`workbench: registered ${count} showcase${count === 1 ? "" : "s"}.`);
+console.log(`workbench: registered ${count} showcase${count === 1 ? '' : 's'}.`);
 
-if (process.argv.includes("--watch")) {
+if (process.argv.includes('--watch')) {
   let queued: NodeJS.Timeout | undefined;
 
   fs.watch(REPO_ROOT, { recursive: true }, (_event, filename) => {
@@ -204,5 +204,5 @@ if (process.argv.includes("--watch")) {
     }, 50);
   });
 
-  console.log("workbench: watching for *.showcase.ts changes.");
+  console.log('workbench: watching for *.showcase.ts changes.');
 }

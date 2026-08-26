@@ -1,9 +1,9 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
-import { UcButton } from "../uc-button";
+import { UcButton } from '../uc-button';
 
 @Component({
-  selector: "uc-button-loading-variants-example",
+  selector: 'uc-button-loading-variants-example',
   imports: [UcButton],
   styles: `
     :host {
