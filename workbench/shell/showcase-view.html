@@ -29,7 +29,7 @@
     </div>
   </header>
 
-  <uc-tabs [tabs]="tabs()" [activeTab]="activeTab()" (activeTabChange)="activeTab.set($event)">
+  <uc-tabs [tabs]="tabs()" [activeTab]="activeTab()" (activeTabChange)="onTabChange($event)">
     <ng-template ucTabPanel="playground">
       @if (showcase.component; as component) {
         <wb-canvas [layout]="showcase.layout" [maxWidth]="canvasWidth()">
@@ -96,15 +96,60 @@
     </ng-template>
 
     <ng-template ucTabPanel="docs">
-      @if (docParagraphs().length === 0) {
-        <p class="wb-empty">No docs written for this showcase yet.</p>
+      @if (docs(); as docs) {
+        @if (docs.html) {
+          <!--
+            Compiled from the showcase's sibling .docs.md at build time, so this
+            is repo-authored content, not user input. It still goes through
+            Angular's sanitiser, which leaves prose markup untouched.
+          -->
+          <div class="wb-docs uc-content" [innerHTML]="docs.html"></div>
+        }
+
+        @if (docs.api.length > 0) {
+          <section class="wb-api uc-content">
+            <h2>API</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Kind</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Default</th>
+                  <th scope="col">Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (member of docs.api; track member.name) {
+                  <tr>
+                    <th scope="row">
+                      <code>{{ member.alias ?? member.name }}</code>
+                      @if (member.required) {
+                        <uc-pill text="required" variant="error" size="compact" />
+                      }
+                    </th>
+                    <td>{{ member.kind }}</td>
+                    <td><code>{{ member.type }}</code></td>
+                    <td>
+                      @if (member.defaultValue) {
+                        <code>{{ member.defaultValue }}</code>
+                      } @else {
+                        <span class="wb-empty">-</span>
+                      }
+                    </td>
+                    <td>{{ member.description }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </section>
+        }
+
+        @if (!docs.html && docs.api.length === 0) {
+          <p class="wb-empty">No docs written for this showcase yet.</p>
+        }
       } @else {
-        <div class="wb-docs uc-content">
-          @for (paragraph of docParagraphs(); track $index) {
-            <p>{{ paragraph }}</p>
-          }
-          <p class="wb-empty">Markdown is rendered as plain text until the docs pipeline lands in phase 2.</p>
-        </div>
+        <p class="wb-empty">Loading docs…</p>
       }
     </ng-template>
   </uc-tabs>

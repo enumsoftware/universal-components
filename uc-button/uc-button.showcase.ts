@@ -18,13 +18,6 @@ export default defineShowcase({
   group: 'Components',
   title: 'Button',
   component: UcButton,
-  docs: [
-    'The primary action control. It owns nothing but its own presentation - loading and',
-    'disabled state are inputs, so the caller decides when the button is busy.',
-    '',
-    'Content projected into `[ucButtonPrefix]` and `[ucButtonSuffix]` sits inside the label,',
-    'so icons stay aligned with the text rather than the button box.',
-  ].join('\n'),
   knobs: {
     text: text('Click Me'),
     variant: select(BUTTON_VARIANT_OPTIONS, 'primary'),

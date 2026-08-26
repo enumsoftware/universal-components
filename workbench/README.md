@@ -100,6 +100,43 @@ zero checkbox roles - both boolean knobs collapse into a plain text node. The
 end-to-end suite asserts this defect explicitly, so fixing the component turns
 that check red and tells you to update it.
 
+## Docs
+
+Prose lives in a sibling markdown file - `uc-button/uc-button.docs.md` next to
+`uc-button.showcase.ts` - picked up by filename, with nothing to register.
+
+It is a separate file rather than a `docs:` field because markdown is
+backtick-heavy: inline code and fenced blocks cannot survive inside a template
+literal without escaping every backtick. A `.md` file also gets real editor
+support.
+
+The generator compiles it with `marked` at build time and emits finished HTML,
+so no markdown parser ships in the bundle. The workbench renders it inside
+`.uc-content`, which means the library's own prose styles apply - with the
+heading scale retuned locally, since `--uc-content-h1-size` is tuned for
+marketing pages rather than a docs panel.
+
+## The API table
+
+Generated, not written. `scripts/showcase/api.ts` walks the component with the
+TypeScript AST and pulls out every `input()`, `model()` and `output()` with its
+name, alias, required flag, declared type, default and JSDoc. Plain signals and
+methods are skipped.
+
+It reads syntactically rather than through a type checker: the library declares
+its members in one consistent shape, so matching the call expression is both
+sufficient and far cheaper than building a Program per showcase. The trade-off
+is that inherited members are not picked up - no component in the library
+currently inherits inputs.
+
+This is what replaces Storybook's autodocs argTypes, and it is strictly better
+for this codebase: signal inputs are read from source, so `model.required()`
+shows as a required model of type `unknown` rather than being missed.
+
+Docs and API ship as one lazy chunk per showcase, fetched the first time the
+Docs tab is opened - reading one component's docs does not download the other
+thirty-five.
+
 ## Shareable links
 
 Playground state rides in the query string, so a link carries what you were
@@ -138,10 +175,10 @@ hide this behind `outputHashing: "all"`; the dev server did not.
 
 ## Not built yet
 
-Phases 0 and 1 cover the format, the registry, the playground, examples, both
-theme toolbars, shareable URL state and viewport presets. Still to come:
-markdown and API tables on the Docs tab (phase 2), the axe-core run in CI
-(phase 4), and the other 40 story files (phase 3).
+Phases 0 to 2 cover the format, the registry, the playground, examples, both
+theme toolbars, shareable URL state, viewport presets, and the Docs tab with
+compiled markdown and a generated API table. Still to come: the axe-core run in
+CI (phase 4), and the other 40 story files (phase 3).
 
 The `padded` and `fullscreen` canvas layouts are implemented but no migrated
 showcase uses them yet - they get their first real exercise in phase 3, when

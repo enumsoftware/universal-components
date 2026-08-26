@@ -8,7 +8,7 @@ import { UcCard } from '../../uc-card/uc-card';
 import { UcPill } from '../../uc-pill/uc-pill';
 import { UcSelect, type SelectOption } from '../../uc-select/uc-select';
 import { UcTabPanel, UcTabs, type UcTab } from '../../uc-tabs/uc-tabs';
-import type { RegistryEntry, ResolvedExample, ResolvedShowcase, ViewportPreset } from '../core';
+import type { RegistryEntry, ResolvedExample, ResolvedShowcase, ShowcaseDocs, ViewportPreset } from '../core';
 import { VIEWPORT_PRESETS, decodeArgs, encodeArgs, isViewportPreset, resolveShowcase, viewportWidth } from '../core';
 import { WbCanvas } from './canvas';
 import { WbComponentHost, type WbAction } from './component-host';
@@ -57,10 +57,9 @@ export class WbShowcaseView {
   protected readonly values = signal<Record<string, unknown>>({});
   protected readonly actions = signal<readonly WbAction[]>([]);
   protected readonly viewport = signal<ViewportPreset>('auto');
+  protected readonly docs = signal<ShowcaseDocs | null>(null);
 
   protected readonly canvasWidth = computed(() => viewportWidth(this.viewport()));
-
-  protected readonly docParagraphs = computed(() => (this.showcase()?.docs ?? '').split(/\n{2,}/).filter(Boolean));
 
   protected readonly tabs = computed<UcTab[]>(() => [
     { key: 'playground', label: 'Playground' },
@@ -69,6 +68,7 @@ export class WbShowcaseView {
   ]);
 
   private loadToken = 0;
+  private docsToken = 0;
   private urlWriteTimer: ReturnType<typeof setTimeout> | undefined;
 
   constructor() {
@@ -90,6 +90,7 @@ export class WbShowcaseView {
           const resolved = resolveShowcase(module.default);
 
           this.showcase.set(resolved);
+          this.docs.set(null);
           this.actions.set([]);
           this.activeTab.set('playground');
           this.applyUrlState(resolved);
@@ -153,6 +154,33 @@ export class WbShowcaseView {
         replaceUrl: true,
       });
     }, URL_WRITE_DELAY_MS);
+  }
+
+  /**
+   * Docs are a separate lazy chunk, so they are fetched the first time the tab
+   * is opened rather than alongside the showcase.
+   */
+  protected onTabChange(tab: string): void {
+    this.activeTab.set(tab);
+
+    if (tab !== 'docs' || this.docs() !== null) {
+      return;
+    }
+
+    const token = ++this.docsToken;
+
+    void this.entry()
+      .loadDocs()
+      .then((loaded) => {
+        if (token === this.docsToken) {
+          this.docs.set(loaded);
+        }
+      })
+      .catch(() => {
+        if (token === this.docsToken) {
+          this.docs.set({ html: '', api: [] });
+        }
+      });
   }
 
   protected onCanvasTheme(theme: string | null): void {

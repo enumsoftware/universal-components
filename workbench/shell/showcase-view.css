@@ -122,3 +122,34 @@ h1 {
   align-items: flex-end;
   gap: 0.75rem;
 }
+
+/*
+ * The library's prose scale is tuned for marketing pages - h1 runs to 4rem -
+ * which is far too loud inside a docs panel. Retuning the tokens is the
+ * sanctioned way to rescale `.uc-content` without overriding its rules.
+ */
+.wb-docs,
+.wb-api {
+  --uc-content-h1-size: 1.5rem;
+  --uc-content-h2-size: 1.15rem;
+  --uc-content-h3-size: 1rem;
+  --uc-content-font-size: 0.9375rem;
+  --uc-content-max-width: 44rem;
+}
+
+.wb-api {
+  --uc-content-max-width: 100%;
+  margin-top: 2rem;
+  overflow-x: auto;
+}
+
+.wb-api table {
+  font-size: 0.8125rem;
+}
+
+.wb-api th[scope='row'] {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}

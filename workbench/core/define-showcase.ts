@@ -59,8 +59,6 @@ export interface Showcase<TComponent = unknown> {
   readonly order?: number;
   /** Omit for docs-only pages that have no single component to drive. */
   readonly component?: Type<TComponent>;
-  /** Markdown. Compiled to HTML at build time - see the registry generator. */
-  readonly docs?: string;
   readonly layout?: ShowcaseLayout;
   readonly knobs?: Knobs<TComponent>;
   readonly examples?: readonly ShowcaseExample<TComponent>[];
@@ -89,7 +87,6 @@ export interface ResolvedShowcase {
   readonly title: string;
   readonly order: number;
   readonly component: Type<unknown> | undefined;
-  readonly docs: string | undefined;
   readonly layout: ShowcaseLayout;
   readonly knobs: readonly ResolvedKnob[];
   readonly examples: readonly ResolvedExample[];
@@ -121,7 +118,6 @@ export function resolveShowcase(showcase: AnyShowcase): ResolvedShowcase {
     title: showcase.title,
     order: showcase.order ?? 0,
     component: showcase.component,
-    docs: showcase.docs,
     layout: showcase.layout ?? 'centered',
     knobs: knobEntries.map(([name, knob]) => ({
       name,
