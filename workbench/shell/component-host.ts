@@ -65,7 +65,13 @@ export class WbComponentHost {
   private ref: ComponentRef<unknown> | null = null;
   private hostElement: HTMLElement | null = null;
   private subscriptions: Unsubscribable[] = [];
-  private inputNames = new Set<string>();
+  /**
+   * Property name to template name. Knobs and presets are keyed by the class
+   * property, but `setInput` resolves against the public name, so an aliased
+   * input - `interpolationMode` published as `interpolation` - is only
+   * settable through the alias.
+   */
+  private inputAliases = new Map<string, string>();
 
   /** Bumped on every instantiation so the input-sync effect re-runs for the new ref. */
   private readonly generation = signal(0);
@@ -89,7 +95,9 @@ export class WbComponentHost {
 
         this.ref = ref;
         this.hostElement = hostElement;
-        this.inputNames = new Set(reflectComponentType(type)?.inputs.map((input) => input.propName) ?? []);
+        this.inputAliases = new Map(
+          reflectComponentType(type)?.inputs.map((input) => [input.propName, input.templateName]) ?? [],
+        );
         this.wireOutputs(ref, type);
         this.applyProps(this.props());
         this.generation.update((value) => value + 1);
@@ -114,10 +122,12 @@ export class WbComponentHost {
     }
 
     for (const [name, value] of Object.entries(props)) {
+      const templateName = this.inputAliases.get(name);
+
       // `setInput` throws on an unknown name, and a preset may legitimately
       // carry a key the component no longer declares.
-      if (this.inputNames.has(name)) {
-        ref.setInput(name, value);
+      if (templateName !== undefined) {
+        ref.setInput(templateName, value);
       }
     }
   }
@@ -129,7 +139,7 @@ export class WbComponentHost {
     for (const { propName, templateName } of outputs) {
       // A `model()` surfaces as both an input and an output. Skip those: every
       // knob edit would otherwise echo straight back into the actions log.
-      if (this.inputNames.has(propName)) {
+      if (this.inputAliases.has(propName)) {
         continue;
       }
 

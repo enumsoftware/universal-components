@@ -1,6 +1,10 @@
 /**
  * Knob descriptors: the typed control vocabulary the playground panel renders.
  *
+ * The helpers are generic over their value so a knob still lands in a slot the
+ * input declares more loosely - `text(null)` into a `string | null` input, say.
+ * A fixed `Knob<string | undefined>` would fail that assignment outright.
+ *
  * Every variant keeps its value in covariant positions only (`defaultValue`,
  * `options`), so `Knob<'primary' | 'secondary'>` stays assignable to the
  * `Knob<unknown>` slot an untyped input such as `model.required()` produces.
@@ -30,25 +34,28 @@ export type Knob<TValue> =
 
 type KnobOptions = { readonly label?: string; readonly description?: string };
 
-export function text(
-  defaultValue: string | undefined,
+export function text<TValue extends string | null | undefined>(
+  defaultValue: TValue,
   options: KnobOptions & { readonly placeholder?: string } = {},
-): Knob<string | undefined> {
+): Knob<TValue> {
   return { kind: 'text', defaultValue, ...options };
 }
 
-export function bool(defaultValue: boolean, options: KnobOptions = {}): Knob<boolean> {
+export function bool<TValue extends boolean | null | undefined>(
+  defaultValue: TValue,
+  options: KnobOptions = {},
+): Knob<TValue> {
   return { kind: 'boolean', defaultValue, ...options };
 }
 
-export function number(
-  defaultValue: number,
+export function number<TValue extends number | null | undefined>(
+  defaultValue: TValue,
   options: KnobOptions & {
     readonly min?: number;
     readonly max?: number;
     readonly step?: number;
   } = {},
-): Knob<number> {
+): Knob<TValue> {
   return { kind: 'number', defaultValue, ...options };
 }
 
@@ -64,7 +71,10 @@ export function select<TValue>(
   return { kind: 'select', defaultValue, options, ...extra };
 }
 
-export function color(defaultValue: string, options: KnobOptions = {}): Knob<string> {
+export function color<TValue extends string | null | undefined>(
+  defaultValue: TValue,
+  options: KnobOptions = {},
+): Knob<TValue> {
   return { kind: 'color', defaultValue, ...options };
 }
 

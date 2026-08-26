@@ -106,6 +106,10 @@ export interface ResolvedExample {
   readonly props: Record<string, unknown>;
 }
 
+function knobDefaults(entries: readonly [string, Knob<unknown>][]): Record<string, unknown> {
+  return Object.fromEntries(entries.map(([name, knob]) => [name, knob.defaultValue]));
+}
+
 const humanise = (name: string): string =>
   name.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/^./, (character) => character.toUpperCase());
 
@@ -129,7 +133,13 @@ export function resolveShowcase(showcase: AnyShowcase): ResolvedShowcase {
       description: example.description,
       layout: example.layout ?? showcase.layout ?? 'centered',
       component: example.component,
-      props: (example.props ?? {}) as Record<string, unknown>,
+      // A preset states only what it changes, so the knob defaults have to sit
+      // underneath it - otherwise a required input the preset does not mention
+      // is never set and the component throws NG0950. An example that brings
+      // its own component owns all of its inputs and gets no merge.
+      props: (example.component === undefined
+        ? { ...knobDefaults(knobEntries), ...(example.props ?? {}) }
+        : (example.props ?? {})) as Record<string, unknown>,
     })),
   };
 }
