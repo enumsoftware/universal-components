@@ -3,3 +3,5 @@ storybook-static/
 dist/
 .angular/
 debug-storybook.log
+dist-workbench/
+workbench/generated/

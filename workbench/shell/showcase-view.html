@@ -1,0 +1,91 @@
+@if (failure(); as message) {
+<div class="wb-failure">
+  <h1>Could not load {{ entry().title }}</h1>
+  <pre>{{ message }}</pre>
+</div>
+} @else if (showcase(); as showcase) {
+<header class="wb-header">
+  <div>
+    <p class="wb-eyebrow">{{ showcase.group }}</p>
+    <h1>{{ showcase.title }}</h1>
+  </div>
+
+  <label class="wb-theme">
+    <span>Theme</span>
+    <select [value]="theme.theme()" (change)="selectTheme($event)">
+      @for (option of themes; track option) {
+      <option [value]="option">{{ option }}</option>
+      }
+    </select>
+  </label>
+</header>
+
+<nav class="wb-tabs">
+  <button type="button" [class.wb-active]="tab() === 'playground'" (click)="selectTab('playground')">Playground</button>
+  <button type="button" [class.wb-active]="tab() === 'examples'" (click)="selectTab('examples')">
+    Examples <span class="wb-count">{{ showcase.examples.length }}</span>
+  </button>
+  <button type="button" [class.wb-active]="tab() === 'docs'" (click)="selectTab('docs')">Docs</button>
+</nav>
+
+@switch (tab()) { @case ('playground') { @if (showcase.component; as component) {
+<wb-canvas [layout]="showcase.layout">
+  <wb-component-host [component]="component" [props]="values()" (action)="onAction($event)" />
+</wb-canvas>
+
+<section class="wb-panels">
+  <section class="wb-panel">
+    <header>
+      <h2>Controls</h2>
+      <button type="button" (click)="resetKnobs()">Reset</button>
+    </header>
+    <wb-knob-panel [knobs]="showcase.knobs" [values]="values()" (changed)="onKnobChange($event)" />
+  </section>
+
+  <section class="wb-panel">
+    <header>
+      <h2>Actions</h2>
+      <button type="button" (click)="clearActions()">Clear</button>
+    </header>
+    @if (actions().length === 0) {
+    <p class="wb-empty">Nothing emitted yet.</p>
+    } @else {
+    <ol class="wb-actions">
+      @for (action of actions(); track action.at + action.name) {
+      <li>
+        <code>{{ action.name }}</code>
+        <span class="wb-payload">{{ formatPayload(action.payload) }}</span>
+        <time>{{ formatTime(action.at) }}</time>
+      </li>
+      }
+    </ol>
+    }
+  </section>
+</section>
+} @else {
+<p class="wb-empty">This showcase is docs-only - it declares no component to drive.</p>
+} } @case ('examples') { @for (example of showcase.examples; track example.name) {
+<article class="wb-example">
+  <h2>{{ example.name }}</h2>
+  @if (example.description) {
+  <p class="wb-example-note">{{ example.description }}</p>
+  } @if (exampleComponent(example); as component) {
+  <wb-canvas [layout]="example.layout">
+    <wb-component-host [component]="component" [props]="example.props" (action)="onAction($event)" />
+  </wb-canvas>
+  }
+</article>
+} @empty {
+<p class="wb-empty">No examples declared.</p>
+} } @case ('docs') { @if (docParagraphs().length === 0) {
+<p class="wb-empty">No docs written for this showcase yet.</p>
+} @else {
+<div class="wb-docs">
+  @for (paragraph of docParagraphs(); track $index) {
+  <p>{{ paragraph }}</p>
+  }
+  <p class="wb-empty">Markdown is rendered as plain text until the docs pipeline lands in phase 2.</p>
+</div>
+} } } } @else {
+<p class="wb-empty">Loading {{ entry().title }}…</p>
+}

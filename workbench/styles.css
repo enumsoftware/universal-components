@@ -1,0 +1,44 @@
+/*
+ * Library themes, plus the workbench chrome.
+ *
+ * The chrome deliberately uses its own `--wb-*` variables rather than the
+ * library's `--uc-*` tokens: the canvas carries `data-theme`, so if the chrome
+ * read the same tokens it would restyle itself every time you switched the
+ * preview theme.
+ */
+@import "../themes/theme.css";
+@import "../themes/utilities.css";
+
+:root {
+  --wb-bg: #ffffff;
+  --wb-fg: #1a1d24;
+  --wb-muted: #6b7280;
+  --wb-border: #e2e5ea;
+  --wb-panel-bg: #fafbfc;
+  --wb-input-bg: #ffffff;
+  --wb-hover-bg: #eef0f3;
+  --wb-accent: #473bf0;
+  --wb-danger: #c62828;
+  --wb-mono: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --wb-bg: #14161b;
+    --wb-fg: #e7e9ee;
+    --wb-muted: #9aa1ad;
+    --wb-border: #2a2e37;
+    --wb-panel-bg: #191c22;
+    --wb-input-bg: #1f232b;
+    --wb-hover-bg: #232831;
+    --wb-accent: #6f64f5;
+    --wb-danger: #ef5350;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--wb-bg);
+  color: var(--wb-fg);
+  font-family: var(--uc-font-family, system-ui, sans-serif);
+}

@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": []
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true
+  },
+  "include": ["workbench/**/*.ts", "**/*.showcase.ts", "**/examples/**/*.ts"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "dist-workbench",
+    "storybook-static",
+    "scripts",
+    "**/*.spec.ts",
+    "**/*.stories.ts"
+  ]
+}

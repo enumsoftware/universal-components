@@ -12,7 +12,10 @@
     "test": "ng test universal-components",
     "tokens:check": "node scripts/check-token-parity.ts",
     "scripts:typecheck": "tsc -p scripts/tsconfig.json",
-    "utilities:build": "node scripts/build-utilities.ts"
+    "utilities:build": "node scripts/build-utilities.ts",
+    "workbench": "npm run workbench:registry && ng serve workbench",
+    "workbench:build": "npm run workbench:registry && ng build workbench",
+    "workbench:registry": "node scripts/build-showcase-registry.ts"
   },
   "license": "MIT",
   "repository": {

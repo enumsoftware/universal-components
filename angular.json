@@ -47,6 +47,47 @@
           }
         }
       }
+    },
+    "workbench": {
+      "projectType": "application",
+      "root": "workbench",
+      "sourceRoot": "workbench",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "workbench/main.ts",
+            "index": "workbench/index.html",
+            "tsConfig": "tsconfig.workbench.json",
+            "styles": [
+              "workbench/styles.css"
+            ],
+            "outputPath": "dist-workbench"
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "options": {
+            "buildTarget": "workbench:build:development"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "workbench:build:production"
+            }
+          }
+        }
+      }
     }
   },
   "cli": {

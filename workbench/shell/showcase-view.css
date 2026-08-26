@@ -1,0 +1,153 @@
+:host {
+  display: block;
+  padding: 1.5rem 2rem 4rem;
+  max-width: 68rem;
+}
+
+.wb-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.wb-eyebrow {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wb-muted);
+}
+
+h1 {
+  margin: 0.15rem 0 0;
+  font-size: 1.5rem;
+}
+
+.wb-theme {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--wb-muted);
+}
+
+.wb-theme select,
+.wb-panel header button,
+.wb-tabs button {
+  font: inherit;
+  font-size: 0.8125rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--wb-border);
+  border-radius: 0.375rem;
+  background: var(--wb-input-bg);
+  color: inherit;
+  cursor: pointer;
+}
+
+.wb-tabs {
+  display: flex;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.wb-tabs button.wb-active {
+  background: var(--wb-accent);
+  border-color: var(--wb-accent);
+  color: #ffffff;
+}
+
+.wb-count {
+  opacity: 0.7;
+  margin-inline-start: 0.25rem;
+}
+
+.wb-panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.wb-panel {
+  border: 1px solid var(--wb-border);
+  border-radius: 0.75rem;
+  padding: 0.85rem 1rem 1rem;
+  background: var(--wb-panel-bg);
+}
+
+.wb-panel header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.wb-panel h2 {
+  margin: 0;
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--wb-muted);
+}
+
+.wb-actions {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.8125rem;
+  max-height: 14rem;
+  overflow: auto;
+}
+
+.wb-actions li {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.wb-actions code,
+.wb-payload {
+  font-family: var(--wb-mono);
+}
+
+.wb-payload,
+.wb-actions time {
+  color: var(--wb-muted);
+}
+
+.wb-example {
+  margin-top: 1.75rem;
+}
+
+.wb-example h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+}
+
+.wb-example-note {
+  margin: 0 0 0.6rem;
+  font-size: 0.875rem;
+  color: var(--wb-muted);
+}
+
+.wb-docs p {
+  line-height: 1.65;
+  max-width: 42rem;
+}
+
+.wb-empty {
+  color: var(--wb-muted);
+  font-size: 0.875rem;
+}
+
+.wb-failure pre {
+  font-family: var(--wb-mono);
+  font-size: 0.8125rem;
+  white-space: pre-wrap;
+  color: var(--wb-danger);
+}
