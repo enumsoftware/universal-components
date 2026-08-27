@@ -164,6 +164,25 @@ itself** rather than via a page-wide reset - a global `border-box` would change
 how library components lay out inside the canvas versus inside a consuming app,
 which would make the preview a liar.
 
+## Preview hosts
+
+Some components cannot be driven bare. A pure content-projection surface
+(`uc-card`, `uc-info`) renders an empty box with no children, and a controlled
+component (`uc-pagination`, `uc-editor`, `uc-tabs`) is a dead control unless
+something holds its state and feeds it back.
+
+Those showcases point `component` at a small **preview** under `examples/` that
+forwards the knobs and supplies whatever the real component needs. It is the
+same shape a consuming app would write, so the canvas still shows real usage
+rather than a rigged demo.
+
+## Presets merge over knob defaults
+
+An example that sets `props` states only what it changes; the knob defaults sit
+underneath. Without that, a required input the preset does not mention is never
+set and the component throws NG0950. An example that brings its own
+`component` owns all of its inputs and gets no merge.
+
 ## Media hashing is load-bearing
 
 The build sets `outputHashing: "media"` on the base options, not just on a
@@ -175,11 +194,10 @@ hide this behind `outputHashing: "all"`; the dev server did not.
 
 ## Not built yet
 
-Phases 0 to 2 cover the format, the registry, the playground, examples, both
-theme toolbars, shareable URL state, viewport presets, and the Docs tab with
-compiled markdown and a generated API table. Still to come: the axe-core run in
-CI (phase 4), and the other 40 story files (phase 3).
+Phases 0 to 3 are done: the format, the registry, the playground, examples,
+both theme toolbars, shareable URL state, viewport presets, the Docs tab with
+compiled markdown and a generated API table, and all 41 showcases migrated.
 
-The `padded` and `fullscreen` canvas layouts are implemented but no migrated
-showcase uses them yet - they get their first real exercise in phase 3, when
-`uc-side-navigation` and the utilities pages come across.
+Still to come: the axe-core run in CI (phase 4), and removing Storybook itself
+(phase 5). Storybook still builds and is still deployed until then, so nothing
+is un-documented while phase 4 lands.

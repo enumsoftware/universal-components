@@ -141,3 +141,53 @@
 .uc-demo-scroll {
   overflow-x: auto;
 }
+
+.uc-demo-table-wide {
+  max-width: 60rem;
+}
+
+.uc-demo-swatch {
+  height: 0.75rem;
+  min-width: 1px;
+  border-radius: 999px;
+  background: var(--primary-color);
+}
+
+.uc-demo-item-narrow {
+  max-width: 12rem;
+}
+
+.uc-demo-item-wide {
+  min-width: 7rem;
+}
+
+.uc-demo-item-wider {
+  min-width: 8rem;
+}
+
+.uc-demo-spacer {
+  height: 12rem;
+  width: 0;
+}
+
+.uc-demo-truncate {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.uc-demo-canvas-h8 {
+  height: 8rem;
+}
+
+.uc-demo-canvas-h10 {
+  height: 10rem;
+}
+
+.uc-demo-canvas-h12 {
+  height: 12rem;
+}
+
+.uc-demo-grid-min-12 {
+  --uc-grid-min: 12rem;
+}
