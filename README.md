@@ -64,7 +64,7 @@ Deployment details:
 Run it locally:
 
 ```bash
-npm install --legacy-peer-deps
+npm install
 npm run workbench
 ```
 
