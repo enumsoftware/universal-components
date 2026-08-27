@@ -5,7 +5,28 @@
   padding: 1.25rem 1rem;
   background-color: var(--sidebar-background-color);
   border-inline-end: 1px solid var(--uc-content-hr-color);
-  overflow-y: auto;
+  /*
+    Pinned to the viewport so the group list - not the page - is what scrolls
+    when there are more showcases than fit. The brand, the filter and the theme
+    picker stay put; only <nav> below takes the overflow.
+  */
+  position: sticky;
+  top: 0;
+  /* Nothing sets border-box globally, so the padding above has to be counted
+     in here, or the sidebar stands a padding taller than the viewport and
+     carries the theme picker off the bottom of the screen with it. */
+  box-sizing: border-box;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/*
+  uc-input carries flex-grow: 1 so it fills a row. In this column that makes it
+  stretch instead, taking the height off the list below it - it only ever needs
+  to be one field tall here.
+*/
+uc-input {
+  flex: 0 0 auto;
 }
 
 .wb-brand {
@@ -25,6 +46,15 @@ nav {
   display: grid;
   align-content: start;
   gap: 0.75rem;
+  /* min-height lets the flex item shrink below its content, which is what
+     hands the overflow to this scroller instead of growing the sidebar. */
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* Keeps the buttons from sitting under the scrollbar without shifting the
+     column when the list is short enough not to scroll. */
+  padding-inline-end: 0.25rem;
+  margin-inline-end: -0.25rem;
 }
 
 nav section {
@@ -49,4 +79,20 @@ h2 {
   margin: 0;
   font-size: 0.8125rem;
   color: var(--paragraph-text-color);
+}
+
+/* Single-column layout: the sidebar sits above the canvas rather than beside
+   it, so pinning it to the viewport would bury the preview. */
+@media (max-width: 48rem) {
+  :host {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+
+  nav {
+    flex: 0 0 auto;
+    min-height: auto;
+    overflow-y: visible;
+  }
 }

@@ -83,12 +83,8 @@ that declares an `id` input still receives a static `id="x"` on its host
 element, so the id lands in the DOM twice - once on the host, once on the inner
 control. Always write `[id]="'wb-filter'"`.
 
-**There are two themes, not one.** `chrome` themes the workbench and lives on
-`<html>`; `canvas` themes the preview and lives on the canvas wrapper. They
-nest rather than fight, because custom properties cascade and the inner
-`[data-theme]` redefines tokens for its own subtree. Keeping them separate is
-what lets you compare a component across themes without the surrounding UI
-moving underneath you.
+The app theme styles both the workbench and its component previews. It lives on
+`<html>`, so changing the App theme in the sidebar updates the whole page.
 
 ## Known library defects surfaced here
 
@@ -147,13 +143,12 @@ Playground state rides in the query string, so a link carries what you were
 looking at:
 
 ```
-#/components/button?args={"text":"Shared","variant":"error"}&theme=aurora&vw=768
+#/components/button?args={"text":"Shared","variant":"error"}&vw=768
 ```
 
 - `args` - only the knobs that differ from their declared default, as JSON. A
   showcase at rest writes no query string at all, so the common "open it and
   send it" link stays clean.
-- `theme` - the preview theme. Omitted for `light`.
 - `vw` - the viewport preset. Omitted for `auto`.
 
 Writes are debounced and use `replaceUrl`, so typing in a text knob neither
@@ -194,14 +189,14 @@ against WCAG 2.1 AA plus axe's own best practices, in two places that share one
 definition of the check:
 
 - the **Accessibility tab**, which runs axe against the live canvas at the
-  current knob values and preview theme, and
+  current knob values and app theme, and
 - `npm run a11y`, which sweeps all 41 showcases in CI.
 
 Both import `A11Y_RUN_OPTIONS` from `core/a11y.ts`. Two configurations would
 mean a component could look clean in the tab and still fail the merge.
 
 The sweep visits two surfaces per showcase - the Playground canvas at its knob
-defaults, and every canvas on the Examples tab at once - in **both themes**,
+defaults, and every canvas on the Examples tab at once - in **both app themes**,
 because colour contrast is a property of the theme, not of the component.
 
 ```

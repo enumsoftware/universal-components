@@ -18,14 +18,6 @@
           </uc-button-toggle-item>
         }
       </uc-button-toggle>
-
-      <uc-select
-        [id]="'wb-canvas-theme'"
-        label="Preview theme"
-        [options]="themeOptions"
-        [value]="theme.canvas()"
-        (valueChange)="onCanvasTheme($event)"
-      />
     </div>
   </div>
 
@@ -43,7 +35,7 @@
         </wb-canvas>
 
         <section class="wb-panels">
-          <uc-card>
+          <uc-card fit="fill">
             <div class="wb-panel-header">
               <h2>Controls</h2>
               <uc-button text="Reset" variant="secondary" size="small" (clicked)="resetKnobs()" />
@@ -51,7 +43,7 @@
             <wb-knob-panel [knobs]="showcase.knobs" [values]="values()" (changed)="onKnobChange($event)" />
           </uc-card>
 
-          <uc-card>
+          <uc-card fit="fill">
             <div class="wb-panel-header">
               <h2>Actions</h2>
               <uc-button text="Clear" variant="secondary" size="small" (clicked)="clearActions()" />

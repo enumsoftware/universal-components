@@ -3,9 +3,8 @@
  * same theme and utility sheets a consuming app would and styles its chrome
  * from library tokens rather than a private palette.
  *
- * `data-theme` for the chrome lives on `<html>` (see ThemeStore); the canvas
- * sets its own on the preview wrapper, and the two nest cleanly because custom
- * properties cascade.
+ * `data-theme` lives on `<html>` (see ThemeStore), so the app theme also styles
+ * component previews.
  */
 @import '../themes/theme.css';
 @import '../themes/utilities.css';

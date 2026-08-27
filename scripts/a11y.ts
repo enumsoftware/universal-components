@@ -3,7 +3,7 @@
  * to a recorded baseline.
  *
  * Two surfaces per showcase - the Playground canvas at its knob defaults, and
- * every canvas on the Examples tab at once - in both preview themes, because
+ * every canvas on the Examples tab at once - in both app themes, because
  * colour contrast is a property of the theme rather than of the component.
  *
  * The gate is a baseline diff rather than "zero violations". The library has
@@ -43,7 +43,7 @@ const MANIFEST_FILE = path.join(REPO_ROOT, 'workbench', 'generated', 'showcases.
 const BASELINE_FILE = path.join(REPO_ROOT, 'scripts', 'a11y-baseline.json');
 const AXE_FILE = fileURLToPath(import.meta.resolve('axe-core/axe.min.js'));
 
-/** Both preview themes. Contrast failures live in exactly one of them more often than not. */
+/** Both app themes. Contrast failures live in exactly one of them more often than not. */
 const THEMES = ['light', 'dark'] as const;
 type Theme = (typeof THEMES)[number];
 
@@ -330,6 +330,8 @@ async function main(): Promise<number> {
 
     for (const row of rows) {
       for (const theme of THEMES) {
+        await page.goto(server.origin, { waitUntil: 'load' });
+        await page.evaluate((nextTheme) => localStorage.setItem('uc-workbench-chrome-theme', nextTheme), theme);
         findings.push(...(await sweepShowcase(page, server.origin, row, theme)));
       }
 

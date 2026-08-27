@@ -1,14 +1,8 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import type { ShowcaseLayout } from '../core';
-import { ThemeStore } from './theme';
 
-/**
- * The themed preview surface every component renders inside.
- *
- * Carries its own `data-theme`, which overrides the chrome's for this subtree
- * only - so the preview can be a different theme from the app around it.
- */
+/** The preview surface every component renders inside. */
 @Component({
   selector: 'wb-canvas',
   template: `
@@ -20,7 +14,6 @@ import { ThemeStore } from './theme';
     <div
       class="wb-canvas"
       tabindex="0"
-      [attr.data-theme]="theme.canvas()"
       [class]="'wb-canvas-' + layout()"
       [style.max-width.px]="maxWidth()"
     >
@@ -77,5 +70,4 @@ export class WbCanvas {
   readonly layout = input<ShowcaseLayout>('centered');
   /** Viewport preset width in px, or null for the full column. */
   readonly maxWidth = input<number | null>(null);
-  protected readonly theme = inject(ThemeStore);
 }

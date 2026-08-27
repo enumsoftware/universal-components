@@ -19,8 +19,8 @@ interface AxeLike {
  * The panel renders its own canvas rather than reaching for the Playground's:
  * `uc-tabs` destroys the inactive panel, so by the time this tab is open the
  * other canvas is gone from the DOM. Rendering here also means the check sees
- * the current knob values and the current preview theme, which is the whole
- * point of having it in the app instead of only in CI.
+ * the current knob values and the current app theme, which is the whole point
+ * of having it in the app instead of only in CI.
  *
  * axe itself is ~600KB, so it is a dynamic import: opening a component does not
  * pay for it, opening this tab does.

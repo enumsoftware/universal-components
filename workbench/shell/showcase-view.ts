@@ -6,7 +6,6 @@ import { UcButtonToggle } from '../../uc-button-toggle/uc-button-toggle';
 import { UcButtonToggleItem } from '../../uc-button-toggle/uc-button-toggle-item';
 import { UcCard } from '../../uc-card/uc-card';
 import { UcPill } from '../../uc-pill/uc-pill';
-import { UcSelect, type SelectOption } from '../../uc-select/uc-select';
 import { UcTabPanel, UcTabs, type UcTab } from '../../uc-tabs/uc-tabs';
 import type { RegistryEntry, ResolvedExample, ResolvedShowcase, ShowcaseDocs, ViewportPreset } from '../core';
 import { VIEWPORT_PRESETS, decodeArgs, encodeArgs, isViewportPreset, resolveShowcase, viewportWidth } from '../core';
@@ -14,7 +13,6 @@ import { WbA11yPanel } from './a11y-panel';
 import { WbCanvas } from './canvas';
 import { WbComponentHost, type WbAction } from './component-host';
 import { WbKnobPanel, type KnobChange } from './knob-panel';
-import { ThemeStore, WORKBENCH_THEMES, type WorkbenchTheme } from './theme';
 
 /** Text knobs fire per keystroke; the URL only needs to settle. */
 const URL_WRITE_DELAY_MS = 200;
@@ -27,7 +25,6 @@ const URL_WRITE_DELAY_MS = 200;
     UcButtonToggleItem,
     UcCard,
     UcPill,
-    UcSelect,
     UcTabPanel,
     UcTabs,
     WbA11yPanel,
@@ -42,16 +39,10 @@ export class WbShowcaseView {
   /** Bound from route `data` by `withComponentInputBinding()`. */
   readonly entry = input.required<RegistryEntry>();
 
-  protected readonly theme = inject(ThemeStore);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
   protected readonly viewports = VIEWPORT_PRESETS;
-
-  protected readonly themeOptions: SelectOption<string>[] = WORKBENCH_THEMES.map((theme) => ({
-    value: theme,
-    label: theme,
-  }));
 
   protected readonly showcase = signal<ResolvedShowcase | null>(null);
   protected readonly failure = signal<string | null>(null);
@@ -109,14 +100,9 @@ export class WbShowcaseView {
   /** URL wins over the stored defaults, so a shared link opens as it was sent. */
   private applyUrlState(showcase: ResolvedShowcase): void {
     const params = this.route.snapshot.queryParamMap;
-    const theme = params.get('theme');
     const preset = params.get('vw');
 
     this.values.set({ ...defaultValues(showcase), ...decodeArgs(params.get('args')) });
-
-    if (theme !== null && (WORKBENCH_THEMES as readonly string[]).includes(theme)) {
-      this.theme.setCanvas(theme as WorkbenchTheme);
-    }
 
     this.viewport.set(isViewportPreset(preset) ? preset : 'auto');
   }
@@ -139,7 +125,6 @@ export class WbShowcaseView {
       const preset = this.viewport();
       const next = {
         args: encodeArgs(this.values(), defaultValues(showcase)),
-        theme: this.theme.canvas() === 'light' ? null : this.theme.canvas(),
         vw: preset === 'auto' ? null : preset,
       };
       const current = this.route.snapshot.queryParamMap;
@@ -184,13 +169,6 @@ export class WbShowcaseView {
           this.docs.set({ html: '', api: [] });
         }
       });
-  }
-
-  protected onCanvasTheme(theme: string | null): void {
-    if (theme !== null) {
-      this.theme.setCanvas(theme as WorkbenchTheme);
-      this.scheduleUrlWrite();
-    }
   }
 
   protected onViewport(preset: string): void {

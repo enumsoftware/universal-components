@@ -1,7 +1,6 @@
 /**
  * Serialises playground state into the query string so a link carries what you
- * were actually looking at: which knobs you changed, the preview theme, and the
- * viewport width.
+ * were actually looking at: which knobs you changed and the viewport width.
  *
  * Only knobs that differ from their declared default are written. The common
  * case - open a showcase, share it - produces a bare URL, and a link stays
