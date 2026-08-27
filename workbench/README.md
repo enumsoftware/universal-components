@@ -1,6 +1,7 @@
 # Workbench
 
-The component workbench: a plain Angular application that replaces Storybook.
+The component workbench: a plain Angular application, and the repository's only
+component explorer since Storybook was removed.
 
 ```bash
 npm run workbench          # dev server
@@ -24,7 +25,7 @@ export default defineShowcase({
   group: "Components", // sidebar section
   title: "Button",
   component: UcButton, // omit for a docs-only page
-  docs: "Markdown.",
+  // prose goes in a sibling uc-button.docs.md - see "Docs" below
   knobs: {
     text: text("Click Me"),
     variant: select(BUTTON_VARIANT_OPTIONS, "primary"),
@@ -96,9 +97,12 @@ control is a bare `div` with no `role`, no `tabindex` and no key handler; the
 real `input[type=checkbox]` is `visibility: hidden` and never bound to
 `checked()`, so it is neither focusable nor state-accurate, and the
 `<label for>` points at it. An aria snapshot of the controls panel reports
-zero checkbox roles - both boolean knobs collapse into a plain text node. The
-end-to-end suite asserts this defect explicitly, so fixing the component turns
-that check red and tells you to update it.
+zero checkbox roles - both boolean knobs collapse into a plain text node.
+
+Nothing automated catches this. `npm run a11y` reports the checkbox showcase
+clean, because a `div` that claims no role gives a rule engine nothing to
+check. It is recorded here because the workbench uses `uc-checkbox` in its own
+controls panel, so anyone driving the workbench by keyboard meets it directly.
 
 ## Docs
 
@@ -129,7 +133,7 @@ sufficient and far cheaper than building a Program per showcase. The trade-off
 is that inherited members are not picked up - no component in the library
 currently inherits inputs.
 
-This is what replaces Storybook's autodocs argTypes, and it is strictly better
+This is what replaced Storybook's autodocs argTypes, and it is strictly better
 for this codebase: signal inputs are read from source, so `model.required()`
 shows as a required model of type `unknown` rather than being missed.
 
@@ -266,17 +270,36 @@ same basename, different bytes - and esbuild flattens every asset into
 270-odd "Two output files share the same path" errors. Production happened to
 hide this behind `outputHashing: "all"`; the dev server did not.
 
-## Not built yet
+## Status
 
-Phases 0 to 4 are done: the format, the registry, the playground, examples,
-both theme toolbars, shareable URL state, viewport presets, the Docs tab with
-compiled markdown and a generated API table, all 41 showcases migrated, the
-Accessibility tab, and the axe sweep gating CI.
+Done. The format, the registry, the playground, examples, both theme toolbars,
+shareable URL state, viewport presets, the Docs tab with compiled markdown and
+a generated API table, all 41 showcases, the Accessibility tab, and the axe
+sweep gating CI. Pages publishes `dist-workbench/browser`.
 
-Still to come: removing Storybook itself (phase 5) - the seven dependencies,
-`.storybook/`, the 41 `*.stories.ts` files and the scripts that drive them.
+Storybook is gone: seven dependencies, `.storybook/`, `storybook-host.ts`,
+`tsconfig.storybook.json`, the `storybook` project in `angular.json`, three npm
+scripts and 41 `*.stories.ts` files. Every one of those stories had an
+equivalent showcase before any of it was deleted.
 
-**Pages now publishes the workbench, not Storybook.** Storybook still builds in
-CI so it cannot rot before it is deleted, but `dist-workbench/browser` is what
-gets deployed. The workbench reached parity in phase 3, so nothing went
-undocumented in the swap.
+### What this cost and what it bought
+
+The workbench is roughly 1,400 lines of application code plus two build
+scripts, against seven dependencies and a config directory. That is not free,
+and it is only worth it because of what the dependency could not do:
+
+- **Showcases are typechecked against their component.** A knob can only name a
+  real input, and its value has to match that input's write type. Renaming an
+  input breaks the build instead of silently orphaning a control. Migrating
+  found four defects that Storybook had rendered happily for months.
+- **Two independent themes.** The chrome and the preview canvas each have their
+  own, so a component can be reviewed in dark on a light page.
+- **The API table is extracted from the source**, not from args the author
+  remembered to declare.
+- **The accessibility check runs in the app and in CI from one definition**, so
+  the panel a developer reads cannot disagree with the gate that blocks a
+  merge.
+
+The `render`-string escape hatch is deliberately absent. Anything that needed
+one became a real component under `examples/`, which is the same shape a
+consuming app writes.

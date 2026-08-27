@@ -23,31 +23,6 @@
         }
       }
     },
-    "storybook": {
-      "projectType": "application",
-      "root": "",
-      "sourceRoot": ".",
-      "architect": {
-        "storybook": {
-          "builder": "@analogjs/storybook-angular:start-storybook",
-          "options": {
-            "configDir": ".storybook",
-            "compodoc": false,
-            "port": 6006,
-            "experimentalZoneless": true
-          }
-        },
-        "build-storybook": {
-          "builder": "@analogjs/storybook-angular:build-storybook",
-          "options": {
-            "configDir": ".storybook",
-            "compodoc": false,
-            "outputDir": "storybook-static",
-            "experimentalZoneless": true
-          }
-        }
-      }
-    },
     "workbench": {
       "projectType": "application",
       "root": "workbench",

@@ -63,9 +63,12 @@ const GROUPS: Row[] = [
 ];
 
 /**
- * The Storybook page was a sequence of stories that only ever read top to
- * bottom, so it stays one document here rather than fragmenting into
- * independently mounted examples.
+ * One document rather than a set of independently mounted examples.
+ *
+ * The utilities pages are reference material that only ever reads top to
+ * bottom - the sections explain each other in order. The stories this replaced
+ * were already sections of one page; splitting them into separate canvases
+ * would have been a worse document dressed as better structure.
  */
 @Component({
   selector: 'uc-utilities-overview-page',

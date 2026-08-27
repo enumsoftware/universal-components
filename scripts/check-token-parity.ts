@@ -15,7 +15,7 @@ const root = process.cwd();
 const themesDir = path.join(root, 'themes');
 const themeIndexPath = path.join(themesDir, 'theme.css');
 
-const IGNORED_DIRS = new Set(['node_modules', 'dist', '.git', 'storybook-static']);
+const IGNORED_DIRS = new Set(['node_modules', 'dist', '.git']);
 
 /** Tokens the themes deliberately leave to components to compute. */
 const GENERATED_SUFFIX = '-resolved';

@@ -26,7 +26,7 @@ const OUTPUT_FILE = path.join(GENERATED_DIR, 'registry.ts');
 const MANIFEST_FILE = path.join(GENERATED_DIR, 'showcases.json');
 const DOCS_DIR = path.join(GENERATED_DIR, 'docs');
 const SHOWCASE_SUFFIX = '.showcase.ts';
-const SKIPPED_DIRECTORIES = new Set(['node_modules', 'dist', 'dist-workbench', '.git', '.angular', 'storybook-static']);
+const SKIPPED_DIRECTORIES = new Set(['node_modules', 'dist', 'dist-workbench', '.git', '.angular']);
 
 interface ShowcaseMeta {
   readonly id: string;

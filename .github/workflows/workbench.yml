@@ -46,12 +46,6 @@ jobs:
       - name: Accessibility sweep
         run: npm run a11y
 
-      # Storybook is still the published site's predecessor and still builds
-      # until it is removed. Keeping it in CI means it cannot rot unnoticed in
-      # the meantime.
-      - name: Build Storybook
-        run: npm run storybook:build
-
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:

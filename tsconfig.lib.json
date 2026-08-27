@@ -13,13 +13,10 @@
   "exclude": [
     "node_modules",
     "**/*.spec.ts",
-    "**/*.stories.ts",
     "**/*.showcase.ts",
     "**/examples/**",
     "workbench",
-    "storybook-host.ts",
     "scripts",
-    "storybook-static",
     "dist",
     "dist-workbench"
   ]

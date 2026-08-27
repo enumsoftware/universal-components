@@ -48,9 +48,9 @@ Public URL:
 
 The Workbench is this repo's component explorer: a small Angular app that
 renders every component with live controls, worked examples, generated API
-docs, and an accessibility report. It replaces Storybook, which is still in the
-tree but no longer deployed and is being removed. See
-[workbench/README.md](workbench/README.md) for how to write a showcase.
+docs, and an accessibility report. It replaced Storybook, which has been
+removed. See [workbench/README.md](workbench/README.md) for how to write a
+showcase.
 
 Deployment details:
 
@@ -108,21 +108,6 @@ file. If Playwright browser binaries are missing on your machine:
 ```bash
 npx playwright install chromium
 ```
-
-### Storybook (being removed)
-
-Storybook still builds and still runs locally, and CI still builds it so it
-cannot rot before it is deleted. It is no longer the published site.
-
-```bash
-npm run storybook          # http://localhost:6006
-npm run storybook:build    # writes storybook-static/
-```
-
-Story files live next to components using the `*.stories.ts` naming pattern.
-Every one of them has an equivalent `*.showcase.ts`; the story files and the
-seven Storybook dependencies come out next.
-
 
 ## Theming And Component Tokens
 

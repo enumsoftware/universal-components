@@ -208,6 +208,6 @@ context, which means consumer theming of `--uc-content-*` applies here too.
   replaced without touching formats or consumers.
 - Pasted content is re-inserted through the sanitizer rather than trusted as-is.
 
-## Storybook
+## Workbench
 
-See the component stories in `uc-editor/uc-editor.stories.ts`.
+See the showcase in `uc-editor/uc-editor.showcase.ts`.
