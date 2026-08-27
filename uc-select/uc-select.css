@@ -1,4 +1,11 @@
-:host {
+/**
+ * Variables are defined on :root so they are reachable from inside the CDK overlay portal, which
+ * renders the panel outside the host element. The uc-select-host class keeps the layout styles
+ * scoped. Tokens a consumer scopes onto an ancestor instead of :root are copied onto the panel
+ * element by the component (see PANEL_INHERITED_PROPERTIES) and resolved again in the
+ * .uc-select-panel rule below.
+ */
+:root {
   --uc-select-label-color-resolved: var(--uc-select-label-color, oklch(from var(--foreground-color) l c h / 1));
   --uc-select-placeholder-color-resolved: var(--uc-select-placeholder-color, oklch(from var(--foreground-color) l c h / 0.35));
   --uc-select-arrow-color-resolved: var(--uc-select-arrow-color, oklch(from var(--foreground-color) l c h / 0.5));
@@ -11,6 +18,9 @@
   --uc-select-trigger-border-width-resolved: var(--uc-select-trigger-border-width, 2px);
   --uc-select-option-padding-resolved: var(--uc-select-option-padding, 0.7rem 1rem);
   --uc-select-option-font-size-resolved: var(--uc-select-option-font-size, 0.9rem);
+}
+
+.uc-select-host {
   display: flex;
   flex-grow: 1;
   flex-shrink: 1;
@@ -118,21 +128,38 @@
   transform: rotate(180deg);
 }
 
-/* Dropdown Panel */
-.uc-select-panel {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+/* Overlay pane / dropdown */
+.uc-select-overlay-pane {
   z-index: 1000;
+}
+
+.uc-select-backdrop {
+  background: transparent;
+}
+
+/**
+ * Positioning is owned by the CDK overlay, which flips the panel above the trigger when there is
+ * not enough room below it. The component sets `max-height` inline from the space actually
+ * available, so this only carries the fallback ceiling.
+ */
+.uc-select-panel {
+  /* Re-resolved here so the tokens the component copies onto this element take effect. */
+  --uc-select-option-hover-background-resolved: var(--uc-select-option-hover-background, oklch(from var(--primary-color) l c h / 0.1));
+  --uc-select-option-selected-background-resolved: var(--uc-select-option-selected-background, oklch(from var(--primary-color) l c h / 0.15));
+  --uc-select-option-selected-color-resolved: var(--uc-select-option-selected-color, var(--primary-color));
+  --uc-select-panel-shadow-resolved: var(--uc-select-panel-shadow, 0 4px 12px rgba(0, 0, 0, 0.15));
+  --uc-select-option-padding-resolved: var(--uc-select-option-padding, 0.7rem 1rem);
+  --uc-select-option-font-size-resolved: var(--uc-select-option-font-size, 0.9rem);
+  display: flex;
+  flex-direction: column;
   background-color: var(--uc-input-background-color);
   border: 2px solid var(--uc-input-border-color);
   border-radius: var(--uc-input-border-radius);
   box-shadow: var(--uc-select-panel-shadow-resolved);
   max-height: 300px;
   overflow-y: auto;
-  margin-top: 0.5rem;
-  animation: slideDown 0.2s ease-out;
+  overscroll-behavior: contain;
+  animation: uc-select-panel-in 0.15s ease-out;
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -168,6 +195,7 @@
     color 0.12s ease-in-out;
   font-size: var(--uc-select-option-font-size-resolved);
   box-sizing: border-box;
+  flex: 0 0 auto;
 
   &:hover:not(:disabled) {
     background-color: var(--uc-select-option-hover-background-resolved);
@@ -232,24 +260,21 @@
   display: block;
 }
 
-@keyframes slideDown {
+/* Direction-neutral, because the panel opens upwards just as often as it opens downwards. */
+@keyframes uc-select-panel-in {
   from {
     opacity: 0;
-    transform: translateY(-8px);
+    transform: scale(0.98);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1);
   }
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .uc-select-panel {
-    max-height: 250px;
-  }
-
   .uc-select-option {
     padding: 0.6rem 0.875rem;
     font-size: 0.875rem;

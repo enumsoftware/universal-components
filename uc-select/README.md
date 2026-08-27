@@ -5,15 +5,14 @@ A fully accessible, reusable dropdown select component for Angular, built follow
 ## Features
 
 - **Full ARIA Support**: Implements proper ARIA roles and attributes for screen readers
-- **Keyboard Navigation**:
-  - `Enter` or `Space` to open/close dropdown
-  - `Arrow Up/Down` to navigate options
-  - `Escape` to close dropdown
+- **Keyboard**: `Escape` closes the dropdown and returns focus to the trigger
 - **Form Integration**: Implements `FormValueControl` interface for reactive forms
 - **Customizable Options**: Support for icons, disabled states, and custom labels
 - **Type-Safe**: Fully generic component supporting any option value type
 - **Accessible**: Built-in support for labels, error messages, and disabled states
-- **Responsive**: Adapts to different screen sizes with proper dropdown positioning
+- **Viewport-aware panel**: The dropdown renders in a CDK overlay, so it escapes any clipping
+  ancestor, flips above the trigger when there is not enough room below, and caps its height to
+  the space actually available
 
 ## Installation
 
@@ -119,8 +118,8 @@ options: SelectOption<string>[] = [
 | `openDropdown()`       | -                 | Open the dropdown                                    |
 | `closeDropdown()`      | -                 | Close the dropdown                                   |
 | `selectOption(option)` | `SelectOption<T>` | Select an option and close the dropdown              |
-| `onKeydown(event)`     | `KeyboardEvent`   | Handle keyboard navigation                           |
-| `onBlur()`             | -                 | Handle blur event (sets touched and closes dropdown) |
+| `onOverlayKeydown(e)`  | `KeyboardEvent`   | Closes the dropdown on `Escape`                       |
+| `onBlur()`             | -                 | Handle blur event (marks the control touched)        |
 
 ### Computed Properties
 

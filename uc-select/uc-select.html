@@ -4,6 +4,8 @@
   }
 
   <div
+    #trigger="cdkOverlayOrigin"
+    cdkOverlayOrigin
     class="uc-select-trigger"
     [class.uc-select-error]="showErrorState()"
     (click)="toggleDropdown()"
@@ -34,11 +36,25 @@
     <i class="uc-select-arrow ph ph-caret-down" aria-hidden="true"></i>
   </div>
 
-  @if (isOpen()) {
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="isOpen()"
+    [cdkConnectedOverlayPositions]="panelPositions"
+    [cdkConnectedOverlayViewportMargin]="viewportMargin"
+    [cdkConnectedOverlayWidth]="panelWidth()"
+    [cdkConnectedOverlayHasBackdrop]="true"
+    [cdkConnectedOverlayBackdropClass]="'uc-select-backdrop'"
+    [cdkConnectedOverlayPanelClass]="'uc-select-overlay-pane'"
+    (backdropClick)="closeDropdown()"
+    (overlayKeydown)="onOverlayKeydown($event)"
+    (detach)="closeDropdown()"
+  >
     <div
       class="uc-select-panel"
       role="listbox"
       id="select-panel"
+      [style]="panelStyle()"
       [attr.aria-label]="label() || placeholder()"
       title="Select dropdown options"
     >
@@ -68,7 +84,7 @@
         <div class="uc-select-no-options">No options available</div>
       }
     </div>
-  }
+  </ng-template>
 
   @if (showErrorState()) {
     <div class="uc-select-error-container">

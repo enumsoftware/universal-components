@@ -123,8 +123,8 @@
   min-height: 1.5rem;
 }
 
-/* The dropdown is positioned inside the shell, which clips overflow, so keep the list short
-   and the control compact enough that the panel stays within the editor body. */
+/* The dropdown renders in a CDK overlay, so it escapes the shell's overflow clipping and flips
+   above the toolbar when there is no room below. Keep the control compact so it fits the row. */
 .uc-editor__block-select {
   display: flex;
   flex: 0 0 auto;
