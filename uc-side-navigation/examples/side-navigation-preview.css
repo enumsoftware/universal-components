@@ -1,0 +1,63 @@
+:host {
+  display: block;
+  /* The component sizes itself from its parent, so the preview supplies one. */
+  height: 32rem;
+}
+
+.wb-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0.75rem 0.5rem;
+  border-bottom: 1px solid oklch(from var(--foreground-color) l c h / 0.15);
+}
+
+.wb-sidebar-header strong {
+  font-size: 0.875rem;
+  color: var(--font-color);
+}
+
+.wb-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem;
+}
+
+.wb-sidebar-footer {
+  padding: 0.5rem 0.75rem 0.75rem;
+  border-top: 1px solid oklch(from var(--foreground-color) l c h / 0.15);
+}
+
+.wb-main {
+  padding: 1.5rem;
+  color: var(--font-color);
+}
+
+.wb-main h2 {
+  margin: 1rem 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.wb-main p {
+  margin: 0;
+}
+
+.wb-scroll-demo {
+  margin-top: 1rem;
+  max-height: 11rem;
+  overflow-y: auto;
+  border: 1px solid oklch(from var(--foreground-color) l c h / 0.2);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  background: oklch(from var(--background-color) calc(l * 0.96) c h);
+}
+
+.wb-scroll-demo p {
+  margin: 0 0 0.5rem;
+}
+
+.wb-scroll-title {
+  font-weight: 600;
+}

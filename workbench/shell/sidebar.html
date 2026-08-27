@@ -1,0 +1,38 @@
+<div class="wb-brand">
+  <strong>Universal Components</strong>
+  <span>Workbench</span>
+</div>
+
+<uc-input
+  [id]="'wb-filter'"
+  label="Filter showcases"
+  [hideLabel]="true"
+  placeholder="Filter…"
+  [value]="query()"
+  (valueChange)="onQuery($event)"
+/>
+
+<nav>
+  @for (group of groups(); track group.name) {
+  <section>
+    <h2>{{ group.name }}</h2>
+    @for (entry of group.entries; track entry.id) {
+    <uc-sidebar-button [text]="entry.title" [active]="activeId() === entry.id" (clicked)="open(entry.id)" />
+    }
+  </section>
+  } @empty {
+  <p class="wb-empty">No match.</p>
+  }
+</nav>
+
+<!-- A div rather than a <footer>: see the note in app.ts on chrome landmarks. -->
+<div class="wb-sidebar-footer">
+  <uc-divider />
+  <uc-select
+    [id]="'wb-chrome-theme'"
+    label="App theme"
+    [options]="themeOptions"
+    [value]="theme.chrome()"
+    (valueChange)="onChromeTheme($event)"
+  />
+</div>

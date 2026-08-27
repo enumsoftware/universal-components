@@ -1,0 +1,60 @@
+@if (knobs().length === 0) {
+<p class="wb-empty">This showcase declares no knobs.</p>
+} @else {
+<div class="wb-knobs">
+  @for (entry of knobs(); track entry.name) {
+  <div class="wb-knob">
+    @switch (entry.knob.kind) { @case ('boolean') {
+    <uc-checkbox
+      [id]="controlId(entry)"
+      [label]="entry.label"
+      [checked]="asBoolean(values()[entry.name])"
+      (checkedChange)="emit(entry.name, $event)"
+    />
+    } @case ('number') {
+    <uc-input
+      [id]="controlId(entry)"
+      type="number"
+      [label]="entry.label"
+      [placeholder]="placeholder(entry)"
+      [value]="asNumber(values()[entry.name])"
+      (valueChange)="emitNumber(entry.name, $event)"
+    />
+    } @case ('select') {
+    <uc-select
+      [id]="controlId(entry)"
+      [label]="entry.label"
+      [options]="optionsFor(entry)"
+      [value]="selectedIndex(entry)"
+      (valueChange)="emitOption(entry, $event)"
+    />
+    } @case ('color') {
+    <uc-color-picker
+      [id]="controlId(entry)"
+      [label]="entry.label"
+      [value]="asColor(values()[entry.name])"
+      (colorChange)="emit(entry.name, $event)"
+    />
+    } @case ('object') {
+    <uc-textarea
+      [id]="controlId(entry)"
+      [label]="entry.label"
+      [rows]="4"
+      [value]="asJson(values()[entry.name])"
+      (valueChange)="emitJson(entry.name, $event)"
+    />
+    } @default {
+    <uc-input
+      [id]="controlId(entry)"
+      [label]="entry.label"
+      [placeholder]="placeholder(entry)"
+      [value]="asText(values()[entry.name])"
+      (valueChange)="emitText(entry.name, $event)"
+    />
+    } } @if (entry.knob.description) {
+    <p class="wb-knob-hint">{{ entry.knob.description }}</p>
+    }
+  </div>
+  }
+</div>
+}

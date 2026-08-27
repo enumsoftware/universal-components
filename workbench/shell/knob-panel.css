@@ -1,0 +1,27 @@
+.wb-knobs {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.wb-knob-inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.wb-knob-inline label {
+  font-size: 0.875rem;
+}
+
+.wb-knob-hint {
+  margin: 0.25rem 0 0;
+  font-size: 0.75rem;
+  color: var(--paragraph-text-color);
+}
+
+.wb-empty {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--paragraph-text-color);
+}

@@ -1,0 +1,177 @@
+@if (failure(); as message) {
+  <div class="wb-failure">
+    <h1>Could not load {{ entry().title }}</h1>
+    <pre>{{ message }}</pre>
+  </div>
+} @else if (showcase(); as showcase) {
+  <div class="wb-header">
+    <div>
+      <p class="wb-eyebrow">{{ showcase.group }}</p>
+      <h1>{{ showcase.title }}</h1>
+    </div>
+
+    <div class="wb-preview-controls">
+      <uc-button-toggle ariaLabel="Canvas width" [value]="viewport()" (valueChange)="onViewport($event)">
+        @for (preset of viewports; track preset.value) {
+          <uc-button-toggle-item [value]="preset.value" [ariaLabel]="preset.label + ' width'">
+            {{ preset.label }}
+          </uc-button-toggle-item>
+        }
+      </uc-button-toggle>
+
+      <uc-select
+        [id]="'wb-canvas-theme'"
+        label="Preview theme"
+        [options]="themeOptions"
+        [value]="theme.canvas()"
+        (valueChange)="onCanvasTheme($event)"
+      />
+    </div>
+  </div>
+
+  <uc-tabs [tabs]="tabs()" [activeTab]="activeTab()" (activeTabChange)="onTabChange($event)">
+    <ng-template ucTabPanel="playground">
+      @if (showcase.component; as component) {
+        <!--
+          `data-surface` names the tab this canvas belongs to. The accessibility
+          sweep needs to know which surface it is measuring: right after a tab
+          click both canvases are briefly in the DOM, and "a canvas exists" is
+          not enough to tell them apart.
+        -->
+        <wb-canvas data-surface="playground" [layout]="showcase.layout" [maxWidth]="canvasWidth()">
+          <wb-component-host [component]="component" [props]="values()" (action)="onAction($event)" />
+        </wb-canvas>
+
+        <section class="wb-panels">
+          <uc-card>
+            <div class="wb-panel-header">
+              <h2>Controls</h2>
+              <uc-button text="Reset" variant="secondary" size="small" (clicked)="resetKnobs()" />
+            </div>
+            <wb-knob-panel [knobs]="showcase.knobs" [values]="values()" (changed)="onKnobChange($event)" />
+          </uc-card>
+
+          <uc-card>
+            <div class="wb-panel-header">
+              <h2>Actions</h2>
+              <uc-button text="Clear" variant="secondary" size="small" (clicked)="clearActions()" />
+            </div>
+            @if (actions().length === 0) {
+              <p class="wb-empty">Nothing emitted yet.</p>
+            } @else {
+              <ol class="wb-actions">
+                @for (action of actions(); track action.at + action.name) {
+                  <li>
+                    <code>{{ action.name }}</code>
+                    <span class="wb-payload">{{ formatPayload(action.payload) }}</span>
+                    <time>{{ formatTime(action.at) }}</time>
+                  </li>
+                }
+              </ol>
+            }
+          </uc-card>
+        </section>
+      } @else {
+        <p class="wb-empty">This showcase is docs-only - it declares no component to drive.</p>
+      }
+    </ng-template>
+
+    <ng-template ucTabPanel="examples">
+      @for (example of showcase.examples; track example.name) {
+        <article class="wb-example">
+          <div class="wb-example-head">
+            <h2>{{ example.name }}</h2>
+            @if (example.component) {
+              <uc-pill text="component" variant="info" size="compact" />
+            } @else {
+              <uc-pill text="preset" size="compact" />
+            }
+          </div>
+          @if (example.description) {
+            <p class="wb-example-note">{{ example.description }}</p>
+          }
+          @if (exampleComponent(example); as component) {
+            <wb-canvas data-surface="examples" [layout]="example.layout" [maxWidth]="canvasWidth()">
+              <wb-component-host [component]="component" [props]="example.props" (action)="onAction($event)" />
+            </wb-canvas>
+          }
+        </article>
+      } @empty {
+        <p class="wb-empty">No examples declared.</p>
+      }
+    </ng-template>
+
+    <ng-template ucTabPanel="docs">
+      @if (docs(); as docs) {
+        @if (docs.html) {
+          <!--
+            Compiled from the showcase's sibling .docs.md at build time, so this
+            is repo-authored content, not user input. It still goes through
+            Angular's sanitiser, which leaves prose markup untouched.
+          -->
+          <div class="wb-docs uc-content" [innerHTML]="docs.html"></div>
+        }
+
+        @if (docs.api.length > 0) {
+          <section class="wb-api uc-content">
+            <h2>API</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Kind</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Default</th>
+                  <th scope="col">Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (member of docs.api; track member.name) {
+                  <tr>
+                    <th scope="row">
+                      <code>{{ member.alias ?? member.name }}</code>
+                      @if (member.required) {
+                        <uc-pill text="required" variant="error" size="compact" />
+                      }
+                    </th>
+                    <td>{{ member.kind }}</td>
+                    <td><code>{{ member.type }}</code></td>
+                    <td>
+                      @if (member.defaultValue) {
+                        <code>{{ member.defaultValue }}</code>
+                      } @else {
+                        <span class="wb-empty">-</span>
+                      }
+                    </td>
+                    <td>{{ member.description }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </section>
+        }
+
+        @if (!docs.html && docs.api.length === 0) {
+          <p class="wb-empty">No docs written for this showcase yet.</p>
+        }
+      } @else {
+        <p class="wb-empty">Loading docs…</p>
+      }
+    </ng-template>
+
+    <ng-template ucTabPanel="a11y">
+      @if (showcase.component; as component) {
+        <wb-a11y-panel
+          [component]="component"
+          [props]="values()"
+          [layout]="showcase.layout"
+          [maxWidth]="canvasWidth()"
+        />
+      } @else {
+        <p class="wb-empty">Nothing to check - this showcase declares no component.</p>
+      }
+    </ng-template>
+  </uc-tabs>
+} @else {
+  <p class="wb-empty">Loading {{ entry().title }}…</p>
+}

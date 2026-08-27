@@ -1,0 +1,78 @@
+<wb-canvas [layout]="layout()" [maxWidth]="maxWidth()">
+  <wb-component-host [component]="component()" [props]="props()" />
+</wb-canvas>
+
+<section class="wb-a11y">
+  <div class="wb-panel-header">
+    <h2>Accessibility</h2>
+    <uc-button
+      [text]="running() ? 'Running…' : 'Re-run'"
+      variant="secondary"
+      size="small"
+      [disabled]="running()"
+      (clicked)="run()"
+    />
+  </div>
+
+  @if (failure(); as message) {
+    <uc-card>
+      <p class="wb-a11y-failed">axe could not run: {{ message }}</p>
+    </uc-card>
+  } @else if (report(); as report) {
+    @if (report.violations.length === 0) {
+      <p class="wb-a11y-summary">No violations. Checked against WCAG 2.1 AA and axe best practices.</p>
+    } @else {
+      <p class="wb-a11y-summary">
+        {{ report.violations.length }} rule{{ report.violations.length === 1 ? '' : 's' }} failing across
+        {{ countNodes(report.violations) }} element{{ countNodes(report.violations) === 1 ? '' : 's' }}.
+      </p>
+    }
+
+    @for (issue of report.violations; track issue.rule) {
+      <uc-card>
+        <div class="wb-a11y-issue">
+          <div class="wb-a11y-issue-head">
+            <code>{{ issue.rule }}</code>
+            @if (issue.impact) {
+              <uc-pill [text]="issue.impact" [variant]="impactVariant(issue.impact)" size="compact" />
+            }
+            <uc-pill [text]="issue.nodes.length + ' element' + (issue.nodes.length === 1 ? '' : 's')" size="compact" />
+          </div>
+          <p class="wb-a11y-help">
+            {{ issue.help }}
+            <a [href]="issue.helpUrl" target="_blank" rel="noreferrer">Why this matters</a>
+          </p>
+          <ul class="wb-a11y-nodes">
+            @for (node of issue.nodes; track node.target) {
+              <li>
+                <code class="wb-a11y-target">{{ node.target }}</code>
+                <pre>{{ truncate(node.html) }}</pre>
+              </li>
+            }
+          </ul>
+        </div>
+      </uc-card>
+    }
+
+    @if (report.incomplete.length > 0) {
+      <h3 class="wb-a11y-subhead">Needs review</h3>
+      <p class="wb-a11y-summary">
+        axe could not decide these on its own - usually a colour it cannot resolve behind an image or a gradient. They
+        never fail the build.
+      </p>
+      @for (issue of report.incomplete; track issue.rule) {
+        <uc-card>
+          <div class="wb-a11y-issue">
+            <div class="wb-a11y-issue-head">
+              <code>{{ issue.rule }}</code>
+              <uc-pill [text]="issue.nodes.length + ' element' + (issue.nodes.length === 1 ? '' : 's')" size="compact" />
+            </div>
+            <p class="wb-a11y-help">{{ issue.help }}</p>
+          </div>
+        </uc-card>
+      }
+    }
+  } @else {
+    <p class="wb-empty">Running axe…</p>
+  }
+</section>

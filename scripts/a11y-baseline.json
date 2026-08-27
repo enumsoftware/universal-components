@@ -1,0 +1,55 @@
+{
+  "components/accordion": {
+    "examples.light": {
+      "color-contrast": 1
+    }
+  },
+  "components/avatar": {
+    "examples.dark": {
+      "color-contrast": 1
+    },
+    "playground.dark": {
+      "color-contrast": 1
+    }
+  },
+  "components/calendar": {
+    "examples.dark": {
+      "color-contrast": 50
+    },
+    "examples.light": {
+      "color-contrast": 50
+    },
+    "playground.dark": {
+      "color-contrast": 13
+    },
+    "playground.light": {
+      "color-contrast": 13
+    }
+  },
+  "components/date-time-picker": {
+    "examples.dark": {
+      "color-contrast": 3
+    },
+    "playground.dark": {
+      "color-contrast": 1
+    }
+  },
+  "components/editor": {
+    "examples.dark": {
+      "color-contrast": 2
+    },
+    "examples.light": {
+      "color-contrast": 7
+    }
+  },
+  "components/info": {
+    "examples.dark": {
+      "color-contrast": 1
+    }
+  },
+  "components/pill": {
+    "examples.dark": {
+      "color-contrast": 2
+    }
+  }
+}

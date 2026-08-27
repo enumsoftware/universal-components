@@ -92,6 +92,6 @@ Each position maps to a primary CDK `ConnectedPosition`, followed by a curated f
 - The tooltip is linked to the host via `aria-describedby`.
 - The tooltip overlay has `pointer-events: none` and does not trap focus.
 
-## Storybook
+## Workbench
 
-See the component stories in `uc-tooltip/uc-tooltip.stories.ts`.
+See the showcase in `uc-tooltip/uc-tooltip.showcase.ts`.

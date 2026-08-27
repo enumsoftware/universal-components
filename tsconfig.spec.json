@@ -4,6 +4,6 @@
     "outDir": "./out-tsc/spec",
     "types": ["vitest/globals"]
   },
-  "exclude": ["node_modules", "storybook-static"],
+  "exclude": ["node_modules"],
   "include": ["**/*.spec.ts", "**/*.d.ts"]
 }

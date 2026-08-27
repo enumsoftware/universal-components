@@ -1,0 +1,155 @@
+:host {
+  display: block;
+  padding: 1.5rem 2rem 4rem;
+  max-width: 68rem;
+}
+
+.wb-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.wb-eyebrow {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paragraph-text-color);
+}
+
+h1 {
+  margin: 0.15rem 0 0;
+  font-size: 1.5rem;
+}
+
+.wb-panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+  align-items: start;
+}
+
+.wb-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.wb-panel-header h2 {
+  margin: 0;
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--paragraph-text-color);
+}
+
+.wb-actions {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.8125rem;
+  max-height: 14rem;
+  overflow: auto;
+}
+
+.wb-actions li {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.wb-actions code,
+.wb-payload {
+  font-family: var(--wb-mono);
+}
+
+.wb-payload,
+.wb-actions time {
+  color: var(--paragraph-text-color);
+}
+
+.wb-example {
+  margin-top: 1.75rem;
+}
+
+.wb-example-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.wb-example-head h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.wb-example-note {
+  margin: 0 0 0.6rem;
+  font-size: 0.875rem;
+  color: var(--paragraph-text-color);
+}
+
+.wb-docs p {
+  line-height: 1.65;
+  max-width: 42rem;
+}
+
+.wb-empty {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--paragraph-text-color);
+}
+
+.wb-failure pre {
+  font-family: var(--wb-mono);
+  font-size: 0.8125rem;
+  white-space: pre-wrap;
+  color: var(--error-color);
+}
+
+.wb-preview-controls {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+/*
+ * The library's prose scale is tuned for marketing pages - h1 runs to 4rem -
+ * which is far too loud inside a docs panel. Retuning the tokens is the
+ * sanctioned way to rescale `.uc-content` without overriding its rules.
+ */
+.wb-docs,
+.wb-api {
+  --uc-content-h1-size: 1.5rem;
+  --uc-content-h2-size: 1.15rem;
+  --uc-content-h3-size: 1rem;
+  --uc-content-font-size: 0.9375rem;
+  --uc-content-max-width: 44rem;
+}
+
+.wb-api {
+  --uc-content-max-width: 100%;
+  margin-top: 2rem;
+  overflow-x: auto;
+}
+
+.wb-api table {
+  font-size: 0.8125rem;
+}
+
+.wb-api th[scope='row'] {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}

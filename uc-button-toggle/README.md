@@ -104,6 +104,6 @@ Disable the entire group:
 - Icon-only items should set `ariaLabel` to provide a discernible name.
 - Focus-visible styling is included for keyboard users.
 
-## Storybook
+## Workbench
 
-See the component stories in `uc-button-toggle/uc-button-toggle.stories.ts`.
+See the showcase in `uc-button-toggle/uc-button-toggle.showcase.ts`.

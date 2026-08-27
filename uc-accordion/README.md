@@ -6,7 +6,7 @@ A generic, reusable accordion component with support for content projection.
 
 - **Content Projection**: Define accordion items through `<ng-content>`
 - **Customizable Headers**: Use simple titles or custom header templates
-- **Smooth Animations**: Built-in expand/collapse animations
+- **Smooth Animations**: Expand/collapse via CSS transitions - no `@angular/animations` dependency
 - **Accessible**: ARIA attributes and keyboard-friendly
 - **Standalone Component**: Works with modern Angular standalone API
 - **Signal-based State**: Uses Angular signals for reactive state management
