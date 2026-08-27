@@ -5,20 +5,8 @@
   </div>
 } @else if (showcase(); as showcase) {
   <div class="wb-header">
-    <div>
-      <p class="wb-eyebrow">{{ showcase.group }}</p>
-      <h1>{{ showcase.title }}</h1>
-    </div>
-
-    <div class="wb-preview-controls">
-      <uc-button-toggle ariaLabel="Canvas width" [value]="viewport()" (valueChange)="onViewport($event)">
-        @for (preset of viewports; track preset.value) {
-          <uc-button-toggle-item [value]="preset.value" [ariaLabel]="preset.label + ' width'">
-            {{ preset.label }}
-          </uc-button-toggle-item>
-        }
-      </uc-button-toggle>
-    </div>
+    <p class="wb-eyebrow">{{ showcase.group }}</p>
+    <h1>{{ showcase.title }}</h1>
   </div>
 
   <uc-tabs [tabs]="tabs()" [activeTab]="activeTab()" (activeTabChange)="onTabChange($event)">
@@ -30,7 +18,7 @@
           click both canvases are briefly in the DOM, and "a canvas exists" is
           not enough to tell them apart.
         -->
-        <wb-canvas data-surface="playground" [layout]="showcase.layout" [maxWidth]="canvasWidth()">
+        <wb-canvas data-surface="playground" [layout]="showcase.layout">
           <wb-component-host [component]="component" [props]="values()" (action)="onAction($event)" />
         </wb-canvas>
 
@@ -83,7 +71,7 @@
             <p class="wb-example-note">{{ example.description }}</p>
           }
           @if (exampleComponent(example); as component) {
-            <wb-canvas data-surface="examples" [layout]="example.layout" [maxWidth]="canvasWidth()">
+            <wb-canvas data-surface="examples" [layout]="example.layout">
               <wb-component-host [component]="component" [props]="example.props" (action)="onAction($event)" />
             </wb-canvas>
           }
@@ -153,12 +141,7 @@
 
     <ng-template ucTabPanel="a11y">
       @if (showcase.component; as component) {
-        <wb-a11y-panel
-          [component]="component"
-          [props]="values()"
-          [layout]="showcase.layout"
-          [maxWidth]="canvasWidth()"
-        />
+        <wb-a11y-panel [component]="component" [props]="values()" [layout]="showcase.layout" />
       } @else {
         <p class="wb-empty">Nothing to check - this showcase declares no component.</p>
       }

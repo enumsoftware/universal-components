@@ -118,7 +118,7 @@ options: SelectOption<string>[] = [
 | `openDropdown()`       | -                 | Open the dropdown                                    |
 | `closeDropdown()`      | -                 | Close the dropdown                                   |
 | `selectOption(option)` | `SelectOption<T>` | Select an option and close the dropdown              |
-| `onOverlayKeydown(e)`  | `KeyboardEvent`   | Closes the dropdown on `Escape`                       |
+| `onOverlayKeydown(e)`  | `KeyboardEvent`   | Closes the dropdown on `Escape`                      |
 | `onBlur()`             | -                 | Handle blur event (marks the control touched)        |
 
 ### Computed Properties
@@ -210,13 +210,17 @@ The trigger also has sizing tokens, which is how a host fits the select next to 
 }
 ```
 
+Panel tokens (`--uc-select-option-*`, `--uc-select-panel-shadow`, `--uc-input-*`) work the same way
+even though the panel renders in the CDK overlay container outside the host: the component copies
+them from the host onto the panel each time it opens.
+
 ## Accessibility
 
 The component follows Angular's ARIA guidance and includes:
 
 - Proper ARIA roles (`combobox`, `listbox`, `option`)
 - ARIA attributes for state (`aria-expanded`, `aria-selected`, `aria-disabled`)
-- Keyboard navigation support
+- `Escape` closes the panel and restores focus to the trigger
 - Screen reader announcements
 - Label association
 - Error announcement

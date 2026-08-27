@@ -35,7 +35,6 @@ export class WbA11yPanel {
   readonly component = input.required<Type<unknown>>();
   readonly props = input<Record<string, unknown>>({});
   readonly layout = input<ShowcaseLayout>('centered');
-  readonly maxWidth = input<number | null>(null);
 
   protected readonly report = signal<A11yReport | null>(null);
   protected readonly running = signal(false);

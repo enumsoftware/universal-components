@@ -164,13 +164,12 @@ Playground state rides in the query string, so a link carries what you were
 looking at:
 
 ```
-#/components/button?args={"text":"Shared","variant":"error"}&vw=768
+#/components/button?args={"text":"Shared","variant":"error"}
 ```
 
 - `args` - only the knobs that differ from their declared default, as JSON. A
   showcase at rest writes no query string at all, so the common "open it and
   send it" link stays clean.
-- `vw` - the viewport preset. Omitted for `auto`.
 
 Writes are debounced and use `replaceUrl`, so typing in a text knob neither
 thrashes the router nor fills the back button. Decoding never throws: a
@@ -289,9 +288,9 @@ hide this behind `outputHashing: "all"`; the dev server did not.
 ## Status
 
 Done. The format, the registry, the playground, examples, both theme toolbars,
-shareable URL state, viewport presets, the Docs tab with compiled markdown and
-a generated API table, all 41 showcases, the Accessibility tab, and the axe
-sweep gating CI. Pages publishes `dist-workbench/browser`.
+shareable URL state, the Docs tab with compiled markdown and a generated API
+table, all 41 showcases, the Accessibility tab, and the axe sweep gating CI.
+Pages publishes `dist-workbench/browser`.
 
 Storybook is gone: seven dependencies, `.storybook/`, `storybook-host.ts`,
 `tsconfig.storybook.json`, the `storybook` project in `angular.json`, three npm

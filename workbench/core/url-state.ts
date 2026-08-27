@@ -1,29 +1,11 @@
 /**
  * Serialises playground state into the query string so a link carries what you
- * were actually looking at: which knobs you changed and the viewport width.
+ * were actually looking at: which knobs you changed.
  *
  * Only knobs that differ from their declared default are written. The common
  * case - open a showcase, share it - produces a bare URL, and a link stays
  * readable when one or two things were tweaked.
  */
-
-export const VIEWPORT_PRESETS = [
-  { value: 'auto', label: 'Auto', width: null },
-  { value: '360', label: '360', width: 360 },
-  { value: '768', label: '768', width: 768 },
-  { value: '1024', label: '1024', width: 1024 },
-  { value: '1440', label: '1440', width: 1440 },
-] as const;
-
-export type ViewportPreset = (typeof VIEWPORT_PRESETS)[number]['value'];
-
-export function isViewportPreset(value: string | null): value is ViewportPreset {
-  return value !== null && VIEWPORT_PRESETS.some((preset) => preset.value === value);
-}
-
-export function viewportWidth(preset: ViewportPreset): number | null {
-  return VIEWPORT_PRESETS.find((entry) => entry.value === preset)?.width ?? null;
-}
 
 /** `null` when nothing differs from the defaults, so the param can be dropped. */
 export function encodeArgs(values: Record<string, unknown>, defaults: Record<string, unknown>): string | null {

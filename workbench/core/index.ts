@@ -24,5 +24,4 @@ export {
   toReport,
 } from './a11y';
 export type { A11yImpact, A11yIssue, A11yNode, A11yReport, A11ySurface, AxeResultLike } from './a11y';
-export { VIEWPORT_PRESETS, decodeArgs, encodeArgs, isViewportPreset, viewportWidth } from './url-state';
-export type { ViewportPreset } from './url-state';
+export { decodeArgs, encodeArgs } from './url-state';

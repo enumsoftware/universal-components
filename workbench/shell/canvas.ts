@@ -7,16 +7,11 @@ import type { ShowcaseLayout } from '../core';
   selector: 'wb-canvas',
   template: `
     <!--
-      Focusable because it scrolls. A viewport preset or a wide demo overflows
-      the canvas, and a scroll container a keyboard user cannot reach is a real
-      failure - one the accessibility sweep catches on the workbench itself.
+      Focusable because it scrolls. A wide demo overflows the canvas, and a
+      scroll container a keyboard user cannot reach is a real failure - one the
+      accessibility sweep catches on the workbench itself.
     -->
-    <div
-      class="wb-canvas"
-      tabindex="0"
-      [class]="'wb-canvas-' + layout()"
-      [style.max-width.px]="maxWidth()"
-    >
+    <div class="wb-canvas" tabindex="0" [class]="'wb-canvas-' + layout()">
       <ng-content />
     </div>
   `,
@@ -29,9 +24,7 @@ import type { ShowcaseLayout } from '../core';
       /*
        * Scoped rather than a global reset: the canvas must keep rendering
        * components exactly as a consuming app would, and a page-wide
-       * border-box would silently change that. Without it the viewport preset
-       * sizes the content box, so a 768px canvas measures 834px once padding
-       * and border are added.
+       * border-box would silently change that.
        */
       box-sizing: border-box;
       background-color: var(--background-color);
@@ -68,6 +61,4 @@ import type { ShowcaseLayout } from '../core';
 })
 export class WbCanvas {
   readonly layout = input<ShowcaseLayout>('centered');
-  /** Viewport preset width in px, or null for the full column. */
-  readonly maxWidth = input<number | null>(null);
 }

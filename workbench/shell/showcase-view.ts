@@ -2,13 +2,11 @@ import { Component, computed, effect, inject, input, signal } from '@angular/cor
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { UcButton } from '../../uc-button/uc-button';
-import { UcButtonToggle } from '../../uc-button-toggle/uc-button-toggle';
-import { UcButtonToggleItem } from '../../uc-button-toggle/uc-button-toggle-item';
 import { UcCard } from '../../uc-card/uc-card';
 import { UcPill } from '../../uc-pill/uc-pill';
 import { UcTabPanel, UcTabs, type UcTab } from '../../uc-tabs/uc-tabs';
-import type { RegistryEntry, ResolvedExample, ResolvedShowcase, ShowcaseDocs, ViewportPreset } from '../core';
-import { VIEWPORT_PRESETS, decodeArgs, encodeArgs, isViewportPreset, resolveShowcase, viewportWidth } from '../core';
+import type { RegistryEntry, ResolvedExample, ResolvedShowcase, ShowcaseDocs } from '../core';
+import { decodeArgs, encodeArgs, resolveShowcase } from '../core';
 import { WbA11yPanel } from './a11y-panel';
 import { WbCanvas } from './canvas';
 import { WbComponentHost, type WbAction } from './component-host';
@@ -21,8 +19,6 @@ const URL_WRITE_DELAY_MS = 200;
   selector: 'wb-showcase-view',
   imports: [
     UcButton,
-    UcButtonToggle,
-    UcButtonToggleItem,
     UcCard,
     UcPill,
     UcTabPanel,
@@ -42,17 +38,12 @@ export class WbShowcaseView {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
-  protected readonly viewports = VIEWPORT_PRESETS;
-
   protected readonly showcase = signal<ResolvedShowcase | null>(null);
   protected readonly failure = signal<string | null>(null);
   protected readonly activeTab = signal('playground');
   protected readonly values = signal<Record<string, unknown>>({});
   protected readonly actions = signal<readonly WbAction[]>([]);
-  protected readonly viewport = signal<ViewportPreset>('auto');
   protected readonly docs = signal<ShowcaseDocs | null>(null);
-
-  protected readonly canvasWidth = computed(() => viewportWidth(this.viewport()));
 
   protected readonly tabs = computed<UcTab[]>(() => [
     { key: 'playground', label: 'Playground' },
@@ -100,11 +91,8 @@ export class WbShowcaseView {
   /** URL wins over the stored defaults, so a shared link opens as it was sent. */
   private applyUrlState(showcase: ResolvedShowcase): void {
     const params = this.route.snapshot.queryParamMap;
-    const preset = params.get('vw');
 
     this.values.set({ ...defaultValues(showcase), ...decodeArgs(params.get('args')) });
-
-    this.viewport.set(isViewportPreset(preset) ? preset : 'auto');
   }
 
   /**
@@ -122,10 +110,8 @@ export class WbShowcaseView {
         return;
       }
 
-      const preset = this.viewport();
       const next = {
         args: encodeArgs(this.values(), defaultValues(showcase)),
-        vw: preset === 'auto' ? null : preset,
       };
       const current = this.route.snapshot.queryParamMap;
       const unchanged = (Object.keys(next) as (keyof typeof next)[]).every(
@@ -169,13 +155,6 @@ export class WbShowcaseView {
           this.docs.set({ html: '', api: [] });
         }
       });
-  }
-
-  protected onViewport(preset: string): void {
-    if (isViewportPreset(preset)) {
-      this.viewport.set(preset);
-      this.scheduleUrlWrite();
-    }
   }
 
   protected onKnobChange(change: KnobChange): void {
