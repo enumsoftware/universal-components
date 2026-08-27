@@ -26,14 +26,6 @@
       "color-contrast": 13
     }
   },
-  "components/date-time-picker": {
-    "examples.dark": {
-      "color-contrast": 3
-    },
-    "playground.dark": {
-      "color-contrast": 1
-    }
-  },
   "components/editor": {
     "examples.dark": {
       "color-contrast": 2
