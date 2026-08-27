@@ -59,7 +59,6 @@
   "typings": "dist/types/enumsoftware-universal-components.d.ts",
   "type": "module",
   "peerDependencies": {
-    "@angular/animations": "^22.0.0",
     "@angular/aria": "^22.0.0",
     "@angular/cdk": "^22.0.0",
     "@angular/common": "^22.0.0",
@@ -76,7 +75,6 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@angular/animations": "^22.0.0",
     "@angular/aria": "^22.0.0",
     "@angular/build": "^22.0.0",
     "@angular/cdk": "^22.0.0",
