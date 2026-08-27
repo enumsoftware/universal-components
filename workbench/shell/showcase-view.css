@@ -147,9 +147,18 @@ h1 {
   font-size: 0.8125rem;
 }
 
+/*
+ * The theme uppercases every `th`, which is right for a column label and wrong
+ * for this one: the row header carries the member's real name, and `viewYear`
+ * rendered as `VIEWYEAR` is not a name anyone can type. The tracking goes with
+ * it - that is spacing tuned for uppercase labels, not for an identifier.
+ */
 .wb-api th[scope='row'] {
   display: flex;
   align-items: center;
   gap: 0.4rem;
   white-space: nowrap;
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: inherit;
 }

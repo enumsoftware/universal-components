@@ -18,3 +18,15 @@ body {
   color: var(--font-color);
   background-color: var(--background-color);
 }
+
+/*
+ * Set by the shell while the mobile navigation drawer is open, so the canvas
+ * behind the scrim does not scroll under the finger. Scoped to the breakpoint
+ * here rather than in the shell, so a resize to the two-column layout while the
+ * drawer is open cannot leave the page stuck.
+ */
+@media (max-width: 48rem) {
+  body.wb-nav-open {
+    overflow: hidden;
+  }
+}

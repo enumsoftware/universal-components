@@ -1,6 +1,18 @@
 <div class="wb-brand">
-  <strong>Universal Components</strong>
-  <span>Workbench</span>
+  <div>
+    <strong>Universal Components</strong>
+    <span>Workbench</span>
+  </div>
+
+  <!-- Drawer affordance: hidden above the breakpoint, where the sidebar is a
+       permanent column with nothing to dismiss. -->
+  <uc-icon-button
+    class="wb-drawer-close"
+    phosphorIcon="x"
+    label="Close navigation"
+    variant="secondary"
+    (clicked)="open.set(false)"
+  />
 </div>
 
 <uc-input
@@ -17,7 +29,7 @@
   <section>
     <h2>{{ group.name }}</h2>
     @for (entry of group.entries; track entry.id) {
-    <uc-sidebar-button [text]="entry.title" [active]="activeId() === entry.id" (clicked)="open(entry.id)" />
+    <uc-sidebar-button [text]="entry.title" [active]="activeId() === entry.id" (clicked)="select(entry.id)" />
     }
   </section>
   } @empty {

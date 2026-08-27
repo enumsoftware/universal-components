@@ -1,7 +1,8 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, model, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { UcDivider } from '../../uc-divider/uc-divider';
+import { UcIconButton } from '../../uc-icon-button/uc-icon-button';
 import { UcInput } from '../../uc-input/uc-input';
 import { UcSelect, type SelectOption } from '../../uc-select/uc-select';
 import { UcSidebarButton } from '../../uc-sidebar-button/uc-sidebar-button';
@@ -15,13 +16,24 @@ interface SidebarGroup {
 
 @Component({
   selector: 'wb-sidebar',
-  imports: [UcDivider, UcInput, UcSelect, UcSidebarButton],
+  imports: [UcDivider, UcIconButton, UcInput, UcSelect, UcSidebarButton],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
+  host: {
+    '[class.wb-sidebar--open]': 'open()',
+  },
 })
 export class WbSidebar {
   protected readonly theme = inject(ThemeStore);
   private readonly router = inject(Router);
+
+  /**
+   * Drawer state, and only meaningful below the 48rem breakpoint - above it the
+   * sidebar is a permanent column and this flag styles nothing. Two-way, so the
+   * shell can open it from the topbar while the drawer still closes itself on
+   * navigation.
+   */
+  readonly open = model(false);
 
   protected readonly query = signal('');
   protected readonly activeId = signal(currentId(this.router.url));
@@ -63,7 +75,10 @@ export class WbSidebar {
     }
   }
 
-  protected open(id: string): void {
+  protected select(id: string): void {
+    // Below the breakpoint the drawer covers the canvas it has just navigated,
+    // so picking a showcase has to dismiss it as well.
+    this.open.set(false);
     void this.router.navigateByUrl(`/${id}`);
   }
 }

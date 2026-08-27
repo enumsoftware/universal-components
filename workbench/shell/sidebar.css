@@ -30,8 +30,20 @@ uc-input {
 }
 
 .wb-brand {
-  display: grid;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5rem;
   line-height: 1.3;
+}
+
+.wb-brand > div {
+  display: grid;
+}
+
+/* The drawer is the only place there is anything to close. */
+.wb-drawer-close {
+  display: none;
 }
 
 .wb-brand span {
@@ -81,18 +93,59 @@ h2 {
   color: var(--paragraph-text-color);
 }
 
-/* Single-column layout: the sidebar sits above the canvas rather than beside
-   it, so pinning it to the viewport would bury the preview. */
+/*
+  Below the breakpoint the canvas gets the full width and the sidebar becomes a
+  drawer over it, rather than a tall block of links the preview has to be
+  scrolled past. It leaves the flow entirely, so the shell's grid collapses to
+  a single column with nothing to make room for.
+
+  Off-canvas via `visibility` as well as `transform`: a translated sidebar is
+  still focusable and still read out, so tabbing from the topbar would walk
+  through fifty links nobody can see.
+
+  `visibility` steps rather than eases, and the step is deliberately timed:
+  0s on the way in, delayed by the slide on the way out. Easing it instead
+  would leave the drawer hidden for the first frame - long enough that the
+  focus the shell moves into it on open lands nowhere.
+*/
 @media (max-width: 48rem) {
   :host {
-    position: static;
-    height: auto;
-    overflow: visible;
+    position: fixed;
+    inset-block: 0;
+    inset-inline-start: 0;
+    z-index: 40;
+    width: min(18rem, 85vw);
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition:
+      transform 200ms ease,
+      visibility 0s linear 200ms;
   }
 
-  nav {
-    flex: 0 0 auto;
-    min-height: auto;
-    overflow-y: visible;
+  /* The inset above is logical but the transform is not, so an RTL document
+     needs the slide turned around. Ahead of the open rule, not after it: the
+     two selectors weigh the same, and `transform: none` has to win. */
+  :host-context([dir='rtl']) {
+    transform: translateX(100%);
+  }
+
+  :host(.wb-sidebar--open) {
+    transform: none;
+    visibility: visible;
+    box-shadow: 0 0 2rem rgb(0 0 0 / 35%);
+    transition:
+      transform 200ms ease,
+      visibility 0s;
+  }
+
+  .wb-drawer-close {
+    display: inline-flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition-duration: 0ms;
+    transition-delay: 0ms;
   }
 }

@@ -69,8 +69,8 @@ since every knob edit would otherwise echo back into the log.
 ## The workbench is built from the library
 
 The chrome is assembled out of the components it documents - `uc-input`,
-`uc-select`, `uc-checkbox`, `uc-card`, `uc-tabs`, `uc-button`, `uc-pill`,
-`uc-divider`, `uc-sidebar-button` - and styled from library tokens
+`uc-select`, `uc-checkbox`, `uc-card`, `uc-tabs`, `uc-button`, `uc-icon-button`,
+`uc-pill`, `uc-divider`, `uc-sidebar-button` - and styled from library tokens
 (`--primary-color`, `--card-background-color`, `--sidebar-background-color`,
 `--paragraph-text-color`) rather than a private palette. The workbench is the
 library's largest consumer, so a regression shows up here before it reaches an
@@ -85,6 +85,27 @@ control. Always write `[id]="'wb-filter'"`.
 
 The app theme styles both the workbench and its component previews. It lives on
 `<html>`, so changing the App theme in the sidebar updates the whole page.
+
+## The sidebar below 48rem
+
+Above the breakpoint the sidebar is a permanent sticky column. Below it, it
+leaves the flow and becomes a drawer over the canvas, opened from a topbar that
+only exists at that width - so the preview gets the whole screen rather than
+sitting under fifty links the reader has to scroll past.
+
+The shell owns the open flag (`WbApp.sidebarOpen`) and the drawer closes itself
+on navigation through the two-way `open` model on `wb-sidebar`. Escape, the
+scrim and the drawer's own close button all dismiss it, and focus moves in on
+open and back to the topbar button on close.
+
+Two things there are easy to get wrong:
+
+- The drawer is `visibility: hidden` when closed, not merely translated
+  off-canvas. A translated sidebar is still focusable and still read out, so
+  tabbing from the topbar would walk the whole list unseen.
+- That `visibility` is stepped, not eased: `0s` opening, delayed by the slide
+  closing. Easing it leaves the drawer hidden for the first frame, which is
+  long enough that the focus moved into it on open lands nowhere.
 
 ## Known library defects surfaced here
 
