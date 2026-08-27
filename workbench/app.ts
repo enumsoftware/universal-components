@@ -8,9 +8,20 @@ import { WbSidebar } from './shell/sidebar';
   imports: [RouterOutlet, WbSidebar],
   template: `
     <wb-sidebar />
-    <main>
+    <!--
+      Deliberately not a <main>, and the same goes for the sidebar's footer and
+      the showcase header elsewhere in the shell.
+
+      The canvas renders whole page fragments, and several legitimately carry
+      landmarks of their own - uc-side-navigation emits a <main>, and the
+      utilities overview demonstrates a full page layout with a header and a
+      footer. Any landmark the chrome claims collides with the one being
+      demonstrated, and axe is right to call that a failure. It is the chrome's
+      to give up: nothing here is the page's main content, the preview is.
+    -->
+    <div class="wb-main">
       <router-outlet />
-    </main>
+    </div>
   `,
   styles: `
     :host {
@@ -19,7 +30,7 @@ import { WbSidebar } from './shell/sidebar';
       min-height: 100vh;
     }
 
-    main {
+    .wb-main {
       overflow-x: hidden;
     }
 

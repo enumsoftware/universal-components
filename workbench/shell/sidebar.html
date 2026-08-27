@@ -25,7 +25,8 @@
   }
 </nav>
 
-<footer>
+<!-- A div rather than a <footer>: see the note in app.ts on chrome landmarks. -->
+<div class="wb-sidebar-footer">
   <uc-divider />
   <uc-select
     [id]="'wb-chrome-theme'"
@@ -34,4 +35,4 @@
     [value]="theme.chrome()"
     (valueChange)="onChromeTheme($event)"
   />
-</footer>
+</div>

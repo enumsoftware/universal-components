@@ -84,7 +84,8 @@ const NAV_ITEMS: NavItem[] = [
         <h2>Main Content</h2>
         <p>This is the main content area.</p>
 
-        <div class="wb-scroll-demo">
+        <!-- Focusable so the scroll container is reachable without a mouse. -->
+        <div class="wb-scroll-demo" tabindex="0">
           <p class="wb-scroll-title">Scrollable Demo Container</p>
           @for (item of scrollItems; track item) {
             <p>{{ item }}</p>

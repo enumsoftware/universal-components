@@ -40,7 +40,7 @@ h2 {
   color: var(--paragraph-text-color);
 }
 
-footer {
+.wb-sidebar-footer {
   display: grid;
   gap: 0.5rem;
 }

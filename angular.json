@@ -63,7 +63,10 @@
               "workbench/styles.css"
             ],
             "outputPath": "dist-workbench",
-            "outputHashing": "media"
+            "outputHashing": "media",
+            "allowedCommonJsDependencies": [
+              "axe-core"
+            ]
           },
           "configurations": {
             "production": {

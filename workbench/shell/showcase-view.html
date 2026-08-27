@@ -4,7 +4,7 @@
     <pre>{{ message }}</pre>
   </div>
 } @else if (showcase(); as showcase) {
-  <header class="wb-header">
+  <div class="wb-header">
     <div>
       <p class="wb-eyebrow">{{ showcase.group }}</p>
       <h1>{{ showcase.title }}</h1>
@@ -27,29 +27,35 @@
         (valueChange)="onCanvasTheme($event)"
       />
     </div>
-  </header>
+  </div>
 
   <uc-tabs [tabs]="tabs()" [activeTab]="activeTab()" (activeTabChange)="onTabChange($event)">
     <ng-template ucTabPanel="playground">
       @if (showcase.component; as component) {
-        <wb-canvas [layout]="showcase.layout" [maxWidth]="canvasWidth()">
+        <!--
+          `data-surface` names the tab this canvas belongs to. The accessibility
+          sweep needs to know which surface it is measuring: right after a tab
+          click both canvases are briefly in the DOM, and "a canvas exists" is
+          not enough to tell them apart.
+        -->
+        <wb-canvas data-surface="playground" [layout]="showcase.layout" [maxWidth]="canvasWidth()">
           <wb-component-host [component]="component" [props]="values()" (action)="onAction($event)" />
         </wb-canvas>
 
         <section class="wb-panels">
           <uc-card>
-            <header class="wb-panel-header">
+            <div class="wb-panel-header">
               <h2>Controls</h2>
               <uc-button text="Reset" variant="secondary" size="small" (clicked)="resetKnobs()" />
-            </header>
+            </div>
             <wb-knob-panel [knobs]="showcase.knobs" [values]="values()" (changed)="onKnobChange($event)" />
           </uc-card>
 
           <uc-card>
-            <header class="wb-panel-header">
+            <div class="wb-panel-header">
               <h2>Actions</h2>
               <uc-button text="Clear" variant="secondary" size="small" (clicked)="clearActions()" />
-            </header>
+            </div>
             @if (actions().length === 0) {
               <p class="wb-empty">Nothing emitted yet.</p>
             } @else {
@@ -85,7 +91,7 @@
             <p class="wb-example-note">{{ example.description }}</p>
           }
           @if (exampleComponent(example); as component) {
-            <wb-canvas [layout]="example.layout" [maxWidth]="canvasWidth()">
+            <wb-canvas data-surface="examples" [layout]="example.layout" [maxWidth]="canvasWidth()">
               <wb-component-host [component]="component" [props]="example.props" (action)="onAction($event)" />
             </wb-canvas>
           }
@@ -150,6 +156,19 @@
         }
       } @else {
         <p class="wb-empty">Loading docs…</p>
+      }
+    </ng-template>
+
+    <ng-template ucTabPanel="a11y">
+      @if (showcase.component; as component) {
+        <wb-a11y-panel
+          [component]="component"
+          [props]="values()"
+          [layout]="showcase.layout"
+          [maxWidth]="canvasWidth()"
+        />
+      } @else {
+        <p class="wb-empty">Nothing to check - this showcase declares no component.</p>
       }
     </ng-template>
   </uc-tabs>

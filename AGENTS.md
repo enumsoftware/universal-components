@@ -13,7 +13,7 @@ This repository includes Angular skills under `.agents/skills/`.
 - This package is an Angular 22 standalone component library.
 - Primary validation for code changes is `npm run build`.
 - For component behavior changes, prefer narrow tests first, then run broader validation only if needed.
-- Storybook is available through `npm run storybook` when interactive component verification is useful.
+- The Workbench is available through `npm run workbench` when interactive component verification is useful. Storybook still runs but is being removed.
 
 ## Agent quick start
 
@@ -24,11 +24,12 @@ Use these commands during validation:
 - Theme token parity check: `npm run tokens:check`
 - Regenerate layout utilities: `npm run utilities:build`
 - Typecheck build scripts: `npm run scripts:typecheck`
-- Storybook local: `npm run storybook`
-- Storybook static build: `npm run storybook:build`
-- Storybook accessibility checks: `npm run storybook:a11y`
+- Workbench local: `npm run workbench`
+- Workbench static build: `npm run workbench:build`
+- Accessibility sweep: `npm run a11y` (needs `npm run workbench:build` first)
+- Storybook local, on its way out: `npm run storybook`
 
-For setup, import patterns, and Storybook publishing behavior, use `README.md` as the source of truth.
+For setup and import patterns, use `README.md` as the source of truth; for the showcase format and the accessibility gate, use `workbench/README.md`.
 
 ## Working Conventions
 
@@ -48,7 +49,7 @@ For setup, import patterns, and Storybook publishing behavior, use `README.md` a
 - Main package usage and theming: `README.md`
 - Public export surface: `public-api.ts`
 - Theme files: `themes/theme.css`, `themes/uc-light.css`, `themes/uc-dark.css`
-- Layout utilities: `themes/utilities.css` (barrel) and `themes/utilities/*.css` (parts). All generated from `scripts/utilities/*.ts` via `scripts/build-utilities.ts`; never edit the CSS by hand. Documented in `README.md` and Storybook under `Utilities/`
+- Layout utilities: `themes/utilities.css` (barrel) and `themes/utilities/*.css` (parts). All generated from `scripts/utilities/*.ts` via `scripts/build-utilities.ts`; never edit the CSS by hand. Documented in `README.md` and the Workbench under `Utilities/`
 
 ## Instruction maintenance loop
 

@@ -40,69 +40,88 @@ import { UcButton } from '@enumsoftware/universal-components/uc-button/uc-button
 - Use the [uc-phosphor-icon/uc-phosphor-icon.ts](uc-phosphor-icon/uc-phosphor-icon.ts) component to render Phosphor icons (for example `trash`, `x`, or `arrow-right`).
 - The [uc-sidebar-button/uc-sidebar-button.ts](uc-sidebar-button/uc-sidebar-button.ts) component now uses content projection for icons, so any icon element or component can be inserted.
 
-## Storybook
+## Workbench
 
-Public Storybook URL:
+Public URL:
 
 - https://enumsoftware.github.io/universal-components/
 
+The Workbench is this repo's component explorer: a small Angular app that
+renders every component with live controls, worked examples, generated API
+docs, and an accessibility report. It replaces Storybook, which is still in the
+tree but no longer deployed and is being removed. See
+[workbench/README.md](workbench/README.md) for how to write a showcase.
+
 Deployment details:
 
-- Storybook is automatically deployed to GitHub Pages when changes are pushed to `main`.
-- Pull requests run build validation only (no deployment).
-- If this is the first deployment, set repository Pages source to **GitHub Actions** in repository settings.
+- The workbench is automatically deployed to GitHub Pages when changes are
+  pushed to `main`.
+- Pull requests run build validation and the accessibility sweep only (no
+  deployment).
+- If this is the first deployment, set repository Pages source to **GitHub
+  Actions** in repository settings.
 
-Run Storybook locally:
+Run it locally:
 
 ```bash
 npm install --legacy-peer-deps
-npm run storybook
-```
-
-Run accessibility checks against Storybook:
-
-```bash
-# terminal 1
-npm run storybook
-
-# terminal 2
-npm run storybook:a11y
-```
-
-Expected result is all suites passing with no accessibility failures.
-
-If Playwright browser binaries are missing on your machine, run:
-
-```bash
-npx playwright install chromium
+npm run workbench
 ```
 
 Then open:
 
 ```text
-http://localhost:6006
+http://localhost:4200
 ```
 
-Build static Storybook output locally:
+Showcase files live next to components using the `*.showcase.ts` naming
+pattern, with prose in a sibling `*.docs.md`. The **Docs** tab compiles that
+markdown at build time and appends an API table extracted from the component's
+`input()`, `model()` and `output()` declarations, so inputs are documented from
+the source rather than by hand.
+
+Build the static site locally:
 
 ```bash
-npm run storybook:build
+npm run workbench:build
 ```
 
-This writes the static site to `storybook-static/`.
+This writes the site to `dist-workbench/browser/`.
+
+### Accessibility checks
+
+Every showcase is checked with axe-core against WCAG 2.1 AA plus axe's own best
+practices - interactively on each component's **Accessibility** tab, and across
+all of them in CI:
+
+```bash
+npm run workbench:build
+npm run a11y                # check against scripts/a11y-baseline.json
+npm run a11y -- --details   # ...and print every offending element
+npm run a11y:update         # record the current result as the new baseline
+```
+
+The gate is the diff against the recorded baseline, so a regression fails the
+build while the library's existing contrast debt stays visible in one reviewable
+file. If Playwright browser binaries are missing on your machine:
+
+```bash
+npx playwright install chromium
+```
+
+### Storybook (being removed)
+
+Storybook still builds and still runs locally, and CI still builds it so it
+cannot rot before it is deleted. It is no longer the published site.
+
+```bash
+npm run storybook          # http://localhost:6006
+npm run storybook:build    # writes storybook-static/
+```
 
 Story files live next to components using the `*.stories.ts` naming pattern.
-
-### Documentation (addon-docs)
-
-Auto-generated documentation is powered by [`@storybook/addon-docs`](https://storybook.js.org/docs/writing-docs).
-
-- Autodocs is enabled globally via `tags: ['autodocs']` in [.storybook/preview.ts](.storybook/preview.ts), so every component gets a **Docs** tab derived from its stories, args, and controls.
-- Add rich descriptions by writing JSDoc/TSDoc comments on component inputs and by using the `parameters.docs.description` fields in a story's meta.
-- To write free-form documentation pages, add an `*.mdx` file next to the component (already matched by the `stories` glob in [.storybook/main.ts](.storybook/main.ts)) and reference stories with the `Meta`, `Canvas`, and `Story` blocks from `@storybook/blocks`.
-- To opt a specific story out of autodocs, set `tags: ['!autodocs']` on that story's meta.
-
-Docs pages are part of the standard Storybook build output. Running `npm run storybook:build` bundles them into `storybook-static/`, so the existing GitHub Pages deployment publishes them automatically — no extra CI configuration is required.
+Every one of them has an equivalent `*.showcase.ts`; the story files and the
+seven Storybook dependencies come out next.
 
 
 ## Theming And Component Tokens
@@ -117,7 +136,7 @@ Global theme files are exported from the `themes/` directory. Import one of the 
 
 > `theme.css` already `@import`s both `uc-light.css` and `uc-dark.css`, and each now defines two themes (`light` + `aurora`, `dark` + `midnight`), so importing it alone is sufficient for apps that support all built-in themes.
 
-Use `data-theme="light"`, `data-theme="dark"`, `data-theme="aurora"`, or `data-theme="midnight"` on `html` or `body` to switch themes. Storybook exposes the same options from the global **Theme** toolbar.
+Use `data-theme="light"`, `data-theme="dark"`, `data-theme="aurora"`, or `data-theme="midnight"` on `html` or `body` to switch themes. The Workbench exposes the same options twice over: one picker for the app chrome, one for the preview canvas, so a component can be reviewed in dark on a light page.
 
 Standard override model:
 
@@ -148,7 +167,7 @@ It is **not** included in `theme.css`, so apps that do not want it pay nothing. 
 @import '@enumsoftware/universal-components/themes/utilities.css';
 ```
 
-Browse the interactive docs in Storybook under **Utilities** (Overview, Spacing, Flex, Grid).
+Browse the interactive docs in the Workbench under **Utilities** (Overview, Spacing, Flex, Grid).
 
 ### Importing only what you use
 
@@ -277,7 +296,7 @@ The generator is TypeScript run through **Node's native type stripping** — `no
 - Relative imports carry the real `.ts` extension (`import { space } from './shared.ts'`), and type-only imports must use `import type` — Node erases types without understanding them, so a value import of a type would fail at runtime.
 - The source must stay erasable: no `enum`, `namespace`, or parameter properties. [scripts/tsconfig.json](scripts/tsconfig.json) sets `erasableSyntaxOnly` and `verbatimModuleSyntax` so the typechecker catches both rules rather than letting them fail at runtime.
 
-The `scripts/` directory is excluded from the library and Storybook tsconfigs, so it has its own config and its own check:
+The `scripts/` directory is excluded from every app tsconfig, so it has its own config and its own check:
 
 ```bash
 npm run scripts:typecheck

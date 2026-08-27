@@ -1,5 +1,6 @@
 /**
- * Generates workbench/generated/registry.ts.
+ * Generates workbench/generated/registry.ts, one docs module per showcase, and
+ * workbench/generated/showcases.json.
  *
  * The Angular CLI builds with esbuild, which has no `import.meta.glob`, so the
  * set of showcases has to exist as static source. Each entry keeps its
@@ -22,6 +23,7 @@ import { renderMarkdown } from './showcase/markdown.ts';
 const REPO_ROOT = path.resolve(import.meta.dirname, '..');
 const GENERATED_DIR = path.join(REPO_ROOT, 'workbench', 'generated');
 const OUTPUT_FILE = path.join(GENERATED_DIR, 'registry.ts');
+const MANIFEST_FILE = path.join(GENERATED_DIR, 'showcases.json');
 const DOCS_DIR = path.join(GENERATED_DIR, 'docs');
 const SHOWCASE_SUFFIX = '.showcase.ts';
 const SKIPPED_DIRECTORIES = new Set(['node_modules', 'dist', 'dist-workbench', '.git', '.angular', 'storybook-static']);
@@ -188,6 +190,24 @@ ${rows.join('\n')}
 }
 
 /**
+ * The same list as `registry.ts`, minus the loaders, as plain JSON.
+ *
+ * `scripts/a11y.ts` needs the ids to know what to visit, and it runs on Node's
+ * type stripping - importing `registry.ts` would drag the whole Angular-facing
+ * type graph into a tsconfig that has no DOM lib. JSON keeps the sweep and the
+ * app reading from one generated list without that coupling.
+ */
+function renderManifest(entries: readonly ShowcaseMeta[]): string {
+  const rows = entries.map((entry) => ({
+    id: entry.id,
+    group: entry.group,
+    title: entry.title,
+  }));
+
+  return `${JSON.stringify(rows, null, 2)}\n`;
+}
+
+/**
  * One module per showcase rather than a single docs bundle: opening the Docs
  * tab for one component should not download the prose and API table for the
  * other thirty-five.
@@ -237,6 +257,7 @@ function build(): number {
   }
 
   fs.writeFileSync(OUTPUT_FILE, renderRegistry(entries), 'utf8');
+  fs.writeFileSync(MANIFEST_FILE, renderManifest(entries), 'utf8');
 
   return entries.length;
 }

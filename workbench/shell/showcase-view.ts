@@ -10,6 +10,7 @@ import { UcSelect, type SelectOption } from '../../uc-select/uc-select';
 import { UcTabPanel, UcTabs, type UcTab } from '../../uc-tabs/uc-tabs';
 import type { RegistryEntry, ResolvedExample, ResolvedShowcase, ShowcaseDocs, ViewportPreset } from '../core';
 import { VIEWPORT_PRESETS, decodeArgs, encodeArgs, isViewportPreset, resolveShowcase, viewportWidth } from '../core';
+import { WbA11yPanel } from './a11y-panel';
 import { WbCanvas } from './canvas';
 import { WbComponentHost, type WbAction } from './component-host';
 import { WbKnobPanel, type KnobChange } from './knob-panel';
@@ -29,6 +30,7 @@ const URL_WRITE_DELAY_MS = 200;
     UcSelect,
     UcTabPanel,
     UcTabs,
+    WbA11yPanel,
     WbCanvas,
     WbComponentHost,
     WbKnobPanel,
@@ -65,6 +67,7 @@ export class WbShowcaseView {
     { key: 'playground', label: 'Playground' },
     { key: 'examples', label: 'Examples' },
     { key: 'docs', label: 'Docs' },
+    { key: 'a11y', label: 'Accessibility' },
   ]);
 
   private loadToken = 0;

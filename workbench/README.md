@@ -183,6 +183,80 @@ underneath. Without that, a required input the preset does not mention is never
 set and the component throws NG0950. An example that brings its own
 `component` owns all of its inputs and gets no merge.
 
+## Accessibility
+
+Every showcase is checked with [axe-core](https://github.com/dequelabs/axe-core)
+against WCAG 2.1 AA plus axe's own best practices, in two places that share one
+definition of the check:
+
+- the **Accessibility tab**, which runs axe against the live canvas at the
+  current knob values and preview theme, and
+- `npm run a11y`, which sweeps all 41 showcases in CI.
+
+Both import `A11Y_RUN_OPTIONS` from `core/a11y.ts`. Two configurations would
+mean a component could look clean in the tab and still fail the merge.
+
+The sweep visits two surfaces per showcase - the Playground canvas at its knob
+defaults, and every canvas on the Examples tab at once - in **both themes**,
+because colour contrast is a property of the theme, not of the component.
+
+```
+npm run workbench:build     # the sweep runs against the built app
+npm run a11y                # check
+npm run a11y -- --details   # ...and print every offending element
+npm run a11y:update         # record the current result as the new baseline
+```
+
+### Why a baseline instead of zero
+
+`scripts/a11y-baseline.json` records what fails today, and the gate is the diff
+against it. The library has real contrast debt; a check that is red from its
+first commit gets ignored within a week. The baseline makes the debt explicit
+in one reviewable file and still fails the build the moment a component gets
+worse.
+
+Fixing something fails too, with a one-line instruction to record it. That
+symmetry is deliberate - it is the only thing keeping the file from quietly
+drifting out of date.
+
+The recorded counts are per rendered element, so they depend on the browser
+doing the rendering. Pin `playwright` when changing it, and expect to re-record
+if the Chromium version moves.
+
+### What it found
+
+145 failing elements, all `color-contrast`, across seven components -
+`uc-calendar` alone accounts for 126 (the weekday labels and the adjacent-month
+day numbers), with the rest in `uc-editor`, `uc-date-time-picker`, `uc-pill`,
+`uc-avatar`, `uc-accordion` and `uc-info`. These are muted greys that fall
+under 4.5:1, and they are recorded rather than fixed: changing them is a visual
+decision about shipped components.
+
+Note what it does **not** catch: the `uc-checkbox` defect above passes axe
+cleanly. A `div` that is styled to look like a checkbox but claims no role is
+invisible to a rule engine too - it has nothing to check. Automated checks
+raise the floor; they do not replace using the component with a keyboard.
+
+### The chrome gives up its landmarks
+
+The workbench shell deliberately uses no `<main>`, `<header>` or `<footer>`.
+The canvas renders whole page fragments, and several carry landmarks of their
+own - `uc-side-navigation` emits a `<main>`, and the utilities overview
+demonstrates a full page layout. Any landmark the chrome claims collides with
+the one being demonstrated, and axe was right to call that a failure. It is the
+chrome's to give up: nothing in it is the page's main content, the preview is.
+
+The first sweep reported 18 such findings. All were the workbench's own bugs,
+not the library's, and fixing them is what the first `a11y` commit did.
+
+### data-surface
+
+Each canvas carries `data-surface="playground"` or `data-surface="examples"`.
+For a moment after a tab click both canvases are in the DOM, so "a canvas
+exists" cannot tell the sweep which one it is measuring - it would grade the
+wrong surface, or throw when that canvas vanished mid-run. The attribute makes
+each answer unambiguous.
+
 ## Media hashing is load-bearing
 
 The build sets `outputHashing: "media"` on the base options, not just on a
@@ -194,10 +268,15 @@ hide this behind `outputHashing: "all"`; the dev server did not.
 
 ## Not built yet
 
-Phases 0 to 3 are done: the format, the registry, the playground, examples,
+Phases 0 to 4 are done: the format, the registry, the playground, examples,
 both theme toolbars, shareable URL state, viewport presets, the Docs tab with
-compiled markdown and a generated API table, and all 41 showcases migrated.
+compiled markdown and a generated API table, all 41 showcases migrated, the
+Accessibility tab, and the axe sweep gating CI.
 
-Still to come: the axe-core run in CI (phase 4), and removing Storybook itself
-(phase 5). Storybook still builds and is still deployed until then, so nothing
-is un-documented while phase 4 lands.
+Still to come: removing Storybook itself (phase 5) - the seven dependencies,
+`.storybook/`, the 41 `*.stories.ts` files and the scripts that drive them.
+
+**Pages now publishes the workbench, not Storybook.** Storybook still builds in
+CI so it cannot rot before it is deleted, but `dist-workbench/browser` is what
+gets deployed. The workbench reached parity in phase 3, so nothing went
+undocumented in the swap.

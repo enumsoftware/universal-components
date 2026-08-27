@@ -1,0 +1,101 @@
+:host {
+  display: block;
+}
+
+.wb-a11y {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.wb-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.wb-panel-header h2 {
+  margin: 0;
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--paragraph-text-color);
+}
+
+.wb-a11y-subhead {
+  margin: 1rem 0 0;
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--paragraph-text-color);
+}
+
+.wb-a11y-summary,
+.wb-a11y-failed {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--paragraph-text-color);
+}
+
+.wb-a11y-failed {
+  color: var(--error-color, var(--font-color));
+}
+
+.wb-a11y-issue {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.wb-a11y-issue-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.wb-a11y-issue-head code {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.wb-a11y-help {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.wb-a11y-nodes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.wb-a11y-nodes li {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.wb-a11y-target {
+  font-size: 0.75rem;
+  color: var(--paragraph-text-color);
+}
+
+.wb-a11y-nodes pre {
+  margin: 0;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  border-radius: var(--card-border-radius);
+  background-color: var(--uc-content-code-background, rgb(0 0 0 / 6%));
+  /* Snippets are one long line of markup - scroll them rather than reflowing the card. */
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.wb-empty {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--paragraph-text-color);
+}

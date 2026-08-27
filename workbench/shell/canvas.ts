@@ -12,8 +12,14 @@ import { ThemeStore } from './theme';
 @Component({
   selector: 'wb-canvas',
   template: `
+    <!--
+      Focusable because it scrolls. A viewport preset or a wide demo overflows
+      the canvas, and a scroll container a keyboard user cannot reach is a real
+      failure - one the accessibility sweep catches on the workbench itself.
+    -->
     <div
       class="wb-canvas"
+      tabindex="0"
       [attr.data-theme]="theme.canvas()"
       [class]="'wb-canvas-' + layout()"
       [style.max-width.px]="maxWidth()"
@@ -40,6 +46,11 @@ import { ThemeStore } from './theme';
       border: 1px solid var(--uc-content-hr-color);
       border-radius: var(--card-border-radius);
       overflow: auto;
+    }
+
+    .wb-canvas:focus-visible {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
     }
 
     .wb-canvas-centered {
