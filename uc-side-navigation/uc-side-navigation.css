@@ -162,11 +162,3 @@
   pointer-events: auto;
   min-block-size: 0;
 }
-
-@media (max-width: 48rem) {
-  :host,
-  .uc-wrapper-side,
-  .uc-wrapper-over {
-    block-size: 100dvh;
-  }
-}
