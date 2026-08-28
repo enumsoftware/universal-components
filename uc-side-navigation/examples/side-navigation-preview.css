@@ -1,6 +1,6 @@
 :host {
   display: block;
-  /* The component sizes itself from its parent, so the preview supplies one. */
+  /* The component sizes itself from its parent outside mobile viewport mode. */
   height: 32rem;
 }
 
