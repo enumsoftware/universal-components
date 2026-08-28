@@ -25,16 +25,15 @@
 />
 
 <nav>
-  @for (group of groups(); track group.name) {
-  <section>
-    <h2>{{ group.name }}</h2>
-    @for (entry of group.entries; track entry.id) {
-    <uc-sidebar-button [text]="entry.title" [active]="activeId() === entry.id" (clicked)="select(entry.id)" />
-    }
-  </section>
-  } @empty {
-  <p class="wb-empty">No match.</p>
-  }
+  <uc-tree
+    ariaLabel="Showcases"
+    [nodes]="nodes()"
+    [filter]="query()"
+    [selectedId]="activeId()"
+    [(expandedIds)]="expandedIds"
+    emptyText="No match."
+    (nodeActivated)="onActivate($event)"
+  />
 </nav>
 
 <!-- A div rather than a <footer>: see the note in app.ts on chrome landmarks. -->

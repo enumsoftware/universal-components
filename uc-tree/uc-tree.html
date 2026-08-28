@@ -1,0 +1,73 @@
+<cdk-tree
+  class="uc-tree"
+  [dataSource]="visibleNodes()"
+  [childrenAccessor]="childrenAccessor"
+  [expansionKey]="expansionKey"
+  [trackBy]="trackById"
+  [attr.aria-label]="ariaLabel()"
+  [style.--uc-tree-indent]="indent() || null"
+>
+  <!--
+    One flat list of treeitems, indented by depth rather than nested in <ul>s.
+    That is what the CDK's key manager walks, and it is why the row itself is
+    the focus stop: a button inside it would put a second tab stop on every row
+    and break the roving tabindex the tree role expects.
+  -->
+  <cdk-tree-node
+    *cdkTreeNodeDef="let node; let level = level"
+    class="uc-tree-node"
+    [class.uc-tree-node--branch]="isBranch(node)"
+    [class.uc-tree-node--selected]="isSelected(node)"
+    [class.uc-tree-node--disabled]="!!node.disabled"
+    [style.--uc-tree-level-resolved]="level"
+    [isExpandable]="isBranch(node)"
+    [isDisabled]="!!node.disabled"
+    [cdkTreeNodeTypeaheadLabel]="node.label"
+    (expandedChange)="onExpandedChange(node, $event)"
+    (activation)="onActivate(node)"
+    (click)="onActivate(node)"
+  >
+    @let item = asNode(node);
+
+    <!-- Rendered for leaves too, as an empty box: without it the labels of a
+         parent and its children would not line up. Not focusable - the arrow
+         keys are the keyboard route in and out of a branch. -->
+    <span class="uc-tree-node__twisty" aria-hidden="true" (click)="onTwistyClick($event, item)">
+      @if (isBranch(item)) {
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="9 6 15 12 9 18"></polyline>
+        </svg>
+      }
+    </span>
+
+    @if (nodeTemplate(); as template) {
+      <ng-container
+        [ngTemplateOutlet]="template.templateRef"
+        [ngTemplateOutletContext]="{
+          $implicit: item,
+          level: level,
+          expanded: isExpanded(item),
+          selected: isSelected(item),
+        }"
+      />
+    } @else {
+      @if (item.icon) {
+        <uc-phosphor-icon class="uc-tree-node__icon" [icon]="item.icon" />
+      }
+
+      <span class="uc-tree-node__label">{{ item.label }}</span>
+    }
+  </cdk-tree-node>
+</cdk-tree>
+
+@if (visibleNodes().length === 0) {
+  <p class="uc-tree__empty">{{ emptyText() }}</p>
+}

@@ -539,6 +539,30 @@
   --uc-tooltip-border-radius: 4px;
   --uc-tooltip-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 
+  /* --- Tree --- */
+  --uc-tree-indent: 1.25rem;
+  --uc-tree-gap: 0.5rem;
+  --uc-tree-row-gap: 0.125rem;
+  --uc-tree-node-padding-block: 0.375rem;
+  --uc-tree-node-padding-inline: 0.5rem;
+  --uc-tree-node-border-radius: 0.5rem;
+  --uc-tree-node-color: var(--foreground-color);
+  --uc-tree-node-font-size: 0.875rem;
+  --uc-tree-node-font-weight: 500;
+  --uc-tree-branch-font-weight: 600;
+  --uc-tree-node-hover-background: oklch(from var(--primary-color) l c h / 0.12);
+  --uc-tree-node-selected-background: var(--primary-color);
+  --uc-tree-node-selected-color: var(--inverse-foreground-color);
+  --uc-tree-focus-outline: 2px solid var(--primary-color);
+  --uc-tree-focus-outline-offset: -2px;
+  --uc-tree-twisty-size: 1rem;
+  --uc-tree-twisty-color: var(--paragraph-text-color);
+  --uc-tree-icon-size: 1.125rem;
+  --uc-tree-icon-color: currentColor;
+  --uc-tree-disabled-opacity: 0.5;
+  --uc-tree-empty-color: var(--paragraph-text-color);
+  --uc-tree-empty-font-size: 0.8125rem;
+
   body {
     background-color: var(--background-color);
   }

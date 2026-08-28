@@ -1,0 +1,142 @@
+:host {
+  --uc-tree-indent-resolved: var(--uc-tree-indent, 1.25rem);
+  --uc-tree-gap-resolved: var(--uc-tree-gap, 0.5rem);
+  --uc-tree-row-gap-resolved: var(--uc-tree-row-gap, 0.125rem);
+  --uc-tree-node-padding-block-resolved: var(--uc-tree-node-padding-block, 0.375rem);
+  --uc-tree-node-padding-inline-resolved: var(--uc-tree-node-padding-inline, 0.5rem);
+  --uc-tree-node-border-radius-resolved: var(--uc-tree-node-border-radius, 0.5rem);
+  --uc-tree-node-color-resolved: var(--uc-tree-node-color, var(--foreground-color));
+  --uc-tree-node-font-size-resolved: var(--uc-tree-node-font-size, 0.875rem);
+  --uc-tree-node-font-weight-resolved: var(--uc-tree-node-font-weight, 500);
+  --uc-tree-branch-font-weight-resolved: var(--uc-tree-branch-font-weight, 600);
+  --uc-tree-node-hover-background-resolved: var(--uc-tree-node-hover-background, oklch(from var(--primary-color) l c h / 0.12));
+  --uc-tree-node-selected-background-resolved: var(--uc-tree-node-selected-background, var(--primary-color));
+  --uc-tree-node-selected-color-resolved: var(--uc-tree-node-selected-color, var(--inverse-foreground-color));
+  --uc-tree-focus-outline-resolved: var(--uc-tree-focus-outline, 2px solid var(--primary-color));
+  --uc-tree-focus-outline-offset-resolved: var(--uc-tree-focus-outline-offset, -2px);
+  --uc-tree-twisty-size-resolved: var(--uc-tree-twisty-size, 1rem);
+  --uc-tree-twisty-color-resolved: var(--uc-tree-twisty-color, var(--paragraph-text-color));
+  --uc-tree-icon-size-resolved: var(--uc-tree-icon-size, 1.125rem);
+  --uc-tree-icon-color-resolved: var(--uc-tree-icon-color, currentColor);
+  --uc-tree-disabled-opacity-resolved: var(--uc-tree-disabled-opacity, 0.5);
+  --uc-tree-empty-color-resolved: var(--uc-tree-empty-color, var(--paragraph-text-color));
+  --uc-tree-empty-font-size-resolved: var(--uc-tree-empty-font-size, 0.8125rem);
+  display: block;
+}
+
+.uc-tree {
+  display: grid;
+  align-content: start;
+  gap: var(--uc-tree-row-gap-resolved);
+}
+
+.uc-tree-node {
+  /*
+    Depth is indent, not nesting: the rows are siblings in the DOM so one key
+    manager can walk them in visual order, and `--uc-tree-level-resolved` - set
+    per row from the CDK's node context - is the only thing that says how deep a
+    row is.
+    Logical padding, so an RTL document indents from the other edge for free.
+  */
+  padding-inline-start: calc(
+    var(--uc-tree-node-padding-inline-resolved) + var(--uc-tree-level-resolved, 0) * var(--uc-tree-indent-resolved)
+  );
+  padding-inline-end: var(--uc-tree-node-padding-inline-resolved);
+  padding-block: var(--uc-tree-node-padding-block-resolved);
+  display: flex;
+  align-items: center;
+  gap: var(--uc-tree-gap-resolved);
+  box-sizing: border-box;
+  cursor: pointer;
+  user-select: none;
+  border-radius: var(--uc-tree-node-border-radius-resolved);
+  color: var(--uc-tree-node-color-resolved);
+  font-size: var(--uc-tree-node-font-size-resolved);
+  font-weight: var(--uc-tree-node-font-weight-resolved);
+  transition: background-color 0.15s ease;
+}
+
+.uc-tree-node--branch {
+  font-weight: var(--uc-tree-branch-font-weight-resolved);
+}
+
+.uc-tree-node:hover:not(.uc-tree-node--selected, .uc-tree-node--disabled) {
+  background-color: var(--uc-tree-node-hover-background-resolved);
+}
+
+.uc-tree-node--selected {
+  background-color: var(--uc-tree-node-selected-background-resolved);
+  color: var(--uc-tree-node-selected-color-resolved);
+}
+
+.uc-tree-node--disabled {
+  opacity: var(--uc-tree-disabled-opacity-resolved);
+  cursor: default;
+}
+
+.uc-tree-node:focus-visible {
+  outline: var(--uc-tree-focus-outline-resolved);
+  outline-offset: var(--uc-tree-focus-outline-offset-resolved);
+}
+
+.uc-tree-node__twisty {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Occupies its box even on a leaf, so sibling labels stay on one line. */
+  flex: 0 0 var(--uc-tree-twisty-size-resolved);
+  inline-size: var(--uc-tree-twisty-size-resolved);
+  block-size: var(--uc-tree-twisty-size-resolved);
+  color: var(--uc-tree-twisty-color-resolved);
+  transition: transform 0.15s ease;
+}
+
+.uc-tree-node__twisty svg {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.uc-tree-node--selected .uc-tree-node__twisty {
+  color: currentColor;
+}
+
+/* Driven off the ARIA state the CDK already maintains, so the arrow can never
+   disagree with what assistive tech is told. */
+.uc-tree-node[aria-expanded='true'] .uc-tree-node__twisty {
+  transform: rotate(90deg);
+}
+
+:host-context([dir='rtl']) .uc-tree-node__twisty {
+  transform: scaleX(-1);
+}
+
+:host-context([dir='rtl']) .uc-tree-node[aria-expanded='true'] .uc-tree-node__twisty {
+  transform: scaleX(-1) rotate(-90deg);
+}
+
+.uc-tree-node__icon {
+  flex: 0 0 auto;
+  font-size: var(--uc-tree-icon-size-resolved);
+  color: var(--uc-tree-icon-color-resolved);
+  line-height: 1;
+}
+
+.uc-tree-node__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.uc-tree__empty {
+  margin: 0;
+  padding: var(--uc-tree-node-padding-block-resolved) var(--uc-tree-node-padding-inline-resolved);
+  color: var(--uc-tree-empty-color-resolved);
+  font-size: var(--uc-tree-empty-font-size-resolved);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .uc-tree-node,
+  .uc-tree-node__twisty {
+    transition-duration: 0ms;
+  }
+}

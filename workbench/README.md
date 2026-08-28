@@ -70,7 +70,7 @@ since every knob edit would otherwise echo back into the log.
 
 The chrome is assembled out of the components it documents - `uc-input`,
 `uc-select`, `uc-checkbox`, `uc-card`, `uc-tabs`, `uc-button`, `uc-icon-button`,
-`uc-pill`, `uc-divider`, `uc-sidebar-button` - and styled from library tokens
+`uc-pill`, `uc-divider`, `uc-tree` - and styled from library tokens
 (`--primary-color`, `--card-background-color`, `--sidebar-background-color`,
 `--paragraph-text-color`) rather than a private palette. The workbench is the
 library's largest consumer, so a regression shows up here before it reaches an
@@ -85,6 +85,23 @@ control. Always write `[id]="'wb-filter'"`.
 
 The app theme styles both the workbench and its component previews. It lives on
 `<html>`, so changing the App theme in the sidebar updates the whole page.
+
+## The showcase list is a uc-tree
+
+One branch per group, one leaf per showcase, and the filter field is wired
+straight to the tree's own `filter` input: it drops what does not match, opens
+the groups that lead to a hit, and puts them back when the field is cleared.
+The sidebar supplies the data and handles a leaf activation by navigating -
+nothing else.
+
+Two things the sidebar leans on:
+
+- Group ids are namespaced `group:<name>`, because `UcTreeNode.id` has to be
+  unique across the whole tree and a group could otherwise collide with a
+  showcase route.
+- A deep link lands with every group shut, so `revealGroupOf` opens the one
+  holding the current showcase - otherwise the row being viewed is the one row
+  the sidebar does not show.
 
 ## The sidebar below 48rem
 
@@ -210,7 +227,7 @@ definition of the check:
 
 - the **Accessibility tab**, which runs axe against the live canvas at the
   current knob values and app theme, and
-- `npm run a11y`, which sweeps all 41 showcases in CI.
+- `npm run a11y`, which sweeps all 42 showcases in CI.
 
 Both import `A11Y_RUN_OPTIONS` from `core/a11y.ts`. Two configurations would
 mean a component could look clean in the tab and still fail the merge.
@@ -289,7 +306,7 @@ hide this behind `outputHashing: "all"`; the dev server did not.
 
 Done. The format, the registry, the playground, examples, both theme toolbars,
 shareable URL state, the Docs tab with compiled markdown and a generated API
-table, all 41 showcases, the Accessibility tab, and the axe sweep gating CI.
+table, all 42 showcases, the Accessibility tab, and the axe sweep gating CI.
 Pages publishes `dist-workbench/browser`.
 
 Storybook is gone: seven dependencies, `.storybook/`, `storybook-host.ts`,
