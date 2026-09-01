@@ -15,6 +15,13 @@ import { WbKnobPanel, type KnobChange } from './knob-panel';
 /** Text knobs fire per keystroke; the URL only needs to settle. */
 const URL_WRITE_DELAY_MS = 200;
 
+/**
+ * Groups whose showcases are driven by knobs and emit outputs. Foundations and
+ * Utilities are pages of markup and CSS classes: they take no inputs and fire
+ * nothing, so the panels would only ever show two empty cards.
+ */
+const DRIVABLE_GROUPS: readonly string[] = ['Components', 'Charts'];
+
 @Component({
   selector: 'wb-showcase-view',
   imports: [
@@ -44,6 +51,12 @@ export class WbShowcaseView {
   protected readonly values = signal<Record<string, unknown>>({});
   protected readonly actions = signal<readonly WbAction[]>([]);
   protected readonly docs = signal<ShowcaseDocs | null>(null);
+
+  protected readonly showsPanels = computed(() => {
+    const group = this.showcase()?.group;
+
+    return group !== undefined && DRIVABLE_GROUPS.includes(group);
+  });
 
   protected readonly tabs = computed<UcTab[]>(() => [
     { key: 'playground', label: 'Playground' },

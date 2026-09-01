@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 
 import { UcButton } from '../uc-button';
+import { BUTTON_EXAMPLE_ROW_STYLES } from './example-layout';
 
 /**
  * The consumer owns the state: a signal flipped around the async call. The
@@ -10,13 +11,7 @@ import { UcButton } from '../uc-button';
 @Component({
   selector: 'uc-button-consumer-owned-signal-example',
   imports: [UcButton],
-  styles: `
-    :host {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
-  `,
+  styles: BUTTON_EXAMPLE_ROW_STYLES,
   template: `
     <uc-button text="Save invoice" [loading]="saving()" (clicked)="save()">
       <i ucButtonPrefix class="ph-bold ph-floppy-disk"></i>

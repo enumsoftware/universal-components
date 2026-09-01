@@ -18,7 +18,7 @@ by filename - there is nothing to register.
 ```ts
 import { bool, defineShowcase, select, text } from "../workbench/core";
 import { BUTTON_VARIANT_OPTIONS, UcButton } from "./uc-button";
-import { WithPrefixIconExample } from "./examples/with-prefix-icon";
+import { WithIconsExample } from "./examples/with-icons";
 
 export default defineShowcase({
   id: "components/button", // route + deep link, must be unique
@@ -33,7 +33,7 @@ export default defineShowcase({
   },
   examples: [
     { name: "Secondary", props: { variant: "secondary" } },
-    { name: "With Prefix Icon", component: WithPrefixIconExample },
+    { name: "With Icons", component: WithIconsExample },
   ],
 });
 ```
@@ -47,6 +47,11 @@ showcase, which is what keeps each one a lazy chunk.
 `knobs` is keyed to the component's real signal inputs, so renaming an input
 fails the build rather than silently producing a dead control. Helpers:
 `text`, `bool`, `number`, `select`, `color`, `object`.
+
+The Controls and Actions panels under the Playground are shown only for the
+`Components` and `Charts` groups. `Foundations` and `Utilities` showcases are
+pages of markup and CSS classes rather than a component with an API - they take
+no inputs and emit no outputs, so the panels would only ever be two empty cards.
 
 ## Examples: presets vs components
 

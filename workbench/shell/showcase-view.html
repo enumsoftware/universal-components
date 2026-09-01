@@ -22,35 +22,37 @@
           <wb-component-host [component]="component" [props]="values()" (action)="onAction($event)" />
         </wb-canvas>
 
-        <section class="wb-panels">
-          <uc-card fit="fill">
-            <div class="wb-panel-header">
-              <h2>Controls</h2>
-              <uc-button text="Reset" variant="secondary" size="small" (clicked)="resetKnobs()" />
-            </div>
-            <wb-knob-panel [knobs]="showcase.knobs" [values]="values()" (changed)="onKnobChange($event)" />
-          </uc-card>
+        @if (showsPanels()) {
+          <section class="wb-panels">
+            <uc-card>
+              <div class="wb-panel-header">
+                <h2>Controls</h2>
+                <uc-button text="Reset" variant="secondary" size="small" (clicked)="resetKnobs()" />
+              </div>
+              <wb-knob-panel [knobs]="showcase.knobs" [values]="values()" (changed)="onKnobChange($event)" />
+            </uc-card>
 
-          <uc-card fit="fill">
-            <div class="wb-panel-header">
-              <h2>Actions</h2>
-              <uc-button text="Clear" variant="secondary" size="small" (clicked)="clearActions()" />
-            </div>
-            @if (actions().length === 0) {
-              <p class="wb-empty">Nothing emitted yet.</p>
-            } @else {
-              <ol class="wb-actions">
-                @for (action of actions(); track action.at + action.name) {
-                  <li>
-                    <code>{{ action.name }}</code>
-                    <span class="wb-payload">{{ formatPayload(action.payload) }}</span>
-                    <time>{{ formatTime(action.at) }}</time>
-                  </li>
-                }
-              </ol>
-            }
-          </uc-card>
-        </section>
+            <uc-card>
+              <div class="wb-panel-header">
+                <h2>Actions</h2>
+                <uc-button text="Clear" variant="secondary" size="small" (clicked)="clearActions()" />
+              </div>
+              @if (actions().length === 0) {
+                <p class="wb-empty">Nothing emitted yet.</p>
+              } @else {
+                <ol class="wb-actions">
+                  @for (action of actions(); track action.at + action.name) {
+                    <li>
+                      <code>{{ action.name }}</code>
+                      <span class="wb-payload">{{ formatPayload(action.payload) }}</span>
+                      <time>{{ formatTime(action.at) }}</time>
+                    </li>
+                  }
+                </ol>
+              }
+            </uc-card>
+          </section>
+        }
       } @else {
         <p class="wb-empty">This showcase is docs-only - it declares no component to drive.</p>
       }

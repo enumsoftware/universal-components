@@ -14,6 +14,7 @@
 
 @import 'utilities/scale.css';
 @import 'utilities/display.css';
+@import 'utilities/sizing.css';
 @import 'utilities/flex.css';
 @import 'utilities/grid.css';
 @import 'utilities/alignment.css';

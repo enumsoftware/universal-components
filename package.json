@@ -44,6 +44,7 @@
     "./themes/utilities.css": "./themes/utilities.css",
     "./themes/utilities/scale.css": "./themes/utilities/scale.css",
     "./themes/utilities/display.css": "./themes/utilities/display.css",
+    "./themes/utilities/sizing.css": "./themes/utilities/sizing.css",
     "./themes/utilities/flex.css": "./themes/utilities/flex.css",
     "./themes/utilities/grid.css": "./themes/utilities/grid.css",
     "./themes/utilities/alignment.css": "./themes/utilities/alignment.css",
