@@ -98,8 +98,8 @@
         <button
           type="button"
           class="uc-date-time-picker__month-btn"
-          [class.uc-date-time-picker__month-btn--current]="$index === viewMonth()"
-          (click)="selectMonth($index)"
+          [class.uc-date-time-picker__month-btn--current]="$index + 1 === viewMonth()"
+          (click)="selectMonth($index + 1)"
         >{{ month.slice(0, 3) }}</button>
         }
       </div>

@@ -73,6 +73,7 @@
     "@phosphor-icons/web": "^2.1.2",
     "d3": "^7.9.0",
     "flag-icons": "^7.5.0",
+    "temporal-polyfill": "^1.0.4",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

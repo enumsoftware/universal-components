@@ -1,4 +1,4 @@
-import { defineShowcase, number, select, text } from '../workbench/core';
+import { date, defineShowcase, number, select } from '../workbench/core';
 import { UcCalendar } from './uc-calendar';
 
 export default defineShowcase({
@@ -7,13 +7,22 @@ export default defineShowcase({
   title: 'Calendar',
   component: UcCalendar,
   knobs: {
-    viewYear: number(2026),
-    viewMonth: number(7, { min: 0, max: 11, description: '0-indexed month (0 = January, 11 = December)' }),
-    selectedDate: text('', { description: 'Selected date as YYYY-MM-DD (single mode only)' }),
+    // Seeded rather than empty so the playground opens with a visible selection -
+    // and so the canvas does not drift month to month with the current date,
+    // which the a11y baseline counts element by element.
+    selectedDate: date('2026-08-13', {
+      description: 'Selected date (single mode). The grid follows it unless a view year/month is pinned below.',
+    }),
     mode: select(['single', 'range'] as const, 'single'),
-    rangeStart: text(''),
-    rangeEnd: text(''),
+    rangeStart: date(''),
+    rangeEnd: date(''),
     rangeStep: select(['start', 'end'] as const, 'start'),
+    viewYear: number(undefined, { description: 'Leave empty to follow the selection, then today.' }),
+    viewMonth: number(undefined, {
+      min: 1,
+      max: 12,
+      description: '1-indexed month (1 = January, 12 = December). Leave empty to follow the selection.',
+    }),
   },
   examples: [
     { name: 'With Selected Date', description: 'A single date pre-selected.', props: { selectedDate: '2026-08-13' } },
@@ -28,9 +37,9 @@ export default defineShowcase({
       props: { mode: 'range', rangeStart: '2026-08-10', rangeEnd: '', rangeStep: 'end' },
     },
     {
-      name: 'Mid Week Start',
-      description: 'A month whose first day falls mid-week, showing padding days from the previous month.',
-      props: { viewYear: 2026, viewMonth: 9, selectedDate: '2026-10-01' },
+      name: 'Pinned View Month',
+      description: 'A pinned view year/month wins over the selection, showing padding days from the previous month.',
+      props: { viewYear: 2026, viewMonth: 10, selectedDate: '2026-10-01' },
     },
   ],
 });

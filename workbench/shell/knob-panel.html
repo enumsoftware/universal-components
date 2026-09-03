@@ -35,6 +35,28 @@
       [value]="asColor(values()[entry.name])"
       (colorChange)="emit(entry.name, $event)"
     />
+    } @case ('date') {
+    <div class="wb-knob-date">
+      <uc-date-time-picker
+        [id]="controlId(entry)"
+        [label]="entry.label"
+        [placeholder]="placeholder(entry) || 'Select date'"
+        [showTime]="showsTime(entry)"
+        [value]="asText(values()[entry.name])"
+        (dateChange)="emit(entry.name, $event)"
+      />
+      @if (asText(values()[entry.name])) {
+      <a
+        class="wb-knob-clear"
+        role="button"
+        tabindex="0"
+        (click)="emit(entry.name, '')"
+        (keydown.enter)="emit(entry.name, '')"
+        (keydown.space)="emit(entry.name, ''); $event.preventDefault()"
+        >Clear</a
+      >
+      }
+    </div>
     } @case ('object') {
     <uc-textarea
       [id]="controlId(entry)"

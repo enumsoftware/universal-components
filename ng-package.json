@@ -6,7 +6,8 @@
   "allowedNonPeerDependencies": [
     "@phosphor-icons/web",
     "d3",
-    "flag-icons"
+    "flag-icons",
+    "temporal-polyfill"
   ],
   "dest": "dist"
 }

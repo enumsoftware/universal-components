@@ -11,6 +11,7 @@ import { WbA11yPanel } from './a11y-panel';
 import { WbCanvas } from './canvas';
 import { WbComponentHost, type WbAction } from './component-host';
 import { WbKnobPanel, type KnobChange } from './knob-panel';
+import { Temporal } from '../../uc-calendar/uc-calendar-date';
 
 /** Text knobs fire per keystroke; the URL only needs to settle. */
 const URL_WRITE_DELAY_MS = 200;
@@ -202,7 +203,10 @@ export class WbShowcaseView {
   }
 
   protected formatTime(at: number): string {
-    return new Date(at).toLocaleTimeString();
+    return Temporal.Instant.fromEpochMilliseconds(at)
+      .toZonedDateTimeISO(Temporal.Now.timeZoneId())
+      .toPlainTime()
+      .toLocaleString();
   }
 }
 

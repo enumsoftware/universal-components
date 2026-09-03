@@ -46,7 +46,11 @@ showcase, which is what keeps each one a lazy chunk.
 
 `knobs` is keyed to the component's real signal inputs, so renaming an input
 fails the build rather than silently producing a dead control. Helpers:
-`text`, `bool`, `number`, `select`, `color`, `object`.
+`text`, `bool`, `number`, `select`, `color`, `date`, `object`.
+
+`date` renders a `uc-date-time-picker` (plus a Clear button, since `''` is how a
+date knob says "unset") rather than a text field the user has to spell
+`YYYY-MM-DD` into; pass `showTime: true` for a `YYYY-MM-DDTHH:mm` value.
 
 The Controls and Actions panels under the Playground are shown only for the
 `Components` and `Charts` groups. `Foundations` and `Utilities` showcases are

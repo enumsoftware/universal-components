@@ -6,11 +6,16 @@ import {
   output,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import { Temporal, parsePlainDate, toDateLabel, todayPlainDate } from './uc-calendar-date';
 
 export type CalendarMode = 'single' | 'range';
 
 export interface CalendarDay {
-  date: Date;
+  date: Temporal.PlainDate;
+  /** `YYYY-MM-DD`, ready to hand straight back to `selectedDate`/`rangeStart`/`rangeEnd`. */
+  iso: string;
+  /** Spoken-language label for the day button, e.g. `Wed Aug 13 2026`. */
+  label: string;
   dayNumber: number;
   isCurrentMonth: boolean;
   isToday: boolean;
@@ -22,6 +27,9 @@ export interface CalendarDay {
   isRangePreviewEnd: boolean;
 }
 
+/** Six weeks, so the grid height never jumps between months. */
+const GRID_DAYS = 42;
+
 @Component({
   selector: 'uc-calendar',
   templateUrl: './uc-calendar.html',
@@ -30,14 +38,16 @@ export interface CalendarDay {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UcCalendar {
-  readonly viewYear = input.required<number>();
-  readonly viewMonth = input.required<number>();
+  /** Year to display. Omit to follow the current selection, falling back to today. */
+  readonly viewYear = input<number | undefined>(undefined);
+  /** Month to display, 1-indexed. Omit to follow the current selection, falling back to today. */
+  readonly viewMonth = input<number | undefined>(undefined);
   readonly selectedDate = input<string>('');
   readonly mode = input<CalendarMode>('single');
   readonly rangeStart = input<string>('');
   readonly rangeEnd = input<string>('');
   readonly rangeStep = input<'start' | 'end'>('start');
-  readonly hoverDate = input<Date | null>(null);
+  readonly hoverDate = input<Temporal.PlainDate | null>(null);
 
   readonly daySelect = output<CalendarDay>();
   readonly dayHover = output<CalendarDay>();
@@ -45,76 +55,46 @@ export class UcCalendar {
 
   readonly weekDays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
+  /**
+   * The month the grid actually renders. An uncontrolled calendar follows its
+   * own selection, so setting `selectedDate` alone shows the selected day
+   * instead of silently landing on a month that has nothing marked in it.
+   */
+  private readonly anchorDate = computed<Temporal.PlainDate>(() => {
+    const selection = this.mode() === 'range' ? this.rangeStart() : this.selectedDate();
+    return parsePlainDate(selection) ?? todayPlainDate();
+  });
+
+  readonly resolvedYear = computed<number>(() => this.viewYear() ?? this.anchorDate().year);
+  readonly resolvedMonth = computed<number>(() => this.viewMonth() ?? this.anchorDate().month);
+
   readonly calendarDays = computed<CalendarDay[]>(() => {
-    const year = this.viewYear();
-    const month = this.viewMonth();
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const year = this.resolvedYear();
+    const month = this.resolvedMonth();
+    const today = todayPlainDate();
 
     const isRange = this.mode() === 'range';
-    const selectedDate =
-      !isRange && this.selectedDate() ? this.parseDateStr(this.selectedDate()) : null;
-    const rangeStartDate =
-      isRange && this.rangeStart() ? this.parseDateStr(this.rangeStart()) : null;
-    const rangeEndDate =
-      isRange && this.rangeEnd() ? this.parseDateStr(this.rangeEnd()) : null;
+    const selected = isRange ? null : parsePlainDate(this.selectedDate());
+    const rangeStart = isRange ? parsePlainDate(this.rangeStart()) : null;
+    const rangeEnd = isRange ? parsePlainDate(this.rangeEnd()) : null;
 
-    let previewEndDate: Date | null = null;
-    if (rangeStartDate && !rangeEndDate) {
+    let previewEnd: Temporal.PlainDate | null = null;
+    if (rangeStart && !rangeEnd) {
       const hover = this.hoverDate();
-      if (hover) {
-        const h = new Date(hover);
-        h.setHours(0, 0, 0, 0);
-        if (h >= rangeStartDate) previewEndDate = h;
+      if (hover && Temporal.PlainDate.compare(hover, rangeStart) >= 0) {
+        previewEnd = hover;
       }
     }
 
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-    const days: CalendarDay[] = [];
+    const firstOfMonth = Temporal.PlainDate.from({ year, month, day: 1 });
+    // Temporal weeks run Mon(1)..Sun(7); this grid starts its rows on Sunday.
+    const gridStart = firstOfMonth.subtract({ days: firstOfMonth.dayOfWeek % 7 });
 
-    const startDow = firstDay.getDay();
-    for (let i = startDow - 1; i >= 0; i--) {
-      days.push(
-        this.buildDay(
-          new Date(year, month, -i),
-          false,
-          today,
-          selectedDate,
-          rangeStartDate,
-          rangeEndDate,
-          previewEndDate,
-        ),
-      );
-    }
-    for (let d = 1; d <= lastDay.getDate(); d++) {
-      days.push(
-        this.buildDay(
-          new Date(year, month, d),
-          true,
-          today,
-          selectedDate,
-          rangeStartDate,
-          rangeEndDate,
-          previewEndDate,
-        ),
-      );
-    }
-    // Keep a stable 6-week calendar matrix so layout does not jump between months.
-    for (let d = 1; d <= 42 - days.length; d++) {
-      days.push(
-        this.buildDay(
-          new Date(year, month + 1, d),
-          false,
-          today,
-          selectedDate,
-          rangeStartDate,
-          rangeEndDate,
-          previewEndDate,
-        ),
-      );
-    }
-    return days;
+    return Array.from({ length: GRID_DAYS }, (_, i) => {
+      const date = gridStart.add({ days: i });
+      const isCurrentMonth = date.year === year && date.month === month;
+      return this.buildDay(date, isCurrentMonth, today, selected, rangeStart, rangeEnd, previewEnd);
+    });
   });
 
   readonly calendarWeeks = computed<CalendarDay[][]>(() => {
@@ -127,50 +107,42 @@ export class UcCalendar {
   });
 
   private buildDay(
-    date: Date,
+    date: Temporal.PlainDate,
     isCurrentMonth: boolean,
-    today: Date,
-    selectedDate: Date | null,
-    rangeStartDate: Date | null,
-    rangeEndDate: Date | null,
-    previewEndDate: Date | null,
+    today: Temporal.PlainDate,
+    selected: Temporal.PlainDate | null,
+    rangeStart: Temporal.PlainDate | null,
+    rangeEnd: Temporal.PlainDate | null,
+    previewEnd: Temporal.PlainDate | null,
   ): CalendarDay {
-    const dateOnly = new Date(date);
-    dateOnly.setHours(0, 0, 0, 0);
+    const isAfter = (other: Temporal.PlainDate) => Temporal.PlainDate.compare(date, other) > 0;
+    const isBefore = (other: Temporal.PlainDate) => Temporal.PlainDate.compare(date, other) < 0;
 
-    const isRangeStart =
-      rangeStartDate !== null && dateOnly.getTime() === rangeStartDate.getTime();
-    const isRangeEnd =
-      rangeEndDate !== null && dateOnly.getTime() === rangeEndDate.getTime();
+    const isRangeStart = rangeStart !== null && date.equals(rangeStart);
+    const isRangeEnd = rangeEnd !== null && date.equals(rangeEnd);
     const isInRange =
-      rangeStartDate !== null && rangeEndDate !== null
-        ? dateOnly > rangeStartDate && dateOnly < rangeEndDate
-        : false;
-    const isRangePreviewEnd =
-      previewEndDate !== null && dateOnly.getTime() === previewEndDate.getTime();
+      rangeStart !== null && rangeEnd !== null && isAfter(rangeStart) && isBefore(rangeEnd);
+    const isRangePreviewEnd = previewEnd !== null && date.equals(previewEnd);
     const isRangePreview =
-      !isRangePreviewEnd && rangeStartDate !== null && previewEndDate !== null
-        ? dateOnly > rangeStartDate && dateOnly < previewEndDate
-        : false;
+      !isRangePreviewEnd &&
+      rangeStart !== null &&
+      previewEnd !== null &&
+      isAfter(rangeStart) &&
+      isBefore(previewEnd);
 
     return {
       date,
-      dayNumber: date.getDate(),
+      iso: date.toString(),
+      label: toDateLabel(date),
+      dayNumber: date.day,
       isCurrentMonth,
-      isToday: dateOnly.getTime() === today.getTime(),
-      isSelected: selectedDate !== null && dateOnly.getTime() === selectedDate.getTime(),
+      isToday: date.equals(today),
+      isSelected: selected !== null && date.equals(selected),
       isRangeStart,
       isRangeEnd,
       isInRange,
       isRangePreview,
       isRangePreviewEnd,
     };
-  }
-
-  private parseDateStr(str: string): Date {
-    const [y, m, d] = str.split('-').map(Number);
-    const date = new Date(y, m - 1, d);
-    date.setHours(0, 0, 0, 0);
-    return date;
   }
 }

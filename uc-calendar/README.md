@@ -5,10 +5,12 @@ A standalone, reusable monthly calendar grid. Used internally by `UcDateTimePick
 ## Features
 
 - **Single & range selection** — renders selected dates, range spans, and a hover-preview strip
+- **Follows its selection** — with no `viewYear`/`viewMonth` pinned, the grid opens on the month of the selected date (or today when nothing is selected)
 - **Stable 6-week grid** — always 6 rows so height never jumps between months
 - **Accessible** — every day button carries an `aria-label` and `aria-pressed` state
 - **Signal-based** — all inputs are Angular input signals (Angular 17+)
 - **Themeable** — driven entirely by `--uc-dtp-*` CSS custom properties
+- **Temporal-based** — days are `Temporal.PlainDate`, so a picked day is a civil date with no time zone attached and never shifts by one
 
 ## Installation
 
@@ -18,12 +20,39 @@ A standalone, reusable monthly calendar grid. Used internally by `UcDateTimePick
 import { UcCalendar, CalendarDay } from '@enumsoftware/universal-components';
 ```
 
+### Temporal
+
+Dates are modelled with the [Temporal API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal).
+The package depends on [`temporal-polyfill`](https://www.npmjs.com/package/temporal-polyfill)
+and imports `Temporal` from it directly, so nothing is required of the host app — no
+global is patched, and browsers without native Temporal (notably Safari) work the same
+as those with it.
+
+To name the types in your own code, import `Temporal` from the same polyfill:
+
+```typescript
+import { Temporal } from 'temporal-polyfill';
+```
+
 ## Usage
+
+### Display only
+
+`viewYear`/`viewMonth` are optional. With neither pinned, the calendar renders the
+month of whatever is selected, so a date set from outside is always visible:
+
+```html
+<uc-calendar selectedDate="2026-08-13" />
+```
 
 ### Single mode
 
+Pin `viewYear`/`viewMonth` when the host owns month navigation (as
+`UcDateTimePicker` does):
+
 ```typescript
 import { Component, signal } from '@angular/core';
+import { Temporal } from 'temporal-polyfill';
 import { UcCalendar, CalendarDay } from '@enumsoftware/universal-components';
 
 @Component({
@@ -39,17 +68,15 @@ import { UcCalendar, CalendarDay } from '@enumsoftware/universal-components';
   `,
 })
 export class ExampleComponent {
-  readonly year = signal(new Date().getFullYear());
-  readonly month = signal(new Date().getMonth());
+  readonly year = signal(Temporal.Now.plainDateISO().year);
+  readonly month = signal(Temporal.Now.plainDateISO().month);
   readonly selected = signal('');
 
   onDaySelect(day: CalendarDay): void {
-    const m = String(day.date.getMonth() + 1).padStart(2, '0');
-    const d = String(day.date.getDate()).padStart(2, '0');
-    this.selected.set(`${day.date.getFullYear()}-${m}-${d}`);
+    this.selected.set(day.iso);
     // Navigate to the clicked month if the user clicked a padding day
-    this.year.set(day.date.getFullYear());
-    this.month.set(day.date.getMonth());
+    this.year.set(day.date.year);
+    this.month.set(day.date.month);
   }
 }
 ```
@@ -58,6 +85,7 @@ export class ExampleComponent {
 
 ```typescript
 import { Component, signal } from '@angular/core';
+import { Temporal } from 'temporal-polyfill';
 import { UcCalendar, CalendarDay } from '@enumsoftware/universal-components';
 
 @Component({
@@ -79,27 +107,20 @@ import { UcCalendar, CalendarDay } from '@enumsoftware/universal-components';
   `,
 })
 export class RangeExampleComponent {
-  readonly year = signal(new Date().getFullYear());
-  readonly month = signal(new Date().getMonth());
+  readonly year = signal(Temporal.Now.plainDateISO().year);
+  readonly month = signal(Temporal.Now.plainDateISO().month);
   readonly rangeStart = signal('');
   readonly rangeEnd = signal('');
   readonly rangeStep = signal<'start' | 'end'>('start');
-  readonly hoverDate = signal<Date | null>(null);
-
-  private toDateStr(d: Date): string {
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${d.getFullYear()}-${m}-${day}`;
-  }
+  readonly hoverDate = signal<Temporal.PlainDate | null>(null);
 
   onDaySelect(day: CalendarDay): void {
-    const str = this.toDateStr(day.date);
     if (this.rangeStep() === 'start' || (this.rangeStart() && this.rangeEnd())) {
-      this.rangeStart.set(str);
+      this.rangeStart.set(day.iso);
       this.rangeEnd.set('');
       this.rangeStep.set('end');
     } else {
-      this.rangeEnd.set(str);
+      this.rangeEnd.set(day.iso);
       this.rangeStep.set('start');
     }
     this.hoverDate.set(null);
@@ -121,14 +142,14 @@ export class RangeExampleComponent {
 
 | Input | Type | Default | Description |
 |-------|------|---------|-------------|
-| `viewYear` | `number` | **required** | Year to display |
-| `viewMonth` | `number` | **required** | Month to display — 0-indexed (0 = January, 11 = December) |
+| `viewYear` | `number \| undefined` | `undefined` | Year to display. Omit to follow the current selection (`selectedDate`, or `rangeStart` in range mode), falling back to today. |
+| `viewMonth` | `number \| undefined` | `undefined` | Month to display — 1-indexed (1 = January, 12 = December), matching `Temporal.PlainDate.month`. Omit to follow the current selection, falling back to today. |
 | `selectedDate` | `string` | `''` | Selected date in `YYYY-MM-DD` format. Used in single mode. |
 | `mode` | `'single' \| 'range'` | `'single'` | Selection mode |
 | `rangeStart` | `string` | `''` | Range start date in `YYYY-MM-DD` format |
 | `rangeEnd` | `string` | `''` | Range end date in `YYYY-MM-DD` format |
 | `rangeStep` | `'start' \| 'end'` | `'start'` | Which range endpoint is being picked; controls the hover-preview direction |
-| `hoverDate` | `Date \| null` | `null` | Currently hovered date, used to render the range preview strip |
+| `hoverDate` | `Temporal.PlainDate \| null` | `null` | Currently hovered date, used to render the range preview strip |
 
 ### Outputs
 
@@ -142,7 +163,11 @@ export class RangeExampleComponent {
 
 ```typescript
 interface CalendarDay {
-  date: Date;
+  date: Temporal.PlainDate;
+  /** `YYYY-MM-DD`, ready to hand straight back to `selectedDate`/`rangeStart`/`rangeEnd`. */
+  iso: string;
+  /** Spoken-language label for the day button, e.g. `Wed Aug 13 2026`. */
+  label: string;
   dayNumber: number;
   isCurrentMonth: boolean;
   isToday: boolean;
@@ -154,6 +179,22 @@ interface CalendarDay {
   isRangePreviewEnd: boolean;
 }
 ```
+
+## Migrating from the `Date` API
+
+Three breaking changes came with the move to Temporal:
+
+| Before | After |
+|--------|-------|
+| `viewMonth` was 0-indexed (`9` = October) | `viewMonth` is 1-indexed (`10` = October) |
+| `CalendarDay.date` was a `Date` | `CalendarDay.date` is a `Temporal.PlainDate`; `CalendarDay.iso` is the `YYYY-MM-DD` string |
+| `hoverDate` took a `Date` | `hoverDate` takes a `Temporal.PlainDate` — pass `day.date` straight from `dayHover` |
+
+`viewMonth` is the one to watch: an untouched `9` still renders, it just renders
+September instead of October. Every `viewMonth` binding needs `+ 1`.
+
+Formatting a selected day no longer needs a helper — `day.iso` is already the
+string the `selectedDate`/`rangeStart`/`rangeEnd` inputs expect.
 
 ## Theming
 
