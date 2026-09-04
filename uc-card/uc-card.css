@@ -3,18 +3,14 @@
   --uc-card-border-radius-resolved: var(--uc-card-border-radius, var(--card-border-radius));
   --uc-card-box-shadow-resolved: var(--uc-card-box-shadow, var(--card-box-shadow));
   --uc-card-padding-resolved: var(--uc-card-padding, var(--card-padding));
+  /* The card owns its padding, so a caller-supplied width such as uc-w-full has
+     to measure the padded box - a content-box 100% would overflow the container
+     by twice the padding. */
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  width: fit-content;
   background-color: var(--uc-card-background-resolved);
   border-radius: var(--uc-card-border-radius-resolved);
   box-shadow: var(--uc-card-box-shadow-resolved);
   padding: var(--uc-card-padding-resolved);
-
-  &.uc-card--fill {
-    /* The card owns its padding, so fill has to mean "the padded box spans the
-       container" - a content-box 100% would overflow by twice the padding. */
-    box-sizing: border-box;
-    width: 100%;
-  }
 }

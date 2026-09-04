@@ -17,6 +17,13 @@ import {
 } from '@angular/forms/signals';
 import { UcIconButton } from '../uc-icon-button/uc-icon-button';
 import { UcCalendar, CalendarDay } from '../uc-calendar/uc-calendar';
+import {
+  MONTH_NAMES,
+  Temporal,
+  parsePlainDate,
+  parsePlainDateTime,
+  todayPlainDate,
+} from '../uc-calendar/uc-calendar-date';
 
 export const DATE_TIME_PICKER_MODE_OPTIONS = ['single', 'range'] as const;
 export type DateTimePickerMode = (typeof DATE_TIME_PICKER_MODE_OPTIONS)[number];
@@ -65,12 +72,12 @@ export class UcDateTimePicker implements FormValueControl<string> {
   /** Controls which panel is shown inside the dropdown */
   readonly pickerView = signal<'calendar' | 'year' | 'month'>('calendar');
 
-  /** Calendar state - month/year currently displayed */
-  readonly viewYear = signal<number>(new Date().getFullYear());
-  readonly viewMonth = signal<number>(new Date().getMonth());
+  /** Calendar state - month/year currently displayed. `viewMonth` is 1-indexed. */
+  readonly viewYear = signal<number>(todayPlainDate().year);
+  readonly viewMonth = signal<number>(todayPlainDate().month);
 
   /** First year shown in the 12-year year-selection grid */
-  readonly yearPageStart = signal<number>(Math.floor(new Date().getFullYear() / 12) * 12);
+  readonly yearPageStart = signal<number>(Math.floor(todayPlainDate().year / 12) * 12);
 
   readonly yearGrid = computed<number[]>(() =>
     Array.from({ length: 12 }, (_, i) => this.yearPageStart() + i),
@@ -85,27 +92,14 @@ export class UcDateTimePicker implements FormValueControl<string> {
   readonly draftRangeStart = signal<string>('');
   readonly draftRangeEnd = signal<string>('');
   readonly rangeStep = signal<'start' | 'end'>('start');
-  readonly hoverDate = signal<Date | null>(null);
+  readonly hoverDate = signal<Temporal.PlainDate | null>(null);
 
   readonly showErrorState = computed(() => this.invalid() && this.touched());
 
-  readonly monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
+  readonly monthNames = MONTH_NAMES;
 
   readonly viewMonthLabel = computed(() => {
-    return `${this.monthNames[this.viewMonth()]} ${this.viewYear()}`;
+    return `${this.monthNames[this.viewMonth() - 1]} ${this.viewYear()}`;
   });
 
   readonly displayValue = computed<string>(() => {
@@ -145,39 +139,32 @@ export class UcDateTimePicker implements FormValueControl<string> {
   openDropdown(): void {
     this.pickerView.set('calendar');
     if (this.mode() === 'range') {
-      const start = this.rangeStart();
+      const start = parsePlainDate(this.rangeStart());
       if (start) {
-        const date = this.parseDateStr(start);
-        this.viewYear.set(date.getFullYear());
-        this.viewMonth.set(date.getMonth());
-        this.draftRangeStart.set(start);
+        this.showMonthOf(start);
+        this.draftRangeStart.set(this.rangeStart());
         this.draftRangeEnd.set(this.rangeEnd());
-        this.rangeStep.set('start');
       } else {
-        const now = new Date();
-        this.viewYear.set(now.getFullYear());
-        this.viewMonth.set(now.getMonth());
+        this.showMonthOf(todayPlainDate());
         this.draftRangeStart.set('');
         this.draftRangeEnd.set('');
-        this.rangeStep.set('start');
       }
+      this.rangeStep.set('start');
       this.hoverDate.set(null);
     } else {
-      const val = this.value();
-      if (val) {
-        const date = this.parseDateTimeStr(val);
-        this.draftDateStr.set(this.toDateStr(date));
-        this.draftHours.set(date.getHours());
-        this.draftMinutes.set(date.getMinutes());
-        this.viewYear.set(date.getFullYear());
-        this.viewMonth.set(date.getMonth());
+      // An unparseable bound value opens on today rather than on a broken month.
+      const parsed = parsePlainDateTime(this.value());
+      if (parsed) {
+        this.draftDateStr.set(parsed.toPlainDate().toString());
+        this.draftHours.set(parsed.hour);
+        this.draftMinutes.set(parsed.minute);
+        this.showMonthOf(parsed.toPlainDate());
       } else {
-        const now = new Date();
+        const now = Temporal.Now.plainDateTimeISO();
         this.draftDateStr.set('');
-        this.draftHours.set(now.getHours());
-        this.draftMinutes.set(now.getMinutes());
-        this.viewYear.set(now.getFullYear());
-        this.viewMonth.set(now.getMonth());
+        this.draftHours.set(now.hour);
+        this.draftMinutes.set(now.minute);
+        this.showMonthOf(now.toPlainDate());
       }
     }
     this.isOpen.set(true);
@@ -220,46 +207,39 @@ export class UcDateTimePicker implements FormValueControl<string> {
   }
 
   selectToday(): void {
-    const today = new Date();
-    const todayStr = this.toDateStr(today);
+    const today = todayPlainDate();
     if (this.mode() === 'range') {
-      this.draftRangeStart.set(todayStr);
+      this.draftRangeStart.set(today.toString());
       this.draftRangeEnd.set('');
       this.rangeStep.set('end');
       this.hoverDate.set(null);
     } else {
-      this.draftDateStr.set(todayStr);
+      this.draftDateStr.set(today.toString());
     }
-    this.viewYear.set(today.getFullYear());
-    this.viewMonth.set(today.getMonth());
+    this.showMonthOf(today);
   }
 
   selectDay(day: CalendarDay): void {
     if (this.mode() === 'range') {
-      const clickedStr = this.toDateStr(day.date);
-      if (this.rangeStep() === 'start' || (this.draftRangeStart() && this.draftRangeEnd())) {
-        this.draftRangeStart.set(clickedStr);
+      const start = parsePlainDate(this.draftRangeStart());
+      const restart =
+        this.rangeStep() === 'start' ||
+        (this.draftRangeStart() && this.draftRangeEnd()) ||
+        start === null ||
+        Temporal.PlainDate.compare(day.date, start) < 0;
+      if (restart) {
+        this.draftRangeStart.set(day.iso);
         this.draftRangeEnd.set('');
         this.rangeStep.set('end');
         this.hoverDate.set(null);
       } else {
-        const startDate = this.parseDateStr(this.draftRangeStart());
-        const clickedDate = new Date(day.date);
-        clickedDate.setHours(0, 0, 0, 0);
-        if (clickedDate < startDate) {
-          this.draftRangeStart.set(clickedStr);
-          this.draftRangeEnd.set('');
-          this.rangeStep.set('end');
-        } else {
-          this.draftRangeEnd.set(clickedStr);
-          this.rangeStep.set('start');
-        }
+        this.draftRangeEnd.set(day.iso);
+        this.rangeStep.set('start');
       }
     } else {
-      this.draftDateStr.set(this.toDateStr(day.date));
+      this.draftDateStr.set(day.iso);
       if (!day.isCurrentMonth) {
-        this.viewYear.set(day.date.getFullYear());
-        this.viewMonth.set(day.date.getMonth());
+        this.showMonthOf(day.date);
       }
     }
   }
@@ -300,25 +280,11 @@ export class UcDateTimePicker implements FormValueControl<string> {
   }
 
   previousMonth(): void {
-    const m = this.viewMonth();
-    const y = this.viewYear();
-    if (m === 0) {
-      this.viewMonth.set(11);
-      this.viewYear.set(y - 1);
-    } else {
-      this.viewMonth.set(m - 1);
-    }
+    this.shiftMonths(-1);
   }
 
   nextMonth(): void {
-    const m = this.viewMonth();
-    const y = this.viewYear();
-    if (m === 11) {
-      this.viewMonth.set(0);
-      this.viewYear.set(y + 1);
-    } else {
-      this.viewMonth.set(m + 1);
-    }
+    this.shiftMonths(1);
   }
 
   onHoursChange(event: Event): void {
@@ -345,59 +311,40 @@ export class UcDateTimePicker implements FormValueControl<string> {
     }
   }
 
-  private toDateStr(date: Date): string {
-    const y = date.getFullYear();
-    const m = String(date.getMonth() + 1).padStart(2, '0');
-    const d = String(date.getDate()).padStart(2, '0');
-    return `${y}-${m}-${d}`;
+  /** Points the calendar at the month containing `date`. */
+  private showMonthOf(date: Temporal.PlainDate): void {
+    this.viewYear.set(date.year);
+    this.viewMonth.set(date.month);
   }
 
-  private parseDateStr(str: string): Date {
-    const [y, m, d] = str.split('-').map(Number);
-    const date = new Date(y, m - 1, d);
-    date.setHours(0, 0, 0, 0);
-    return date;
-  }
-
-  private parseDateTimeStr(str: string): Date {
-    if (str.includes('T')) {
-      const [datePart, timePart] = str.split('T');
-      const [y, m, d] = datePart.split('-').map(Number);
-      const [h, min] = timePart.split(':').map(Number);
-      return new Date(y, m - 1, d, h, min);
-    }
-    return this.parseDateStr(str);
+  private shiftMonths(months: number): void {
+    const shifted = Temporal.PlainYearMonth.from({
+      year: this.viewYear(),
+      month: this.viewMonth(),
+    }).add({ months });
+    this.viewYear.set(shifted.year);
+    this.viewMonth.set(shifted.month);
   }
 
   private formatDateOnly(dateStr: string): string {
-    try {
-      const date = this.parseDateStr(dateStr);
-      const month = this.monthNames[date.getMonth()].slice(0, 3);
-      const day = date.getDate();
-      const year = date.getFullYear();
-      return `${month} ${day}, ${year}`;
-    } catch {
-      return dateStr;
-    }
+    const date = parsePlainDate(dateStr);
+    // An unparseable value shows through as typed instead of as a bogus date.
+    return date ? this.formatPlainDate(date) : dateStr;
   }
 
   private formatForDisplay(val: string): string {
-    try {
-      const date = this.parseDateTimeStr(val);
-      const month = this.monthNames[date.getMonth()].slice(0, 3);
-      const day = date.getDate();
-      const year = date.getFullYear();
-      if (this.showTime() && val.includes('T')) {
-        let h = date.getHours();
-        const min = String(date.getMinutes()).padStart(2, '0');
-        const ampm = h >= 12 ? 'PM' : 'AM';
-        h = h % 12 || 12;
-        return `${month} ${day}, ${year} ${h}:${min} ${ampm}`;
-      }
-      return `${month} ${day}, ${year}`;
-    } catch {
-      return val;
-    }
+    const dateTime = parsePlainDateTime(val);
+    if (!dateTime) return val;
+    const datePart = this.formatPlainDate(dateTime.toPlainDate());
+    if (!this.showTime() || !val.includes('T')) return datePart;
+    const min = String(dateTime.minute).padStart(2, '0');
+    const ampm = dateTime.hour >= 12 ? 'PM' : 'AM';
+    const h = dateTime.hour % 12 || 12;
+    return `${datePart} ${h}:${min} ${ampm}`;
   }
 
+  private formatPlainDate(date: Temporal.PlainDate): string {
+    const month = this.monthNames[date.month - 1].slice(0, 3);
+    return `${month} ${date.day}, ${date.year}`;
+  }
 }

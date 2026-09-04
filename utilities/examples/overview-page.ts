@@ -19,6 +19,11 @@ const GROUPS: Row[] = [
     cells: ['Display', 'uc-block, uc-flex, uc-inline-flex, uc-grid, uc-inline-grid, uc-contents, uc-hidden', 'yes'],
     code: [1],
   },
+  {
+    cells: ['Sizing', 'uc-w-full|half|auto|fit|min|max, uc-h-*, uc-max-w-*, uc-max-h-*', 'yes'],
+    code: [1],
+  },
+  { cells: ['Box sizing', 'uc-box-border, uc-box-content', 'no'], code: [1] },
   { cells: ['Flex container', 'uc-flex-row|col(-reverse), uc-flex-wrap|nowrap|wrap-reverse', 'yes'], code: [1] },
   {
     cells: ['Flex item', 'uc-flex-1|auto|initial|none, uc-grow(-0), uc-shrink(-0), uc-basis-*, uc-order-*', 'yes'],

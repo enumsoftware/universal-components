@@ -11,9 +11,17 @@ import { WbA11yPanel } from './a11y-panel';
 import { WbCanvas } from './canvas';
 import { WbComponentHost, type WbAction } from './component-host';
 import { WbKnobPanel, type KnobChange } from './knob-panel';
+import { Temporal } from '../../uc-calendar/uc-calendar-date';
 
 /** Text knobs fire per keystroke; the URL only needs to settle. */
 const URL_WRITE_DELAY_MS = 200;
+
+/**
+ * Groups whose showcases are driven by knobs and emit outputs. Foundations and
+ * Utilities are pages of markup and CSS classes: they take no inputs and fire
+ * nothing, so the panels would only ever show two empty cards.
+ */
+const DRIVABLE_GROUPS: readonly string[] = ['Components', 'Charts'];
 
 @Component({
   selector: 'wb-showcase-view',
@@ -44,6 +52,12 @@ export class WbShowcaseView {
   protected readonly values = signal<Record<string, unknown>>({});
   protected readonly actions = signal<readonly WbAction[]>([]);
   protected readonly docs = signal<ShowcaseDocs | null>(null);
+
+  protected readonly showsPanels = computed(() => {
+    const group = this.showcase()?.group;
+
+    return group !== undefined && DRIVABLE_GROUPS.includes(group);
+  });
 
   protected readonly tabs = computed<UcTab[]>(() => [
     { key: 'playground', label: 'Playground' },
@@ -189,7 +203,10 @@ export class WbShowcaseView {
   }
 
   protected formatTime(at: number): string {
-    return new Date(at).toLocaleTimeString();
+    return Temporal.Instant.fromEpochMilliseconds(at)
+      .toZonedDateTimeISO(Temporal.Now.timeZoneId())
+      .toPlainTime()
+      .toLocaleString();
   }
 }
 

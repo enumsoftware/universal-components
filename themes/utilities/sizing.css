@@ -1,0 +1,348 @@
+/*
+ * @enumsoftware/universal-components - sizing utilities
+ *
+ * GENERATED FILE - do not edit by hand.
+ * Source: scripts/utilities/sizing.ts
+ * Regenerate with `npm run utilities:build`.
+ *
+ * Width and height helpers, plus the box-sizing switch they depend on.
+ * A percentage width only behaves as expected on a padded element when the
+ * padding is inside the box, so pair uc-w-full with uc-box-border unless the
+ * element already sets border-box itself (uc-card does).
+ */
+
+/* Width */
+.uc-w-full {
+  width: 100%;
+}
+
+.uc-w-half {
+  width: 50%;
+}
+
+.uc-w-auto {
+  width: auto;
+}
+
+.uc-w-fit {
+  width: fit-content;
+}
+
+.uc-w-min {
+  width: min-content;
+}
+
+.uc-w-max {
+  width: max-content;
+}
+
+/* Height */
+.uc-h-full {
+  height: 100%;
+}
+
+.uc-h-auto {
+  height: auto;
+}
+
+.uc-h-fit {
+  height: fit-content;
+}
+
+.uc-h-min {
+  height: min-content;
+}
+
+.uc-h-max {
+  height: max-content;
+}
+
+/* Max size */
+.uc-max-w-full {
+  max-width: 100%;
+}
+
+.uc-max-w-none {
+  max-width: none;
+}
+
+.uc-max-h-full {
+  max-height: 100%;
+}
+
+.uc-max-h-none {
+  max-height: none;
+}
+
+/* Box sizing */
+.uc-box-border {
+  box-sizing: border-box;
+}
+
+.uc-box-content {
+  box-sizing: content-box;
+}
+
+/* ===== sm: >=640px ===== */
+@media (min-width: 40rem) {
+  /* Width */
+  .uc-sm-w-full {
+    width: 100%;
+  }
+
+  .uc-sm-w-half {
+    width: 50%;
+  }
+
+  .uc-sm-w-auto {
+    width: auto;
+  }
+
+  .uc-sm-w-fit {
+    width: fit-content;
+  }
+
+  .uc-sm-w-min {
+    width: min-content;
+  }
+
+  .uc-sm-w-max {
+    width: max-content;
+  }
+
+  /* Height */
+  .uc-sm-h-full {
+    height: 100%;
+  }
+
+  .uc-sm-h-auto {
+    height: auto;
+  }
+
+  .uc-sm-h-fit {
+    height: fit-content;
+  }
+
+  .uc-sm-h-min {
+    height: min-content;
+  }
+
+  .uc-sm-h-max {
+    height: max-content;
+  }
+
+  /* Max size */
+  .uc-sm-max-w-full {
+    max-width: 100%;
+  }
+
+  .uc-sm-max-w-none {
+    max-width: none;
+  }
+
+  .uc-sm-max-h-full {
+    max-height: 100%;
+  }
+
+  .uc-sm-max-h-none {
+    max-height: none;
+  }
+}
+
+/* ===== md: >=768px ===== */
+@media (min-width: 48rem) {
+  /* Width */
+  .uc-md-w-full {
+    width: 100%;
+  }
+
+  .uc-md-w-half {
+    width: 50%;
+  }
+
+  .uc-md-w-auto {
+    width: auto;
+  }
+
+  .uc-md-w-fit {
+    width: fit-content;
+  }
+
+  .uc-md-w-min {
+    width: min-content;
+  }
+
+  .uc-md-w-max {
+    width: max-content;
+  }
+
+  /* Height */
+  .uc-md-h-full {
+    height: 100%;
+  }
+
+  .uc-md-h-auto {
+    height: auto;
+  }
+
+  .uc-md-h-fit {
+    height: fit-content;
+  }
+
+  .uc-md-h-min {
+    height: min-content;
+  }
+
+  .uc-md-h-max {
+    height: max-content;
+  }
+
+  /* Max size */
+  .uc-md-max-w-full {
+    max-width: 100%;
+  }
+
+  .uc-md-max-w-none {
+    max-width: none;
+  }
+
+  .uc-md-max-h-full {
+    max-height: 100%;
+  }
+
+  .uc-md-max-h-none {
+    max-height: none;
+  }
+}
+
+/* ===== lg: >=1024px ===== */
+@media (min-width: 64rem) {
+  /* Width */
+  .uc-lg-w-full {
+    width: 100%;
+  }
+
+  .uc-lg-w-half {
+    width: 50%;
+  }
+
+  .uc-lg-w-auto {
+    width: auto;
+  }
+
+  .uc-lg-w-fit {
+    width: fit-content;
+  }
+
+  .uc-lg-w-min {
+    width: min-content;
+  }
+
+  .uc-lg-w-max {
+    width: max-content;
+  }
+
+  /* Height */
+  .uc-lg-h-full {
+    height: 100%;
+  }
+
+  .uc-lg-h-auto {
+    height: auto;
+  }
+
+  .uc-lg-h-fit {
+    height: fit-content;
+  }
+
+  .uc-lg-h-min {
+    height: min-content;
+  }
+
+  .uc-lg-h-max {
+    height: max-content;
+  }
+
+  /* Max size */
+  .uc-lg-max-w-full {
+    max-width: 100%;
+  }
+
+  .uc-lg-max-w-none {
+    max-width: none;
+  }
+
+  .uc-lg-max-h-full {
+    max-height: 100%;
+  }
+
+  .uc-lg-max-h-none {
+    max-height: none;
+  }
+}
+
+/* ===== xl: >=1280px ===== */
+@media (min-width: 80rem) {
+  /* Width */
+  .uc-xl-w-full {
+    width: 100%;
+  }
+
+  .uc-xl-w-half {
+    width: 50%;
+  }
+
+  .uc-xl-w-auto {
+    width: auto;
+  }
+
+  .uc-xl-w-fit {
+    width: fit-content;
+  }
+
+  .uc-xl-w-min {
+    width: min-content;
+  }
+
+  .uc-xl-w-max {
+    width: max-content;
+  }
+
+  /* Height */
+  .uc-xl-h-full {
+    height: 100%;
+  }
+
+  .uc-xl-h-auto {
+    height: auto;
+  }
+
+  .uc-xl-h-fit {
+    height: fit-content;
+  }
+
+  .uc-xl-h-min {
+    height: min-content;
+  }
+
+  .uc-xl-h-max {
+    height: max-content;
+  }
+
+  /* Max size */
+  .uc-xl-max-w-full {
+    max-width: 100%;
+  }
+
+  .uc-xl-max-w-none {
+    max-width: none;
+  }
+
+  .uc-xl-max-h-full {
+    max-height: 100%;
+  }
+
+  .uc-xl-max-h-none {
+    max-height: none;
+  }
+}

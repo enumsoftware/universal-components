@@ -2,6 +2,7 @@ import { Component, computed, input, output } from '@angular/core';
 
 import { UcCheckbox } from '../../uc-checkbox/uc-checkbox';
 import { UcColorPicker } from '../../uc-color-picker/uc-color-picker';
+import { UcDateTimePicker } from '../../uc-date-time-picker/uc-date-time-picker';
 import { UcInput } from '../../uc-input/uc-input';
 import { UcSelect, type SelectOption } from '../../uc-select/uc-select';
 import { UcTextarea } from '../../uc-textarea/uc-textarea';
@@ -20,7 +21,7 @@ export interface KnobChange {
  */
 @Component({
   selector: 'wb-knob-panel',
-  imports: [UcCheckbox, UcColorPicker, UcInput, UcSelect, UcTextarea],
+  imports: [UcCheckbox, UcColorPicker, UcDateTimePicker, UcInput, UcSelect, UcTextarea],
   templateUrl: './knob-panel.html',
   styleUrl: './knob-panel.css',
 })
@@ -82,6 +83,10 @@ export class WbKnobPanel {
 
   protected placeholder(entry: ResolvedKnob): string {
     return 'placeholder' in entry.knob ? (entry.knob.placeholder ?? '') : '';
+  }
+
+  protected showsTime(entry: ResolvedKnob): boolean {
+    return 'showTime' in entry.knob && entry.knob.showTime === true;
   }
 
   protected emit(name: string, value: unknown): void {

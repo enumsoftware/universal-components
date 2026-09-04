@@ -10,7 +10,7 @@ export type {
   ShowcaseExample,
   ShowcaseLayout,
 } from './define-showcase';
-export { bool, color, number, object, select, text } from './knobs';
+export { bool, color, date, number, object, select, text } from './knobs';
 export type { Knob, KnobKind } from './knobs';
 export type { RegistryEntry } from './registry';
 export type { ApiKind, ApiMember, ShowcaseDocs } from './api';

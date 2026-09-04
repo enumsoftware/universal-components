@@ -27,7 +27,7 @@
           [class.uc-calendar__day--in-range]="day.isInRange"
           [class.uc-calendar__day--range-preview]="day.isRangePreview"
           [class.uc-calendar__day--range-preview-end]="day.isRangePreviewEnd"
-          [attr.aria-label]="day.date.toDateString()"
+          [attr.aria-label]="day.label"
           [attr.aria-pressed]="day.isSelected || day.isRangeStart || day.isRangeEnd"
           (click)="daySelect.emit(day)"
           (mouseenter)="dayHover.emit(day)"

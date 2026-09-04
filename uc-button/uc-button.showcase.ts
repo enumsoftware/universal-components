@@ -7,11 +7,12 @@ import {
   UcButton,
 } from './uc-button';
 import { ConsumerOwnedSignalExample } from './examples/consumer-owned-signal';
+import { LoadingSizesExample } from './examples/loading-sizes';
 import { LoadingVariantsExample } from './examples/loading-variants';
-import { TableActionPrimaryExample, TableActionSecondaryExample } from './examples/table-actions';
-import { WithPrefixAndSuffixIconsExample } from './examples/with-prefix-and-suffix-icons';
-import { WithPrefixIconExample } from './examples/with-prefix-icon';
-import { WithSuffixIconExample } from './examples/with-suffix-icon';
+import { SizesExample } from './examples/sizes';
+import { TableActionsExample } from './examples/table-actions';
+import { VariantsExample } from './examples/variants';
+import { WithIconsExample } from './examples/with-icons';
 
 export default defineShowcase({
   id: 'components/button',
@@ -31,42 +32,21 @@ export default defineShowcase({
     }),
   },
   examples: [
-    { name: 'Small', props: { size: 'small', text: 'Compact' } },
-    { name: 'Big', props: { size: 'big', text: 'Larger Action' } },
     {
-      name: 'Secondary',
-      props: { variant: 'secondary', text: 'Secondary Action' },
+      name: 'Variants',
+      description: 'A row on desktop, a full-width stack under 768px.',
+      component: VariantsExample,
     },
-    { name: 'Error', props: { variant: 'error', text: 'Delete' } },
-    { name: 'With Prefix Icon', component: WithPrefixIconExample },
-    { name: 'With Suffix Icon', component: WithSuffixIconExample },
-    {
-      name: 'With Prefix And Suffix Icons',
-      component: WithPrefixAndSuffixIconsExample,
-    },
-    {
-      name: 'Table Action Primary Equivalent',
-      component: TableActionPrimaryExample,
-    },
-    {
-      name: 'Table Action Secondary Equivalent',
-      component: TableActionSecondaryExample,
-    },
-    { name: 'Loading', props: { text: 'Save invoice', loading: true } },
+    { name: 'Sizes', component: SizesExample },
+    { name: 'With Icons', component: WithIconsExample },
+    { name: 'Table Actions', component: TableActionsExample },
+    { name: 'Loading Variants', component: LoadingVariantsExample },
+    { name: 'Loading Sizes', component: LoadingSizesExample },
     {
       name: 'Loading With Text',
       description: 'Setting `loadingText` swaps the label, which reflows the button.',
       props: { text: 'Save invoice', loading: true, loadingText: 'Saving…' },
     },
-    {
-      name: 'Loading Small',
-      props: { text: 'Edit', size: 'small', loading: true },
-    },
-    {
-      name: 'Loading Big',
-      props: { text: 'Larger Action', size: 'big', loading: true },
-    },
-    { name: 'Loading Variants', component: LoadingVariantsExample },
     {
       name: 'Consumer Owned Signal',
       description: 'Repeated clicks show the button refuses to re-emit while a request is in flight.',

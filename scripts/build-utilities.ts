@@ -19,6 +19,7 @@ import displaySheets from './utilities/display.ts';
 import flexSheets from './utilities/flex.ts';
 import gridSheets from './utilities/grid.ts';
 import { GRID_MIN, SPACE_SCALE } from './utilities/shared.ts';
+import sizingSheets from './utilities/sizing.ts';
 import spacingSheets from './utilities/spacing.ts';
 import type { Rule, UtilityGroup, UtilitySheet } from './utilities/types.ts';
 
@@ -49,6 +50,7 @@ const BREAKPOINTS: readonly Breakpoint[] = [
 /** Import order in the barrel, and therefore cascade order. */
 const SHEETS: readonly UtilitySheet[] = [
   ...displaySheets,
+  ...sizingSheets,
   ...flexSheets,
   ...gridSheets,
   ...alignmentSheets,

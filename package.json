@@ -44,6 +44,7 @@
     "./themes/utilities.css": "./themes/utilities.css",
     "./themes/utilities/scale.css": "./themes/utilities/scale.css",
     "./themes/utilities/display.css": "./themes/utilities/display.css",
+    "./themes/utilities/sizing.css": "./themes/utilities/sizing.css",
     "./themes/utilities/flex.css": "./themes/utilities/flex.css",
     "./themes/utilities/grid.css": "./themes/utilities/grid.css",
     "./themes/utilities/alignment.css": "./themes/utilities/alignment.css",
@@ -72,6 +73,7 @@
     "@phosphor-icons/web": "^2.1.2",
     "d3": "^7.9.0",
     "flag-icons": "^7.5.0",
+    "temporal-polyfill": "^1.0.4",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

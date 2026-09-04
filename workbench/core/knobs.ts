@@ -10,7 +10,7 @@
  * `Knob<unknown>` slot an untyped input such as `model.required()` produces.
  */
 
-export type KnobKind = 'text' | 'boolean' | 'number' | 'select' | 'color' | 'object';
+export type KnobKind = 'text' | 'boolean' | 'number' | 'select' | 'color' | 'date' | 'object';
 
 interface KnobBase<TKind extends KnobKind, TValue> {
   readonly kind: TKind;
@@ -30,6 +30,10 @@ export type Knob<TValue> =
     })
   | (KnobBase<'select', TValue> & { readonly options: readonly TValue[] })
   | KnobBase<'color', TValue>
+  | (KnobBase<'date', TValue> & {
+      readonly placeholder?: string;
+      readonly showTime?: boolean;
+    })
   | KnobBase<'object', TValue>;
 
 type KnobOptions = { readonly label?: string; readonly description?: string };
@@ -69,6 +73,19 @@ export function select<TValue>(
   extra: KnobOptions = {},
 ): Knob<TValue> {
   return { kind: 'select', defaultValue, options, ...extra };
+}
+
+/**
+ * Picked with the library's own `uc-date-time-picker`, so a date input is never
+ * a free-text field the user has to spell `YYYY-MM-DD` into by hand. Values stay
+ * strings - `YYYY-MM-DD`, or `YYYY-MM-DDTHH:mm` with `showTime` - and `''` means
+ * "unset", which the panel's Clear button restores.
+ */
+export function date<TValue extends string | null | undefined>(
+  defaultValue: TValue,
+  options: KnobOptions & { readonly placeholder?: string; readonly showTime?: boolean } = {},
+): Knob<TValue> {
+  return { kind: 'date', defaultValue, ...options };
 }
 
 export function color<TValue extends string | null | undefined>(

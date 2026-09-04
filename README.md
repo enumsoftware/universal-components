@@ -169,6 +169,7 @@ Browse the interactive docs in the Workbench under **Utilities** (Overview, Spac
 |------|----------|-------|
 | `utilities/scale.css` | `--uc-space-*` and `--uc-grid-min` tokens | — |
 | `utilities/display.css` | `uc-block`, `uc-flex`, `uc-grid`, `uc-hidden`, … | — |
+| `utilities/sizing.css` | `uc-w-*`, `uc-h-*`, `uc-max-w-*`, `uc-box-border` | — |
 | `utilities/flex.css` | direction, wrap, item sizing, order | `alignment.css` |
 | `utilities/grid.css` | column/row templates, placement, flow, implicit tracks | `alignment.css` |
 | `utilities/alignment.css` | `uc-justify-*`, `uc-items-*`, `uc-content-*`, `uc-self-*`, `uc-place-*` | — |
@@ -222,6 +223,8 @@ Margins also accept `auto` (`uc-mx-auto`, `uc-ms-auto`) and negative steps with 
 | Group | Classes | Responsive variants |
 |-------|---------|---------------------|
 | Display | `uc-block`, `uc-inline-block`, `uc-inline`, `uc-flex`, `uc-inline-flex`, `uc-grid`, `uc-inline-grid`, `uc-contents`, `uc-hidden` | yes |
+| Sizing | `uc-w-full\|half\|auto\|fit\|min\|max`, `uc-h-full\|auto\|fit\|min\|max`, `uc-max-w-full\|none`, `uc-max-h-full\|none` | yes |
+| Box sizing | `uc-box-border`, `uc-box-content` | no |
 | Flex container | `uc-flex-row\|col` (+ `-reverse`), `uc-flex-wrap\|nowrap\|wrap-reverse` | yes |
 | Flex item | `uc-flex-1\|auto\|initial\|none`, `uc-grow`, `uc-grow-0`, `uc-shrink`, `uc-shrink-0`, `uc-basis-0\|auto\|full\|1-2\|1-3\|2-3\|1-4\|3-4`, `uc-order-first\|last\|none\|1..12`, `uc-min-w-0`, `uc-min-h-0` | yes |
 | Grid container | `uc-grid-cols-1..12\|none\|subgrid`, `uc-grid-rows-1..6\|none\|subgrid`, `uc-grid-flow-row\|col\|dense\|row-dense\|col-dense`, `uc-auto-cols-*`, `uc-auto-rows-*` | yes |
@@ -261,6 +264,7 @@ Utilities are single-class selectors with no `!important`, so component styles a
 | [scripts/utilities/types.ts](scripts/utilities/types.ts) | the `UtilitySheet` / `UtilityGroup` / `Rule` types every module is checked against |
 | [scripts/utilities/shared.ts](scripts/utilities/shared.ts) | the spacing scale, shared value maps and rule helpers → `scale.css` |
 | [scripts/utilities/display.ts](scripts/utilities/display.ts) | `display.css` |
+| [scripts/utilities/sizing.ts](scripts/utilities/sizing.ts) | `sizing.css` |
 | [scripts/utilities/flex.ts](scripts/utilities/flex.ts) | `flex.css` |
 | [scripts/utilities/grid.ts](scripts/utilities/grid.ts) | `grid.css` |
 | [scripts/utilities/alignment.ts](scripts/utilities/alignment.ts) | `alignment.css` |
