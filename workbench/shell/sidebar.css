@@ -16,7 +16,7 @@
      in here, or the sidebar stands a padding taller than the viewport and
      carries the theme picker off the bottom of the screen with it. */
   box-sizing: border-box;
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
 }
 

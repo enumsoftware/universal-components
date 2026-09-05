@@ -50,7 +50,7 @@ import { WbSidebar } from './shell/sidebar';
     :host {
       display: grid;
       grid-template-columns: 16rem 1fr;
-      min-height: 100vh;
+      min-height: 100dvh;
     }
 
     .wb-main {
