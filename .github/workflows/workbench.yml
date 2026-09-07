@@ -13,7 +13,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: workbench-pages
+  group: workbench-pages-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -52,7 +52,7 @@ jobs:
           path: dist-workbench/browser
 
   deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     needs: build
     environment:
@@ -63,3 +63,5 @@ jobs:
       # byte-for-byte the one the accessibility sweep passed against.
       - id: deployment
         uses: actions/deploy-pages@v5
+        with:
+          preview: ${{ github.event_name == 'pull_request' }}
