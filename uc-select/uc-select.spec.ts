@@ -131,6 +131,37 @@ describe('UcSelect', () => {
     expect(panel()).toBeNull();
   });
 
+  it('should open a CDK dialog in dialog display mode', () => {
+    fixture.componentRef.setInput('displayMode', 'dialog');
+    fixture.componentRef.setInput('options', [{ value: 'a', label: 'A' }]);
+    fixture.detectChanges();
+
+    component.toggleDropdown();
+    fixture.detectChanges();
+
+    const dialog = document.querySelector('.cdk-dialog-container');
+    expect(dialog).toBeTruthy();
+    expect(component.isOpen()).toBe(false);
+  });
+
+  it('should load options from async data source on open', async () => {
+    fixture.componentRef.setInput('dataSource', async () => ({
+      items: [
+        { value: 'a', label: 'Alpha' },
+        { value: 'b', label: 'Beta' },
+      ],
+    }));
+    fixture.detectChanges();
+
+    component.openDropdown();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(component.visibleOptions().length).toBe(2);
+    expect(component.visibleOptions()[0]?.label).toBe('Alpha');
+  });
+
   it('should keep the panel open when the trigger blurs, so a click can land on an option', () => {
     fixture.componentRef.setInput('options', [{ value: 'a', label: 'A' }]);
     component.openDropdown();

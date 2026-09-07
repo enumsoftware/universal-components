@@ -96,6 +96,12 @@ options: SelectOption<string>[] = [
 | `hideLabel`       | `boolean`           | `false`              | Hides the label visually, keeps it for a11y |
 | `placeholder`     | `string`            | `'Select an option'` | Placeholder text when no option is selected |
 | `options`         | `SelectOption<T>[]` | `[]`                 | Array of available options                  |
+| `searchable`      | `boolean`           | `false`              | Enables the search field in the panel       |
+| `displayMode`     | `'auto' \| 'dropdown' \| 'dialog'` | `'auto'` | `auto` uses dropdown on desktop and dialog on mobile |
+| `loadMode`        | `'all' \| 'page' \| 'infinite'` | `'all'` | Async loading strategy for remote options    |
+| `dataSource`      | `UcSelectDataSource<T> \| null` | `null` | Optional async source for server-loaded options |
+| `pageSize`        | `number`            | `25`                 | Page/chunk size used for async loading      |
+| `serverSearch`    | `boolean`           | `false`              | Sends the search term to `dataSource`       |
 | `disabled`        | `boolean`           | `false`              | Disables the entire select                  |
 | `readonly`        | `boolean`           | `false`              | Makes the select read-only                  |
 | `hidden`          | `boolean`           | `false`              | Hides the select                            |
@@ -183,6 +189,16 @@ users: SelectOption<User>[] = [
 
 selectedUser: User | null = null;
 ```
+
+### Async Data Loading
+
+`uc-select` supports optional server loading through `dataSource` with three load modes:
+
+- `all`: load once and cache
+- `page`: replace options page-by-page
+- `infinite`: append chunks over time
+
+The source function receives `{ search, page, pageSize, cursor }` and returns `{ items, total?, hasMore?, nextCursor? }`.
 
 ## Styling
 
