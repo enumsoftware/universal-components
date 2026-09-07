@@ -237,7 +237,7 @@ export class UcSelect<T = string> implements FormValueControl<T | null>, OnDestr
 
   private searchDebounceId: ReturnType<typeof setTimeout> | null = null;
   private requestSequence = 0;
-  private mobileDialogRef: DialogRef<unknown, unknown> | null = null;
+  private mobileDialogRef: DialogRef<unknown, UcSelectMobileDialogContent> | null = null;
 
   // Input properties
   readonly id = input.required<string>();
@@ -458,13 +458,14 @@ export class UcSelect<T = string> implements FormValueControl<T | null>, OnDestr
     }
 
     this.ensureDataLoaded();
-    this.mobileDialogRef = this.dialog.open(UcSelectMobileDialogContent, {
+    const dialogRef = this.dialog.open(UcSelectMobileDialogContent, {
       panelClass: 'uc-select-mobile-dialog-pane',
       autoFocus: false,
       data: this.buildMobileDialogData(),
     });
+    this.mobileDialogRef = dialogRef;
 
-    this.mobileDialogRef.closed.subscribe(() => {
+    dialogRef.closed.subscribe(() => {
       this.mobileDialogRef = null;
       this.touched.set(true);
       this.triggerElement()?.focus();
