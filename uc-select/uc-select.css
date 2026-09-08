@@ -250,6 +250,64 @@
   font-size: 0.9rem;
 }
 
+.uc-select-search {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 0.5rem;
+  background-color: var(--uc-input-background-color);
+  border-bottom: 1px solid oklch(from var(--foreground-color) l c h / 0.12);
+}
+
+.uc-select-search-input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--uc-input-border-color);
+  border-radius: var(--uc-input-border-radius);
+  padding: 0.45rem 0.6rem;
+  background-color: var(--uc-input-background-color);
+  color: var(--foreground-color);
+}
+
+.uc-select-status-row {
+  padding: 0.75rem 1rem;
+  color: oklch(from var(--foreground-color) l c h / 0.7);
+  font-size: 0.85rem;
+}
+
+.uc-select-status-row-error {
+  color: var(--error-color);
+}
+
+.uc-select-load-controls,
+.uc-select-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.75rem 0.75rem;
+  border-top: 1px solid oklch(from var(--foreground-color) l c h / 0.12);
+}
+
+.uc-select-pager-label {
+  color: oklch(from var(--foreground-color) l c h / 0.7);
+  font-size: 0.8rem;
+}
+
+.uc-select-pager-button {
+  border: 1px solid var(--uc-input-border-color);
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  background-color: var(--uc-input-background-color);
+  color: var(--foreground-color);
+  cursor: pointer;
+}
+
+.uc-select-pager-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .uc-select-error-container {
   margin-top: 0.25rem;
 }
@@ -279,4 +337,39 @@
     padding: 0.6rem 0.875rem;
     font-size: 0.875rem;
   }
+}
+
+.uc-select-mobile-dialog-pane .cdk-dialog-surface {
+  width: min(34rem, calc(100vw - 1.5rem));
+  max-height: min(90vh, 42rem);
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: var(--uc-input-background-color);
+}
+
+.uc-select-mobile-dialog {
+  display: flex;
+  flex-direction: column;
+  max-height: inherit;
+}
+
+.uc-select-mobile-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1rem 0.65rem;
+}
+
+.uc-select-mobile-dialog__title {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--foreground-color);
+}
+
+.uc-select-mobile-dialog__close {
+  border: 0;
+  background: transparent;
+  color: var(--foreground-color);
+  font-size: 1rem;
+  cursor: pointer;
 }
