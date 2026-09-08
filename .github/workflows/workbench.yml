@@ -36,7 +36,12 @@ jobs:
         run: npm run scripts:typecheck
 
       - name: Build workbench
-        run: npm run workbench:build
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            npm run workbench:build -- --base-href "/universal-components/pr-preview/pr-${{ github.event.pull_request.number }}/"
+          else
+            npm run workbench:build
+          fi
 
       # Only Chromium: the sweep measures rendered colour, and one engine is
       # what the baseline was recorded against.
@@ -46,10 +51,22 @@ jobs:
       - name: Accessibility sweep
         run: npm run a11y
 
+      - name: Stage Pages artifact
+        run: |
+          rm -rf dist-pages
+          mkdir -p dist-pages
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            preview_path="pr-preview/pr-${{ github.event.pull_request.number }}"
+            mkdir -p "dist-pages/${preview_path}"
+            cp -R dist-workbench/browser/. "dist-pages/${preview_path}/"
+          else
+            cp -R dist-workbench/browser/. dist-pages/
+          fi
+
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:
-          path: dist-workbench/browser
+          path: dist-pages
 
   deploy:
     if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'pull_request'
@@ -57,7 +74,7 @@ jobs:
     needs: build
     environment:
       name: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && 'github-pages' || 'github-pages-preview' }}
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ github.event_name == 'pull_request' && format('{0}pr-preview/pr-{1}/', steps.deployment.outputs.page_url, github.event.pull_request.number) || steps.deployment.outputs.page_url }}
     steps:
       # Deploys the artifact `build` already uploaded, so the site that ships is
       # byte-for-byte the one the accessibility sweep passed against.
