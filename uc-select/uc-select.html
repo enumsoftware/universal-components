@@ -63,12 +63,11 @@
     >
       @if (searchable()) {
         <div class="uc-select-search">
-          <input
-            class="uc-select-search-input"
-            type="search"
+          <uc-input
+            [id]="id() + '-search'"
             [value]="searchQuery()"
             [placeholder]="'Search ' + (label() || placeholder()).toLowerCase()"
-            (input)="onSearchInputEvent($event)"
+            (valueChange)="onSearchValueChange($event)"
           />
         </div>
       }
@@ -109,31 +108,26 @@
 
       @if (loadMode() === 'infinite' && hasMore()) {
         <div class="uc-select-load-controls">
-          <button type="button" class="uc-select-pager-button" [disabled]="loading()" (click)="loadMore()">
-            Load more
-          </button>
+          <uc-button
+            text="Load more"
+            variant="secondary"
+            size="small"
+            [disabled]="loading()"
+            [loading]="loading()"
+            (clicked)="loadMore()"
+          />
         </div>
       }
 
       @if (loadMode() === 'page') {
         <div class="uc-select-pager">
-          <button
-            type="button"
-            class="uc-select-pager-button"
-            [disabled]="loading() || !canLoadPreviousPage()"
-            (click)="previousPage()"
-          >
-            Previous
-          </button>
-          <span class="uc-select-pager-label">{{ pageLabel() }}</span>
-          <button
-            type="button"
-            class="uc-select-pager-button"
-            [disabled]="loading() || !canLoadNextPage()"
-            (click)="loadMore()"
-          >
-            Next
-          </button>
+          <uc-pagination
+            [currentPage]="currentPage() - 1"
+            [totalItems]="totalItems() ?? 0"
+            [pageSize]="pageSize()"
+            [showPageSelector]="false"
+            (pageChange)="onPaginationPageChange($event)"
+          />
         </div>
       }
     </div>

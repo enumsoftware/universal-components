@@ -268,16 +268,6 @@
   border-bottom: 1px solid oklch(from var(--foreground-color) l c h / 0.12);
 }
 
-.uc-select-search-input {
-  width: 100%;
-  box-sizing: border-box;
-  border: 1px solid var(--uc-input-border-color);
-  border-radius: var(--uc-input-border-radius);
-  padding: 0.45rem 0.6rem;
-  background-color: var(--uc-input-background-color);
-  color: var(--foreground-color);
-}
-
 .uc-select-status-row {
   padding: 0.75rem 1rem;
   color: oklch(from var(--foreground-color) l c h / 0.7);
@@ -298,23 +288,11 @@
   border-top: 1px solid oklch(from var(--foreground-color) l c h / 0.12);
 }
 
-.uc-select-pager-label {
-  color: oklch(from var(--foreground-color) l c h / 0.7);
-  font-size: 0.8rem;
-}
-
-.uc-select-pager-button {
-  border: 1px solid var(--uc-input-border-color);
-  border-radius: 0.5rem;
-  padding: 0.35rem 0.75rem;
-  background-color: var(--uc-input-background-color);
-  color: var(--foreground-color);
-  cursor: pointer;
-}
-
-.uc-select-pager-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.uc-select-pager {
+  /* uc-pagination is normally the last thing on a page and reserves space below itself; here it sits inside a bordered panel footer that already provides that spacing. */
+  .uc-pagination {
+    margin-bottom: 0;
+  }
 }
 
 .uc-select-error-container {

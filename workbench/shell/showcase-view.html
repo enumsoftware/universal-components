@@ -111,10 +111,12 @@
                 @for (member of docs.api; track member.name) {
                   <tr>
                     <th scope="row">
-                      <code>{{ member.alias ?? member.name }}</code>
-                      @if (member.required) {
-                        <uc-pill text="required" variant="error" size="compact" />
-                      }
+                      <span class="wb-api-row-head">
+                        <code>{{ member.alias ?? member.name }}</code>
+                        @if (member.required) {
+                          <uc-pill text="required" variant="error" size="compact" />
+                        }
+                      </span>
                     </th>
                     <td>{{ member.kind }}</td>
                     <td><code>{{ member.type }}</code></td>

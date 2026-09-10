@@ -145,11 +145,14 @@ h1 {
  * it - that is spacing tuned for uppercase labels, not for an identifier.
  */
 .wb-api th[scope='row'] {
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: inherit;
+}
+
+.wb-api-row-head {
   display: flex;
   align-items: center;
   gap: 0.4rem;
   white-space: nowrap;
-  text-transform: none;
-  letter-spacing: normal;
-  font-size: inherit;
 }

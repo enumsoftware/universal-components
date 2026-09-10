@@ -25,6 +25,9 @@ import {
   WithOptionalFieldTree,
 } from '@angular/forms/signals';
 import { map } from 'rxjs';
+import { UcInput } from '../uc-input/uc-input';
+import { UcButton } from '../uc-button/uc-button';
+import { UcPagination } from '../uc-pagination/uc-pagination';
 
 /**
  * Option interface for select dropdown
@@ -67,21 +70,25 @@ type UcSelectMobileDialogData<T = unknown> = {
   loading: Signal<boolean>;
   loadError: Signal<string | null>;
   hasMore: Signal<boolean>;
-  canLoadPreviousPage: Signal<boolean>;
-  canLoadNextPage: Signal<boolean>;
-  pageLabel: Signal<string>;
+  currentPage: Signal<number>;
+  totalItems: Signal<number | null>;
+  pageSize: number;
   loadMode: UcSelectLoadMode;
   onClose: () => void;
   onQueryChange: (value: string) => void;
   onSelectOption: (option: SelectOption<T>) => void;
   onLoadMore: () => void;
-  onPreviousPage: () => void;
-  onNextPage: () => void;
+  onPageChange: (zeroBasedPage: number) => void;
 };
+
+/** uc-input emits its raw value type; the search query the select tracks is always a string. */
+function toSearchQuery(value: string | number | null): string {
+  return value === null ? '' : String(value);
+}
 
 @Component({
   selector: 'uc-select-mobile-dialog-content',
-  imports: [CommonModule],
+  imports: [CommonModule, UcInput, UcButton, UcPagination],
   changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <section class="uc-select-mobile-dialog" aria-modal="true" role="dialog">
@@ -94,12 +101,11 @@ type UcSelectMobileDialogData<T = unknown> = {
 
       @if (data.searchable) {
         <div class="uc-select-search">
-          <input
-            class="uc-select-search-input"
-            type="search"
+          <uc-input
+            [id]="data.id + '-search-mobile'"
             [value]="data.searchQuery()"
             [placeholder]="'Search ' + (data.label || data.placeholder).toLowerCase()"
-            (input)="onQueryInput($event)"
+            (valueChange)="onQueryValueChange($event)"
           />
         </div>
       }
@@ -136,31 +142,26 @@ type UcSelectMobileDialogData<T = unknown> = {
 
       @if (data.loadMode === 'infinite') {
         <div class="uc-select-load-controls">
-          <button type="button" class="uc-select-pager-button" [disabled]="data.loading() || !data.hasMore()" (click)="data.onLoadMore()">
-            Load more
-          </button>
+          <uc-button
+            text="Load more"
+            variant="secondary"
+            size="small"
+            [disabled]="data.loading() || !data.hasMore()"
+            [loading]="data.loading()"
+            (clicked)="data.onLoadMore()"
+          />
         </div>
       }
 
       @if (data.loadMode === 'page') {
         <div class="uc-select-pager">
-          <button
-            type="button"
-            class="uc-select-pager-button"
-            [disabled]="data.loading() || !data.canLoadPreviousPage()"
-            (click)="data.onPreviousPage()"
-          >
-            Previous
-          </button>
-          <span class="uc-select-pager-label">{{ data.pageLabel() }}</span>
-          <button
-            type="button"
-            class="uc-select-pager-button"
-            [disabled]="data.loading() || !data.canLoadNextPage()"
-            (click)="data.onNextPage()"
-          >
-            Next
-          </button>
+          <uc-pagination
+            [currentPage]="data.currentPage() - 1"
+            [totalItems]="data.totalItems() ?? 0"
+            [pageSize]="data.pageSize"
+            [showPageSelector]="false"
+            (pageChange)="data.onPageChange($event)"
+          />
         </div>
       }
     </section>
@@ -169,9 +170,8 @@ type UcSelectMobileDialogData<T = unknown> = {
 class UcSelectMobileDialogContent {
   readonly data = inject<UcSelectMobileDialogData>(DIALOG_DATA);
 
-  onQueryInput(event: Event): void {
-    const target = event.target as HTMLInputElement | null;
-    this.data.onQueryChange(target?.value ?? '');
+  onQueryValueChange(value: string | number | null): void {
+    this.data.onQueryChange(toSearchQuery(value));
   }
 }
 
@@ -214,7 +214,7 @@ const PANEL_INHERITED_PROPERTIES = [
 @Component({
   selector: 'uc-select',
 
-  imports: [CommonModule, FormsModule, OverlayModule],
+  imports: [CommonModule, FormsModule, OverlayModule, UcInput, UcButton, UcPagination],
   templateUrl: './uc-select.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   encapsulation: ViewEncapsulation.None,
@@ -377,38 +377,6 @@ export class UcSelect<T = string> implements FormValueControl<T | null>, OnDestr
     return this.selectedOption()?.label || this.placeholder();
   });
 
-  readonly pageLabel = computed(() => {
-    if (this.loadMode() !== 'page') {
-      return '';
-    }
-
-    const total = this.totalItems();
-    if (typeof total === 'number' && total > 0) {
-      const start = (this.currentPage() - 1) * this.pageSize() + 1;
-      const end = Math.min(this.currentPage() * this.pageSize(), total);
-      return `${start}-${end} of ${total}`;
-    }
-
-    return `Page ${this.currentPage()}`;
-  });
-
-  readonly canLoadPreviousPage = computed(() =>
-    this.loadMode() === 'page' && this.currentPage() > 1,
-  );
-
-  readonly canLoadNextPage = computed(() => {
-    if (this.loadMode() !== 'page') {
-      return false;
-    }
-
-    const total = this.totalItems();
-    if (typeof total === 'number') {
-      return this.currentPage() * this.pageSize() < total;
-    }
-
-    return this.hasMore();
-  });
-
   /**
    * Toggle the dropdown open/close state
    */
@@ -525,9 +493,8 @@ export class UcSelect<T = string> implements FormValueControl<T | null>, OnDestr
     this.queueRemoteSearch();
   }
 
-  onSearchInputEvent(event: Event): void {
-    const target = event.target as HTMLInputElement | null;
-    this.onSearchInput(target?.value ?? '');
+  onSearchValueChange(value: string | number | null): void {
+    this.onSearchInput(toSearchQuery(value));
   }
 
   async onPanelScroll(event: Event): Promise<void> {
@@ -549,35 +516,29 @@ export class UcSelect<T = string> implements FormValueControl<T | null>, OnDestr
   }
 
   async loadMore(): Promise<void> {
+    if (!this.dataSource() || this.loading() || this.loadMode() !== 'infinite') {
+      return;
+    }
+
+    if (!this.hasMore() && this.loadedOptions().length > 0) {
+      return;
+    }
+
+    await this.loadOptions({ reset: false, append: true });
+  }
+
+  /** Handler for uc-pagination's (pageChange), which is zero-indexed. */
+  async onPaginationPageChange(zeroBasedPage: number): Promise<void> {
     if (!this.dataSource() || this.loading()) {
       return;
     }
 
-    if (this.loadMode() === 'infinite') {
-      if (!this.hasMore() && this.loadedOptions().length > 0) {
-        return;
-      }
-
-      await this.loadOptions({ reset: false, append: true });
+    const page = zeroBasedPage + 1;
+    if (page === this.currentPage()) {
       return;
     }
 
-    if (this.loadMode() === 'page') {
-      if (!this.canLoadNextPage()) {
-        return;
-      }
-
-      this.currentPage.update((page) => page + 1);
-      await this.loadOptions({ reset: false, append: false });
-    }
-  }
-
-  async previousPage(): Promise<void> {
-    if (!this.dataSource() || this.loadMode() !== 'page' || this.loading() || !this.canLoadPreviousPage()) {
-      return;
-    }
-
-    this.currentPage.update((page) => Math.max(1, page - 1));
+    this.currentPage.set(page);
     await this.loadOptions({ reset: false, append: false });
   }
 
@@ -636,9 +597,9 @@ export class UcSelect<T = string> implements FormValueControl<T | null>, OnDestr
       loading: this.loading,
       loadError: this.loadError,
       hasMore: this.hasMore,
-      canLoadPreviousPage: this.canLoadPreviousPage,
-      canLoadNextPage: this.canLoadNextPage,
-      pageLabel: this.pageLabel,
+      currentPage: this.currentPage,
+      totalItems: this.totalItems,
+      pageSize: this.pageSize(),
       loadMode: this.loadMode(),
       onClose: () => this.closeDropdown(),
       onQueryChange: (query) => this.onSearchInput(query),
@@ -646,11 +607,8 @@ export class UcSelect<T = string> implements FormValueControl<T | null>, OnDestr
       onLoadMore: () => {
         void this.loadMore();
       },
-      onPreviousPage: () => {
-        void this.previousPage();
-      },
-      onNextPage: () => {
-        void this.loadMore();
+      onPageChange: (zeroBasedPage) => {
+        void this.onPaginationPageChange(zeroBasedPage);
       },
     };
   }
