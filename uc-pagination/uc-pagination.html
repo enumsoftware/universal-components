@@ -1,85 +1,87 @@
 @if (totalItems() > 0) {
-  <div class="uc-pagination">
-    <uc-pagination-page-button
-      class="uc-pagination__btn"
-      [ariaLabel]="'Jump backward by 3 pages'"
-      [phosphorIcon]="'caret-double-left'"
-      [variant]="'secondary'"
-      [disabled]="isFastPreviousDisabled()"
-      (clicked)="fastPreviousPage()"
-    />
+  <div class="uc-pagination-container">
+    <div class="uc-pagination">
+      <uc-pagination-page-button
+        class="uc-pagination__btn uc-pagination__btn--fast"
+        [ariaLabel]="'Jump backward by 3 pages'"
+        [phosphorIcon]="'caret-double-left'"
+        [variant]="'secondary'"
+        [disabled]="isFastPreviousDisabled()"
+        (clicked)="fastPreviousPage()"
+      />
 
-    <uc-pagination-page-button
-      class="uc-pagination__btn"
-      [ariaLabel]="'Previous page'"
-      [phosphorIcon]="'caret-left'"
-      [variant]="'primary'"
-      [disabled]="isPreviousDisabled()"
-      (clicked)="previousPage()"
-    />
+      <uc-pagination-page-button
+        class="uc-pagination__btn"
+        [ariaLabel]="'Previous page'"
+        [phosphorIcon]="'caret-left'"
+        [variant]="'primary'"
+        [disabled]="isPreviousDisabled()"
+        (clicked)="previousPage()"
+      />
 
-    <div class="uc-pagination__indicators">
-      @for (page of visiblePages(); track $index) {
-        <uc-pagination-page-button
-          class="uc-pagination__page-btn"
-          [label]="(page + 1).toString()"
-          [variant]="currentPage() === page ? 'primary' : 'secondary'"
-          [active]="currentPage() === page"
-          [disabled]="currentPage() === page"
-          (clicked)="goToPage(page)"
-        />
-      }
+      <div class="uc-pagination__indicators">
+        @for (page of visiblePages(); track $index) {
+          <uc-pagination-page-button
+            class="uc-pagination__page-btn"
+            [label]="(page + 1).toString()"
+            [variant]="currentPage() === page ? 'primary' : 'secondary'"
+            [active]="currentPage() === page"
+            [disabled]="currentPage() === page"
+            (clicked)="goToPage(page)"
+          />
+        }
 
-      @if (showLastPageShortcut()) {
-        <span class="uc-pagination__ellipsis" aria-hidden="true">...</span>
-        <uc-pagination-page-button
-          class="uc-pagination__page-btn"
-          [label]="(lastPageIndex() + 1).toString()"
-          [variant]="currentPage() === lastPageIndex() ? 'primary' : 'secondary'"
-          [active]="currentPage() === lastPageIndex()"
-          [disabled]="currentPage() === lastPageIndex()"
-          (clicked)="goToPage(lastPageIndex())"
-        />
-      }
+        @if (showLastPageShortcut()) {
+          <span class="uc-pagination__ellipsis" aria-hidden="true">...</span>
+          <uc-pagination-page-button
+            class="uc-pagination__page-btn"
+            [label]="(lastPageIndex() + 1).toString()"
+            [variant]="currentPage() === lastPageIndex() ? 'primary' : 'secondary'"
+            [active]="currentPage() === lastPageIndex()"
+            [disabled]="currentPage() === lastPageIndex()"
+            (clicked)="goToPage(lastPageIndex())"
+          />
+        }
+      </div>
+
+      <uc-pagination-page-button
+        class="uc-pagination__btn"
+        [ariaLabel]="'Next page'"
+        [phosphorIcon]="'caret-right'"
+        [variant]="'primary'"
+        [disabled]="isNextDisabled()"
+        (clicked)="nextPage()"
+      />
+
+      <uc-pagination-page-button
+        class="uc-pagination__btn uc-pagination__btn--fast"
+        [ariaLabel]="'Jump forward by 3 pages'"
+        [phosphorIcon]="'caret-double-right'"
+        [variant]="'secondary'"
+        [disabled]="isFastNextDisabled()"
+        (clicked)="fastNextPage()"
+      />
     </div>
 
-    <uc-pagination-page-button
-      class="uc-pagination__btn"
-      [ariaLabel]="'Next page'"
-      [phosphorIcon]="'caret-right'"
-      [variant]="'primary'"
-      [disabled]="isNextDisabled()"
-      (clicked)="nextPage()"
-    />
+    @if (showPageInfo() || showPageSelector()) {
+      <div
+        class="uc-pagination__meta"
+        [class.uc-pagination__meta--split]="showPageInfo() && showPageSelector()"
+      >
+        @if (showPageInfo()) {
+          <div class="uc-pagination__info">
+            {{ pageInfoText() }}
+          </div>
+        }
 
-    <uc-pagination-page-button
-      class="uc-pagination__btn"
-      [ariaLabel]="'Jump forward by 3 pages'"
-      [phosphorIcon]="'caret-double-right'"
-      [variant]="'secondary'"
-      [disabled]="isFastNextDisabled()"
-      (clicked)="fastNextPage()"
-    />
+        @if (showPageSelector()) {
+          <uc-pagination-page-select
+            [selectedSize]="pageSize()"
+            [sizes]="pageSizeOptions()"
+            (sizeSelected)="onPageSizeSelect($event)"
+          />
+        }
+      </div>
+    }
   </div>
-
-  @if (showPageInfo() || showPageSelector()) {
-    <div
-      class="uc-pagination__meta"
-      [class.uc-pagination__meta--split]="showPageInfo() && showPageSelector()"
-    >
-      @if (showPageInfo()) {
-        <div class="uc-pagination__info">
-          {{ pageInfoText() }}
-        </div>
-      }
-
-      @if (showPageSelector()) {
-        <uc-pagination-page-select
-          [selectedSize]="pageSize()"
-          [sizes]="pageSizeOptions()"
-          (sizeSelected)="onPageSizeSelect($event)"
-        />
-      }
-    </div>
-  }
 }

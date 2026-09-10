@@ -7,13 +7,18 @@
   --uc-pagination-info-color-resolved: var(--uc-pagination-info-color, var(--paragraph-text-color));
 }
 
+.uc-pagination-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .uc-pagination {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
   flex-wrap: wrap;
-  margin-bottom: 1.5rem;
 
   .uc-pagination__btn {
     display: inline-flex;
@@ -54,4 +59,26 @@
   text-align: center;
   color: var(--uc-pagination-info-color-resolved);
   font-size: 0.9rem;
+}
+
+/* On mobile, drop the fast-jump and numbered page buttons and move
+   Previous/Next below the (optional) info/selector row. */
+@media (max-width: 768px) {
+  .uc-pagination-container {
+    .uc-pagination {
+      order: 2;
+    }
+
+    .uc-pagination__meta {
+      order: 1;
+    }
+
+    .uc-pagination__btn--fast {
+      display: none;
+    }
+
+    .uc-pagination__indicators {
+      display: none;
+    }
+  }
 }
