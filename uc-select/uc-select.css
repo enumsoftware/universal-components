@@ -152,6 +152,15 @@
   --uc-select-option-font-size-resolved: var(--uc-select-option-font-size, 0.9rem);
   display: flex;
   flex-direction: column;
+  /*
+   * `.cdk-overlay-pane` is a row flex container whose width the component sets to match the
+   * trigger (see panelWidth() / cdkConnectedOverlayWidth). Flex items shrink-wrap to their
+   * content by default, so without an explicit width and min-width:0 this panel would ignore
+   * that pane width entirely (narrower than the trigger for short option labels, overflowing it
+   * for long ones instead of eliding them).
+   */
+  width: 100%;
+  min-width: 0;
   background-color: var(--uc-input-background-color);
   border: 2px solid var(--uc-input-border-color);
   border-radius: var(--uc-input-border-radius);
