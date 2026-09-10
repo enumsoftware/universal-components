@@ -1,23 +1,30 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
+  ViewEncapsulation,
+  WritableSignal,
+  computed,
+  inject,
   input,
   model,
-  computed,
   signal,
-  inject,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
+  Signal,
+  OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { DIALOG_DATA, Dialog, DialogRef } from '@angular/cdk/dialog';
 import {
   DisabledReason,
   FormValueControl,
   ValidationError,
   WithOptionalFieldTree,
 } from '@angular/forms/signals';
+import { map } from 'rxjs';
 
 /**
  * Option interface for select dropdown
@@ -27,6 +34,145 @@ export interface SelectOption<T = string> {
   label: string;
   disabled?: boolean;
   icon?: string;
+}
+
+export type UcSelectDisplayMode = 'auto' | 'dropdown' | 'dialog';
+export type UcSelectLoadMode = 'all' | 'page' | 'infinite';
+
+export interface UcSelectQuery {
+  search: string;
+  page: number;
+  pageSize: number;
+  cursor: string | null;
+}
+
+export interface UcSelectLoadResult<T = string> {
+  items: SelectOption<T>[];
+  total?: number;
+  hasMore?: boolean;
+  nextCursor?: string | null;
+}
+
+export type UcSelectDataSource<T = string> = (
+  query: UcSelectQuery,
+) => Promise<UcSelectLoadResult<T>>;
+
+type UcSelectMobileDialogData<T = unknown> = {
+  id: string;
+  label: string;
+  placeholder: string;
+  searchable: boolean;
+  searchQuery: WritableSignal<string>;
+  visibleOptions: Signal<SelectOption<T>[]>;
+  loading: Signal<boolean>;
+  loadError: Signal<string | null>;
+  hasMore: Signal<boolean>;
+  canLoadPreviousPage: Signal<boolean>;
+  canLoadNextPage: Signal<boolean>;
+  pageLabel: Signal<string>;
+  loadMode: UcSelectLoadMode;
+  onClose: () => void;
+  onQueryChange: (value: string) => void;
+  onSelectOption: (option: SelectOption<T>) => void;
+  onLoadMore: () => void;
+  onPreviousPage: () => void;
+  onNextPage: () => void;
+};
+
+@Component({
+  selector: 'uc-select-mobile-dialog-content',
+  imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  template: `
+    <section class="uc-select-mobile-dialog" aria-modal="true" role="dialog">
+      <header class="uc-select-mobile-dialog__header">
+        <h3 class="uc-select-mobile-dialog__title">{{ data.label || data.placeholder }}</h3>
+        <button type="button" class="uc-select-mobile-dialog__close" (click)="data.onClose()" aria-label="Close">
+          ✕
+        </button>
+      </header>
+
+      @if (data.searchable) {
+        <div class="uc-select-search">
+          <input
+            class="uc-select-search-input"
+            type="search"
+            [value]="data.searchQuery()"
+            [placeholder]="'Search ' + (data.label || data.placeholder).toLowerCase()"
+            (input)="onQueryInput($event)"
+          />
+        </div>
+      }
+
+      <div class="uc-select-panel" role="listbox" [id]="data.id + '-mobile-panel'" [attr.aria-label]="data.label || data.placeholder">
+        @if (data.loading()) {
+          <div class="uc-select-status-row">Loading options…</div>
+        }
+
+        @if (data.loadError(); as error) {
+          <div class="uc-select-status-row uc-select-status-row-error">{{ error }}</div>
+        }
+
+        @if (data.visibleOptions().length > 0) {
+          @for (option of data.visibleOptions(); track option.label + '-' + $index) {
+            <button
+              type="button"
+              class="uc-select-option"
+              [class.uc-select-option-disabled]="option.disabled"
+              [disabled]="option.disabled"
+              role="option"
+              (click)="data.onSelectOption(option)"
+            >
+              @if (option.icon) {
+                <span class="uc-select-option-icon">{{ option.icon }}</span>
+              }
+              <span class="uc-select-option-label">{{ option.label }}</span>
+            </button>
+          }
+        } @else if (!data.loading() && !data.loadError()) {
+          <div class="uc-select-no-options">No options available</div>
+        }
+      </div>
+
+      @if (data.loadMode === 'infinite') {
+        <div class="uc-select-load-controls">
+          <button type="button" class="uc-select-pager-button" [disabled]="data.loading() || !data.hasMore()" (click)="data.onLoadMore()">
+            Load more
+          </button>
+        </div>
+      }
+
+      @if (data.loadMode === 'page') {
+        <div class="uc-select-pager">
+          <button
+            type="button"
+            class="uc-select-pager-button"
+            [disabled]="data.loading() || !data.canLoadPreviousPage()"
+            (click)="data.onPreviousPage()"
+          >
+            Previous
+          </button>
+          <span class="uc-select-pager-label">{{ data.pageLabel() }}</span>
+          <button
+            type="button"
+            class="uc-select-pager-button"
+            [disabled]="data.loading() || !data.canLoadNextPage()"
+            (click)="data.onNextPage()"
+          >
+            Next
+          </button>
+        </div>
+      }
+    </section>
+  `,
+})
+class UcSelectMobileDialogContent {
+  readonly data = inject<UcSelectMobileDialogData>(DIALOG_DATA);
+
+  onQueryInput(event: Event): void {
+    const target = event.target as HTMLInputElement | null;
+    this.data.onQueryChange(target?.value ?? '');
+  }
 }
 
 /** Gap between the trigger and the panel, mirrored by the overlay offsets. */
@@ -40,6 +186,8 @@ const PANEL_MAX_HEIGHT = 300;
 
 /** Floor for the panel so a cramped viewport still gets a scrollable list. */
 const PANEL_MIN_HEIGHT = 120;
+
+const MOBILE_BREAKPOINT = '(max-width: 767px)';
 
 /**
  * Raw theme tokens the panel reads. The panel renders in the CDK overlay container at the end of
@@ -75,8 +223,21 @@ const PANEL_INHERITED_PROPERTIES = [
     class: 'uc-select-host',
   },
 })
-export class UcSelect<T = string> implements FormValueControl<T | null> {
+export class UcSelect<T = string> implements FormValueControl<T | null>, OnDestroy {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly dialog = inject(Dialog);
+
+  private readonly isMobileViewport = toSignal(
+    this.breakpointObserver.observe(MOBILE_BREAKPOINT).pipe(map((state) => state.matches)),
+    {
+      initialValue: false,
+    },
+  );
+
+  private searchDebounceId: ReturnType<typeof setTimeout> | null = null;
+  private requestSequence = 0;
+  private mobileDialogRef: DialogRef<unknown, UcSelectMobileDialogContent> | null = null;
 
   // Input properties
   readonly id = input.required<string>();
@@ -91,6 +252,14 @@ export class UcSelect<T = string> implements FormValueControl<T | null> {
   readonly errors = input<readonly WithOptionalFieldTree<ValidationError>[]>([]);
   readonly disabledReasons = input<readonly WithOptionalFieldTree<DisabledReason>[]>([]);
 
+  readonly searchable = input<boolean>(false);
+  readonly displayMode = input<UcSelectDisplayMode>('auto');
+  readonly loadMode = input<UcSelectLoadMode>('all');
+  readonly dataSource = input<UcSelectDataSource<T> | null>(null);
+  readonly pageSize = input<number>(25);
+  readonly searchDebounceMs = input<number>(250);
+  readonly serverSearch = input<boolean>(false);
+
   // Model properties
   value = model<T | null>(null);
   touched = model<boolean>(false);
@@ -104,6 +273,14 @@ export class UcSelect<T = string> implements FormValueControl<T | null> {
 
   /** Theming copied off the host, plus the max height that fits the space we can flip into. */
   readonly panelStyle = signal<Record<string, string>>({});
+  readonly searchQuery = signal<string>('');
+  readonly loading = signal<boolean>(false);
+  readonly loadError = signal<string | null>(null);
+  readonly loadedOptions = signal<SelectOption<T>[]>([]);
+  readonly hasMore = signal<boolean>(false);
+  readonly currentPage = signal<number>(1);
+  readonly nextCursor = signal<string | null>(null);
+  readonly totalItems = signal<number | null>(null);
 
   /**
    * Below the trigger first, then above it, then the same two end-aligned. The CDK takes the first
@@ -147,6 +324,7 @@ export class UcSelect<T = string> implements FormValueControl<T | null> {
   showErrorState = computed(() => this.invalid() && this.touched());
 
   readonly labelId = computed(() => `${this.id()}-label`);
+  readonly panelId = computed(() => `${this.id()}-panel`);
   readonly showLabel = computed(() => !!this.label() && !this.hideLabel());
 
   /** Only point at the label element while it is actually rendered. */
@@ -157,19 +335,97 @@ export class UcSelect<T = string> implements FormValueControl<T | null> {
     this.showLabel() ? null : this.label() || this.placeholder(),
   );
 
+  readonly isDialogMode = computed(() => {
+    const mode = this.displayMode();
+
+    if (mode === 'dialog') {
+      return true;
+    }
+
+    if (mode === 'dropdown') {
+      return false;
+    }
+
+    return this.isMobileViewport();
+  });
+
+  readonly triggerAriaHasPopup = computed(() => (this.isDialogMode() ? 'dialog' : 'listbox'));
+
+  readonly visibleOptions = computed(() => {
+    const staticOptions = this.dataSource() ? this.loadedOptions() : this.options();
+
+    if (!this.searchable() || (this.dataSource() && this.serverSearch())) {
+      return staticOptions;
+    }
+
+    const query = this.searchQuery().trim().toLowerCase();
+
+    if (!query) {
+      return staticOptions;
+    }
+
+    return staticOptions.filter((option) => option.label.toLowerCase().includes(query));
+  });
+
   selectedOption = computed(() => {
     const currentValue = this.value();
-    return this.options().find((opt) => opt.value === currentValue);
+    const options = this.dataSource() ? this.loadedOptions() : this.options();
+    return options.find((opt) => opt.value === currentValue);
   });
 
   selectedLabel = computed(() => {
     return this.selectedOption()?.label || this.placeholder();
   });
 
+  readonly pageLabel = computed(() => {
+    if (this.loadMode() !== 'page') {
+      return '';
+    }
+
+    const total = this.totalItems();
+    if (typeof total === 'number' && total > 0) {
+      const start = (this.currentPage() - 1) * this.pageSize() + 1;
+      const end = Math.min(this.currentPage() * this.pageSize(), total);
+      return `${start}-${end} of ${total}`;
+    }
+
+    return `Page ${this.currentPage()}`;
+  });
+
+  readonly canLoadPreviousPage = computed(() =>
+    this.loadMode() === 'page' && this.currentPage() > 1,
+  );
+
+  readonly canLoadNextPage = computed(() => {
+    if (this.loadMode() !== 'page') {
+      return false;
+    }
+
+    const total = this.totalItems();
+    if (typeof total === 'number') {
+      return this.currentPage() * this.pageSize() < total;
+    }
+
+    return this.hasMore();
+  });
+
   /**
    * Toggle the dropdown open/close state
    */
   toggleDropdown(): void {
+    if (this.isDisabled()) {
+      return;
+    }
+
+    if (this.isDialogMode()) {
+      if (this.mobileDialogRef) {
+        this.closeDropdown();
+      } else {
+        this.openDialog();
+      }
+      return;
+    }
+
     if (this.isOpen()) {
       this.closeDropdown();
       return;
@@ -182,12 +438,38 @@ export class UcSelect<T = string> implements FormValueControl<T | null> {
    * Open the dropdown
    */
   openDropdown(): void {
-    if (this.disabled()) {
+    if (this.isDisabled()) {
       return;
     }
 
+    if (this.isDialogMode()) {
+      this.openDialog();
+      return;
+    }
+
+    this.ensureDataLoaded();
     this.measurePanel();
     this.isOpen.set(true);
+  }
+
+  openDialog(): void {
+    if (this.mobileDialogRef || this.isDisabled()) {
+      return;
+    }
+
+    this.ensureDataLoaded();
+    const dialogRef = this.dialog.open(UcSelectMobileDialogContent, {
+      panelClass: 'uc-select-mobile-dialog-pane',
+      autoFocus: false,
+      data: this.buildMobileDialogData(),
+    });
+    this.mobileDialogRef = dialogRef;
+
+    dialogRef.closed.subscribe(() => {
+      this.mobileDialogRef = null;
+      this.touched.set(true);
+      this.triggerElement()?.focus();
+    });
   }
 
   /**
@@ -195,6 +477,7 @@ export class UcSelect<T = string> implements FormValueControl<T | null> {
    */
   closeDropdown(): void {
     this.isOpen.set(false);
+    this.closeMobileDialog();
   }
 
   /**
@@ -215,6 +498,89 @@ export class UcSelect<T = string> implements FormValueControl<T | null> {
     this.touched.set(true);
   }
 
+  onTriggerKeydown(event: KeyboardEvent): void {
+    if (this.isDisabled()) {
+      return;
+    }
+
+    if (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowDown') {
+      event.preventDefault();
+      this.toggleDropdown();
+      return;
+    }
+
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      this.closeDropdown();
+    }
+  }
+
+  onSearchInput(query: string): void {
+    this.searchQuery.set(query);
+
+    if (!(this.dataSource() && this.serverSearch())) {
+      return;
+    }
+
+    this.queueRemoteSearch();
+  }
+
+  onSearchInputEvent(event: Event): void {
+    const target = event.target as HTMLInputElement | null;
+    this.onSearchInput(target?.value ?? '');
+  }
+
+  async onPanelScroll(event: Event): Promise<void> {
+    if (!this.dataSource() || this.loadMode() !== 'infinite' || this.loading() || !this.hasMore()) {
+      return;
+    }
+
+    const target = event.target as HTMLElement | null;
+    if (!target) {
+      return;
+    }
+
+    const threshold = 40;
+    const remaining = target.scrollHeight - target.scrollTop - target.clientHeight;
+
+    if (remaining <= threshold) {
+      await this.loadMore();
+    }
+  }
+
+  async loadMore(): Promise<void> {
+    if (!this.dataSource() || this.loading()) {
+      return;
+    }
+
+    if (this.loadMode() === 'infinite') {
+      if (!this.hasMore() && this.loadedOptions().length > 0) {
+        return;
+      }
+
+      await this.loadOptions({ reset: false, append: true });
+      return;
+    }
+
+    if (this.loadMode() === 'page') {
+      if (!this.canLoadNextPage()) {
+        return;
+      }
+
+      this.currentPage.update((page) => page + 1);
+      await this.loadOptions({ reset: false, append: false });
+    }
+  }
+
+  async previousPage(): Promise<void> {
+    if (!this.dataSource() || this.loadMode() !== 'page' || this.loading() || !this.canLoadPreviousPage()) {
+      return;
+    }
+
+    this.currentPage.update((page) => Math.max(1, page - 1));
+    await this.loadOptions({ reset: false, append: false });
+  }
+
   /**
    * Close on Escape while the overlay has focus, so a keyboard user is not stuck behind the
    * backdrop that now covers the page.
@@ -227,8 +593,191 @@ export class UcSelect<T = string> implements FormValueControl<T | null> {
     }
   }
 
+  ngOnDestroy(): void {
+    this.clearSearchDebounce();
+    this.closeMobileDialog();
+  }
+
+  private closeMobileDialog(): void {
+    this.mobileDialogRef?.close();
+    this.mobileDialogRef = null;
+  }
+
+  private queueRemoteSearch(): void {
+    this.clearSearchDebounce();
+    this.searchDebounceId = setTimeout(() => {
+      this.currentPage.set(1);
+      this.nextCursor.set(null);
+      void this.loadOptions({ reset: true, append: false });
+    }, this.searchDebounceMs());
+  }
+
+  private clearSearchDebounce(): void {
+    if (!this.searchDebounceId) {
+      return;
+    }
+
+    clearTimeout(this.searchDebounceId);
+    this.searchDebounceId = null;
+  }
+
   private triggerElement(): HTMLElement | null {
     return this.hostRef.nativeElement.querySelector<HTMLElement>('.uc-select-trigger');
+  }
+
+  private buildMobileDialogData(): UcSelectMobileDialogData<T> {
+    return {
+      id: this.id(),
+      label: this.label(),
+      placeholder: this.placeholder(),
+      searchable: this.searchable(),
+      searchQuery: this.searchQuery,
+      visibleOptions: this.visibleOptions,
+      loading: this.loading,
+      loadError: this.loadError,
+      hasMore: this.hasMore,
+      canLoadPreviousPage: this.canLoadPreviousPage,
+      canLoadNextPage: this.canLoadNextPage,
+      pageLabel: this.pageLabel,
+      loadMode: this.loadMode(),
+      onClose: () => this.closeDropdown(),
+      onQueryChange: (query) => this.onSearchInput(query),
+      onSelectOption: (option) => this.selectOption(option),
+      onLoadMore: () => {
+        void this.loadMore();
+      },
+      onPreviousPage: () => {
+        void this.previousPage();
+      },
+      onNextPage: () => {
+        void this.loadMore();
+      },
+    };
+  }
+
+  private isDisabled(): boolean {
+    return this.disabled() || this.readonly();
+  }
+
+  private ensureDataLoaded(): void {
+    const source = this.dataSource();
+    if (!source) {
+      return;
+    }
+
+    if (this.loadMode() === 'page') {
+      void this.loadOptions({ reset: true, append: false });
+      return;
+    }
+
+    if (this.loadedOptions().length === 0 && !this.loading()) {
+      void this.loadOptions({ reset: true, append: false });
+    }
+  }
+
+  private async loadOptions(params: { reset: boolean; append: boolean }): Promise<void> {
+    const source = this.dataSource();
+    if (!source) {
+      return;
+    }
+
+    if (this.loading()) {
+      return;
+    }
+
+    if (params.reset) {
+      this.loadError.set(null);
+      this.nextCursor.set(null);
+      this.totalItems.set(null);
+      this.hasMore.set(false);
+
+      if (this.loadMode() !== 'page') {
+        this.currentPage.set(1);
+      }
+
+      if (!params.append) {
+        this.loadedOptions.set([]);
+      }
+    }
+
+    this.loading.set(true);
+    const requestId = ++this.requestSequence;
+
+    try {
+      const result = await source({
+        search: this.searchQuery().trim(),
+        page: this.currentPage(),
+        pageSize: this.pageSize(),
+        cursor: this.nextCursor(),
+      });
+
+      if (requestId !== this.requestSequence) {
+        return;
+      }
+
+      const items = result.items ?? [];
+
+      if (typeof result.total === 'number') {
+        this.totalItems.set(result.total);
+      }
+
+      this.nextCursor.set(result.nextCursor ?? null);
+
+      if (this.loadMode() === 'infinite' && params.append) {
+        this.loadedOptions.update((existing) => [...existing, ...items]);
+      } else {
+        this.loadedOptions.set(items);
+      }
+
+      const total = this.totalItems();
+      const hasMore =
+        typeof result.hasMore === 'boolean'
+          ? result.hasMore
+          : this.deriveHasMore({
+              loadedCount: this.loadedOptions().length,
+              currentBatchCount: items.length,
+              total,
+              nextCursor: result.nextCursor ?? null,
+            });
+
+      this.hasMore.set(hasMore);
+      this.loadError.set(null);
+    } catch {
+      if (requestId !== this.requestSequence) {
+        return;
+      }
+
+      this.loadError.set('Failed to load options. Please try again.');
+    } finally {
+      if (requestId === this.requestSequence) {
+        this.loading.set(false);
+      }
+    }
+  }
+
+  private deriveHasMore(params: {
+    loadedCount: number;
+    currentBatchCount: number;
+    total: number | null;
+    nextCursor: string | null;
+  }): boolean {
+    if (params.nextCursor) {
+      return true;
+    }
+
+    if (this.loadMode() === 'all') {
+      return false;
+    }
+
+    if (typeof params.total === 'number') {
+      if (this.loadMode() === 'page') {
+        return this.currentPage() * this.pageSize() < params.total;
+      }
+
+      return params.loadedCount < params.total;
+    }
+
+    return params.currentBatchCount >= this.pageSize();
   }
 
   /**

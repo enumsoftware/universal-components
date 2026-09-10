@@ -84,16 +84,35 @@ const MIME_TYPES: Record<string, string> = {
   '.woff2': 'font/woff2',
 };
 
+function readBasePath(): string {
+  const index = fs.readFileSync(path.join(DIST_DIR, 'index.html'), 'utf8');
+  const href = index.match(/<base\s+href=(['"])(.*?)\1/i)?.[2] ?? '/';
+  const pathname = new URL(href, 'http://localhost').pathname;
+
+  return pathname.endsWith('/') ? pathname : `${pathname}/`;
+}
+
 /**
  * Serves the built app.
  *
  * The workbench uses hash routing, so every request is for a real file that
  * exists - no SPA rewrite, and anything missing is a genuine 404 worth seeing.
  */
-function startServer(): Promise<{ readonly origin: string; close: () => Promise<void> }> {
+function startServer(): Promise<{
+  readonly origin: string;
+  readonly basePath: string;
+  close: () => Promise<void>;
+}> {
+  const basePath = readBasePath();
+  const baseRoot = basePath === '/' ? '/' : basePath.replace(/\/$/, '');
   const server = http.createServer((request, response) => {
     const requested = decodeURIComponent((request.url ?? '/').split('?')[0] ?? '/');
-    const relative = requested === '/' ? 'index.html' : requested.replace(/^\/+/, '');
+    const relative =
+      requested === '/' || requested === baseRoot || requested === `${baseRoot}/`
+        ? 'index.html'
+        : requested.startsWith(basePath)
+          ? requested.slice(basePath.length)
+          : requested.replace(/^\/+/, '');
     const file = path.join(DIST_DIR, relative);
 
     // Nothing here is attacker-controlled, but a traversal would silently read
@@ -113,6 +132,7 @@ function startServer(): Promise<{ readonly origin: string; close: () => Promise<
 
       resolve({
         origin: `http://127.0.0.1:${port}`,
+        basePath,
         close: () => new Promise<void>((done) => server.close(() => done())),
       });
     });
@@ -141,7 +161,12 @@ async function runAxe(page: Page, surface: A11ySurface): Promise<readonly A11yIs
   return toReport(raw as AxeResultLike).violations;
 }
 
-async function sweepShowcase(page: Page, origin: string, row: ShowcaseRow, theme: Theme): Promise<Finding[]> {
+async function sweepShowcase(
+  page: Page,
+  server: { readonly origin: string; readonly basePath: string },
+  row: ShowcaseRow,
+  theme: Theme,
+): Promise<Finding[]> {
   const findings: Finding[] = [];
 
   // The counter is what forces a real navigation: two URLs differing only in
@@ -149,7 +174,10 @@ async function sweepShowcase(page: Page, origin: string, row: ShowcaseRow, theme
   // could run against the previous showcase while this one's chunk is still in
   // flight. Changing the search string makes every visit a fresh document.
   loads += 1;
-  await page.goto(`${origin}/?visit=${loads}#/${row.id}?theme=${theme}`, { waitUntil: 'load' });
+  const url = new URL(server.basePath, server.origin);
+  url.searchParams.set('visit', String(loads));
+  url.hash = `/${row.id}?theme=${theme}`;
+  await page.goto(url.toString(), { waitUntil: 'load' });
   await page.getByRole('heading', { level: 1, name: row.title, exact: true }).waitFor();
 
   // Either a canvas or the "nothing to render" message means the tab has
@@ -330,9 +358,9 @@ async function main(): Promise<number> {
 
     for (const row of rows) {
       for (const theme of THEMES) {
-        await page.goto(server.origin, { waitUntil: 'load' });
+        await page.goto(new URL(server.basePath, server.origin).toString(), { waitUntil: 'load' });
         await page.evaluate((nextTheme) => localStorage.setItem('uc-workbench-chrome-theme', nextTheme), theme);
-        findings.push(...(await sweepShowcase(page, server.origin, row, theme)));
+        findings.push(...(await sweepShowcase(page, server, row, theme)));
       }
 
       done += 1;

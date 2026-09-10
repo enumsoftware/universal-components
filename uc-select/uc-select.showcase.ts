@@ -1,4 +1,4 @@
-import { bool, defineShowcase, object, text } from '../workbench/core';
+import { bool, defineShowcase, number, object, select, text } from '../workbench/core';
 import { UcSelect } from './uc-select';
 
 const COUNTRIES = [
@@ -21,6 +21,11 @@ export default defineShowcase({
     options: object(COUNTRIES),
     value: text(null),
     disabled: bool(false),
+    searchable: bool(false),
+    displayMode: select(['auto', 'dropdown', 'dialog'] as const, 'auto'),
+    loadMode: select(['all', 'page', 'infinite'] as const, 'all'),
+    serverSearch: bool(false),
+    pageSize: number(25, { min: 1, step: 1 }),
   },
   examples: [
     {
@@ -29,6 +34,8 @@ export default defineShowcase({
       props: { hideLabel: true },
     },
     { name: 'With Value', props: { value: 'gb' } },
+    { name: 'Searchable', props: { searchable: true } },
+    { name: 'Dialog Mode', props: { displayMode: 'dialog' } },
     { name: 'Disabled', props: { disabled: true, value: 'us' } },
     {
       name: 'With Error',

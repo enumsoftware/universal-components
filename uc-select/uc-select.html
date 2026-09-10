@@ -9,11 +9,13 @@
     class="uc-select-trigger"
     [class.uc-select-error]="showErrorState()"
     (click)="toggleDropdown()"
+    (keydown)="onTriggerKeydown($event)"
     (blur)="onBlur()"
     aria-expanded="false"
     aria-haspopup="listbox"
-    aria-controls="select-panel"
+    [attr.aria-controls]="panelId()"
     [attr.aria-expanded]="isOpen()"
+    [attr.aria-haspopup]="triggerAriaHasPopup()"
     [attr.aria-label]="triggerAriaLabel()"
     [attr.aria-labelledby]="triggerAriaLabelledBy()"
     [attr.aria-disabled]="disabled()"
@@ -39,7 +41,7 @@
   <ng-template
     cdkConnectedOverlay
     [cdkConnectedOverlayOrigin]="trigger"
-    [cdkConnectedOverlayOpen]="isOpen()"
+    [cdkConnectedOverlayOpen]="isOpen() && !isDialogMode()"
     [cdkConnectedOverlayPositions]="panelPositions"
     [cdkConnectedOverlayViewportMargin]="viewportMargin"
     [cdkConnectedOverlayWidth]="panelWidth()"
@@ -53,13 +55,34 @@
     <div
       class="uc-select-panel"
       role="listbox"
-      id="select-panel"
+      [id]="panelId()"
       [style]="panelStyle()"
       [attr.aria-label]="label() || placeholder()"
       title="Select dropdown options"
+      (scroll)="onPanelScroll($event)"
     >
-      @if (options().length > 0) {
-        @for (option of options(); track option.value) {
+      @if (searchable()) {
+        <div class="uc-select-search">
+          <input
+            class="uc-select-search-input"
+            type="search"
+            [value]="searchQuery()"
+            [placeholder]="'Search ' + (label() || placeholder()).toLowerCase()"
+            (input)="onSearchInputEvent($event)"
+          />
+        </div>
+      }
+
+      @if (loading()) {
+        <div class="uc-select-status-row">Loading options…</div>
+      }
+
+      @if (loadError(); as error) {
+        <div class="uc-select-status-row uc-select-status-row-error">{{ error }}</div>
+      }
+
+      @if (visibleOptions().length > 0) {
+        @for (option of visibleOptions(); track option.label + '-' + $index) {
           <button
             type="button"
             class="uc-select-option"
@@ -80,8 +103,38 @@
             }
           </button>
         }
-      } @else {
+      } @else if (!loading() && !loadError()) {
         <div class="uc-select-no-options">No options available</div>
+      }
+
+      @if (loadMode() === 'infinite' && hasMore()) {
+        <div class="uc-select-load-controls">
+          <button type="button" class="uc-select-pager-button" [disabled]="loading()" (click)="loadMore()">
+            Load more
+          </button>
+        </div>
+      }
+
+      @if (loadMode() === 'page') {
+        <div class="uc-select-pager">
+          <button
+            type="button"
+            class="uc-select-pager-button"
+            [disabled]="loading() || !canLoadPreviousPage()"
+            (click)="previousPage()"
+          >
+            Previous
+          </button>
+          <span class="uc-select-pager-label">{{ pageLabel() }}</span>
+          <button
+            type="button"
+            class="uc-select-pager-button"
+            [disabled]="loading() || !canLoadNextPage()"
+            (click)="loadMore()"
+          >
+            Next
+          </button>
+        </div>
       }
     </div>
   </ng-template>

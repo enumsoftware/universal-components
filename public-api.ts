@@ -11,7 +11,14 @@ export type {
 } from './uc-editor/uc-editor-format';
 export type { UcEditorFormatId, UcEditorFormatInput } from './uc-editor/uc-editor-formats';
 export type { UcEditorView } from './uc-editor/uc-editor';
-export type { SelectOption } from './uc-select/uc-select';
+export type {
+  SelectOption,
+  UcSelectDataSource,
+  UcSelectDisplayMode,
+  UcSelectLoadMode,
+  UcSelectLoadResult,
+  UcSelectQuery,
+} from './uc-select/uc-select';
 export type { UcSidebarMode } from './uc-side-navigation/uc-side-navigation';
 export type { UcTab } from './uc-tabs/uc-tabs';
 export type { UcTooltipPosition, UcTooltipConfig } from './uc-tooltip/uc-tooltip';
