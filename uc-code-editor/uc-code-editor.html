@@ -1,0 +1,53 @@
+<div
+  class="uc-code-editor"
+  [class.uc-code-editor-error]="showErrorState()"
+  [class.uc-code-editor-disabled]="disabled()"
+  [hidden]="hidden()"
+>
+  @if (label() && !hideLabel()) {
+    <label class="uc-code-editor-label" [id]="labelId()" [for]="id()">{{ label() }}</label>
+  }
+
+  <div class="uc-code-editor-shell" [class.uc-code-editor-shell-error]="showErrorState()">
+    <div class="uc-code-editor-toolbar" role="toolbar" [attr.aria-label]="(label() || 'Code editor') + ' toolbar'">
+      @if (showLanguageBadge()) {
+        <uc-pill size="compact" variant="info">{{ resolvedLanguageLabel() }}</uc-pill>
+      }
+
+      <div class="uc-code-editor-toolbar-actions">
+        @if (showCopyButton()) {
+          <uc-icon-button
+            [phosphorIcon]="copied() ? 'check' : 'copy'"
+            [label]="copied() ? 'Copied' : 'Copy to clipboard'"
+            variant="secondary"
+            (clicked)="copyToClipboard()"
+          />
+        }
+      </div>
+    </div>
+
+    <div
+      class="uc-code-editor-surface"
+      [style.height]="height()"
+      [attr.aria-busy]="loading()"
+    >
+      <div #editorHost class="uc-code-editor-mount" [id]="id()"></div>
+
+      @if (loading()) {
+        <div class="uc-code-editor-status" aria-live="polite">Loading editor…</div>
+      }
+
+      @if (loadError(); as error) {
+        <div class="uc-code-editor-status uc-code-editor-status-error" role="alert">{{ error }}</div>
+      }
+    </div>
+  </div>
+
+  @if (showErrorState()) {
+    <div class="uc-code-editor-error-container">
+      @for (error of errors(); track error) {
+        <span class="uc-code-editor-error-message">{{ error.message }}</span>
+      }
+    </div>
+  }
+</div>

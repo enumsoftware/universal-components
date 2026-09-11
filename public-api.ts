@@ -11,6 +11,7 @@ export type {
 } from './uc-editor/uc-editor-format';
 export type { UcEditorFormatId, UcEditorFormatInput } from './uc-editor/uc-editor-formats';
 export type { UcEditorView } from './uc-editor/uc-editor';
+export type { UcCodeEditorMode, UcCodeEditorTheme } from './uc-code-editor/uc-code-editor';
 export type {
   SelectOption,
   UcSelectDataSource,
@@ -36,6 +37,8 @@ export { UcBarChart } from './uc-charts/uc-bar-chart/uc-bar-chart';
 export { UcLineChart } from './uc-charts/uc-line-chart/uc-line-chart';
 export { UcDoughnutChart } from './uc-charts/uc-doughnut-chart/uc-doughnut-chart';
 export { UcCheckbox } from './uc-checkbox/uc-checkbox';
+export { UcCodeEditor } from './uc-code-editor/uc-code-editor';
+export { ucCodeEditorLanguageLabel } from './uc-code-editor/uc-code-editor-languages';
 export { UcColorPicker } from './uc-color-picker/uc-color-picker';
 export { UcConfirmationDialog } from './uc-confirmation-dialog/uc-confirmation-dialog';
 export { UcCalendar } from './uc-calendar/uc-calendar';

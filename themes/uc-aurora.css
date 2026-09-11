@@ -276,6 +276,18 @@
   --uc-editor-error-color: var(--error-color);
   --uc-editor-disabled-opacity: 0.6;
 
+  /* --- Code Editor --- */
+  --uc-code-editor-label-color: var(--foreground-color);
+  --uc-code-editor-toolbar-background: oklch(from var(--foreground-color) l c h / 0.04);
+  --uc-code-editor-toolbar-border-color: var(--uc-input-border-color);
+  --uc-code-editor-toolbar-gap: 0.375rem;
+  --uc-code-editor-toolbar-padding: 0.5rem;
+  --uc-code-editor-border-color: var(--uc-input-border-color);
+  --uc-code-editor-border-radius: 0;
+  --uc-code-editor-status-color: var(--paragraph-text-color);
+  --uc-code-editor-error-color: var(--error-color);
+  --uc-code-editor-disabled-opacity: 0.6;
+
   /* --- File Picker --- */
   --uc-file-picker-dropzone-border: var(--uc-input-border-color);
   --uc-file-picker-dropzone-background: var(--uc-input-background-color);

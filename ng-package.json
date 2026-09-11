@@ -7,6 +7,7 @@
     "@phosphor-icons/web",
     "d3",
     "flag-icons",
+    "monaco-editor",
     "temporal-polyfill"
   ],
   "dest": "dist"
