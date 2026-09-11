@@ -29,7 +29,7 @@
           [class.uc-calendar__day--range-preview-end]="day.isRangePreviewEnd"
           [attr.aria-label]="day.label"
           [attr.aria-pressed]="day.isSelected || day.isRangeStart || day.isRangeEnd"
-          (click)="daySelect.emit(day)"
+          (click)="selectDay(day)"
           (mouseenter)="dayHover.emit(day)"
           (mouseleave)="dayLeave.emit()"
         >

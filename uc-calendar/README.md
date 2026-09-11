@@ -5,6 +5,7 @@ A standalone, reusable monthly calendar grid. Used internally by `UcDateTimePick
 ## Features
 
 - **Single & range selection** — renders selected dates, range spans, and a hover-preview strip
+- **Self-selecting in single mode** — `selectedDate` is a `model()`, so clicking a day selects it even with no `(daySelect)` listener attached; a host that owns the value (like `UcDateTimePicker`'s draft state) still wins via its one-way binding
 - **Follows its selection** — with no `viewYear`/`viewMonth` pinned, the grid opens on the month of the selected date (or today when nothing is selected)
 - **Stable 6-week grid** — always 6 rows so height never jumps between months
 - **Accessible** — every day button carries an `aria-label` and `aria-pressed` state
@@ -144,7 +145,7 @@ export class RangeExampleComponent {
 |-------|------|---------|-------------|
 | `viewYear` | `number \| undefined` | `undefined` | Year to display. Omit to follow the current selection (`selectedDate`, or `rangeStart` in range mode), falling back to today. |
 | `viewMonth` | `number \| undefined` | `undefined` | Month to display — 1-indexed (1 = January, 12 = December), matching `Temporal.PlainDate.month`. Omit to follow the current selection, falling back to today. |
-| `selectedDate` | `string` | `''` | Selected date in `YYYY-MM-DD` format. Used in single mode. |
+| `selectedDate` | `string` (`model()`) | `''` | Selected date in `YYYY-MM-DD` format. Used in single mode. Self-updates on click; bind with `[selectedDate]` to also receive external changes, or `[(selectedDate)]` for two-way. |
 | `mode` | `'single' \| 'range'` | `'single'` | Selection mode |
 | `rangeStart` | `string` | `''` | Range start date in `YYYY-MM-DD` format |
 | `rangeEnd` | `string` | `''` | Range end date in `YYYY-MM-DD` format |

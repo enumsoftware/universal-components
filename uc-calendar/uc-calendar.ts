@@ -3,6 +3,7 @@ import {
   ViewEncapsulation,
   computed,
   input,
+  model,
   output,
   ChangeDetectionStrategy,
 } from '@angular/core';
@@ -42,7 +43,14 @@ export class UcCalendar {
   readonly viewYear = input<number | undefined>(undefined);
   /** Month to display, 1-indexed. Omit to follow the current selection, falling back to today. */
   readonly viewMonth = input<number | undefined>(undefined);
-  readonly selectedDate = input<string>('');
+  /**
+   * A `model()`, not a plain `input()`, so a day click self-selects even when
+   * nothing outside is listening to `daySelect` - as with a bare
+   * `<uc-calendar selectedDate="..." />` or the workbench showcase. A host that
+   * owns the value (like `UcDateTimePicker`'s draft state) still wins: its
+   * one-way binding overwrites this on every change detection pass.
+   */
+  readonly selectedDate = model<string>('');
   readonly mode = input<CalendarMode>('single');
   readonly rangeStart = input<string>('');
   readonly rangeEnd = input<string>('');
@@ -105,6 +113,13 @@ export class UcCalendar {
     }
     return weeks;
   });
+
+  selectDay(day: CalendarDay): void {
+    if (this.mode() === 'single') {
+      this.selectedDate.set(day.iso);
+    }
+    this.daySelect.emit(day);
+  }
 
   private buildDay(
     date: Temporal.PlainDate,

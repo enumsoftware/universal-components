@@ -70,6 +70,36 @@ describe('UcCalendar', () => {
     expect(selectedDay()).toBeNull();
   });
 
+  const dayButton = (dayNumber: string): HTMLButtonElement | undefined => {
+    const days: HTMLButtonElement[] = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll('.uc-calendar__day'),
+    );
+    return days.find((el) => el.textContent?.trim() === dayNumber);
+  };
+
+  it('should select a day on click even with no daySelect listener attached', () => {
+    fixture.componentRef.setInput('selectedDate', '2026-08-13');
+    fixture.detectChanges();
+
+    dayButton('20')?.click();
+    fixture.detectChanges();
+
+    expect(component.selectedDate()).toBe('2026-08-20');
+    expect(selectedDay()?.textContent?.trim()).toBe('20');
+  });
+
+  it('should still emit daySelect on click', () => {
+    fixture.componentRef.setInput('selectedDate', '2026-08-13');
+    fixture.detectChanges();
+
+    const emitted: string[] = [];
+    component.daySelect.subscribe((day) => emitted.push(day.iso));
+
+    dayButton('20')?.click();
+
+    expect(emitted).toEqual(['2026-08-20']);
+  });
+
   it('should fall back to today for an unparseable date', () => {
     const today = todayPlainDate();
     fixture.componentRef.setInput('selectedDate', '2026-0');
