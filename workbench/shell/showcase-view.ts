@@ -3,9 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { UcButton } from '../../uc-button/uc-button';
 import { UcCard } from '../../uc-card/uc-card';
+import { UcCodeEditor } from '../../uc-code-editor/uc-code-editor';
 import { UcPill } from '../../uc-pill/uc-pill';
 import { UcTabPanel, UcTabs, type UcTab } from '../../uc-tabs/uc-tabs';
-import type { RegistryEntry, ResolvedExample, ResolvedShowcase, ShowcaseDocs } from '../core';
+import type { ExampleSource, RegistryEntry, ResolvedExample, ResolvedShowcase, ShowcaseDocs } from '../core';
 import { decodeArgs, encodeArgs, resolveShowcase } from '../core';
 import { WbA11yPanel } from './a11y-panel';
 import { WbCanvas } from './canvas';
@@ -28,6 +29,7 @@ const DRIVABLE_GROUPS: readonly string[] = ['Components', 'Charts'];
   imports: [
     UcButton,
     UcCard,
+    UcCodeEditor,
     UcPill,
     UcTabPanel,
     UcTabs,
@@ -145,13 +147,15 @@ export class WbShowcaseView {
   }
 
   /**
-   * Docs are a separate lazy chunk, so they are fetched the first time the tab
-   * is opened rather than alongside the showcase.
+   * Docs are a separate lazy chunk, so they are fetched the first time the
+   * Docs or Examples tab is opened rather than alongside the showcase - the
+   * Examples tab needs them too, since the per-example source snippets live
+   * in the same generated module as the prose and API table.
    */
   protected onTabChange(tab: string): void {
     this.activeTab.set(tab);
 
-    if (tab !== 'docs' || this.docs() !== null) {
+    if ((tab !== 'docs' && tab !== 'examples') || this.docs() !== null) {
       return;
     }
 
@@ -166,7 +170,7 @@ export class WbShowcaseView {
       })
       .catch(() => {
         if (token === this.docsToken) {
-          this.docs.set({ html: '', api: [] });
+          this.docs.set({ html: '', api: [], examples: [] });
         }
       });
   }
@@ -196,6 +200,22 @@ export class WbShowcaseView {
   /** Presets reuse the showcase component; richer examples bring their own. */
   protected exampleComponent(example: ResolvedExample) {
     return example.component ?? this.showcase()?.component ?? null;
+  }
+
+  /** Matched by name against the generated per-example snippets - null until the Docs module loads. */
+  protected exampleCode(example: ResolvedExample): ExampleSource | undefined {
+    return this.docs()?.examples.find((entry) => entry.name === example.name);
+  }
+
+  protected exampleCodeId(index: number): string {
+    return `${this.entry().id.replace(/[^a-zA-Z0-9]+/g, '-')}-example-${index}-code`;
+  }
+
+  /** Grows with the snippet, within bounds that keep a one-liner from wasting space and a long file from taking over the page. */
+  protected exampleCodeHeight(code: string): string {
+    const lines = code.split('\n').length;
+
+    return `${Math.min(480, Math.max(120, lines * 19 + 48))}px`;
   }
 
   protected formatPayload(payload: unknown): string {

@@ -59,7 +59,7 @@
     </ng-template>
 
     <ng-template ucTabPanel="examples">
-      @for (example of showcase.examples; track example.name) {
+      @for (example of showcase.examples; track example.name; let i = $index) {
         <article class="wb-example">
           <div class="wb-example-head">
             <h2>{{ example.name }}</h2>
@@ -76,6 +76,19 @@
             <wb-canvas data-surface="examples" [layout]="example.layout">
               <wb-component-host [component]="component" [props]="example.props" (action)="onAction($event)" />
             </wb-canvas>
+          }
+          @if (exampleCode(example); as codeEntry) {
+            <uc-code-editor
+              class="wb-example-code"
+              [id]="exampleCodeId(i)"
+              label="Code"
+              [language]="codeEntry.language"
+              [value]="codeEntry.code"
+              [height]="exampleCodeHeight(codeEntry.code)"
+              mode="preview"
+            />
+          } @else if (docs() === null) {
+            <p class="wb-empty">Loading code…</p>
           }
         </article>
       } @empty {

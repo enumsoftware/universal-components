@@ -41,7 +41,10 @@
             "outputHashing": "media",
             "allowedCommonJsDependencies": [
               "axe-core"
-            ]
+            ],
+            "loader": {
+              ".ttf": "file"
+            }
           },
           "configurations": {
             "production": {

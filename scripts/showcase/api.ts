@@ -218,6 +218,220 @@ function readDescription(member: ts.ClassElement, source: ts.SourceFile): string
     .trim();
 }
 
+export interface ExampleSource {
+  readonly name: string;
+  readonly language: string;
+  readonly code: string;
+}
+
+/**
+ * Follows `@Component({ selector: '...' })` on the named class. Used to
+ * rebuild the tag a preset example would render, since the showcase itself
+ * never spells the selector out.
+ */
+export function resolveSelector(componentFile: string, componentName: string): string | null {
+  const source = parse(componentFile);
+  let selector: string | null = null;
+
+  const visit = (node: ts.Node): void => {
+    if (selector !== null) {
+      return;
+    }
+
+    if (ts.isClassDeclaration(node) && node.name?.text === componentName) {
+      for (const decorator of ts.getDecorators(node) ?? []) {
+        if (!ts.isCallExpression(decorator.expression) || !ts.isIdentifier(decorator.expression.expression)) {
+          continue;
+        }
+
+        if (decorator.expression.expression.text !== 'Component') {
+          continue;
+        }
+
+        const options = decorator.expression.arguments[0];
+
+        if (options === undefined || !ts.isObjectLiteralExpression(options)) {
+          continue;
+        }
+
+        for (const property of options.properties) {
+          if (
+            ts.isPropertyAssignment(property) &&
+            ts.isIdentifier(property.name) &&
+            property.name.text === 'selector' &&
+            ts.isStringLiteralLike(property.initializer)
+          ) {
+            selector = property.initializer.text;
+          }
+        }
+      }
+
+      return;
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  visit(source);
+
+  return selector;
+}
+
+/** A bare identifier is only worth inlining when it names a top-level `const` in the same file. */
+function resolveTopLevelConst(source: ts.SourceFile, name: string): ts.Expression | null {
+  for (const statement of source.statements) {
+    if (!ts.isVariableStatement(statement)) {
+      continue;
+    }
+
+    for (const declaration of statement.declarationList.declarations) {
+      if (ts.isIdentifier(declaration.name) && declaration.name.text === name && declaration.initializer !== undefined) {
+        return declaration.initializer;
+      }
+    }
+  }
+
+  return null;
+}
+
+function attributeExpressionText(initializer: ts.Expression, source: ts.SourceFile): string {
+  const expression = ts.isIdentifier(initializer) ? (resolveTopLevelConst(source, initializer.text) ?? initializer) : initializer;
+
+  // Normalises CRLF source to LF so a checked-out-on-Windows constant does not
+  // produce a snippet with mixed line endings.
+  return expression.getText(source).replace(/\r\n/g, '\n');
+}
+
+/** Rebuilds the tag a preset example renders from exactly what it overrides - not the merged knob defaults the runtime fills in underneath it. */
+function renderPresetSnippet(selector: string, props: ts.ObjectLiteralExpression, source: ts.SourceFile): string {
+  const attributes: string[] = [];
+
+  for (const property of props.properties) {
+    if (!ts.isPropertyAssignment(property) || !ts.isIdentifier(property.name)) {
+      continue;
+    }
+
+    const name = property.name.text;
+
+    if (ts.isStringLiteralLike(property.initializer)) {
+      attributes.push(`  ${name}="${property.initializer.text.replace(/"/g, '&quot;')}"`);
+      continue;
+    }
+
+    attributes.push(`  [${name}]="${attributeExpressionText(property.initializer, source)}"`);
+  }
+
+  if (attributes.length === 0) {
+    return `<${selector}></${selector}>`;
+  }
+
+  return `<${selector}\n${attributes.join('\n')}\n></${selector}>`;
+}
+
+/**
+ * Reconstructs the Examples tab's "view code" panel for one showcase: the full
+ * source of a component-backed example, or a generated markup snippet for a
+ * props-only preset. Best-effort - an example this cannot make sense of is
+ * simply left out, rather than failing the whole registry build.
+ */
+export function extractExamples(
+  showcaseFile: string,
+  componentFile: string | null,
+  componentName: string | null,
+): ExampleSource[] {
+  const source = parse(showcaseFile);
+  const selector = componentFile !== null && componentName !== null ? resolveSelector(componentFile, componentName) : null;
+
+  let examplesNode: ts.ArrayLiteralExpression | undefined;
+
+  const visit = (node: ts.Node): void => {
+    if (
+      examplesNode === undefined &&
+      ts.isCallExpression(node) &&
+      ts.isIdentifier(node.expression) &&
+      node.expression.text === 'defineShowcase' &&
+      node.arguments.length > 0 &&
+      node.arguments[0] !== undefined &&
+      ts.isObjectLiteralExpression(node.arguments[0])
+    ) {
+      for (const property of node.arguments[0].properties) {
+        if (
+          ts.isPropertyAssignment(property) &&
+          ts.isIdentifier(property.name) &&
+          property.name.text === 'examples' &&
+          ts.isArrayLiteralExpression(property.initializer)
+        ) {
+          examplesNode = property.initializer;
+        }
+      }
+
+      return;
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  visit(source);
+
+  if (examplesNode === undefined) {
+    return [];
+  }
+
+  const results: ExampleSource[] = [];
+
+  for (const element of examplesNode.elements) {
+    if (!ts.isObjectLiteralExpression(element)) {
+      continue;
+    }
+
+    let name: string | null = null;
+    let componentIdentifier: string | null = null;
+    let propsLiteral: ts.ObjectLiteralExpression | null = null;
+
+    for (const property of element.properties) {
+      if (!ts.isPropertyAssignment(property) || !ts.isIdentifier(property.name)) {
+        continue;
+      }
+
+      if (property.name.text === 'name' && ts.isStringLiteralLike(property.initializer)) {
+        name = property.initializer.text;
+      }
+
+      if (property.name.text === 'component' && ts.isIdentifier(property.initializer)) {
+        componentIdentifier = property.initializer.text;
+      }
+
+      if (property.name.text === 'props' && ts.isObjectLiteralExpression(property.initializer)) {
+        propsLiteral = property.initializer;
+      }
+    }
+
+    if (name === null) {
+      continue;
+    }
+
+    if (componentIdentifier !== null) {
+      const exampleFile = resolveComponentSource(showcaseFile, componentIdentifier);
+
+      if (exampleFile !== null) {
+        results.push({ name, language: 'typescript', code: fs.readFileSync(exampleFile, 'utf8') });
+      }
+
+      continue;
+    }
+
+    if (selector !== null) {
+      results.push({
+        name,
+        language: 'html',
+        code: propsLiteral !== null ? renderPresetSnippet(selector, propsLiteral, source) : `<${selector}></${selector}>`,
+      });
+    }
+  }
+
+  return results;
+}
+
 const cache = new Map<string, ts.SourceFile>();
 
 function parse(file: string): ts.SourceFile {

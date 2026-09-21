@@ -17,9 +17,18 @@ export interface ApiMember {
   readonly description: string;
 }
 
+/** The snippet that produced one Examples-tab entry, reconstructed at build time. */
+export interface ExampleSource {
+  readonly name: string;
+  /** `typescript` for a component-backed example, `html` for a preset snippet. */
+  readonly language: string;
+  readonly code: string;
+}
+
 /** Compiled docs for one showcase, loaded on demand when the Docs tab opens. */
 export interface ShowcaseDocs {
   /** Markdown compiled to HTML at build time. */
   readonly html: string;
   readonly api: readonly ApiMember[];
+  readonly examples: readonly ExampleSource[];
 }

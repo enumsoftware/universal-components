@@ -13,7 +13,7 @@ export type {
 export { bool, color, date, number, object, select, text } from './knobs';
 export type { Knob, KnobKind } from './knobs';
 export type { RegistryEntry } from './registry';
-export type { ApiKind, ApiMember, ShowcaseDocs } from './api';
+export type { ApiKind, ApiMember, ExampleSource, ShowcaseDocs } from './api';
 export {
   A11Y_CANVAS_SELECTOR,
   A11Y_IMPACT_ORDER,
