@@ -63,7 +63,6 @@ export { markdownToHtml } from './uc-editor/uc-markdown-parser';
 export { htmlToMarkdown } from './uc-editor/uc-markdown-serializer';
 export { UcFilePicker } from './uc-file-picker/uc-file-picker';
 export { UcFlag } from './uc-flag/uc-flag';
-export { UcGoogleSignInButton } from './uc-google-sign-in-button/uc-google-sign-in-button';
 export { UcIconButton } from './uc-icon-button/uc-icon-button';
 export { UcImageEditorDialog } from './uc-image-editor-dialog/uc-image-editor-dialog';
 export { UcInfo } from './uc-info/uc-info';

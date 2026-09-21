@@ -302,12 +302,6 @@
   --uc-file-picker-preview-background: var(--uc-input-background-color);
   --uc-file-picker-helper-text: var(--paragraph-text-color);
 
-  /* --- Google Sign In Button --- */
-  --uc-google-sign-in-button-background: var(--background-color);
-  --uc-google-sign-in-button-color: var(--foreground-color);
-  --uc-google-sign-in-button-hover-background: var(--background-color-90);
-  --uc-google-sign-in-button-hover-box-shadow: 0 0 0 3px oklch(from var(--primary-color) l c h / 0.2);
-
   /* --- Icon Button --- */
   --uc-icon-button-background: var(--background-color);
   --uc-icon-button-color: var(--foreground-color);
