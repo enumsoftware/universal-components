@@ -13,7 +13,7 @@ export class UcAvatar {
   initials = input<string | null>(null);
   backgroundColor = input<string | null>(null);
   icon = input<string>('user');
-  size = input<string>('2.5rem');
+  size = input<string>('2.75rem');
   alt = input<string>('');
 
   private readonly failedImageUrl = signal<string | null>(null);

@@ -54,7 +54,8 @@
   background: var(--uc-code-editor-toolbar-background-resolved);
   border-bottom: 1px solid var(--uc-code-editor-toolbar-border-color-resolved);
 
-  --uc-icon-button-padding: 0.4rem;
+  --uc-icon-button-height: 1.8rem;
+  --uc-icon-button-padding-inline: 0.4rem;
   --uc-icon-button-border-radius: 0.5rem;
 }
 

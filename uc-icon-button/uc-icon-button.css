@@ -55,7 +55,8 @@
     transparent
   );
   --uc-icon-button-disabled-opacity-resolved: var(--uc-icon-button-disabled-opacity, 0.6);
-  --uc-icon-button-padding-resolved: var(--uc-icon-button-padding, 0.75rem);
+  --uc-icon-button-height-resolved: var(--uc-icon-button-height, 2.75rem);
+  --uc-icon-button-padding-inline-resolved: var(--uc-icon-button-padding-inline, 0.75rem);
   --uc-icon-button-border-radius-resolved: var(--uc-icon-button-border-radius, 0.75rem);
   --uc-icon-button-border-width-resolved: var(--uc-icon-button-border-width, 0);
   --uc-icon-button-border-style-resolved: var(--uc-icon-button-border-style, solid);
@@ -68,6 +69,8 @@
   align-items: center;
   gap: 1rem;
   width: 100%;
+  height: var(--uc-icon-button-height-resolved);
+  box-sizing: border-box;
   cursor: pointer;
   font-weight: 700;
   transition:
@@ -75,8 +78,7 @@
     color 0.3s;
   background-color: var(--uc-icon-button-background-resolved);
   color: var(--uc-icon-button-color-resolved);
-  padding-block: var(--uc-icon-button-padding-resolved);
-  padding-inline: var(--uc-icon-button-padding-resolved);
+  padding-inline: var(--uc-icon-button-padding-inline-resolved);
   border-radius: var(--uc-icon-button-border-radius-resolved);
   border-width: var(--uc-icon-button-border-width-resolved);
   border-style: var(--uc-icon-button-border-style-resolved);

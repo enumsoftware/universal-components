@@ -1,0 +1,74 @@
+<div class="wb-dashboard">
+  <div class="wb-dashboard-stats">
+    @for (tile of statTiles; track tile.label) {
+      <uc-card class="wb-dashboard-stat">
+        <p class="wb-dashboard-stat-label">{{ tile.label }}</p>
+        <p class="wb-dashboard-stat-value">{{ tile.value }}</p>
+        <uc-pill [text]="tile.trend" [variant]="tile.trendVariant" size="compact" />
+      </uc-card>
+    }
+  </div>
+
+  <uc-card class="wb-dashboard-chart-card">
+    <uc-tabs
+      [tabs]="chartTabs"
+      [activeTab]="activeChartTab()"
+      (activeTabChange)="onChartTabChange($event)"
+    >
+      <ng-template ucTabPanel="volume">
+        <uc-bar-chart [data]="volumeData" [height]="220" />
+      </ng-template>
+      <ng-template ucTabPanel="response">
+        <uc-line-chart [data]="responseData" [height]="220" [showLegend]="false" />
+      </ng-template>
+    </uc-tabs>
+  </uc-card>
+
+  <uc-card class="wb-dashboard-tickets-card">
+    <div class="wb-dashboard-tickets-head">
+      <h3>Recent tickets</h3>
+
+      <uc-select
+        id="dashboard-status"
+        label="Status"
+        [hideLabel]="true"
+        [options]="statusOptions"
+        [value]="statusFilter()"
+        (valueChange)="onStatusChange($event)"
+      />
+    </div>
+
+    @if (pagedTickets().length === 0) {
+      <p class="wb-dashboard-empty">No tickets match that filter.</p>
+    } @else {
+      <ul class="wb-dashboard-ticket-list">
+        @for (ticket of pagedTickets(); track ticket.id) {
+          <li class="wb-dashboard-ticket-row">
+            <uc-avatar
+              [initials]="initialsFor(ticket.requester)"
+              [backgroundColor]="avatarColorFor(ticket.requester)"
+              [alt]="ticket.requester"
+              size="2.25rem"
+            />
+
+            <div class="wb-dashboard-ticket-identity">
+              <p class="wb-dashboard-ticket-subject">{{ ticket.subject }}</p>
+              <p class="wb-dashboard-ticket-meta">{{ ticket.id }} · {{ ticket.requester }} · {{ ticket.updated }}</p>
+            </div>
+
+            <uc-pill [text]="ticket.priority" [variant]="priorityVariant(ticket.priority)" size="compact" />
+            <uc-pill [text]="ticket.status" [variant]="statusVariant(ticket.status)" size="compact" />
+          </li>
+        }
+      </ul>
+    }
+
+    <uc-pagination
+      [currentPage]="currentPage()"
+      [totalItems]="filteredTickets().length"
+      [pageSize]="pageSize"
+      [showPageSelector]="false"
+      (pageChange)="onPageChange($event)"
+    />
+  </uc-card>
+</div>

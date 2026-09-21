@@ -1,0 +1,70 @@
+<div class="wb-directory">
+  <div class="wb-directory-toolbar">
+    <uc-input
+      id="directory-search"
+      label="Search"
+      [hideLabel]="true"
+      placeholder="Search people by name or email"
+      [value]="search()"
+      (valueChange)="onSearchChange($event)"
+    />
+
+    <uc-select
+      id="directory-department"
+      label="Department"
+      [hideLabel]="true"
+      [options]="departmentOptions"
+      [value]="department()"
+      (valueChange)="onDepartmentChange($event)"
+    />
+
+    <uc-button text="Invite member">
+      <uc-phosphor-icon icon="user-plus" ucButtonPrefix />
+    </uc-button>
+  </div>
+
+  <uc-card class="wb-directory-card">
+    @if (pagedMembers().length === 0) {
+      <p class="wb-directory-empty">No teammates match that search.</p>
+    } @else {
+      <ul class="wb-directory-list">
+        @for (member of pagedMembers(); track member.id) {
+          <li class="wb-directory-row">
+            <uc-avatar
+              [initials]="initialsFor(member.name)"
+              [backgroundColor]="avatarColorFor(member.name)"
+              [alt]="member.name"
+            />
+
+            <div class="wb-directory-identity">
+              <p class="wb-directory-name">{{ member.name }}</p>
+              <p class="wb-directory-email">{{ member.email }}</p>
+            </div>
+
+            <uc-pill [text]="member.department" size="compact" />
+            <uc-pill
+              [text]="member.status"
+              [variant]="member.status === 'Active' ? 'valid' : 'info'"
+              size="compact"
+            />
+
+            <div class="wb-directory-actions">
+              <uc-icon-button phosphorIcon="chat-circle" variant="secondary" [label]="'Message ' + member.name" />
+              <uc-icon-button phosphorIcon="dots-three-vertical" variant="secondary" [label]="'More actions for ' + member.name" />
+            </div>
+          </li>
+        }
+      </ul>
+    }
+
+    <uc-pagination
+      [currentPage]="currentPage()"
+      [totalItems]="filteredMembers().length"
+      [pageSize]="pageSize()"
+      [pageSizeOptions]="[5, 10, 25]"
+      [showPageSelector]="true"
+      (pageChange)="onPageChange($event)"
+      (pageSizeChange)="onPageSizeChange($event)"
+    />
+  </uc-card>
+</div>

@@ -13,7 +13,8 @@
   --uc-select-option-selected-background-resolved: var(--uc-select-option-selected-background, oklch(from var(--primary-color) l c h / 0.15));
   --uc-select-option-selected-color-resolved: var(--uc-select-option-selected-color, var(--primary-color));
   --uc-select-panel-shadow-resolved: var(--uc-select-panel-shadow, 0 4px 12px rgba(0, 0, 0, 0.15));
-  --uc-select-trigger-padding-resolved: var(--uc-select-trigger-padding, 0.7rem 1rem);
+  --uc-select-trigger-height-resolved: var(--uc-select-trigger-height, 2.75rem);
+  --uc-select-trigger-padding-inline-resolved: var(--uc-select-trigger-padding-inline, 1rem);
   --uc-select-trigger-font-size-resolved: var(--uc-select-trigger-font-size, 0.9rem);
   --uc-select-trigger-border-width-resolved: var(--uc-select-trigger-border-width, 2px);
   --uc-select-option-padding-resolved: var(--uc-select-option-padding, 0.7rem 1rem);
@@ -49,7 +50,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  padding: var(--uc-select-trigger-padding-resolved);
+  height: var(--uc-select-trigger-height-resolved);
+  padding-inline: var(--uc-select-trigger-padding-inline-resolved);
   font-size: var(--uc-select-trigger-font-size-resolved);
   background-color: var(--uc-input-background-color);
   border: var(--uc-select-trigger-border-width-resolved) solid var(--uc-input-border-color);

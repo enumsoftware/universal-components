@@ -1,8 +1,5 @@
 :host {
-  --uc-pagination-page-button-size-resolved: var(
-    --uc-pagination-page-button-size,
-    calc((var(--uc-icon-button-padding, 0.75rem) * 2) + 1rem)
-  );
+  --uc-pagination-page-button-size-resolved: var(--uc-pagination-page-button-size, 2.75rem);
   --uc-pagination-page-button-font-size-resolved: var(--uc-pagination-page-button-font-size, 1rem);
   --uc-pagination-page-button-font-weight-resolved: var(--uc-pagination-page-button-font-weight, 700);
   --uc-pagination-page-button-border-radius-resolved: var(
@@ -55,6 +52,7 @@
   min-width: var(--uc-pagination-page-button-size-resolved);
   height: var(--uc-pagination-page-button-size-resolved);
   padding: 0;
+  box-sizing: border-box;
   border-radius: var(--uc-pagination-page-button-border-radius-resolved);
   border: 1px solid var(--uc-pagination-page-button-secondary-border-color-resolved);
   background-color: var(--uc-pagination-page-button-secondary-background-resolved);

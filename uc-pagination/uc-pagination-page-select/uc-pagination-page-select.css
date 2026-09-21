@@ -11,7 +11,7 @@
   --uc-pagination-select-border-color-resolved: var(--uc-pagination-select-border-color,
       var(--uc-input-border-color, oklch(from var(--foreground-color, #161c2d) l c h / 0.3)));
   --uc-pagination-select-border-radius-resolved: var(--uc-pagination-select-border-radius, 0.75rem);
-  --uc-pagination-select-padding-block-resolved: var(--uc-pagination-select-padding-block, 0.5rem);
+  --uc-pagination-select-height-resolved: var(--uc-pagination-select-height, 2.75rem);
   --uc-pagination-select-padding-inline-resolved: var(--uc-pagination-select-padding-inline, 0.75rem);
   --uc-pagination-select-font-size-resolved: var(--uc-pagination-select-font-size, 0.95rem);
   --uc-pagination-select-focus-ring-resolved: var(--uc-pagination-select-focus-ring,
@@ -42,11 +42,12 @@
   justify-content: space-between;
   gap: 0.5rem;
   min-width: 4.5rem;
+  height: var(--uc-pagination-select-height-resolved);
+  box-sizing: border-box;
   border: 1px solid var(--uc-pagination-select-border-color-resolved);
   border-radius: var(--uc-pagination-select-border-radius-resolved);
   background-color: var(--uc-pagination-select-background-resolved);
   color: var(--uc-pagination-select-color-resolved);
-  padding-block: var(--uc-pagination-select-padding-block-resolved);
   padding-inline: var(--uc-pagination-select-padding-inline-resolved);
   font-size: var(--uc-pagination-select-font-size-resolved);
   font-weight: 600;

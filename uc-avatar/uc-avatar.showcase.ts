@@ -11,7 +11,7 @@ export default defineShowcase({
     initials: text('JD'),
     backgroundColor: color('#146c94'),
     icon: text('user'),
-    size: text('2.5rem'),
+    size: text('2.75rem'),
     alt: text('Jane Doe'),
   },
   examples: [

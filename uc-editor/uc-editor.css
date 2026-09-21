@@ -94,7 +94,8 @@
 
 .uc-editor__toolbar {
   /* Toolbar-sized overrides for the projected building blocks. */
-  --uc-icon-button-padding: 0.4rem;
+  --uc-icon-button-height: 1.8rem;
+  --uc-icon-button-padding-inline: 0.4rem;
   --uc-icon-button-border-radius: 0.5rem;
   --uc-button-toggle-border-radius: 0.5rem;
   --uc-button-toggle-item-padding-block: 0.375rem;
@@ -131,14 +132,14 @@
   width: 9rem;
 }
 
-/* Trimmed down to the icon buttons' own metrics: their 0.4rem padding around a 1rem icon box.
-   Nothing here pins a height, so the row still grows with whatever icon scale a consumer sets. */
+/* Matched to the toolbar's icon buttons, which are pinned to 1.8rem in .uc-editor__toolbar above. */
 .uc-editor__block-select-control {
   --uc-input-border-radius: var(--uc-icon-button-border-radius, 0.5rem);
   --uc-input-background-color: var(--uc-editor-background-resolved);
   --uc-input-border-color: var(--uc-editor-toolbar-border-color-resolved);
   --uc-select-trigger-border-width: 1px;
-  --uc-select-trigger-padding: 0.35rem 0.6rem;
+  --uc-select-trigger-height: 1.8rem;
+  --uc-select-trigger-padding-inline: 0.6rem;
   --uc-select-trigger-font-size: 0.8rem;
   flex: 1 1 auto;
   min-width: 0;

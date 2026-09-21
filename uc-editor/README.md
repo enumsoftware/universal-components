@@ -181,9 +181,9 @@ Component tokens follow the library convention and are defined in every theme fi
 `--uc-editor-disabled-opacity`.
 
 The block-type `uc-select` is trimmed to toolbar scale through `.uc-editor__block-select-control`,
-which shrinks `--uc-select-trigger-padding`, `--uc-select-trigger-font-size`, and
-`--uc-select-trigger-border-width` so the trigger sits at roughly the icon buttons' height. No
-control has a pinned height, so the row still grows together if a consumer scales the icons.
+which sets `--uc-select-trigger-height`, `--uc-select-trigger-padding-inline`,
+`--uc-select-trigger-font-size`, and `--uc-select-trigger-border-width` so the trigger matches the
+toolbar's icon buttons, which are pinned to the same `--uc-icon-button-height` in `.uc-editor__toolbar`.
 
 Document content inside the surface is rendered through `innerHTML`, so it is styled by the global
 prose defaults in `themes/theme.css`. The editor only scales the heading sizes down for editor

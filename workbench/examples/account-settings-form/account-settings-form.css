@@ -1,0 +1,113 @@
+.wb-settings {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.wb-settings-card {
+  gap: 1.5rem;
+}
+
+.wb-settings-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.wb-settings-identity {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.wb-settings-identity h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wb-settings-identity p {
+  margin: 0.15rem 0 0;
+  color: var(--paragraph-text-color);
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wb-settings-header-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.wb-settings-section h3 {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+}
+
+.wb-settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.wb-settings-grid-full {
+  grid-column: 1 / -1;
+}
+
+.wb-settings-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.6rem;
+}
+
+.wb-settings-toggle-row + .wb-settings-toggle-row {
+  border-top: 1px solid oklch(from var(--foreground-color) l c h / 0.08);
+}
+
+.wb-settings-toggle-label {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.wb-settings-toggle-hint {
+  margin: 0.15rem 0 0;
+  color: var(--paragraph-text-color);
+  font-size: 0.8rem;
+}
+
+uc-checkbox {
+  margin-top: 1rem;
+}
+
+.wb-settings-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.wb-settings-footer-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+@media (max-width: 560px) {
+  .wb-settings-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .wb-settings-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .wb-settings-footer-actions {
+    justify-content: flex-end;
+  }
+}

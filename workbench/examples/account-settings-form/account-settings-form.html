@@ -1,0 +1,91 @@
+<div class="wb-settings">
+  <uc-card class="wb-settings-card">
+    <header class="wb-settings-header">
+      <uc-avatar [initials]="initials()" size="3.5rem" backgroundColor="#473bf0" [alt]="fullName()" />
+
+      <div class="wb-settings-identity">
+        <h2>{{ fullName() || 'Unnamed user' }}</h2>
+        <p>{{ email() || 'No email on file' }}</p>
+      </div>
+
+      <div class="wb-settings-header-actions">
+        <uc-icon-button phosphorIcon="camera" variant="secondary" label="Change avatar" />
+        <uc-icon-button phosphorIcon="trash" variant="error" label="Remove avatar" />
+      </div>
+    </header>
+
+    <uc-divider />
+
+    <section class="wb-settings-section">
+      <h3>Profile</h3>
+
+      <div class="wb-settings-grid">
+        <uc-input id="settings-name" label="Full name" [(value)]="fullName" />
+        <uc-input id="settings-email" label="Email address" type="email" [(value)]="email" />
+        <uc-select id="settings-role" label="Role" [options]="roleOptions" [(value)]="role" />
+        <uc-select id="settings-timezone" label="Timezone" [options]="timezoneOptions" [(value)]="timezone" />
+
+        <div class="wb-settings-grid-full">
+          <uc-date-time-picker id="settings-birthday" label="Birthday" [(value)]="birthday" />
+        </div>
+      </div>
+
+      <uc-textarea id="settings-bio" label="Bio" [rows]="3" [(value)]="bio" />
+    </section>
+
+    <uc-divider />
+
+    <section class="wb-settings-section">
+      <h3>Notifications</h3>
+
+      <div class="wb-settings-toggle-row">
+        <div>
+          <p class="wb-settings-toggle-label">Email notifications</p>
+          <p class="wb-settings-toggle-hint">Product updates and account activity.</p>
+        </div>
+        <uc-toggle [(checked)]="emailNotifications" />
+      </div>
+
+      <div class="wb-settings-toggle-row">
+        <div>
+          <p class="wb-settings-toggle-label">SMS alerts</p>
+          <p class="wb-settings-toggle-hint">Urgent security notifications only.</p>
+        </div>
+        <uc-toggle [(checked)]="smsAlerts" />
+      </div>
+
+      <div class="wb-settings-toggle-row">
+        <div>
+          <p class="wb-settings-toggle-label">Weekly digest</p>
+          <p class="wb-settings-toggle-hint">A summary email every Monday.</p>
+        </div>
+        <uc-toggle [(checked)]="weeklyDigest" />
+      </div>
+
+      <uc-checkbox
+        id="settings-marketing"
+        label="Send me occasional product tips and offers"
+        [(checked)]="marketingConsent"
+      />
+    </section>
+
+    <uc-divider />
+
+    <footer class="wb-settings-footer">
+      <div class="wb-settings-footer-status">
+        @if (savedJustNow()) {
+          <uc-pill text="Saved" variant="valid" size="compact" />
+        } @else if (isDirty()) {
+          <uc-pill text="Unsaved changes" variant="info" size="compact" />
+        } @else {
+          <uc-pill text="All changes saved" size="compact" />
+        }
+      </div>
+
+      <div class="wb-settings-footer-actions">
+        <uc-button text="Reset" variant="secondary" [disabled]="!isDirty()" (clicked)="reset()" />
+        <uc-button text="Save changes" [disabled]="!isDirty()" (clicked)="save()" />
+      </div>
+    </footer>
+  </uc-card>
+</div>

@@ -1,0 +1,130 @@
+.wb-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.wb-dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.wb-dashboard-stat {
+  gap: 0.4rem;
+}
+
+.wb-dashboard-stat-label {
+  margin: 0;
+  color: var(--paragraph-text-color);
+  font-size: 0.85rem;
+}
+
+.wb-dashboard-stat-value {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.wb-dashboard-chart-card {
+  gap: 1rem;
+}
+
+.wb-dashboard-tickets-card {
+  gap: 1rem;
+}
+
+.wb-dashboard-tickets-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.wb-dashboard-tickets-head h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.wb-dashboard-tickets-head uc-select {
+  flex: 0 0 12rem;
+}
+
+.wb-dashboard-empty {
+  margin: 0;
+  padding: 1.5rem 0;
+  text-align: center;
+  color: var(--paragraph-text-color);
+}
+
+.wb-dashboard-ticket-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.wb-dashboard-ticket-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-block: 0.65rem;
+}
+
+.wb-dashboard-ticket-row + .wb-dashboard-ticket-row {
+  border-top: 1px solid oklch(from var(--foreground-color) l c h / 0.08);
+}
+
+.wb-dashboard-ticket-identity {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.wb-dashboard-ticket-subject {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wb-dashboard-ticket-meta {
+  margin: 0.1rem 0 0;
+  color: var(--paragraph-text-color);
+  font-size: 0.8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .wb-dashboard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .wb-dashboard-stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .wb-dashboard-tickets-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .wb-dashboard-tickets-head uc-select {
+    flex: 1 1 auto;
+  }
+
+  .wb-dashboard-ticket-row {
+    flex-wrap: wrap;
+  }
+
+  .wb-dashboard-ticket-identity {
+    flex-basis: 100%;
+    order: 1;
+  }
+}

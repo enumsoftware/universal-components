@@ -75,7 +75,8 @@
   outline-offset: -2px;
 }
 .uc-input-control {
-  padding: 0.7rem 1rem;
+  height: 2.75rem;
+  padding-inline: 1rem;
   font-size: 0.9rem;
   background-color: var(--uc-input-background-color);
   border: 2px solid var(--uc-input-border-color);

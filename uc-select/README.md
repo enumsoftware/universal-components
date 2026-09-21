@@ -220,7 +220,8 @@ The trigger also has sizing tokens, which is how a host fits the select next to 
 
 ```css
 .compact-select {
-  --uc-select-trigger-padding: 0.35rem 0.6rem;
+  --uc-select-trigger-height: 1.8rem;
+  --uc-select-trigger-padding-inline: 0.6rem;
   --uc-select-trigger-font-size: 0.8rem;
   --uc-select-trigger-border-width: 1px;
 }
