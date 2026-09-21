@@ -12,4 +12,5 @@ export type InfoVariant = (typeof INFO_VARIANT_OPTIONS)[number];
 })
 export class UcInfo {
   variant = input<InfoVariant>('info');
+  showIcon = input<boolean>(true);
 }

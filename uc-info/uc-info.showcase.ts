@@ -1,4 +1,4 @@
-import { defineShowcase, select, text } from '../workbench/core';
+import { defineShowcase, select, text, bool } from '../workbench/core';
 import { INFO_VARIANT_OPTIONS } from './uc-info';
 import { InfoPreview } from './examples/info-preview';
 
@@ -10,6 +10,8 @@ export default defineShowcase({
   component: InfoPreview,
   knobs: {
     variant: select(INFO_VARIANT_OPTIONS, 'info'),
+    showIcon: bool(true),
+    customIcon: bool(false),
     heading: text('Information title'),
     body: text('This is an informational message to the user.'),
   },
@@ -21,6 +23,14 @@ export default defineShowcase({
     {
       name: 'Error',
       props: { variant: 'error', heading: 'Error title', body: 'Something went wrong. Please try again.' },
+    },
+    {
+      name: 'No icon',
+      props: { showIcon: false, heading: 'Information title', body: 'This info has its icon hidden.' },
+    },
+    {
+      name: 'Custom icon',
+      props: { customIcon: true, heading: 'Custom icon title', body: 'This info projects a custom icon.' },
     },
   ],
 });

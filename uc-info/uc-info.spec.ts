@@ -23,4 +23,8 @@ describe('UcInfo', () => {
   it('should have default variant as info', () => {
     expect(component.variant()).toBe('info');
   });
+
+  it('should show the icon by default', () => {
+    expect(component.showIcon()).toBe(true);
+  });
 });

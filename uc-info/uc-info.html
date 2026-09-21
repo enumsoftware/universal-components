@@ -1,17 +1,22 @@
 <div class="uc-info uc-info--{{ variant() }}">
-  <div class="uc-info__icon">
-    @switch (variant()) {
-      @case ('info') {
-        <i class="ph ph-info"></i>
-      }
-      @case ('warning') {
-        <i class="ph ph-warning"></i>
-      }
-      @case ('error') {
-        <i class="ph ph-warning-circle"></i>
-      }
-    }
-  </div>
+  @if (showIcon()) {
+    <div class="uc-info__icon">
+      <ng-content select="[icon]"></ng-content>
+      <span class="uc-info__icon-default">
+        @switch (variant()) {
+          @case ('info') {
+            <i class="ph ph-info"></i>
+          }
+          @case ('warning') {
+            <i class="ph ph-warning"></i>
+          }
+          @case ('error') {
+            <i class="ph ph-warning-circle"></i>
+          }
+        }
+      </span>
+    </div>
+  }
   <div class="uc-info__content">
     <div class="uc-info__title">
       <ng-content select="[title]"></ng-content>
