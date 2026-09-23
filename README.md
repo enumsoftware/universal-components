@@ -46,8 +46,6 @@ import { UcButton } from '@enumsoftware/universal-components/uc-button/uc-button
 Public URLs:
 
 - https://enumsoftware.github.io/universal-components/
-- Example PR preview root: https://enumsoftware.github.io/universal-components/pr-preview/pr-19/
-- Example PR preview showcase: https://enumsoftware.github.io/universal-components/pr-preview/pr-19/#/components/select
 
 The Workbench is this repo's component explorer: a small Angular app that
 renders every component with live controls, worked examples, generated API
@@ -57,10 +55,10 @@ showcase.
 
 Deployment details:
 
-- The workbench is automatically deployed to GitHub Pages when changes are
-  pushed to `main`.
-- Pull requests also deploy a preview build under
-  `/universal-components/pr-preview/pr-<number>/`.
+- The workbench is deployed to GitHub Pages only when a version tag (`v*`,
+  for example `v0.1.3`) is pushed. Pushes to `main` and pull requests run the
+  checks (token parity, script typecheck, workbench build, accessibility
+  sweep) but do not deploy.
 - If this is the first deployment, set repository Pages source to **GitHub
   Actions** in repository settings.
 
