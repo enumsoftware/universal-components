@@ -543,6 +543,7 @@
   --uc-tabs-pills-active-background: var(--primary-color);
   --uc-tabs-pills-active-color: var(--inverse-foreground-color);
   --uc-tabs-tab-disabled-opacity: 0.45;
+  --uc-tabs-arrow-width: 2.25rem;
 
   /* --- Textarea --- */
   --uc-textarea-label-color: oklch(from var(--foreground-color) l c h / 1);

@@ -67,6 +67,7 @@ type UcSelectMobileDialogData<T = unknown> = {
   searchable: boolean;
   searchQuery: WritableSignal<string>;
   visibleOptions: Signal<SelectOption<T>[]>;
+  value: Signal<T | null>;
   loading: Signal<boolean>;
   loadError: Signal<string | null>;
   hasMore: Signal<boolean>;
@@ -91,9 +92,9 @@ function toSearchQuery(value: string | number | null): string {
   imports: [CommonModule, UcInput, UcButton, UcPagination],
   changeDetection: ChangeDetectionStrategy.Eager,
   template: `
-    <section class="uc-select-mobile-dialog" aria-modal="true" role="dialog">
+    <section class="uc-select-mobile-dialog">
       <header class="uc-select-mobile-dialog__header">
-        <h3 class="uc-select-mobile-dialog__title">{{ data.label || data.placeholder }}</h3>
+        <h3 class="uc-select-mobile-dialog__title" [id]="data.id + '-dialog-title'">{{ data.label || data.placeholder }}</h3>
         <button type="button" class="uc-select-mobile-dialog__close" (click)="data.onClose()" aria-label="Close">
           ✕
         </button>
@@ -124,7 +125,10 @@ function toSearchQuery(value: string | number | null): string {
             <button
               type="button"
               class="uc-select-option"
+              [class.uc-select-option-selected]="option.value === data.value()"
               [class.uc-select-option-disabled]="option.disabled"
+              [attr.aria-selected]="option.value === data.value()"
+              [attr.aria-disabled]="option.disabled"
               [disabled]="option.disabled"
               role="option"
               (click)="data.onSelectOption(option)"
@@ -133,6 +137,9 @@ function toSearchQuery(value: string | number | null): string {
                 <span class="uc-select-option-icon">{{ option.icon }}</span>
               }
               <span class="uc-select-option-label">{{ option.label }}</span>
+              @if (option.value === data.value()) {
+                <i class="uc-select-option-selected-icon ph ph-check" aria-hidden="true"></i>
+              }
             </button>
           }
         } @else if (!data.loading() && !data.loadError()) {
@@ -428,6 +435,11 @@ export class UcSelect<T = string> implements FormValueControl<T | null>, OnDestr
     this.ensureDataLoaded();
     const dialogRef = this.dialog.open(UcSelectMobileDialogContent, {
       panelClass: 'uc-select-mobile-dialog-pane',
+      // CDK caps the pane at 80vw by default, which is too narrow on phones.
+      width: 'min(34rem, calc(100vw - 1.5rem))',
+      maxWidth: 'calc(100vw - 1.5rem)',
+      maxHeight: 'min(90vh, 42rem)',
+      ariaLabelledBy: this.id() + '-dialog-title',
       autoFocus: false,
       data: this.buildMobileDialogData(),
     });
@@ -594,6 +606,7 @@ export class UcSelect<T = string> implements FormValueControl<T | null>, OnDestr
       searchable: this.searchable(),
       searchQuery: this.searchQuery,
       visibleOptions: this.visibleOptions,
+      value: this.value,
       loading: this.loading,
       loadError: this.loadError,
       hasMore: this.hasMore,

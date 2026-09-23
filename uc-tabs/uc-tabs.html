@@ -1,15 +1,59 @@
-<div class="uc-tabs" [class.uc-tabs--pills]="variant() === 'pills'">
-  @for (tab of visibleTabs(); track tab.key) {
+<div
+  class="uc-tabs"
+  [class.uc-tabs--pills]="variant() === 'pills'"
+  [class.uc-tabs--collapsed]="showDropdown()"
+  [class.uc-tabs--scrollable]="showArrows()"
+>
+  @if (showArrows()) {
     <button
-      class="uc-tabs__tab"
+      class="uc-tabs__arrow uc-tabs__arrow--start"
       type="button"
-      [class.uc-tabs__tab--active]="activeTab() === tab.key"
-      [class.uc-tabs__tab--disabled]="tab.disabled"
-      [disabled]="tab.disabled"
-      (click)="selectTab(tab.key)"
+      aria-label="Scroll tabs left"
+      [disabled]="!canScrollStart()"
+      (click)="scrollByPage(-1)"
     >
-      {{ tab.label }}
+      <i class="ph-bold ph-caret-left" aria-hidden="true"></i>
     </button>
+  }
+
+  <div #strip class="uc-tabs__strip" (scroll)="updateOverflowState()">
+    @for (tab of visibleTabs(); track tab.key) {
+      <button
+        class="uc-tabs__tab"
+        type="button"
+        [attr.data-tab-key]="tab.key"
+        [class.uc-tabs__tab--active]="activeTab() === tab.key"
+        [class.uc-tabs__tab--disabled]="tab.disabled"
+        [disabled]="tab.disabled"
+        (click)="selectTab(tab.key)"
+      >
+        {{ tab.label }}
+      </button>
+    }
+  </div>
+
+  @if (showArrows()) {
+    <button
+      class="uc-tabs__arrow uc-tabs__arrow--end"
+      type="button"
+      aria-label="Scroll tabs right"
+      [disabled]="!canScrollEnd()"
+      (click)="scrollByPage(1)"
+    >
+      <i class="ph-bold ph-caret-right" aria-hidden="true"></i>
+    </button>
+  }
+
+  @if (showDropdown()) {
+    <uc-select
+      class="uc-tabs__select"
+      [id]="selectId"
+      [label]="label()"
+      [hideLabel]="true"
+      [options]="selectOptions()"
+      [value]="activeTab()"
+      (valueChange)="onSelectValueChange($event)"
+    />
   }
 </div>
 @for (panel of panels(); track panel.key()) {

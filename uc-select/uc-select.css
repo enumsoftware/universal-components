@@ -328,25 +328,46 @@
   }
 }
 
-.uc-select-mobile-dialog-pane .cdk-dialog-surface {
-  width: min(34rem, calc(100vw - 1.5rem));
-  max-height: min(90vh, 42rem);
+/* The pane is sized through the dialog config in openDialog(); the CDK dialog renders .cdk-dialog-container inside it. */
+.uc-select-mobile-dialog-pane .cdk-dialog-container {
+  box-sizing: border-box;
+  border: 2px solid var(--uc-input-border-color);
   border-radius: 1rem;
   overflow: hidden;
   background-color: var(--uc-input-background-color);
+  color: var(--foreground-color);
+  box-shadow: var(--uc-select-panel-shadow-resolved);
+  outline: none;
 }
 
 .uc-select-mobile-dialog {
   display: flex;
   flex-direction: column;
   max-height: inherit;
+
+  /* Inside the dialog the list fills the remaining height instead of looking like a dropdown. */
+  .uc-select-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    animation: none;
+  }
+
+  .uc-select-option {
+    padding: 0.85rem 1rem;
+  }
 }
 
 .uc-select-mobile-dialog__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.75rem;
   padding: 0.9rem 1rem 0.65rem;
+  border-bottom: 1px solid oklch(from var(--foreground-color) l c h / 0.12);
 }
 
 .uc-select-mobile-dialog__title {
@@ -361,4 +382,20 @@
   color: var(--foreground-color);
   font-size: 1rem;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+
+  &:hover {
+    background-color: oklch(from var(--foreground-color) l c h / 0.08);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+  }
 }

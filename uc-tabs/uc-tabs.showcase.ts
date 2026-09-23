@@ -1,4 +1,5 @@
 import { defineShowcase, object, select, text } from '../workbench/core';
+import { ManyTabsExample } from './examples/many-tabs';
 import { TabsPreview } from './examples/tabs-preview';
 import { TABS_VARIANT_OPTIONS, type UcTab } from './uc-tabs';
 
@@ -43,6 +44,12 @@ export default defineShowcase({
           { key: 'settings', label: 'Settings' },
         ],
       },
+    },
+    {
+      name: 'Many Tabs',
+      description:
+        'Tabs that overflow scroll with arrows on desktop and collapse into a dropdown under 768px.',
+      component: ManyTabsExample,
     },
   ],
 });

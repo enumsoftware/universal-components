@@ -144,6 +144,25 @@ describe('UcSelect', () => {
     expect(component.isOpen()).toBe(false);
   });
 
+  it('should mark the selected option in dialog display mode', () => {
+    fixture.componentRef.setInput('displayMode', 'dialog');
+    fixture.componentRef.setInput('options', [
+      { value: 'a', label: 'A' },
+      { value: 'b', label: 'B' },
+    ]);
+    component.value.set('b');
+    fixture.detectChanges();
+
+    component.toggleDropdown();
+    fixture.detectChanges();
+
+    const options = document.querySelectorAll('.cdk-dialog-container .uc-select-option');
+    expect(options[0].classList).not.toContain('uc-select-option-selected');
+    expect(options[1].classList).toContain('uc-select-option-selected');
+    expect(options[1].getAttribute('aria-selected')).toBe('true');
+    expect(options[1].querySelector('.uc-select-option-selected-icon')).toBeTruthy();
+  });
+
   it('should load options from async data source on open', async () => {
     fixture.componentRef.setInput('dataSource', async () => ({
       items: [

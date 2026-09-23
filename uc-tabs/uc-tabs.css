@@ -14,25 +14,55 @@
   --uc-tabs-pills-active-background-resolved: var(--uc-tabs-pills-active-background, var(--primary-color));
   --uc-tabs-pills-active-color-resolved: var(--uc-tabs-pills-active-color, var(--inverse-foreground-color));
   --uc-tabs-tab-disabled-opacity-resolved: var(--uc-tabs-tab-disabled-opacity, 0.45);
+  --uc-tabs-arrow-width-resolved: var(--uc-tabs-arrow-width, 2.25rem);
+
+  /* `min-width: 0` lets the bar shrink inside a flex or grid parent, so the tabs overflow and
+     scroll instead of stretching the parent to fit them all. */
+  display: block;
+  min-width: 0;
 }
 
+/* The baseline is an inset shadow rather than a border: the strip scrolls, and a scroll container
+   clips the negative margin a tab would need to lay its active border over a real border. The
+   shadow paints beneath the tabs, so the active tab's border still covers it. */
 .uc-tabs {
+  position: relative;
   display: flex;
-  gap: 0;
-  border-bottom: 2px solid var(--uc-tabs-border-color-resolved);
+  box-shadow: inset 0 -2px 0 var(--uc-tabs-border-color-resolved);
   margin-bottom: var(--uc-tabs-margin-bottom-resolved);
 
+  .uc-tabs__strip {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
   .uc-tabs__tab {
+    flex: none;
     padding: 0.625rem 1.25rem;
     background: none;
     border: none;
     border-bottom: 2px solid transparent;
-    margin-bottom: -2px;
     cursor: pointer;
     font-size: 0.875rem;
     font-weight: 500;
+    white-space: nowrap;
     color: var(--uc-tabs-tab-color-resolved);
     transition: color 0.2s, border-color 0.2s;
+
+    /* Drawn inside the tab, because the scrolling strip clips anything that spills past it. */
+    &:focus-visible {
+      outline-offset: -2px;
+    }
 
     &:hover {
       color: var(--uc-tabs-tab-hover-color-resolved);
@@ -44,13 +74,40 @@
     }
   }
 
+  .uc-tabs__arrow {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--uc-tabs-arrow-width-resolved);
+    padding: 0;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--uc-tabs-tab-color-resolved);
+    transition: color 0.2s, opacity 0.2s;
+
+    &:hover:not(:disabled) {
+      color: var(--uc-tabs-tab-hover-color-resolved);
+    }
+
+    &:disabled {
+      cursor: default;
+      opacity: var(--uc-tabs-tab-disabled-opacity-resolved);
+    }
+  }
+
   &.uc-tabs--pills {
-    gap: var(--uc-tabs-pills-gap-resolved);
-    border-bottom: none;
+    box-shadow: none;
+
+    .uc-tabs__strip {
+      gap: var(--uc-tabs-pills-gap-resolved);
+    }
 
     .uc-tabs__tab {
       border-bottom: none;
-      margin-bottom: 0;
       border-radius: var(--uc-tabs-pills-border-radius-resolved);
       transition: color 0.2s, background-color 0.2s;
 
@@ -63,6 +120,30 @@
         background: var(--uc-tabs-pills-active-background-resolved);
       }
     }
+
+    .uc-tabs__arrow {
+      border-bottom: none;
+    }
+  }
+
+  /* Collapsed into the dropdown, the strip stays laid out at the bar's full width but invisible,
+     so it can still be measured and the bar knows when the tabs fit again. `visibility: hidden`
+     also takes the tabs out of the tab order and the accessibility tree. */
+  &.uc-tabs--collapsed {
+    box-shadow: none;
+
+    .uc-tabs__strip {
+      position: absolute;
+      inset-inline: 0;
+      top: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+
+  .uc-tabs__select {
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   /* Last so it out-ranks the hover rules of both variants: a disabled tab never reacts to the
