@@ -1,0 +1,88 @@
+:host {
+  --uc-segmented-toggle-item-color-resolved: var(--uc-segmented-toggle-item-color, var(--paragraph-text-color));
+  --uc-segmented-toggle-item-selected-color-resolved: var(
+    --uc-segmented-toggle-item-selected-color,
+    var(--inverse-foreground-color)
+  );
+  --uc-segmented-toggle-item-selected-background-resolved: var(
+    --uc-segmented-toggle-item-selected-background,
+    var(--primary-color)
+  );
+  --uc-segmented-toggle-item-hover-background-resolved: var(
+    --uc-segmented-toggle-item-hover-background,
+    oklch(from var(--background-color-90) l c h / 0.35)
+  );
+  --uc-segmented-toggle-item-separator-color-resolved: var(
+    --uc-segmented-toggle-item-separator-color,
+    var(--background-color-90)
+  );
+  --uc-segmented-toggle-item-font-size-resolved: var(--uc-segmented-toggle-item-font-size, 0.95rem);
+  --uc-segmented-toggle-item-font-weight-resolved: var(--uc-segmented-toggle-item-font-weight, 600);
+  --uc-segmented-toggle-item-line-height-resolved: var(--uc-segmented-toggle-item-line-height, 1.25rem);
+  --uc-segmented-toggle-item-padding-block-resolved: var(--uc-segmented-toggle-item-padding-block, 0.65rem);
+  --uc-segmented-toggle-item-padding-inline-resolved: var(--uc-segmented-toggle-item-padding-inline, 1rem);
+  --uc-segmented-toggle-item-disabled-opacity-resolved: var(--uc-segmented-toggle-item-disabled-opacity, 0.55);
+  display: flex;
+}
+
+.uc-segmented-toggle-item__button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--uc-segmented-toggle-item-color-resolved);
+  font-size: var(--uc-segmented-toggle-item-font-size-resolved);
+  font-weight: var(--uc-segmented-toggle-item-font-weight-resolved);
+  line-height: var(--uc-segmented-toggle-item-line-height-resolved);
+  padding-block: var(--uc-segmented-toggle-item-padding-block-resolved);
+  padding-inline: var(--uc-segmented-toggle-item-padding-inline-resolved);
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+:host(:not(:last-child)) .uc-segmented-toggle-item__button {
+  border-right: 1px solid var(--uc-segmented-toggle-item-separator-color-resolved);
+}
+
+.uc-segmented-toggle-item__button:hover {
+  background: var(--uc-segmented-toggle-item-hover-background-resolved);
+}
+
+.uc-segmented-toggle-item__button:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: -2px;
+}
+
+.uc-segmented-toggle-item__button.uc-segmented-toggle-item__button--selected {
+  color: var(--uc-segmented-toggle-item-selected-color-resolved);
+  background: var(--uc-segmented-toggle-item-selected-background-resolved);
+}
+
+.uc-segmented-toggle-item__button.uc-segmented-toggle-item__button--selected:hover {
+  background: oklch(
+    from var(--uc-segmented-toggle-item-selected-background-resolved) calc(l * 0.9) calc(c * 1) calc(h * 1)
+  );
+}
+
+.uc-segmented-toggle-item__button:disabled,
+.uc-segmented-toggle-item__button.uc-segmented-toggle-item__button--disabled {
+  cursor: not-allowed;
+  opacity: var(--uc-segmented-toggle-item-disabled-opacity-resolved);
+}
+
+.uc-segmented-toggle-item__button:disabled:hover,
+.uc-segmented-toggle-item__button.uc-segmented-toggle-item__button--disabled:hover {
+  background: transparent;
+}
+
+.uc-segmented-toggle-item__button.uc-segmented-toggle-item__button--selected:disabled,
+.uc-segmented-toggle-item__button.uc-segmented-toggle-item__button--selected.uc-segmented-toggle-item__button--disabled,
+.uc-segmented-toggle-item__button.uc-segmented-toggle-item__button--selected:disabled:hover,
+.uc-segmented-toggle-item__button.uc-segmented-toggle-item__button--selected.uc-segmented-toggle-item__button--disabled:hover {
+  background: var(--uc-segmented-toggle-item-selected-background-resolved);
+}

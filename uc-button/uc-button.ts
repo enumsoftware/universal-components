@@ -1,5 +1,6 @@
 import {
   afterNextRender,
+  booleanAttribute,
   Component,
   input,
   model,
@@ -50,6 +51,19 @@ export class UcButton {
   loadingText = input<string | undefined>(undefined);
 
   /**
+   * Turns the button into a toggle: it gets `aria-pressed` and flips `pressed` on click. A toggle
+   * uses its own on/off styling instead of `variant`, so the two states always read the same way.
+   */
+  isToggleEnabled = input(false, { transform: booleanAttribute });
+
+  /**
+   * Toggle state; ignored unless `isToggleEnabled` is set. Bind it two-way to let the button flip
+   * itself, or one-way to drive it from state the host already owns. Keep `text` the same in both
+   * states: the pressed state is announced for you.
+   */
+  pressed = model<boolean>(false);
+
+  /**
    * Color transitions stay off until the frame after the variant and size classes have been
    * rendered, so the button never animates from its unstyled colors to its variant colors.
    */
@@ -66,6 +80,11 @@ export class UcButton {
     if (this.disabled() || this.loading()) {
       return;
     }
+
+    if (this.isToggleEnabled()) {
+      this.pressed.set(!this.pressed());
+    }
+
     this.clicked.emit();
   }
 }

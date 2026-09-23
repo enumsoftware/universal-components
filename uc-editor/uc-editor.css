@@ -97,10 +97,10 @@
   --uc-icon-button-height: 1.8rem;
   --uc-icon-button-padding-inline: 0.4rem;
   --uc-icon-button-border-radius: 0.5rem;
-  --uc-button-toggle-border-radius: 0.5rem;
-  --uc-button-toggle-item-padding-block: 0.375rem;
-  --uc-button-toggle-item-padding-inline: 0.6rem;
-  --uc-button-toggle-item-font-size: 0.8rem;
+  --uc-segmented-toggle-border-radius: 0.5rem;
+  --uc-segmented-toggle-item-padding-block: 0.375rem;
+  --uc-segmented-toggle-item-padding-inline: 0.6rem;
+  --uc-segmented-toggle-item-font-size: 0.8rem;
   --uc-select-option-padding: 0.45rem 0.75rem;
   --uc-select-option-font-size: 0.8rem;
   --uc-divider-margin: 0;

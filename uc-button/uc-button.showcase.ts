@@ -11,6 +11,7 @@ import { LoadingSizesExample } from './examples/loading-sizes';
 import { LoadingVariantsExample } from './examples/loading-variants';
 import { SizesExample } from './examples/sizes';
 import { TableActionsExample } from './examples/table-actions';
+import { ToggleExample } from './examples/toggle';
 import { VariantsExample } from './examples/variants';
 import { WithIconsExample } from './examples/with-icons';
 
@@ -27,6 +28,10 @@ export default defineShowcase({
     type: select(BUTTON_TYPE_OPTIONS, 'button'),
     disabled: bool(false),
     loading: bool(false),
+    isToggleEnabled: bool(false, {
+      description: 'Turns the button into a toggle; its on/off styling replaces the variant.',
+    }),
+    pressed: bool(false, { description: 'Toggle state; only applies with isToggleEnabled.' }),
     loadingText: text(undefined, {
       placeholder: 'Leave empty to keep the resting width',
     }),
@@ -51,6 +56,11 @@ export default defineShowcase({
       name: 'Consumer Owned Signal',
       description: 'Repeated clicks show the button refuses to re-emit while a request is in flight.',
       component: ConsumerOwnedSignalExample,
+    },
+    {
+      name: 'Toggle',
+      description: 'With `isToggleEnabled`, `[(pressed)]` flips on click and sets `aria-pressed`.',
+      component: ToggleExample,
     },
   ],
 });

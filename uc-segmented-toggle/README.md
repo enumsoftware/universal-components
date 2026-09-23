@@ -1,4 +1,4 @@
-# UcButtonToggle Component
+# UcSegmentedToggle Component
 
 A segmented single-select button group built with content projection.
 
@@ -16,10 +16,10 @@ A segmented single-select button group built with content projection.
 Import directly from the library package:
 
 ```typescript
-import { UcButtonToggle, UcButtonToggleItem } from '@enumsoftware/universal-components';
+import { UcSegmentedToggle, UcSegmentedToggleItem } from '@enumsoftware/universal-components';
 
 @Component({
-  imports: [UcButtonToggle, UcButtonToggleItem],
+  imports: [UcSegmentedToggle, UcSegmentedToggleItem],
   template: `...`,
 })
 export class ExampleComponent {}
@@ -28,11 +28,11 @@ export class ExampleComponent {}
 ## Basic Usage
 
 ```html
-<uc-button-toggle [(value)]="selectedFilter">
-  <uc-button-toggle-item value="all">All</uc-button-toggle-item>
-  <uc-button-toggle-item value="products">Products</uc-button-toggle-item>
-  <uc-button-toggle-item value="stores">Stores</uc-button-toggle-item>
-</uc-button-toggle>
+<uc-segmented-toggle [(value)]="selectedFilter">
+  <uc-segmented-toggle-item value="all">All</uc-segmented-toggle-item>
+  <uc-segmented-toggle-item value="products">Products</uc-segmented-toggle-item>
+  <uc-segmented-toggle-item value="stores">Stores</uc-segmented-toggle-item>
+</uc-segmented-toggle>
 ```
 
 ```typescript
@@ -44,16 +44,16 @@ selectedFilter = 'all';
 You can project any content inside each item.
 
 ```html
-<uc-button-toggle [(value)]="selectedView">
-  <uc-button-toggle-item value="list">List</uc-button-toggle-item>
-  <uc-button-toggle-item value="grid" ariaLabel="Grid view">
+<uc-segmented-toggle [(value)]="selectedView">
+  <uc-segmented-toggle-item value="list">List</uc-segmented-toggle-item>
+  <uc-segmented-toggle-item value="grid" ariaLabel="Grid view">
     <i class="ph-bold ph-squares-four" aria-hidden="true"></i>
-  </uc-button-toggle-item>
-  <uc-button-toggle-item value="map">
+  </uc-segmented-toggle-item>
+  <uc-segmented-toggle-item value="map">
     <i class="ph-bold ph-map-pin" aria-hidden="true"></i>
     <span>Map</span>
-  </uc-button-toggle-item>
-</uc-button-toggle>
+  </uc-segmented-toggle-item>
+</uc-segmented-toggle>
 ```
 
 ## Disabled States
@@ -61,24 +61,24 @@ You can project any content inside each item.
 Disable a single item:
 
 ```html
-<uc-button-toggle [(value)]="selectedMode">
-  <uc-button-toggle-item value="basic">Basic</uc-button-toggle-item>
-  <uc-button-toggle-item value="advanced" [disabled]="true">Advanced</uc-button-toggle-item>
-</uc-button-toggle>
+<uc-segmented-toggle [(value)]="selectedMode">
+  <uc-segmented-toggle-item value="basic">Basic</uc-segmented-toggle-item>
+  <uc-segmented-toggle-item value="advanced" [disabled]="true">Advanced</uc-segmented-toggle-item>
+</uc-segmented-toggle>
 ```
 
 Disable the entire group:
 
 ```html
-<uc-button-toggle [(value)]="selectedMode" [disabled]="true">
-  <uc-button-toggle-item value="a">A</uc-button-toggle-item>
-  <uc-button-toggle-item value="b">B</uc-button-toggle-item>
-</uc-button-toggle>
+<uc-segmented-toggle [(value)]="selectedMode" [disabled]="true">
+  <uc-segmented-toggle-item value="a">A</uc-segmented-toggle-item>
+  <uc-segmented-toggle-item value="b">B</uc-segmented-toggle-item>
+</uc-segmented-toggle>
 ```
 
 ## API
 
-### UcButtonToggle
+### UcSegmentedToggle
 
 #### Inputs
 
@@ -88,7 +88,7 @@ Disable the entire group:
 
 - `value: string` - Currently selected item value.
 
-### UcButtonToggleItem
+### UcSegmentedToggleItem
 
 #### Inputs
 
@@ -106,4 +106,4 @@ Disable the entire group:
 
 ## Workbench
 
-See the showcase in `uc-button-toggle/uc-button-toggle.showcase.ts`.
+See the showcase in `uc-segmented-toggle/uc-segmented-toggle.showcase.ts`.

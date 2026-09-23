@@ -1,0 +1,27 @@
+:host {
+  --uc-segmented-toggle-background-resolved: var(--uc-segmented-toggle-background, var(--background-color-95));
+  --uc-segmented-toggle-border-color-resolved: var(--uc-segmented-toggle-border-color, var(--background-color-90));
+  --uc-segmented-toggle-border-resolved: var(
+    --uc-segmented-toggle-border,
+    1px solid var(--uc-segmented-toggle-border-color-resolved)
+  );
+  --uc-segmented-toggle-border-radius-resolved: var(--uc-segmented-toggle-border-radius, 0.75rem);
+  --uc-segmented-toggle-disabled-opacity-resolved: var(--uc-segmented-toggle-disabled-opacity, 0.65);
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.uc-segmented-toggle {
+  display: inline-flex;
+  align-items: stretch;
+  overflow: hidden;
+  width: 100%;
+  border: var(--uc-segmented-toggle-border-resolved);
+  border-radius: var(--uc-segmented-toggle-border-radius-resolved);
+  background: var(--uc-segmented-toggle-background-resolved);
+}
+
+.uc-segmented-toggle.uc-segmented-toggle--disabled {
+  opacity: var(--uc-segmented-toggle-disabled-opacity-resolved);
+}

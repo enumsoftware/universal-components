@@ -27,16 +27,16 @@
   </div>
 
   <div class="uc-image-editor-dialog__ratio-control">
-    <uc-button-toggle
+    <uc-segmented-toggle
       [value]="aspectRatio()"
       ariaLabel="Aspect ratio"
       (valueChange)="setAspectRatio($event)"
     >
-      <uc-button-toggle-item value="free">Free</uc-button-toggle-item>
-      <uc-button-toggle-item value="1:1">1:1</uc-button-toggle-item>
-      <uc-button-toggle-item value="16:9">16:9</uc-button-toggle-item>
-      <uc-button-toggle-item value="9:16">9:16</uc-button-toggle-item>
-    </uc-button-toggle>
+      <uc-segmented-toggle-item value="free">Free</uc-segmented-toggle-item>
+      <uc-segmented-toggle-item value="1:1">1:1</uc-segmented-toggle-item>
+      <uc-segmented-toggle-item value="16:9">16:9</uc-segmented-toggle-item>
+      <uc-segmented-toggle-item value="9:16">9:16</uc-segmented-toggle-item>
+    </uc-segmented-toggle>
   </div>
 
   <div class="uc-image-editor-dialog__stage" [class.uc-image-editor-dialog__stage--loading]="loading()">

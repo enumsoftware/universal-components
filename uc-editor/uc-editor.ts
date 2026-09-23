@@ -17,8 +17,8 @@ import {
   WithOptionalFieldTree,
 } from '@angular/forms/signals';
 import { UcButton } from '../uc-button/uc-button';
-import { UcButtonToggle } from '../uc-button-toggle/uc-button-toggle';
-import { UcButtonToggleItem } from '../uc-button-toggle/uc-button-toggle-item';
+import { UcSegmentedToggle } from '../uc-segmented-toggle/uc-segmented-toggle';
+import { UcSegmentedToggleItem } from '../uc-segmented-toggle/uc-segmented-toggle-item';
 import { UcDivider } from '../uc-divider/uc-divider';
 import { UcIconButton } from '../uc-icon-button/uc-icon-button';
 import { UcInput } from '../uc-input/uc-input';
@@ -79,8 +79,8 @@ type UcEditorInsertTarget = 'link' | 'image';
   selector: 'uc-editor',
   imports: [
     UcButton,
-    UcButtonToggle,
-    UcButtonToggleItem,
+    UcSegmentedToggle,
+    UcSegmentedToggleItem,
     UcDivider,
     UcIconButton,
     UcInput,

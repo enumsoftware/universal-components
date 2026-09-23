@@ -31,6 +31,32 @@
     oklch(from var(--foreground-color) l c h / 0.3)
   );
   --uc-button-error-background-resolved: var(--uc-button-error-background, var(--error-color));
+  --uc-button-toggle-background-resolved: var(--uc-button-toggle-background, transparent);
+  --uc-button-toggle-hover-background-resolved: var(
+    --uc-button-toggle-hover-background,
+    oklch(from var(--primary-color) l c h / 0.12)
+  );
+  --uc-button-toggle-color-resolved: var(--uc-button-toggle-color, var(--font-color));
+  --uc-button-toggle-border-color-resolved: var(
+    --uc-button-toggle-border-color,
+    oklch(from var(--foreground-color) l c h / 0.3)
+  );
+  --uc-button-toggle-pressed-background-resolved: var(
+    --uc-button-toggle-pressed-background,
+    var(--primary-color)
+  );
+  --uc-button-toggle-pressed-hover-background-resolved: var(
+    --uc-button-toggle-pressed-hover-background,
+    oklch(from var(--primary-color) calc(l * 0.9) c h)
+  );
+  --uc-button-toggle-pressed-color-resolved: var(
+    --uc-button-toggle-pressed-color,
+    var(--inverse-foreground-color)
+  );
+  --uc-button-toggle-pressed-border-color-resolved: var(
+    --uc-button-toggle-pressed-border-color,
+    var(--primary-color)
+  );
 
   --uc-button-small-spinner-size-resolved: var(--uc-button-small-spinner-size, 0.85rem);
   --uc-button-medium-spinner-size-resolved: var(--uc-button-medium-spinner-size, 1.15rem);
@@ -160,6 +186,37 @@
 .uc-button.uc-secondary:disabled:hover,
 .uc-button.uc-secondary.uc-disabled:hover {
   background-color: transparent;
+}
+
+/* A toggle replaces the variant class, so off and on are always an outline and a fill and never
+   depend on which variant the caller picked. Both states keep a 1px border so flipping never shifts
+   the layout. The rules sit after the generic hover and disabled rules and out-rank them. */
+.uc-button.uc-toggle {
+  background-color: var(--uc-button-toggle-background-resolved);
+  color: var(--uc-button-toggle-color-resolved);
+  border: 1px solid var(--uc-button-toggle-border-color-resolved);
+}
+
+.uc-button.uc-toggle:hover {
+  background-color: var(--uc-button-toggle-hover-background-resolved);
+}
+
+.uc-button.uc-toggle.uc-pressed {
+  background-color: var(--uc-button-toggle-pressed-background-resolved);
+  color: var(--uc-button-toggle-pressed-color-resolved);
+  border-color: var(--uc-button-toggle-pressed-border-color-resolved);
+}
+
+.uc-button.uc-toggle.uc-pressed:hover {
+  background-color: var(--uc-button-toggle-pressed-hover-background-resolved);
+}
+
+.uc-button.uc-toggle:is(:disabled, .uc-disabled, .uc-loading):hover {
+  background-color: var(--uc-button-toggle-background-resolved);
+}
+
+.uc-button.uc-toggle.uc-pressed:is(:disabled, .uc-disabled, .uc-loading):hover {
+  background-color: var(--uc-button-toggle-pressed-background-resolved);
 }
 
 /* `display: contents` keeps the projected prefix, label and suffix as direct flex items of the

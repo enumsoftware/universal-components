@@ -1,21 +1,21 @@
 import { ChangeDetectionStrategy, Component, InjectionToken, Signal, input, model } from '@angular/core';
 
-export interface UcButtonToggleController {
+export interface UcSegmentedToggleController {
   selectedValue: Signal<string>;
   disabled: Signal<boolean>;
   selectValue(value: string): void;
 }
 
-export const UC_BUTTON_TOGGLE = new InjectionToken<UcButtonToggleController>('UC_BUTTON_TOGGLE');
+export const UC_SEGMENTED_TOGGLE = new InjectionToken<UcSegmentedToggleController>('UC_SEGMENTED_TOGGLE');
 
 @Component({
-  selector: 'uc-button-toggle',
-  templateUrl: './uc-button-toggle.html',
-  styleUrl: './uc-button-toggle.css',
-  providers: [{ provide: UC_BUTTON_TOGGLE, useExisting: UcButtonToggle }],
+  selector: 'uc-segmented-toggle',
+  templateUrl: './uc-segmented-toggle.html',
+  styleUrl: './uc-segmented-toggle.css',
+  providers: [{ provide: UC_SEGMENTED_TOGGLE, useExisting: UcSegmentedToggle }],
   changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class UcButtonToggle implements UcButtonToggleController {
+export class UcSegmentedToggle implements UcSegmentedToggleController {
   readonly value = model.required<string>();
   readonly disabled = input<boolean>(false);
   readonly ariaLabel = input<string | null>(null);

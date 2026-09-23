@@ -1,12 +1,12 @@
 import { bool, defineShowcase, text } from '../workbench/core';
-import { ButtonTogglePreview } from './examples/button-toggle-preview';
+import { SegmentedTogglePreview } from './examples/segmented-toggle-preview';
 
 export default defineShowcase({
-  id: 'components/button-toggle',
+  id: 'components/segmented-toggle',
   group: 'Components',
-  title: 'Button Toggle',
+  title: 'Segmented Toggle',
   layout: 'padded',
-  component: ButtonTogglePreview,
+  component: SegmentedTogglePreview,
   knobs: {
     value: text('all'),
     disabled: bool(false),

@@ -148,24 +148,32 @@
   --uc-button-spinner-track-background: color-mix(in oklab, currentColor 25%, transparent);
   --uc-button-spinner-indicator-background: currentColor;
   --uc-button-loading-opacity: 0.85;
+  --uc-button-toggle-background: transparent;
+  --uc-button-toggle-hover-background: oklch(from var(--primary-color) l c h / 0.12);
+  --uc-button-toggle-color: var(--font-color);
+  --uc-button-toggle-border-color: oklch(from var(--foreground-color) l c h / 0.3);
+  --uc-button-toggle-pressed-background: var(--primary-color);
+  --uc-button-toggle-pressed-hover-background: oklch(from var(--primary-color) calc(l * 0.9) c h);
+  --uc-button-toggle-pressed-color: var(--inverse-foreground-color);
+  --uc-button-toggle-pressed-border-color: var(--primary-color);
 
   /* --- Button Toggle --- */
-  --uc-button-toggle-background: var(--background-color);
-  --uc-button-toggle-border-color: var(--uc-input-border-color);
-  --uc-button-toggle-border: 1px solid var(--uc-button-toggle-border-color);
-  --uc-button-toggle-border-radius: 0.75rem;
-  --uc-button-toggle-disabled-opacity: 0.65;
-  --uc-button-toggle-item-color: var(--paragraph-text-color);
-  --uc-button-toggle-item-disabled-opacity: 0.55;
-  --uc-button-toggle-item-font-size: 0.95rem;
-  --uc-button-toggle-item-font-weight: 600;
-  --uc-button-toggle-item-hover-background: oklch(from var(--background-color-90) l c h / 0.35);
-  --uc-button-toggle-item-line-height: 1.25rem;
-  --uc-button-toggle-item-padding-block: 0.65rem;
-  --uc-button-toggle-item-padding-inline: 1rem;
-  --uc-button-toggle-item-selected-background: var(--primary-color);
-  --uc-button-toggle-item-selected-color: var(--inverse-foreground-color);
-  --uc-button-toggle-item-separator-color: var(--background-color-90);
+  --uc-segmented-toggle-background: var(--background-color);
+  --uc-segmented-toggle-border-color: var(--uc-input-border-color);
+  --uc-segmented-toggle-border: 1px solid var(--uc-segmented-toggle-border-color);
+  --uc-segmented-toggle-border-radius: 0.75rem;
+  --uc-segmented-toggle-disabled-opacity: 0.65;
+  --uc-segmented-toggle-item-color: var(--paragraph-text-color);
+  --uc-segmented-toggle-item-disabled-opacity: 0.55;
+  --uc-segmented-toggle-item-font-size: 0.95rem;
+  --uc-segmented-toggle-item-font-weight: 600;
+  --uc-segmented-toggle-item-hover-background: oklch(from var(--background-color-90) l c h / 0.35);
+  --uc-segmented-toggle-item-line-height: 1.25rem;
+  --uc-segmented-toggle-item-padding-block: 0.65rem;
+  --uc-segmented-toggle-item-padding-inline: 1rem;
+  --uc-segmented-toggle-item-selected-background: var(--primary-color);
+  --uc-segmented-toggle-item-selected-color: var(--inverse-foreground-color);
+  --uc-segmented-toggle-item-separator-color: var(--background-color-90);
 
   /* --- Menu Item --- */
   --uc-menu-item-border-radius: 0.5rem;

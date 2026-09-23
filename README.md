@@ -24,7 +24,7 @@ import { UcButton } from '@enumsoftware/universal-components/uc-button/uc-button
 
 ## Component Docs
 
-- [UcButtonToggle](uc-button-toggle/README.md)
+- [UcSegmentedToggle](uc-segmented-toggle/README.md)
 - [UcCodeEditor](uc-code-editor/README.md)
 - [UcEditor](uc-editor/README.md)
 - [UcMenu](uc-menu/README.md)

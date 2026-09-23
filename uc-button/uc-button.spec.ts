@@ -133,6 +133,59 @@ describe('UcButton', () => {
     expect(fixture.nativeElement.querySelector('.uc-button-loading-text')).toBeNull();
   });
 
+  it('should not act as a toggle unless isToggleEnabled is set', () => {
+    fixture.componentRef.setInput('pressed', true);
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('button');
+    button.click();
+    fixture.detectChanges();
+
+    expect(button.hasAttribute('aria-pressed')).toBe(false);
+    expect(button.classList.contains('uc-pressed')).toBe(false);
+    expect(button.classList.contains('uc-primary')).toBe(true);
+    expect(component.pressed()).toBe(true);
+  });
+
+  it('should replace the variant class with the toggle class', () => {
+    fixture.componentRef.setInput('variant', 'error');
+    fixture.componentRef.setInput('isToggleEnabled', true);
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('button');
+    expect(button.classList.contains('uc-toggle')).toBe(true);
+    expect(button.classList.contains('uc-error')).toBe(false);
+  });
+
+  it('should flip pressed on click and still emit clicked', () => {
+    const emitted: void[] = [];
+    component.clicked.subscribe(() => emitted.push(undefined));
+
+    fixture.componentRef.setInput('isToggleEnabled', true);
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('button');
+    expect(button.getAttribute('aria-pressed')).toBe('false');
+
+    button.click();
+    fixture.detectChanges();
+
+    expect(component.pressed()).toBe(true);
+    expect(button.getAttribute('aria-pressed')).toBe('true');
+    expect(button.classList.contains('uc-pressed')).toBe(true);
+    expect(emitted.length).toBe(1);
+  });
+
+  it('should not flip pressed while loading', () => {
+    fixture.componentRef.setInput('isToggleEnabled', true);
+    fixture.componentRef.setInput('loading', true);
+    fixture.detectChanges();
+
+    fixture.nativeElement.querySelector('button').click();
+
+    expect(component.pressed()).toBe(false);
+  });
+
   it('should enable transitions after the first paint', async () => {
     await fixture.whenStable();
     await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));

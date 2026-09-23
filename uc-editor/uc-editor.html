@@ -89,30 +89,30 @@
         }
       </div>
       } @if (showSourceToggle()) {
-      <uc-button-toggle
+      <uc-segmented-toggle
         class="uc-editor__view-toggle"
         ariaLabel="Editor view"
         [value]="view()"
         (valueChange)="setView($any($event))"
       >
-        <uc-button-toggle-item value="wysiwyg" ariaLabel="Rich text view">
+        <uc-segmented-toggle-item value="wysiwyg" ariaLabel="Rich text view">
           <i class="ph-bold ph-text-aa" aria-hidden="true"></i>
-        </uc-button-toggle-item>
-        <uc-button-toggle-item
+        </uc-segmented-toggle-item>
+        <uc-segmented-toggle-item
           value="source"
           [ariaLabel]="activeFormat().label + ' source view'"
         >
           <i class="ph-bold ph-code" aria-hidden="true"></i>
-        </uc-button-toggle-item>
+        </uc-segmented-toggle-item>
         @if (showSplitToggle()) {
-        <uc-button-toggle-item
+        <uc-segmented-toggle-item
           value="split"
           [ariaLabel]="'Split view, rich text and ' + activeFormat().label + ' source'"
         >
           <i class="ph-bold ph-columns" aria-hidden="true"></i>
-        </uc-button-toggle-item>
+        </uc-segmented-toggle-item>
         }
-      </uc-button-toggle>
+      </uc-segmented-toggle>
       }
     </div>
 

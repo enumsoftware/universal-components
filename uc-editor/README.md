@@ -8,7 +8,7 @@ and Markdown are two implementations of the same contract and a third format is 
 
 - Rich text editing on a `contenteditable` surface, with a source view for the raw document and a
   split view that shows both side by side
-- Toolbar assembled from library building blocks (`uc-select`, `uc-button-toggle`, `uc-icon-button`, `uc-button`,
+- Toolbar assembled from library building blocks (`uc-select`, `uc-segmented-toggle`, `uc-icon-button`, `uc-button`,
   `uc-input`, `uc-divider`)
 - `UcEditorFormat` seam: parse, serialize and command support per format
 - Built-in `html` and `markdown` formats

@@ -10,8 +10,8 @@ import {
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { UcAccordionItem } from '../uc-accordion/uc-accordion-item';
 import { UcButton } from '../uc-button/uc-button';
-import { UcButtonToggle } from '../uc-button-toggle/uc-button-toggle';
-import { UcButtonToggleItem } from '../uc-button-toggle/uc-button-toggle-item';
+import { UcSegmentedToggle } from '../uc-segmented-toggle/uc-segmented-toggle';
+import { UcSegmentedToggleItem } from '../uc-segmented-toggle/uc-segmented-toggle-item';
 import { UcIconButton } from '../uc-icon-button/uc-icon-button';
 import { UcInput, UcInputSuffix } from '../uc-input/uc-input';
 
@@ -45,8 +45,8 @@ const HANDLE_HIT_RADIUS_PX = 18;
   imports: [
     UcAccordionItem,
     UcButton,
-    UcButtonToggle,
-    UcButtonToggleItem,
+    UcSegmentedToggle,
+    UcSegmentedToggleItem,
     UcIconButton,
     UcInput,
     UcInputSuffix,
