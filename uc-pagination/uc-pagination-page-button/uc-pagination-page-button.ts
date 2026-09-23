@@ -3,6 +3,9 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 export const PAGINATION_PAGE_BUTTON_VARIANTS = ['primary', 'secondary'] as const;
 export type PaginationPageButtonVariant = (typeof PAGINATION_PAGE_BUTTON_VARIANTS)[number];
 
+export const PAGINATION_PAGE_BUTTON_SIZES = ['small', 'medium'] as const;
+export type PaginationPageButtonSize = (typeof PAGINATION_PAGE_BUTTON_SIZES)[number];
+
 @Component({
   selector: 'uc-pagination-page-button',
   templateUrl: './uc-pagination-page-button.html',
@@ -15,7 +18,7 @@ export class UcPaginationPageButton {
   phosphorIcon = input<string>('');
   phosphorWeight = input<string>('bold');
   variant = input<PaginationPageButtonVariant>('secondary');
-  active = input<boolean>(false);
+  size = input<PaginationPageButtonSize>('medium');
   disabled = input<boolean>(false);
 
   clicked = output<void>();

@@ -1,13 +1,20 @@
 import { Component, computed, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { UcButton } from '../uc-button/uc-button';
 import { UcPaginationPageButton } from './uc-pagination-page-button/uc-pagination-page-button';
 import { UcPaginationPageSelect } from './uc-pagination-page-select/uc-pagination-page-select';
+
+export const PAGINATION_SIZE_OPTIONS = ['small', 'medium'] as const;
+export type PaginationSize = (typeof PAGINATION_SIZE_OPTIONS)[number];
 
 @Component({
   selector: 'uc-pagination',
   templateUrl: './uc-pagination.html',
   styleUrl: './uc-pagination.css',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [UcPaginationPageButton, UcPaginationPageSelect],
+  imports: [UcButton, UcPaginationPageButton, UcPaginationPageSelect],
+  host: {
+    '[class.uc-pagination--small]': "size() === 'small'",
+  },
 })
 export class UcPagination {
   private readonly pageWindowSize = 3;
@@ -20,6 +27,7 @@ export class UcPagination {
   showPageInfo = input<boolean>(true);
   showPageSelector = input<boolean>(true);
   pageInfoTemplate = input<string>('Page {currentPage} of {totalPages}');
+  size = input<PaginationSize>('medium');
 
   pageChange = output<number>();
   pageSizeChange = output<number>();
@@ -110,5 +118,4 @@ export class UcPagination {
       this.pageSizeChange.emit(size);
     }
   }
-
 }

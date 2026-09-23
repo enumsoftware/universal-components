@@ -1,6 +1,6 @@
 import { Component, effect, input, signal } from '@angular/core';
 
-import { UcPagination } from '../uc-pagination';
+import { PaginationSize, UcPagination } from '../uc-pagination';
 
 /**
  * The component is controlled: it reports page changes and expects the caller
@@ -14,11 +14,12 @@ import { UcPagination } from '../uc-pagination';
     <uc-pagination
       [currentPage]="page()"
       [totalItems]="totalItems()"
-      [pageSize]="size()"
+      [pageSize]="currentPageSize()"
       [pageSizeOptions]="pageSizeOptions()"
       [showPageInfo]="showPageInfo()"
       [showPageSelector]="showPageSelector()"
       [pageInfoTemplate]="pageInfoTemplate()"
+      [size]="size()"
       (pageChange)="page.set($event)"
       (pageSizeChange)="onPageSizeChange($event)"
     />
@@ -32,18 +33,19 @@ export class PaginationPreview {
   readonly showPageInfo = input<boolean>(true);
   readonly showPageSelector = input<boolean>(true);
   readonly pageInfoTemplate = input<string>('Page {currentPage} of {totalPages}');
+  readonly size = input<PaginationSize>('medium');
 
   protected readonly page = signal(0);
-  protected readonly size = signal(10);
+  protected readonly currentPageSize = signal(10);
 
   constructor() {
     // The knobs seed the state; interaction takes over from there.
     effect(() => this.page.set(this.currentPage()));
-    effect(() => this.size.set(this.pageSize()));
+    effect(() => this.currentPageSize.set(this.pageSize()));
   }
 
   protected onPageSizeChange(size: number): void {
-    this.size.set(size);
+    this.currentPageSize.set(size);
     this.page.set(0);
   }
 }

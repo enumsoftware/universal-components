@@ -30,8 +30,18 @@
     gap: 0.5rem;
   }
 
+  /* Page numbers are uc-button toggles. The button's own padding is sized for words, so it is
+     tightened here and the host keeps the button at least square, like the icon buttons. */
   .uc-pagination__page-btn {
     display: inline-flex;
+    min-width: var(--uc-button-medium-height-resolved);
+    --uc-button-medium-padding-inline: 0.5rem;
+    --uc-button-small-padding-inline: 0.375rem;
+  }
+
+  /* The current page is disabled only so it cannot be toggled off; it must not look faded. */
+  .uc-pagination__page-btn--current {
+    --uc-button-disabled-opacity: 1;
   }
 
   .uc-pagination__ellipsis {
@@ -59,6 +69,33 @@
   text-align: center;
   color: var(--uc-pagination-info-color-resolved);
   font-size: 0.9rem;
+}
+
+:host(.uc-pagination--small) {
+  .uc-pagination-container {
+    gap: 1rem;
+  }
+
+  .uc-pagination {
+    gap: 0.5rem;
+  }
+
+  .uc-pagination__indicators {
+    gap: 0.25rem;
+  }
+
+  .uc-pagination__page-btn {
+    min-width: var(--uc-button-small-height-resolved);
+  }
+
+  .uc-pagination__ellipsis,
+  .uc-pagination__info {
+    font-size: 0.8rem;
+  }
+
+  .uc-pagination__meta {
+    gap: 0.5rem;
+  }
 }
 
 /* On mobile, drop the fast-jump and numbered page buttons and move

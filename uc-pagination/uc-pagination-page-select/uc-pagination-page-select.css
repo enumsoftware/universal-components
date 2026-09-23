@@ -14,6 +14,12 @@
   --uc-pagination-select-height-resolved: var(--uc-pagination-select-height, 2.75rem);
   --uc-pagination-select-padding-inline-resolved: var(--uc-pagination-select-padding-inline, 0.75rem);
   --uc-pagination-select-font-size-resolved: var(--uc-pagination-select-font-size, 0.95rem);
+  --uc-pagination-select-small-height-resolved: var(--uc-pagination-select-small-height, 2rem);
+  --uc-pagination-select-small-padding-inline-resolved: var(--uc-pagination-select-small-padding-inline,
+      0.5rem);
+  --uc-pagination-select-small-font-size-resolved: var(--uc-pagination-select-small-font-size, 0.8rem);
+  --uc-pagination-select-small-border-radius-resolved: var(--uc-pagination-select-small-border-radius,
+      0.25rem);
   --uc-pagination-select-focus-ring-resolved: var(--uc-pagination-select-focus-ring,
       0 0 0 2px oklch(from var(--primary-color, #473bf0) l c h / 0.25));
   --uc-pagination-select-panel-shadow-resolved: var(--uc-pagination-select-panel-shadow,
@@ -22,6 +28,27 @@
 
 .uc-pagination-page-select-host {
   display: inline-flex;
+}
+
+/* Small swaps the size tokens the trigger, label and options read, so the rules below stay shared. */
+.uc-pagination-page-select-host--small,
+.uc-pagination-page-select__overlay-pane--small {
+  --uc-pagination-select-height-resolved: var(--uc-pagination-select-small-height-resolved);
+  --uc-pagination-select-padding-inline-resolved: var(--uc-pagination-select-small-padding-inline-resolved);
+  --uc-pagination-select-font-size-resolved: var(--uc-pagination-select-small-font-size-resolved);
+  --uc-pagination-select-border-radius-resolved: var(--uc-pagination-select-small-border-radius-resolved);
+}
+
+.uc-pagination-page-select-host--small .uc-pagination-page-select__label {
+  font-size: 0.8rem;
+}
+
+.uc-pagination-page-select-host--small .uc-pagination-page-select__trigger {
+  min-width: 3.5rem;
+}
+
+.uc-pagination-page-select__overlay-pane--small .uc-pagination-page-select__option {
+  padding: 0.3rem 0.5rem;
 }
 
 .uc-pagination-page-select {

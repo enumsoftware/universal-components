@@ -18,6 +18,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
   changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     class: 'uc-pagination-page-select-host',
+    '[class.uc-pagination-page-select-host--small]': "size() === 'small'",
   },
 })
 export class UcPaginationPageSelect {
@@ -27,10 +28,18 @@ export class UcPaginationPageSelect {
 
   selectedSize = input.required<number>();
   sizes = input<number[]>([10, 25, 50, 100]);
+  size = input<'small' | 'medium'>('medium');
 
   sizeSelected = output<number>();
 
   isOpen = signal<boolean>(false);
+
+  /** The panel renders in the overlay container, outside the host, so it carries the size itself. */
+  panelClass = computed(() =>
+    this.size() === 'small'
+      ? ['uc-pagination-page-select__overlay-pane', 'uc-pagination-page-select__overlay-pane--small']
+      : ['uc-pagination-page-select__overlay-pane']
+  );
 
   availableSizes = computed(() => {
     const normalized = this.sizes()

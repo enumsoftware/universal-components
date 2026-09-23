@@ -6,6 +6,7 @@
         [ariaLabel]="'Jump backward by 3 pages'"
         [phosphorIcon]="'caret-double-left'"
         [variant]="'secondary'"
+        [size]="size()"
         [disabled]="isFastPreviousDisabled()"
         (clicked)="fastPreviousPage()"
       />
@@ -15,17 +16,22 @@
         [ariaLabel]="'Previous page'"
         [phosphorIcon]="'caret-left'"
         [variant]="'primary'"
+        [size]="size()"
         [disabled]="isPreviousDisabled()"
         (clicked)="previousPage()"
       />
 
+      <!-- The current page is disabled as well as pressed, so clicking it can never flip the
+           toggle off while the page itself stays current. -->
       <div class="uc-pagination__indicators">
         @for (page of visiblePages(); track $index) {
-          <uc-pagination-page-button
+          <uc-button
             class="uc-pagination__page-btn"
-            [label]="(page + 1).toString()"
-            [variant]="currentPage() === page ? 'primary' : 'secondary'"
-            [active]="currentPage() === page"
+            [class.uc-pagination__page-btn--current]="currentPage() === page"
+            [text]="(page + 1).toString()"
+            [size]="size()"
+            isToggleEnabled
+            [pressed]="currentPage() === page"
             [disabled]="currentPage() === page"
             (clicked)="goToPage(page)"
           />
@@ -33,11 +39,13 @@
 
         @if (showLastPageShortcut()) {
           <span class="uc-pagination__ellipsis" aria-hidden="true">...</span>
-          <uc-pagination-page-button
+          <uc-button
             class="uc-pagination__page-btn"
-            [label]="(lastPageIndex() + 1).toString()"
-            [variant]="currentPage() === lastPageIndex() ? 'primary' : 'secondary'"
-            [active]="currentPage() === lastPageIndex()"
+            [class.uc-pagination__page-btn--current]="currentPage() === lastPageIndex()"
+            [text]="(lastPageIndex() + 1).toString()"
+            [size]="size()"
+            isToggleEnabled
+            [pressed]="currentPage() === lastPageIndex()"
             [disabled]="currentPage() === lastPageIndex()"
             (clicked)="goToPage(lastPageIndex())"
           />
@@ -49,6 +57,7 @@
         [ariaLabel]="'Next page'"
         [phosphorIcon]="'caret-right'"
         [variant]="'primary'"
+        [size]="size()"
         [disabled]="isNextDisabled()"
         (clicked)="nextPage()"
       />
@@ -58,6 +67,7 @@
         [ariaLabel]="'Jump forward by 3 pages'"
         [phosphorIcon]="'caret-double-right'"
         [variant]="'secondary'"
+        [size]="size()"
         [disabled]="isFastNextDisabled()"
         (clicked)="fastNextPage()"
       />
@@ -78,6 +88,7 @@
           <uc-pagination-page-select
             [selectedSize]="pageSize()"
             [sizes]="pageSizeOptions()"
+            [size]="size()"
             (sizeSelected)="onPageSizeSelect($event)"
           />
         }

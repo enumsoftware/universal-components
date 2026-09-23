@@ -38,6 +38,15 @@
     --uc-pagination-page-button-secondary-hover-color,
     var(--font-color)
   );
+  --uc-pagination-page-button-small-size-resolved: var(--uc-pagination-page-button-small-size, 2rem);
+  --uc-pagination-page-button-small-icon-size-resolved: var(
+    --uc-pagination-page-button-small-icon-size,
+    1rem
+  );
+  --uc-pagination-page-button-small-border-radius-resolved: var(
+    --uc-pagination-page-button-small-border-radius,
+    0.25rem
+  );
   --uc-pagination-page-button-disabled-opacity-resolved: var(
     --uc-pagination-page-button-disabled-opacity,
     0.6
@@ -84,15 +93,18 @@
   color: var(--uc-pagination-page-button-primary-color-resolved);
 }
 
-.uc-pagination-page-button.uc-pagination-page-button--active {
-  border-color: transparent;
+.uc-pagination-page-button.uc-pagination-page-button--small {
+  min-width: var(--uc-pagination-page-button-small-size-resolved);
+  height: var(--uc-pagination-page-button-small-size-resolved);
+  border-radius: var(--uc-pagination-page-button-small-border-radius-resolved);
+}
+
+/* Out-ranks the icon's size utility class so the glyph scales down with the button. */
+.uc-pagination-page-button.uc-pagination-page-button--small i {
+  font-size: var(--uc-pagination-page-button-small-icon-size-resolved);
 }
 
 .uc-pagination-page-button:disabled {
   opacity: var(--uc-pagination-page-button-disabled-opacity-resolved);
   cursor: not-allowed;
-}
-
-.uc-pagination-page-button.uc-pagination-page-button--active:disabled {
-  opacity: 1;
 }

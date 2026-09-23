@@ -3,11 +3,10 @@
   class="uc-pagination-page-button"
   [class.uc-pagination-page-button--primary]="variant() === 'primary'"
   [class.uc-pagination-page-button--secondary]="variant() === 'secondary'"
-  [class.uc-pagination-page-button--active]="active()"
+  [class.uc-pagination-page-button--small]="size() === 'small'"
   [disabled]="disabled()"
   [attr.aria-label]="ariaLabel() || label() || null"
   [attr.title]="ariaLabel() || label() || null"
-  [attr.aria-current]="active() ? 'page' : null"
   (click)="onClick($event)"
 >
   @if (phosphorIcon()) {

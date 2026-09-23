@@ -130,6 +130,52 @@ describe('UcPagination', () => {
     expect(nextButton.disabled).toBe(true);
   });
 
+  it('should render page numbers as toggle buttons with the current page pressed', () => {
+    fixture.componentRef.setInput('currentPage', 4);
+    fixture.detectChanges();
+
+    const pageButtons = Array.from(
+      fixture.nativeElement.querySelectorAll('.uc-pagination__page-btn button')
+    ) as HTMLButtonElement[];
+    const current = pageButtons.find((button) => button.getAttribute('aria-pressed') === 'true');
+
+    expect(pageButtons.map((button) => button.textContent?.trim())).toEqual(['4', '5', '6', '10']);
+    expect(current?.textContent?.trim()).toBe('5');
+    expect(current?.disabled).toBe(true);
+    expect(pageButtons.filter((button) => button.getAttribute('aria-pressed') === 'false').length).toBe(3);
+  });
+
+  it('should go to a page when its toggle button is clicked', () => {
+    vi.spyOn(component.pageChange, 'emit');
+
+    const pageButtons = fixture.nativeElement.querySelectorAll(
+      '.uc-pagination__page-btn button'
+    ) as NodeListOf<HTMLButtonElement>;
+    pageButtons[1].click();
+
+    expect(component.pageChange.emit).toHaveBeenCalledWith(1);
+  });
+
+  it('should pass the small size to every control', () => {
+    fixture.componentRef.setInput('size', 'small');
+    fixture.detectChanges();
+
+    const host = fixture.nativeElement as HTMLElement;
+
+    expect(host.classList.contains('uc-pagination--small')).toBe(true);
+    expect(host.querySelectorAll('.uc-pagination__page-btn .uc-size-small').length).toBe(4);
+    expect(host.querySelectorAll('.uc-pagination-page-button--small').length).toBe(4);
+    expect(host.querySelector('.uc-pagination-page-select-host--small')).not.toBeNull();
+  });
+
+  it('should default to the medium size', () => {
+    const host = fixture.nativeElement as HTMLElement;
+
+    expect(host.classList.contains('uc-pagination--small')).toBe(false);
+    expect(host.querySelectorAll('.uc-pagination__page-btn .uc-size-medium').length).toBe(4);
+    expect(host.querySelector('.uc-pagination-page-button--small')).toBeNull();
+  });
+
   it('should emit page size change when selecting a different size', () => {
     vi.spyOn(component.pageSizeChange, 'emit');
 

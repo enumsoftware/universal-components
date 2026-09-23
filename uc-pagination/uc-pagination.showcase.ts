@@ -1,4 +1,5 @@
-import { bool, defineShowcase, number, object, text } from '../workbench/core';
+import { bool, defineShowcase, number, object, select, text } from '../workbench/core';
+import { PAGINATION_SIZE_OPTIONS } from './uc-pagination';
 import { PaginationPreview } from './examples/pagination-preview';
 
 export default defineShowcase({
@@ -15,9 +16,11 @@ export default defineShowcase({
     showPageInfo: bool(true),
     showPageSelector: bool(true),
     pageInfoTemplate: text('Page {currentPage} of {totalPages}'),
+    size: select(PAGINATION_SIZE_OPTIONS, 'medium'),
   },
   examples: [
     { name: 'Middle Page', props: { currentPage: 4 } },
+    { name: 'Small', props: { currentPage: 4, size: 'small' } },
     { name: 'Last Page', props: { currentPage: 9 } },
     { name: 'Without Page Info', props: { showPageInfo: false } },
     { name: 'Without Page Selector', props: { showPageSelector: false } },
