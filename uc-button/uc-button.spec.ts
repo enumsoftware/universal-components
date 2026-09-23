@@ -186,6 +186,29 @@ describe('UcButton', () => {
     expect(component.pressed()).toBe(false);
   });
 
+  it('should keep the default action of an enabled click so submit buttons submit their form', () => {
+    fixture.componentRef.setInput('type', 'submit');
+    fixture.detectChanges();
+
+    const event = new MouseEvent('click', { cancelable: true });
+    component.onClick(event);
+
+    expect(event.defaultPrevented).toBe(false);
+  });
+
+  it('should cancel the click and not emit while loading', () => {
+    let emitted = false;
+    component.clicked.subscribe(() => (emitted = true));
+    fixture.componentRef.setInput('loading', true);
+    fixture.detectChanges();
+
+    const event = new MouseEvent('click', { cancelable: true });
+    component.onClick(event);
+
+    expect(event.defaultPrevented).toBe(true);
+    expect(emitted).toBe(false);
+  });
+
   it('should enable transitions after the first paint', async () => {
     await fixture.whenStable();
     await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));

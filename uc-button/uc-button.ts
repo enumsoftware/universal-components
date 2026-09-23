@@ -76,8 +76,10 @@ export class UcButton {
   }
 
   onClick(event: MouseEvent) {
-    event.preventDefault();
+    // Only a blocked click is cancelled; otherwise a submit or reset button must keep its
+    // default action, or the surrounding form would never submit.
     if (this.disabled() || this.loading()) {
+      event.preventDefault();
       return;
     }
 
