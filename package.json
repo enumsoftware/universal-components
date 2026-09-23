@@ -40,6 +40,10 @@
       "types": "./dist/types/enumsoftware-universal-components.d.ts",
       "default": "./dist/fesm2022/enumsoftware-universal-components.mjs"
     },
+    "./uc-map": {
+      "types": "./dist/types/enumsoftware-universal-components-uc-map.d.ts",
+      "default": "./dist/fesm2022/enumsoftware-universal-components-uc-map.mjs"
+    },
     "./themes/theme.css": "./themes/theme.css",
     "./themes/utilities.css": "./themes/utilities.css",
     "./themes/utilities/scale.css": "./themes/utilities/scale.css",
@@ -67,7 +71,9 @@
     "@angular/forms": "^22.0.0",
     "@angular/platform-browser": "^22.0.0",
     "@angular/router": "^22.0.0",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.0",
+    "@angular/google-maps": "^22.0.0",
+    "@googlemaps/markerclusterer": "^2.6.0"
   },
   "dependencies": {
     "@phosphor-icons/web": "^2.1.2",
@@ -87,9 +93,12 @@
     "@angular/compiler-cli": "^22.0.0",
     "@angular/core": "^22.0.0",
     "@angular/forms": "^22.0.0",
+    "@angular/google-maps": "^22.2.0",
     "@angular/platform-browser": "^22.0.0",
     "@angular/router": "^22.0.0",
+    "@googlemaps/markerclusterer": "^2.6.2",
     "@types/d3": "^7.4.3",
+    "@types/google.maps": "^3.66.3",
     "@types/node": "^24.0.0",
     "axe-core": "^4.12.1",
     "jsdom": "^30.0.1",
@@ -108,5 +117,13 @@
     "@parcel/watcher@2.5.6": true,
     "lmdb@3.5.4": true,
     "msgpackr-extract@3.0.4": true
+  },
+  "peerDependenciesMeta": {
+    "@angular/google-maps": {
+      "optional": true
+    },
+    "@googlemaps/markerclusterer": {
+      "optional": true
+    }
   }
 }

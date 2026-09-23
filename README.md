@@ -28,6 +28,7 @@ import { UcButton } from '@enumsoftware/universal-components/uc-button/uc-button
 - [UcCodeEditor](uc-code-editor/README.md)
 - [UcEditor](uc-editor/README.md)
 - [UcMenu](uc-menu/README.md)
+- [UcMap](uc-map/README.md) (separate entry point: `@enumsoftware/universal-components/uc-map`)
 
 ## Compatibility
 

@@ -1,0 +1,70 @@
+:host {
+  --uc-map-height-resolved: var(--uc-map-height, 400px);
+  --uc-map-radius-resolved: var(--uc-map-radius, 0.75rem);
+  --uc-map-area-color-resolved: var(--uc-map-area-color, var(--primary-color));
+  --uc-map-exclusion-color-resolved: var(--uc-map-exclusion-color, var(--error-color));
+  --uc-map-marker-color-resolved: var(--uc-map-marker-color, var(--primary-color));
+  --uc-map-placeholder-background-resolved: var(--uc-map-placeholder-background, var(--card-background-color));
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: var(--uc-map-height-resolved);
+  overflow: hidden;
+  border-radius: var(--uc-map-radius-resolved);
+}
+
+.uc-map__map {
+  flex: 1;
+  min-height: 0;
+}
+
+.uc-map__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: var(--uc-map-placeholder-background-resolved);
+}
+
+.uc-map__button {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--uc-map-area-color-resolved);
+  border-radius: 0.375rem;
+  background: var(--uc-map-area-color-resolved);
+  color: var(--primary-contrast-color);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  &.uc-map__button--secondary {
+    background: transparent;
+    color: var(--foreground-color);
+  }
+
+  &.uc-map__button--danger {
+    border-color: var(--uc-map-exclusion-color-resolved);
+    background: transparent;
+    color: var(--uc-map-exclusion-color-resolved);
+  }
+}
+
+.uc-map__hint {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.uc-map__message {
+  display: grid;
+  flex: 1;
+  place-items: center;
+  margin: 0;
+  background: var(--uc-map-placeholder-background-resolved);
+  color: var(--foreground-color);
+}

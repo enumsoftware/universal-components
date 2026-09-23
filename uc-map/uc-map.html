@@ -1,0 +1,105 @@
+@switch (status()) {
+  @case ('ready') {
+    @if (mode() === 'polygons') {
+      <div class="uc-map__toolbar" role="toolbar">
+        @if (draft()) {
+          <button type="button" class="uc-map__button" [disabled]="(draft()?.path?.length ?? 0) < 3" (click)="finishDraft()">
+            {{ finishLabel() }}
+          </button>
+          <button type="button" class="uc-map__button uc-map__button--secondary" (click)="cancelDraft()">
+            {{ cancelLabel() }}
+          </button>
+          <span class="uc-map__hint">{{ drawingHint() }}</span>
+        } @else {
+          <button type="button" class="uc-map__button" (click)="startDraft('area')">{{ newAreaLabel() }}</button>
+          <button type="button" class="uc-map__button uc-map__button--secondary" (click)="startDraft('exclusion')">
+            {{ newExclusionLabel() }}
+          </button>
+          <button
+            type="button"
+            class="uc-map__button uc-map__button--danger"
+            [disabled]="!selectedPolygonId()"
+            (click)="deleteSelected()"
+          >
+            {{ deleteLabel() }}
+          </button>
+        }
+      </div>
+    }
+
+    <google-map
+      class="uc-map__map"
+      width="100%"
+      height="100%"
+      [center]="center()"
+      [zoom]="zoom()"
+      [options]="options()"
+      (mapClick)="onMapClick($event)"
+    >
+      @if (mode() === 'view') {
+        @if (mapId()) {
+          @if (cluster()) {
+            <map-marker-clusterer>
+              @for (marker of markers(); track marker.id) {
+                <map-advanced-marker
+                  [position]="marker.position"
+                  [title]="marker.title ?? ''"
+                  [content]="pinFor(marker.color)"
+                  (mapClick)="markerClick.emit(marker)"
+                />
+              }
+            </map-marker-clusterer>
+          } @else {
+            @for (marker of markers(); track marker.id) {
+              <map-advanced-marker
+                [position]="marker.position"
+                [title]="marker.title ?? ''"
+                [content]="pinFor(marker.color)"
+                (mapClick)="markerClick.emit(marker)"
+              />
+            }
+          }
+        } @else {
+          @if (cluster()) {
+            <map-marker-clusterer>
+              @for (marker of markers(); track marker.id) {
+                <map-marker [position]="marker.position" [title]="marker.title ?? ''" (mapClick)="markerClick.emit(marker)" />
+              }
+            </map-marker-clusterer>
+          } @else {
+            @for (marker of markers(); track marker.id) {
+              <map-marker [position]="marker.position" [title]="marker.title ?? ''" (mapClick)="markerClick.emit(marker)" />
+            }
+          }
+        }
+      }
+
+      @if (mode() === 'pick' && selectedPosition(); as position) {
+        @if (mapId()) {
+          <map-advanced-marker [position]="position" [gmpDraggable]="true" [content]="pinFor(undefined)" (mapDragend)="onPickDragEnd($event)" />
+        } @else {
+          <map-marker [position]="position" [options]="{ draggable: true }" (mapDragend)="onPickDragEnd($event)" />
+        }
+      }
+
+      @for (polygon of polygons(); track polygon.id; let index = $index) {
+        <map-polygon
+          [paths]="polygon.path"
+          [options]="polygonOptions(polygon.kind, polygon.id === selectedPolygonId(), mode() === 'polygons' && !draft())"
+          (polygonClick)="selectPolygon(polygon.id)"
+          (polygonMouseup)="syncPolygon(index)"
+        />
+      }
+
+      @if (draft(); as current) {
+        <map-polygon [paths]="current.path" [options]="polygonOptions(current.kind, true, false)" />
+      }
+    </google-map>
+  }
+  @case ('error') {
+    <p class="uc-map__message" role="alert">{{ errorLabel() }}</p>
+  }
+  @default {
+    <p class="uc-map__message" aria-live="polite">{{ loadingLabel() }}</p>
+  }
+}

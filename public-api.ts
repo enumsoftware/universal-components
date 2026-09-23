@@ -90,3 +90,18 @@ export { UcToggle } from './uc-toggle/uc-toggle';
 export { UcTooltip, UC_TOOLTIP_CONFIG, provideUcTooltipConfig } from './uc-tooltip/uc-tooltip';
 export { UcTree } from './uc-tree/uc-tree';
 export { UcTreeNodeDef } from './uc-tree/uc-tree-node-def';
+export {
+  UcToastService,
+  TOAST_VARIANT_OPTIONS,
+  type ToastVariant,
+  type UcToast,
+  type UcToastOptions,
+} from './uc-toast/uc-toast.service';
+export { UcToastOutlet } from './uc-toast/uc-toast-outlet';
+export { UcGallery, type UcGalleryImage } from './uc-gallery/uc-gallery';
+export {
+  UcImageList,
+  IMAGE_LIST_ITEM_STATUS_OPTIONS,
+  type ImageListItemStatus,
+  type UcImageListItem,
+} from './uc-image-list/uc-image-list';

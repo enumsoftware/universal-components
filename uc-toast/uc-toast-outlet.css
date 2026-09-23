@@ -1,0 +1,112 @@
+:host {
+  --uc-toast-background-resolved: var(--uc-toast-background, var(--card-background-color));
+  --uc-toast-color-resolved: var(--uc-toast-color, var(--foreground-color));
+  --uc-toast-shadow-resolved: var(--uc-toast-shadow, var(--card-box-shadow));
+  --uc-toast-radius-resolved: var(--uc-toast-radius, 0.75rem);
+  --uc-toast-success-resolved: var(--uc-toast-success-color, var(--success-color));
+  --uc-toast-info-resolved: var(--uc-toast-info-color, var(--primary-color));
+  --uc-toast-warning-resolved: var(--uc-toast-warning-color, var(--warning-color));
+  --uc-toast-error-resolved: var(--uc-toast-error-color, var(--error-color));
+}
+
+.uc-toast-outlet {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.uc-toast {
+  --uc-toast-accent: var(--uc-toast-info-resolved);
+
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 24rem;
+  padding: 0.875rem 1rem;
+  border-left: 4px solid var(--uc-toast-accent);
+  border-radius: var(--uc-toast-radius-resolved);
+  background: var(--uc-toast-background-resolved);
+  box-shadow: var(--uc-toast-shadow-resolved);
+  color: var(--uc-toast-color-resolved);
+  pointer-events: auto;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+
+  &.uc-toast--success {
+    --uc-toast-accent: var(--uc-toast-success-resolved);
+  }
+
+  &.uc-toast--warning {
+    --uc-toast-accent: var(--uc-toast-warning-resolved);
+  }
+
+  &.uc-toast--error {
+    --uc-toast-accent: var(--uc-toast-error-resolved);
+  }
+
+  &.uc-toast--entering {
+    @starting-style {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+  }
+
+  &.uc-toast--leaving {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+}
+
+.uc-toast__icon {
+  flex-shrink: 0;
+  color: var(--uc-toast-accent);
+  font-size: 1.25rem;
+}
+
+.uc-toast__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.uc-toast__title {
+  margin: 0 0 0.125rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.uc-toast__message {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.uc-toast__close {
+  flex-shrink: 0;
+  padding: 0.125rem;
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+
+  &:hover,
+  &:focus-visible {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .uc-toast {
+    transition: none;
+  }
+}
