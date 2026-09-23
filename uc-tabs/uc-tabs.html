@@ -1,8 +1,11 @@
-<div class="uc-tabs">
-  @for (tab of tabs(); track tab.key) {
+<div class="uc-tabs" [class.uc-tabs--pills]="variant() === 'pills'">
+  @for (tab of visibleTabs(); track tab.key) {
     <button
       class="uc-tabs__tab"
+      type="button"
       [class.uc-tabs__tab--active]="activeTab() === tab.key"
+      [class.uc-tabs__tab--disabled]="tab.disabled"
+      [disabled]="tab.disabled"
       (click)="selectTab(tab.key)"
     >
       {{ tab.label }}
@@ -10,7 +13,7 @@
   }
 </div>
 @for (panel of panels(); track panel.key()) {
-  @if (panel.key() === activeTab()) {
+  @if (panel.key() === activeTab() && !isActiveTabHidden()) {
     <ng-container [ngTemplateOutlet]="panel.templateRef" />
   }
 }

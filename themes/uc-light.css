@@ -537,6 +537,12 @@
   --uc-tabs-tab-active-color: var(--primary-color);
   --uc-tabs-tab-active-border-color: var(--primary-color);
   --uc-tabs-margin-bottom: 1.5rem;
+  --uc-tabs-pills-gap: 0.5rem;
+  --uc-tabs-pills-border-radius: 100px;
+  --uc-tabs-pills-hover-background: oklch(from var(--background-color-90) l c h / 0.5);
+  --uc-tabs-pills-active-background: var(--primary-color);
+  --uc-tabs-pills-active-color: var(--inverse-foreground-color);
+  --uc-tabs-tab-disabled-opacity: 0.45;
 
   /* --- Textarea --- */
   --uc-textarea-label-color: oklch(from var(--foreground-color) l c h / 1);

@@ -5,6 +5,15 @@
   --uc-tabs-tab-active-color-resolved: var(--uc-tabs-tab-active-color, var(--primary-color));
   --uc-tabs-tab-active-border-color-resolved: var(--uc-tabs-tab-active-border-color, var(--primary-color));
   --uc-tabs-margin-bottom-resolved: var(--uc-tabs-margin-bottom, 1.5rem);
+  --uc-tabs-pills-gap-resolved: var(--uc-tabs-pills-gap, 0.5rem);
+  --uc-tabs-pills-border-radius-resolved: var(--uc-tabs-pills-border-radius, 100px);
+  --uc-tabs-pills-hover-background-resolved: var(
+    --uc-tabs-pills-hover-background,
+    oklch(from var(--background-color-90) l c h / 0.5)
+  );
+  --uc-tabs-pills-active-background-resolved: var(--uc-tabs-pills-active-background, var(--primary-color));
+  --uc-tabs-pills-active-color-resolved: var(--uc-tabs-pills-active-color, var(--inverse-foreground-color));
+  --uc-tabs-tab-disabled-opacity-resolved: var(--uc-tabs-tab-disabled-opacity, 0.45);
 }
 
 .uc-tabs {
@@ -32,6 +41,39 @@
     &.uc-tabs__tab--active {
       color: var(--uc-tabs-tab-active-color-resolved);
       border-bottom-color: var(--uc-tabs-tab-active-border-color-resolved);
+    }
+  }
+
+  &.uc-tabs--pills {
+    gap: var(--uc-tabs-pills-gap-resolved);
+    border-bottom: none;
+
+    .uc-tabs__tab {
+      border-bottom: none;
+      margin-bottom: 0;
+      border-radius: var(--uc-tabs-pills-border-radius-resolved);
+      transition: color 0.2s, background-color 0.2s;
+
+      &:hover {
+        background: var(--uc-tabs-pills-hover-background-resolved);
+      }
+
+      &.uc-tabs__tab--active {
+        color: var(--uc-tabs-pills-active-color-resolved);
+        background: var(--uc-tabs-pills-active-background-resolved);
+      }
+    }
+  }
+
+  /* Last so it out-ranks the hover rules of both variants: a disabled tab never reacts to the
+     pointer, but an active one keeps its active colors so the current panel is still marked. */
+  .uc-tabs__tab.uc-tabs__tab--disabled {
+    cursor: not-allowed;
+    opacity: var(--uc-tabs-tab-disabled-opacity-resolved);
+
+    &:not(.uc-tabs__tab--active):hover {
+      color: var(--uc-tabs-tab-color-resolved);
+      background: none;
     }
   }
 }

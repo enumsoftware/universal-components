@@ -21,7 +21,7 @@ export type {
   UcSelectQuery,
 } from './uc-select/uc-select';
 export type { UcSidebarMode } from './uc-side-navigation/uc-side-navigation';
-export type { UcTab } from './uc-tabs/uc-tabs';
+export type { UcTab, UcTabsVariant } from './uc-tabs/uc-tabs';
 export type { UcTooltipPosition, UcTooltipConfig } from './uc-tooltip/uc-tooltip';
 export type { UcTreeNode } from './uc-tree/uc-tree-node';
 export type { UcTreeNodeContext } from './uc-tree/uc-tree-node-def';

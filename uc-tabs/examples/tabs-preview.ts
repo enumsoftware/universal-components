@@ -1,13 +1,13 @@
 import { Component, effect, input, signal } from '@angular/core';
 
-import { UcTabPanel, UcTabs, type UcTab } from '../uc-tabs';
+import { UcTabPanel, UcTabs, type UcTab, type UcTabsVariant } from '../uc-tabs';
 
 /** Panels are `ng-template`s tagged with `ucTabPanel`, matched by key. */
 @Component({
   selector: 'uc-tabs-preview',
   imports: [UcTabs, UcTabPanel],
   template: `
-    <uc-tabs [tabs]="tabs()" [(activeTab)]="current">
+    <uc-tabs [tabs]="tabs()" [(activeTab)]="current" [variant]="variant()">
       <ng-template ucTabPanel="overview">
         <p>Overview content goes here.</p>
       </ng-template>
@@ -27,6 +27,7 @@ export class TabsPreview {
     { key: 'settings', label: 'Settings' },
   ]);
   readonly activeTab = input<string>('overview');
+  readonly variant = input<UcTabsVariant>('underline');
 
   protected readonly current = signal('overview');
 

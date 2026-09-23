@@ -1,6 +1,6 @@
-import { defineShowcase, object, text } from '../workbench/core';
+import { defineShowcase, object, select, text } from '../workbench/core';
 import { TabsPreview } from './examples/tabs-preview';
-import type { UcTab } from './uc-tabs';
+import { TABS_VARIANT_OPTIONS, type UcTab } from './uc-tabs';
 
 const TABS: UcTab[] = [
   { key: 'overview', label: 'Overview' },
@@ -17,6 +17,32 @@ export default defineShowcase({
   knobs: {
     tabs: object(TABS),
     activeTab: text('overview'),
+    variant: select(TABS_VARIANT_OPTIONS, 'underline'),
   },
-  examples: [{ name: 'Second Tab Active', props: { activeTab: 'details' } }],
+  examples: [
+    { name: 'Second Tab Active', props: { activeTab: 'details' } },
+    { name: 'Pills', props: { variant: 'pills' } },
+    {
+      name: 'Disabled Tab',
+      description: 'A tab with `disabled: true` stays visible but ignores clicks.',
+      props: {
+        tabs: [
+          { key: 'overview', label: 'Overview' },
+          { key: 'details', label: 'Details', disabled: true },
+          { key: 'settings', label: 'Settings' },
+        ],
+      },
+    },
+    {
+      name: 'Hidden Tab',
+      description: 'A tab with `visible: false` is not rendered, and neither is its panel.',
+      props: {
+        tabs: [
+          { key: 'overview', label: 'Overview' },
+          { key: 'details', label: 'Details', visible: false },
+          { key: 'settings', label: 'Settings' },
+        ],
+      },
+    },
+  ],
 });
