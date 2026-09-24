@@ -4,7 +4,7 @@
   [class.uc-file-picker__dropzone--disabled]="disabled()"
   (click)="triggerSelect()"
 >
-  <span class="uc-file-picker__dropzone-text"> Drag & drop a logo here or click to browse </span>
+  <span class="uc-file-picker__dropzone-text">{{ dropzoneText() }}</span>
 </div>
 
 <input
@@ -12,7 +12,7 @@
   [id]="id()"
   class="uc-file-picker__input"
   type="file"
-  title="Choose file"
+  [title]="label()"
   [attr.aria-label]="label()"
   [accept]="accept()"
   [disabled]="disabled()"
@@ -25,10 +25,10 @@
       class="uc-clear-button"
       [phosphorIcon]="'x-circle'"
       [variant]="'error'"
-      (click)="clearSelection()"
-      ucTooltip="Remove"
+      [label]="removeLabel()"
+      (clicked)="clearSelection()"
     />
-    <img [src]="previewUrl()" alt="Selected logo preview" />
+    <img [src]="previewUrl()" [alt]="previewAlt()" />
   </div>
 }
 
