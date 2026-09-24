@@ -22,4 +22,15 @@ describe('UcSidebarButton', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should announce the active entry as the current page', () => {
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+    expect(button.getAttribute('aria-current')).toBeNull();
+    expect(button.type).toBe('button');
+
+    fixture.componentRef.setInput('active', true);
+    fixture.detectChanges();
+
+    expect(button.getAttribute('aria-current')).toBe('page');
+  });
 });

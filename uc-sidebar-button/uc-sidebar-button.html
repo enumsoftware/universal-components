@@ -1,7 +1,9 @@
 <button
+  type="button"
   class="uc-button"
   [class.inactive]="!active()"
   [class.active]="active()"
+  [attr.aria-current]="active() ? 'page' : null"
   (click)="onClick($event)"
 >
   <ng-content />
