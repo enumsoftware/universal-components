@@ -154,7 +154,8 @@
   background-color: oklch(from var(--uc-button-error-background-resolved) l c h / 0.9);
 }
 
-/* Link variant: text only, like a link, but still a button (keyboard, role, disabled). */
+/* Link variant: text only, like a link, but still a button (keyboard, role, disabled). It takes
+   its font from the surrounding text, as a real link does, so the size input does not apply. */
 .uc-button.uc-link,
 .uc-button.uc-link:hover {
   height: auto;
@@ -163,7 +164,10 @@
   border-radius: 0;
   background-color: transparent;
   color: var(--uc-button-link-color-resolved);
+  font-family: inherit;
+  font-size: inherit;
   font-weight: inherit;
+  line-height: inherit;
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
