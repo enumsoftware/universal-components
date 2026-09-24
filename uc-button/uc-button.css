@@ -31,6 +31,7 @@
     oklch(from var(--uc-foreground-color) l c h / 0.3)
   );
   --uc-button-error-background-resolved: var(--uc-button-error-background, var(--uc-error-color));
+  --uc-button-link-color-resolved: var(--uc-button-link-color, var(--uc-primary-color));
   --uc-button-toggle-background-resolved: var(--uc-button-toggle-background, transparent);
   --uc-button-toggle-hover-background-resolved: var(
     --uc-button-toggle-hover-background,
@@ -151,6 +152,24 @@
 
 .uc-button.uc-error:hover {
   background-color: oklch(from var(--uc-button-error-background-resolved) l c h / 0.9);
+}
+
+/* Link variant: text only, like a link, but still a button (keyboard, role, disabled). */
+.uc-button.uc-link,
+.uc-button.uc-link:hover {
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--uc-button-link-color-resolved);
+  font-weight: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.uc-button.uc-link:hover {
+  text-decoration-thickness: 2px;
 }
 
 .uc-button:hover {

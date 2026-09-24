@@ -10,7 +10,8 @@ import {
 } from '@angular/core';
 import { UcSpinnerLoading } from '../uc-spinner-loading/uc-spinner-loading.component';
 
-export const BUTTON_VARIANT_OPTIONS = ['primary', 'secondary', 'error'] as const;
+/** `link` looks like a text link but stays a button, for actions such as opening a dialog. */
+export const BUTTON_VARIANT_OPTIONS = ['primary', 'secondary', 'error', 'link'] as const;
 export type ButtonVariant = (typeof BUTTON_VARIANT_OPTIONS)[number];
 
 export const BUTTON_ALIGN_OPTIONS = ['left', 'center'] as const;
