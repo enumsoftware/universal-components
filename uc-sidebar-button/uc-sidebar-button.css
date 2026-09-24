@@ -1,9 +1,9 @@
 :host {
   --uc-sidebar-button-background-resolved: var(--uc-sidebar-button-background, transparent);
-  --uc-sidebar-button-color-resolved: var(--uc-sidebar-button-color, var(--foreground-color));
-  --uc-sidebar-button-active-background-resolved: var(--uc-sidebar-button-active-background, var(--primary-color));
-  --uc-sidebar-button-active-color-resolved: var(--uc-sidebar-button-active-color, var(--inverse-foreground-color));
-  --uc-sidebar-button-hover-background-resolved: var(--uc-sidebar-button-hover-background, oklch(from var(--primary-color) l c h / 0.2));
+  --uc-sidebar-button-color-resolved: var(--uc-sidebar-button-color, var(--uc-foreground-color));
+  --uc-sidebar-button-active-background-resolved: var(--uc-sidebar-button-active-background, var(--uc-primary-color));
+  --uc-sidebar-button-active-color-resolved: var(--uc-sidebar-button-active-color, var(--uc-inverse-foreground-color));
+  --uc-sidebar-button-hover-background-resolved: var(--uc-sidebar-button-hover-background, oklch(from var(--uc-primary-color) l c h / 0.2));
   --uc-sidebar-button-border-resolved: var(--uc-sidebar-button-border, none);
   --uc-sidebar-button-active-border-resolved: var(--uc-sidebar-button-active-border, var(--uc-sidebar-button-border-resolved));
   --uc-sidebar-button-hover-border-resolved: var(--uc-sidebar-button-hover-border, var(--uc-sidebar-button-border-resolved));

@@ -32,7 +32,7 @@
   margin: 0;
   padding: 1.5rem 0;
   text-align: center;
-  color: var(--paragraph-text-color);
+  color: var(--uc-paragraph-text-color);
 }
 
 .wb-directory-list {
@@ -51,7 +51,7 @@
 }
 
 .wb-directory-row + .wb-directory-row {
-  border-top: 1px solid oklch(from var(--foreground-color) l c h / 0.08);
+  border-top: 1px solid oklch(from var(--uc-foreground-color) l c h / 0.08);
 }
 
 .wb-directory-identity {
@@ -70,7 +70,7 @@
 
 .wb-directory-email {
   margin: 0.1rem 0 0;
-  color: var(--paragraph-text-color);
+  color: var(--uc-paragraph-text-color);
   font-size: 0.85rem;
   overflow: hidden;
   text-overflow: ellipsis;

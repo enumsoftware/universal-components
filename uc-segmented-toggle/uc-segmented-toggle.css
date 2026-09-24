@@ -1,6 +1,6 @@
 :host {
-  --uc-segmented-toggle-background-resolved: var(--uc-segmented-toggle-background, var(--background-color-95));
-  --uc-segmented-toggle-border-color-resolved: var(--uc-segmented-toggle-border-color, var(--background-color-90));
+  --uc-segmented-toggle-background-resolved: var(--uc-segmented-toggle-background, var(--uc-background-color-90));
+  --uc-segmented-toggle-border-color-resolved: var(--uc-segmented-toggle-border-color, var(--uc-background-color-90));
   --uc-segmented-toggle-border-resolved: var(
     --uc-segmented-toggle-border,
     1px solid var(--uc-segmented-toggle-border-color-resolved)

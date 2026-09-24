@@ -6,12 +6,12 @@
  * .uc-select-panel rule below.
  */
 :root {
-  --uc-select-label-color-resolved: var(--uc-select-label-color, oklch(from var(--foreground-color) l c h / 1));
-  --uc-select-placeholder-color-resolved: var(--uc-select-placeholder-color, oklch(from var(--foreground-color) l c h / 0.35));
-  --uc-select-arrow-color-resolved: var(--uc-select-arrow-color, oklch(from var(--foreground-color) l c h / 0.5));
-  --uc-select-option-hover-background-resolved: var(--uc-select-option-hover-background, oklch(from var(--primary-color) l c h / 0.1));
-  --uc-select-option-selected-background-resolved: var(--uc-select-option-selected-background, oklch(from var(--primary-color) l c h / 0.15));
-  --uc-select-option-selected-color-resolved: var(--uc-select-option-selected-color, var(--primary-color));
+  --uc-select-label-color-resolved: var(--uc-select-label-color, oklch(from var(--uc-foreground-color) l c h / 1));
+  --uc-select-placeholder-color-resolved: var(--uc-select-placeholder-color, oklch(from var(--uc-foreground-color) l c h / 0.35));
+  --uc-select-arrow-color-resolved: var(--uc-select-arrow-color, oklch(from var(--uc-foreground-color) l c h / 0.5));
+  --uc-select-option-hover-background-resolved: var(--uc-select-option-hover-background, oklch(from var(--uc-primary-color) l c h / 0.1));
+  --uc-select-option-selected-background-resolved: var(--uc-select-option-selected-background, oklch(from var(--uc-primary-color) l c h / 0.15));
+  --uc-select-option-selected-color-resolved: var(--uc-select-option-selected-color, var(--uc-primary-color));
   --uc-select-panel-shadow-resolved: var(--uc-select-panel-shadow, 0 4px 12px rgba(0, 0, 0, 0.15));
   --uc-select-trigger-height-resolved: var(--uc-select-trigger-height, 2.75rem);
   --uc-select-trigger-padding-inline-resolved: var(--uc-select-trigger-padding-inline, 1rem);
@@ -68,7 +68,7 @@
   user-select: none;
 
   &:focus {
-    border: var(--uc-select-trigger-border-width-resolved) solid var(--primary-color);
+    border: var(--uc-select-trigger-border-width-resolved) solid var(--uc-primary-color);
     outline: none;
   }
 
@@ -79,16 +79,16 @@
   &[aria-disabled='true'] {
     opacity: 0.5;
     cursor: not-allowed;
-    background-color: oklch(from var(--foreground-color) l c h / 0.05);
+    background-color: oklch(from var(--uc-foreground-color) l c h / 0.05);
   }
 
   &.uc-select-error {
-    border-color: var(--error-color);
-    background-color: oklch(from var(--error-color) l c h / 0.1);
+    border-color: var(--uc-error-color);
+    background-color: oklch(from var(--uc-error-color) l c h / 0.1);
   }
 
   &.uc-select-error:focus {
-    border: var(--uc-select-trigger-border-width-resolved) solid var(--error-color);
+    border: var(--uc-select-trigger-border-width-resolved) solid var(--uc-error-color);
   }
 }
 
@@ -146,9 +146,9 @@
  */
 .uc-select-panel {
   /* Re-resolved here so the tokens the component copies onto this element take effect. */
-  --uc-select-option-hover-background-resolved: var(--uc-select-option-hover-background, oklch(from var(--primary-color) l c h / 0.1));
-  --uc-select-option-selected-background-resolved: var(--uc-select-option-selected-background, oklch(from var(--primary-color) l c h / 0.15));
-  --uc-select-option-selected-color-resolved: var(--uc-select-option-selected-color, var(--primary-color));
+  --uc-select-option-hover-background-resolved: var(--uc-select-option-hover-background, oklch(from var(--uc-primary-color) l c h / 0.1));
+  --uc-select-option-selected-background-resolved: var(--uc-select-option-selected-background, oklch(from var(--uc-primary-color) l c h / 0.15));
+  --uc-select-option-selected-color-resolved: var(--uc-select-option-selected-color, var(--uc-primary-color));
   --uc-select-panel-shadow-resolved: var(--uc-select-panel-shadow, 0 4px 12px rgba(0, 0, 0, 0.15));
   --uc-select-option-padding-resolved: var(--uc-select-option-padding, 0.7rem 1rem);
   --uc-select-option-font-size-resolved: var(--uc-select-option-font-size, 0.9rem);
@@ -181,11 +181,11 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: oklch(from var(--foreground-color) l c h / 0.2);
+    background: oklch(from var(--uc-foreground-color) l c h / 0.2);
     border-radius: 4px;
 
     &:hover {
-      background: oklch(from var(--foreground-color) l c h / 0.3);
+      background: oklch(from var(--uc-foreground-color) l c h / 0.3);
     }
   }
 }
@@ -198,7 +198,7 @@
   padding: var(--uc-select-option-padding-resolved);
   border: none;
   background-color: transparent;
-  color: var(--foreground-color);
+  color: var(--uc-foreground-color);
   text-align: left;
   cursor: pointer;
   transition:
@@ -213,7 +213,7 @@
   }
 
   &:focus {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid var(--uc-primary-color);
     outline-offset: -2px;
   }
 
@@ -257,7 +257,7 @@
 .uc-select-no-options {
   padding: 1rem;
   text-align: center;
-  color: oklch(from var(--foreground-color) l c h / 0.5);
+  color: oklch(from var(--uc-foreground-color) l c h / 0.5);
   font-size: 0.9rem;
 }
 
@@ -267,17 +267,17 @@
   z-index: 1;
   padding: 0.5rem;
   background-color: var(--uc-input-background-color);
-  border-bottom: 1px solid oklch(from var(--foreground-color) l c h / 0.12);
+  border-bottom: 1px solid oklch(from var(--uc-foreground-color) l c h / 0.12);
 }
 
 .uc-select-status-row {
   padding: 0.75rem 1rem;
-  color: oklch(from var(--foreground-color) l c h / 0.7);
+  color: oklch(from var(--uc-foreground-color) l c h / 0.7);
   font-size: 0.85rem;
 }
 
 .uc-select-status-row-error {
-  color: var(--error-color);
+  color: var(--uc-error-color);
 }
 
 .uc-select-load-controls,
@@ -287,7 +287,7 @@
   justify-content: center;
   gap: 0.6rem;
   padding: 0.6rem 0.75rem 0.75rem;
-  border-top: 1px solid oklch(from var(--foreground-color) l c h / 0.12);
+  border-top: 1px solid oklch(from var(--uc-foreground-color) l c h / 0.12);
 }
 
 .uc-select-pager {
@@ -303,7 +303,7 @@
 
 .uc-select-error-message {
   font-size: 0.8rem;
-  color: var(--error-color);
+  color: var(--uc-error-color);
   display: block;
 }
 
@@ -335,7 +335,7 @@
   border-radius: 1rem;
   overflow: hidden;
   background-color: var(--uc-input-background-color);
-  color: var(--foreground-color);
+  color: var(--uc-foreground-color);
   box-shadow: var(--uc-select-panel-shadow-resolved);
   outline: none;
 }
@@ -367,19 +367,19 @@
   justify-content: space-between;
   gap: 0.75rem;
   padding: 0.9rem 1rem 0.65rem;
-  border-bottom: 1px solid oklch(from var(--foreground-color) l c h / 0.12);
+  border-bottom: 1px solid oklch(from var(--uc-foreground-color) l c h / 0.12);
 }
 
 .uc-select-mobile-dialog__title {
   margin: 0;
   font-size: 1rem;
-  color: var(--foreground-color);
+  color: var(--uc-foreground-color);
 }
 
 .uc-select-mobile-dialog__close {
   border: 0;
   background: transparent;
-  color: var(--foreground-color);
+  color: var(--uc-foreground-color);
   font-size: 1rem;
   cursor: pointer;
   display: inline-flex;
@@ -391,11 +391,11 @@
   border-radius: 50%;
 
   &:hover {
-    background-color: oklch(from var(--foreground-color) l c h / 0.08);
+    background-color: oklch(from var(--uc-foreground-color) l c h / 0.08);
   }
 
   &:focus-visible {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid var(--uc-primary-color);
     outline-offset: 2px;
   }
 }

@@ -1,6 +1,6 @@
 :host {
   --uc-side-navigation-sidebar-width-resolved: var(--uc-side-navigation-sidebar-width, 15rem);
-  --uc-side-navigation-sidebar-background-resolved: var(--uc-side-navigation-sidebar-background, var(--sidebar-background-color));
+  --uc-side-navigation-sidebar-background-resolved: var(--uc-side-navigation-sidebar-background, var(--uc-sidebar-background-color));
   --uc-side-navigation-sidebar-border-radius-resolved: var(--uc-side-navigation-sidebar-border-radius, 1rem);
   --uc-side-navigation-backdrop-background-resolved: var(--uc-side-navigation-backdrop-background, rgba(0, 0, 0, 0.8));
   --uc-side-navigation-animation-duration-resolved: var(--uc-side-navigation-animation-duration, 0.3s);
@@ -8,7 +8,7 @@
 
 /* Side Mode */
 .uc-wrapper-side {
-  --sidebar-width: var(--uc-side-navigation-sidebar-width-resolved);
+  --uc-sidebar-width: var(--uc-side-navigation-sidebar-width-resolved);
 
   display: grid;
   grid-template-columns: 0rem 1fr;
@@ -24,18 +24,18 @@
 }
 
 .uc-wrapper-side:has(.uc-sidebar-opened) {
-  grid-template-columns: var(--sidebar-width) 1fr;
+  grid-template-columns: var(--uc-sidebar-width) 1fr;
 }
 
 .uc-sidebar-opened {
   transform: translateX(0%);
   transition: transform 0.3s ease allow-discrete;
   overflow: hidden;
-  width: var(--sidebar-width);
+  width: var(--uc-sidebar-width);
 }
 
 .uc-sidebar-closed {
-  width: var(--sidebar-width);
+  width: var(--uc-sidebar-width);
   transform: translateX(-100%);
   transition: transform 0.3s ease allow-discrete;
   overflow: hidden;
@@ -55,7 +55,7 @@
   position: relative;
 }
 .uc-sidebar-over {
-  --sidebar-animation-duration: var(--uc-side-navigation-animation-duration-resolved);
+  --uc-sidebar-animation-duration: var(--uc-side-navigation-animation-duration-resolved);
 
   position-anchor: --side-navigation-anchor;
   position: absolute;
@@ -75,10 +75,10 @@
 
   &.animations-enabled {
     transition:
-      transform var(--sidebar-animation-duration) ease-in-out,
-      opacity var(--sidebar-animation-duration) ease-in-out,
-      display var(--sidebar-animation-duration) allow-discrete,
-      overlay var(--sidebar-animation-duration) allow-discrete;
+      transform var(--uc-sidebar-animation-duration) ease-in-out,
+      opacity var(--uc-sidebar-animation-duration) ease-in-out,
+      display var(--uc-sidebar-animation-duration) allow-discrete,
+      overlay var(--uc-sidebar-animation-duration) allow-discrete;
   }
 
   &:popover-open {
@@ -108,9 +108,9 @@
 
   &.animations-enabled::backdrop {
     transition: 
-      opacity var(--sidebar-animation-duration) ease-in-out,
-      display var(--sidebar-animation-duration) allow-discrete,
-      overlay var(--sidebar-animation-duration) allow-discrete;
+      opacity var(--uc-sidebar-animation-duration) ease-in-out,
+      display var(--uc-sidebar-animation-duration) allow-discrete,
+      overlay var(--uc-sidebar-animation-duration) allow-discrete;
   }
 }
 

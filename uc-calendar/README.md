@@ -208,23 +208,23 @@ on the calendar or any ancestor to re-theme it:
 .my-calendar-wrapper {
   --uc-dtp-weekday-color: #888;
   --uc-dtp-value-color: #111;
-  --uc-dtp-day-hover-bg: oklch(from var(--primary-color) l c h / 0.1);
-  --uc-dtp-day-today-color: var(--primary-color);
-  --uc-dtp-day-today-border: var(--primary-color);
+  --uc-dtp-day-hover-bg: oklch(from var(--uc-primary-color) l c h / 0.1);
+  --uc-dtp-day-today-color: var(--uc-primary-color);
+  --uc-dtp-day-today-border: var(--uc-primary-color);
   --uc-dtp-day-state-padding: 0.1rem;
-  --uc-dtp-day-selected-bg: var(--primary-color);
+  --uc-dtp-day-selected-bg: var(--uc-primary-color);
   --uc-dtp-day-selected-color: #fff;
   --uc-dtp-day-selected-inset: 3px;
   --uc-dtp-day-other-month-color: #bbb;
-  --uc-dtp-trigger-focus-color: var(--primary-color);
+  --uc-dtp-trigger-focus-color: var(--uc-primary-color);
   /* range */
-  --uc-dtp-range-bg: oklch(from var(--primary-color) l c h / 0.15);
+  --uc-dtp-range-bg: oklch(from var(--uc-primary-color) l c h / 0.15);
   --uc-dtp-range-row-gap: 2px;
   --uc-dtp-range-endcap-inset: 5%;
   /* range preview */
-  --uc-dtp-range-preview-bg: oklch(from var(--primary-color) l c h / 0.08);
-  --uc-dtp-range-preview-circle-bg: oklch(from var(--primary-color) l c h / 0.25);
-  --uc-dtp-range-preview-outline-color: oklch(from var(--primary-color) l c h / 0.5);
+  --uc-dtp-range-preview-bg: oklch(from var(--uc-primary-color) l c h / 0.08);
+  --uc-dtp-range-preview-circle-bg: oklch(from var(--uc-primary-color) l c h / 0.25);
+  --uc-dtp-range-preview-outline-color: oklch(from var(--uc-primary-color) l c h / 0.5);
   --uc-dtp-range-preview-row-gap: 2px;
   --uc-dtp-range-preview-endcap-inset: 5%;
 }

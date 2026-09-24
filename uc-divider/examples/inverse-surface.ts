@@ -10,7 +10,7 @@ import { UcDivider } from '../uc-divider';
     :host {
       display: block;
       padding: 1rem;
-      background-color: var(--inverse-background-color);
+      background-color: var(--uc-inverse-background-color);
     }
   `,
   template: `<uc-divider variant="inverse" text="or" />`,

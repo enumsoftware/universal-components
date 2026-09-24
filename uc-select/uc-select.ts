@@ -214,8 +214,8 @@ const PANEL_INHERITED_PROPERTIES = [
   '--uc-input-background-color',
   '--uc-input-border-color',
   '--uc-input-border-radius',
-  '--foreground-color',
-  '--primary-color',
+  '--uc-foreground-color',
+  '--uc-primary-color',
 ] as const;
 
 @Component({

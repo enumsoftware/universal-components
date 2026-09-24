@@ -9,12 +9,12 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 0.75rem 0.5rem;
-  border-bottom: 1px solid oklch(from var(--foreground-color) l c h / 0.15);
+  border-bottom: 1px solid oklch(from var(--uc-foreground-color) l c h / 0.15);
 }
 
 .wb-sidebar-header strong {
   font-size: 0.875rem;
-  color: var(--font-color);
+  color: var(--uc-font-color);
 }
 
 .wb-nav {
@@ -26,12 +26,12 @@
 
 .wb-sidebar-footer {
   padding: 0.5rem 0.75rem 0.75rem;
-  border-top: 1px solid oklch(from var(--foreground-color) l c h / 0.15);
+  border-top: 1px solid oklch(from var(--uc-foreground-color) l c h / 0.15);
 }
 
 .wb-main {
   padding: 1.5rem;
-  color: var(--font-color);
+  color: var(--uc-font-color);
 }
 
 .wb-main h2 {
@@ -48,10 +48,10 @@
   margin-top: 1rem;
   max-height: 11rem;
   overflow-y: auto;
-  border: 1px solid oklch(from var(--foreground-color) l c h / 0.2);
+  border: 1px solid oklch(from var(--uc-foreground-color) l c h / 0.2);
   border-radius: 0.5rem;
   padding: 0.75rem;
-  background: oklch(from var(--background-color) calc(l * 0.96) c h);
+  background: oklch(from var(--uc-background-color) calc(l * 0.96) c h);
 }
 
 .wb-scroll-demo p {

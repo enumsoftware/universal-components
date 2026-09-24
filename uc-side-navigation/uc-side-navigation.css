@@ -1,6 +1,6 @@
 :host {
   --uc-side-navigation-sidebar-width-resolved: var(--uc-side-navigation-sidebar-width, 15rem);
-  --uc-side-navigation-sidebar-background-resolved: var(--uc-side-navigation-sidebar-background, var(--sidebar-background-color));
+  --uc-side-navigation-sidebar-background-resolved: var(--uc-side-navigation-sidebar-background, var(--uc-sidebar-background-color));
   --uc-side-navigation-sidebar-border-radius-resolved: var(--uc-side-navigation-sidebar-border-radius, 1rem);
   --uc-side-navigation-backdrop-background-resolved: var(--uc-side-navigation-backdrop-background, rgba(0, 0, 0, 0.8));
   --uc-side-navigation-animation-duration-resolved: var(--uc-side-navigation-animation-duration, 0.3s);
@@ -8,12 +8,12 @@
   inline-size: 100%;
   block-size: 100%;
   min-block-size: 0;
-  background-color: var(--background-color);
+  background-color: var(--uc-background-color);
 }
 
 /* Side Mode */
 .uc-wrapper-side {
-  --sidebar-width: var(--uc-side-navigation-sidebar-width-resolved);
+  --uc-sidebar-width: var(--uc-side-navigation-sidebar-width-resolved);
 
   display: grid;
   grid-template-columns: 0rem 1fr;
@@ -35,7 +35,7 @@
 }
 
 .uc-wrapper-side:has(.uc-sidebar-opened) {
-  grid-template-columns: var(--sidebar-width) 1fr;
+  grid-template-columns: var(--uc-sidebar-width) 1fr;
 }
 
 .uc-sidebar-side.uc-sidebar-opened {
@@ -45,11 +45,11 @@
   pointer-events: auto;
   transition: transform 0.3s ease allow-discrete;
   overflow-x: hidden;
-  width: var(--sidebar-width);
+  width: var(--uc-sidebar-width);
 }
 
 .uc-sidebar-side.uc-sidebar-closed {
-  width: var(--sidebar-width);
+  width: var(--uc-sidebar-width);
   transform: translateX(-100%);
   opacity: 0;
   visibility: hidden;
@@ -84,10 +84,10 @@
 }
 
 .uc-sidebar-over {
-  --sidebar-animation-duration: var(--uc-side-navigation-animation-duration, 0.3s);
+  --uc-sidebar-animation-duration: var(--uc-side-navigation-animation-duration, 0.3s);
 
   position: absolute;
-  background-color: var(--uc-side-navigation-sidebar-background, var(--sidebar-background-color));
+  background-color: var(--uc-side-navigation-sidebar-background, var(--uc-sidebar-background-color));
   inline-size: fit-content;
   min-inline-size: 250px;
   max-inline-size: 100%;
@@ -104,8 +104,8 @@
   z-index: 3;
   transform: translateX(-100%);
   transition:
-    transform var(--sidebar-animation-duration) ease-in-out,
-    opacity var(--sidebar-animation-duration) ease-in-out;
+    transform var(--uc-sidebar-animation-duration) ease-in-out,
+    opacity var(--uc-sidebar-animation-duration) ease-in-out;
 
   &.uc-sidebar-opened {
     opacity: 1;

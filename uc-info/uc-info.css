@@ -1,17 +1,17 @@
 :host {
-  --uc-info-color-resolved: var(--uc-info-color, var(--primary-color));
-  --uc-info-background-resolved: var(--uc-info-background, oklch(from var(--primary-color) l c h / 0.1));
-  --uc-info-border-resolved: var(--uc-info-border, oklch(from var(--primary-color) l c h / 0.3));
-  --uc-info-error-color-resolved: var(--uc-info-error-color, var(--error-color));
-  --uc-info-error-background-resolved: var(--uc-info-error-background, oklch(from var(--error-color) l c h / 0.1));
-  --uc-info-error-border-resolved: var(--uc-info-error-border, oklch(from var(--error-color) l c h / 0.3));
-  --uc-info-warning-color-resolved: var(--uc-info-warning-color, var(--warning-color));
+  --uc-info-color-resolved: var(--uc-info-color, var(--uc-primary-color));
+  --uc-info-background-resolved: var(--uc-info-background, oklch(from var(--uc-primary-color) l c h / 0.1));
+  --uc-info-border-resolved: var(--uc-info-border, oklch(from var(--uc-primary-color) l c h / 0.3));
+  --uc-info-error-color-resolved: var(--uc-info-error-color, var(--uc-error-color));
+  --uc-info-error-background-resolved: var(--uc-info-error-background, oklch(from var(--uc-error-color) l c h / 0.1));
+  --uc-info-error-border-resolved: var(--uc-info-error-border, oklch(from var(--uc-error-color) l c h / 0.3));
+  --uc-info-warning-color-resolved: var(--uc-info-warning-color, var(--uc-warning-color));
   --uc-info-warning-emphasis-color-resolved: var(
     --uc-info-warning-emphasis-color,
-    oklch(from var(--warning-color) calc(l * 0.58) c h)
+    oklch(from var(--uc-warning-color) calc(l * 0.58) c h)
   );
-  --uc-info-warning-background-resolved: var(--uc-info-warning-background, var(--warning-bg));
-  --uc-info-warning-border-resolved: var(--uc-info-warning-border, var(--warning-border));
+  --uc-info-warning-background-resolved: var(--uc-info-warning-background, var(--uc-warning-bg));
+  --uc-info-warning-border-resolved: var(--uc-info-warning-border, var(--uc-warning-border));
   display: block;
 }
 
@@ -63,7 +63,7 @@
     color: var(--uc-info-color-resolved);
 
     .uc-info__body {
-      color: var(--foreground-color);
+      color: var(--uc-foreground-color);
       
       code {
         background-color: oklch(from var(--uc-info-color-resolved) l c h / 0.15);
@@ -78,7 +78,7 @@
     color: var(--uc-info-warning-emphasis-color-resolved);
 
     .uc-info__body {
-      color: var(--foreground-color);
+      color: var(--uc-foreground-color);
       
       code {
         background-color: oklch(from var(--uc-info-warning-color-resolved) l c h / 0.15);
@@ -93,7 +93,7 @@
     color: var(--uc-info-error-color-resolved);
 
     .uc-info__body {
-      color: var(--foreground-color);
+      color: var(--uc-foreground-color);
       
       code {
         background-color: oklch(from var(--uc-info-error-color-resolved) l c h / 0.15);

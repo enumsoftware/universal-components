@@ -1,18 +1,18 @@
 :host {
-  --uc-tabs-border-color-resolved: var(--uc-tabs-border-color, var(--background-color-90));
-  --uc-tabs-tab-color-resolved: var(--uc-tabs-tab-color, var(--paragraph-text-color));
-  --uc-tabs-tab-hover-color-resolved: var(--uc-tabs-tab-hover-color, var(--foreground-color));
-  --uc-tabs-tab-active-color-resolved: var(--uc-tabs-tab-active-color, var(--primary-color));
-  --uc-tabs-tab-active-border-color-resolved: var(--uc-tabs-tab-active-border-color, var(--primary-color));
+  --uc-tabs-border-color-resolved: var(--uc-tabs-border-color, var(--uc-background-color-90));
+  --uc-tabs-tab-color-resolved: var(--uc-tabs-tab-color, var(--uc-paragraph-text-color));
+  --uc-tabs-tab-hover-color-resolved: var(--uc-tabs-tab-hover-color, var(--uc-foreground-color));
+  --uc-tabs-tab-active-color-resolved: var(--uc-tabs-tab-active-color, var(--uc-primary-color));
+  --uc-tabs-tab-active-border-color-resolved: var(--uc-tabs-tab-active-border-color, var(--uc-primary-color));
   --uc-tabs-margin-bottom-resolved: var(--uc-tabs-margin-bottom, 1.5rem);
   --uc-tabs-pills-gap-resolved: var(--uc-tabs-pills-gap, 0.5rem);
   --uc-tabs-pills-border-radius-resolved: var(--uc-tabs-pills-border-radius, 100px);
   --uc-tabs-pills-hover-background-resolved: var(
     --uc-tabs-pills-hover-background,
-    oklch(from var(--background-color-90) l c h / 0.5)
+    oklch(from var(--uc-background-color-90) l c h / 0.5)
   );
-  --uc-tabs-pills-active-background-resolved: var(--uc-tabs-pills-active-background, var(--primary-color));
-  --uc-tabs-pills-active-color-resolved: var(--uc-tabs-pills-active-color, var(--inverse-foreground-color));
+  --uc-tabs-pills-active-background-resolved: var(--uc-tabs-pills-active-background, var(--uc-primary-color));
+  --uc-tabs-pills-active-color-resolved: var(--uc-tabs-pills-active-color, var(--uc-inverse-foreground-color));
   --uc-tabs-tab-disabled-opacity-resolved: var(--uc-tabs-tab-disabled-opacity, 0.45);
   --uc-tabs-arrow-width-resolved: var(--uc-tabs-arrow-width, 2.25rem);
 

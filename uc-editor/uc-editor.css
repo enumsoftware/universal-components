@@ -1,13 +1,13 @@
 :host {
-  --uc-editor-background-resolved: var(--uc-editor-background, var(--background-color));
-  --uc-editor-color-resolved: var(--uc-editor-color, var(--foreground-color));
+  --uc-editor-background-resolved: var(--uc-editor-background, var(--uc-background-color));
+  --uc-editor-color-resolved: var(--uc-editor-color, var(--uc-foreground-color));
   --uc-editor-border-color-resolved: var(--uc-editor-border-color, var(--uc-input-border-color));
   --uc-editor-border-radius-resolved: var(--uc-editor-border-radius, 0.75rem);
-  --uc-editor-focus-color-resolved: var(--uc-editor-focus-color, var(--primary-color));
-  --uc-editor-label-color-resolved: var(--uc-editor-label-color, var(--foreground-color));
+  --uc-editor-focus-color-resolved: var(--uc-editor-focus-color, var(--uc-primary-color));
+  --uc-editor-label-color-resolved: var(--uc-editor-label-color, var(--uc-foreground-color));
   --uc-editor-toolbar-background-resolved: var(
     --uc-editor-toolbar-background,
-    oklch(from var(--foreground-color) l c h / 0.04)
+    oklch(from var(--uc-foreground-color) l c h / 0.04)
   );
   --uc-editor-toolbar-border-color-resolved: var(
     --uc-editor-toolbar-border-color,
@@ -23,17 +23,17 @@
   --uc-editor-line-height-resolved: var(--uc-editor-line-height, 1.6);
   --uc-editor-placeholder-color-resolved: var(
     --uc-editor-placeholder-color,
-    var(--paragraph-text-color)
+    var(--uc-paragraph-text-color)
   );
   --uc-editor-panel-background-resolved: var(
     --uc-editor-panel-background,
-    oklch(from var(--primary-color) l c h / 0.06)
+    oklch(from var(--uc-primary-color) l c h / 0.06)
   );
   --uc-editor-source-background-resolved: var(
     --uc-editor-source-background,
-    oklch(from var(--foreground-color) l c h / 0.04)
+    oklch(from var(--uc-foreground-color) l c h / 0.04)
   );
-  --uc-editor-source-color-resolved: var(--uc-editor-source-color, var(--foreground-color));
+  --uc-editor-source-color-resolved: var(--uc-editor-source-color, var(--uc-foreground-color));
   --uc-editor-source-font-family-resolved: var(
     --uc-editor-source-font-family,
     ui-monospace,
@@ -47,8 +47,8 @@
     var(--uc-editor-toolbar-border-color-resolved)
   );
   --uc-editor-status-background-resolved: var(--uc-editor-status-background, transparent);
-  --uc-editor-status-color-resolved: var(--uc-editor-status-color, var(--paragraph-text-color));
-  --uc-editor-error-color-resolved: var(--uc-editor-error-color, var(--error-color));
+  --uc-editor-status-color-resolved: var(--uc-editor-status-color, var(--uc-paragraph-text-color));
+  --uc-editor-error-color-resolved: var(--uc-editor-error-color, var(--uc-error-color));
   --uc-editor-disabled-opacity-resolved: var(--uc-editor-disabled-opacity, 0.6);
   display: block;
   font-family: var(--uc-editor-font-family-resolved);

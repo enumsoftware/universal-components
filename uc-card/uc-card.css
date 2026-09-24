@@ -1,8 +1,8 @@
 :host {
-  --uc-card-background-resolved: var(--uc-card-background, var(--card-background-color));
-  --uc-card-border-radius-resolved: var(--uc-card-border-radius, var(--card-border-radius));
-  --uc-card-box-shadow-resolved: var(--uc-card-box-shadow, var(--card-box-shadow));
-  --uc-card-padding-resolved: var(--uc-card-padding, var(--card-padding));
+  --uc-card-background-resolved: var(--uc-card-background, var(--uc-card-background-color));
+  --uc-card-border-radius-resolved: var(--uc-card-border-radius, var(--uc-card-border-radius));
+  --uc-card-box-shadow-resolved: var(--uc-card-box-shadow, var(--uc-card-box-shadow));
+  --uc-card-padding-resolved: var(--uc-card-padding, var(--uc-card-padding));
   /* The card owns its padding, so a caller-supplied width such as uc-w-full has
      to measure the padded box - a content-box 100% would overflow the container
      by twice the padding. */

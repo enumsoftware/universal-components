@@ -20,7 +20,7 @@
   font-size: 0.8125rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--paragraph-text-color);
+  color: var(--uc-paragraph-text-color);
 }
 
 .wb-a11y-subhead {
@@ -28,18 +28,18 @@
   font-size: 0.8125rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--paragraph-text-color);
+  color: var(--uc-paragraph-text-color);
 }
 
 .wb-a11y-summary,
 .wb-a11y-failed {
   margin: 0;
   font-size: 0.875rem;
-  color: var(--paragraph-text-color);
+  color: var(--uc-paragraph-text-color);
 }
 
 .wb-a11y-failed {
-  color: var(--error-color, var(--font-color));
+  color: var(--uc-error-color, var(--uc-font-color));
 }
 
 .wb-a11y-issue {
@@ -79,7 +79,7 @@
 
 .wb-a11y-target {
   font-size: 0.75rem;
-  color: var(--paragraph-text-color);
+  color: var(--uc-paragraph-text-color);
 }
 
 .wb-a11y-nodes pre {
@@ -87,7 +87,7 @@
   padding: 0.5rem 0.65rem;
   font-size: 0.75rem;
   line-height: 1.5;
-  border-radius: var(--card-border-radius);
+  border-radius: var(--uc-card-border-radius);
   background-color: var(--uc-content-code-background, rgb(0 0 0 / 6%));
   /* Snippets are one long line of markup - scroll them rather than reflowing the card. */
   overflow-x: auto;
@@ -97,5 +97,5 @@
 .wb-empty {
   margin: 0;
   font-size: 0.875rem;
-  color: var(--paragraph-text-color);
+  color: var(--uc-paragraph-text-color);
 }

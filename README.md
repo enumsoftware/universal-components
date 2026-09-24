@@ -127,7 +127,7 @@ Use `data-theme="light"`, `data-theme="dark"`, `data-theme="aurora"`, or `data-t
 
 Standard override model:
 
-1. Semantic theme tokens (`--primary-color`, `--foreground-color`, `--card-background-color`, etc.)
+1. Semantic theme tokens (`--uc-primary-color`, `--uc-foreground-color`, `--uc-card-background-color`, etc.)
 2. Standardized component tokens (`--uc-token-*`), for example `--uc-token-uc-button-background`
 3. Per-component variables (`--uc-button-background`, etc.) still work and are resolved inside component host styles
 

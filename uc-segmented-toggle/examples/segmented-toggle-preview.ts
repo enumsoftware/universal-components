@@ -10,7 +10,7 @@ import { UcSegmentedToggle } from '../uc-segmented-toggle';
   styles: `
     p {
       margin-top: 1rem;
-      color: var(--paragraph-text-color);
+      color: var(--uc-paragraph-text-color);
     }
   `,
   template: `

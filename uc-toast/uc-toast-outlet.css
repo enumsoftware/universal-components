@@ -1,12 +1,12 @@
 :host {
-  --uc-toast-background-resolved: var(--uc-toast-background, var(--card-background-color));
-  --uc-toast-color-resolved: var(--uc-toast-color, var(--foreground-color));
-  --uc-toast-shadow-resolved: var(--uc-toast-shadow, var(--card-box-shadow));
+  --uc-toast-background-resolved: var(--uc-toast-background, var(--uc-card-background-color));
+  --uc-toast-color-resolved: var(--uc-toast-color, var(--uc-foreground-color));
+  --uc-toast-shadow-resolved: var(--uc-toast-shadow, var(--uc-card-box-shadow));
   --uc-toast-radius-resolved: var(--uc-toast-radius, 0.75rem);
-  --uc-toast-success-resolved: var(--uc-toast-success-color, var(--success-color));
-  --uc-toast-info-resolved: var(--uc-toast-info-color, var(--primary-color));
-  --uc-toast-warning-resolved: var(--uc-toast-warning-color, var(--warning-color));
-  --uc-toast-error-resolved: var(--uc-toast-error-color, var(--error-color));
+  --uc-toast-success-resolved: var(--uc-toast-success-color, var(--uc-success-color));
+  --uc-toast-info-resolved: var(--uc-toast-info-color, var(--uc-primary-color));
+  --uc-toast-warning-resolved: var(--uc-toast-warning-color, var(--uc-warning-color));
+  --uc-toast-error-resolved: var(--uc-toast-error-color, var(--uc-error-color));
 }
 
 .uc-toast-outlet {

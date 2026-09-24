@@ -16,7 +16,7 @@ import type { UcEditorView } from '../uc-editor';
     pre {
       margin-top: 1rem;
       white-space: pre-wrap;
-      color: var(--paragraph-text-color);
+      color: var(--uc-paragraph-text-color);
     }
   `,
   template: `

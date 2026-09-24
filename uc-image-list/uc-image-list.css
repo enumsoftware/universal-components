@@ -2,9 +2,9 @@
   --uc-image-list-size-resolved: var(--uc-image-list-size, 8rem);
   --uc-image-list-gap-resolved: var(--uc-image-list-gap, 0.75rem);
   --uc-image-list-radius-resolved: var(--uc-image-list-radius, 0.5rem);
-  --uc-image-list-border-resolved: var(--uc-image-list-border-color, var(--paragraph-text-color));
-  --uc-image-list-accent-resolved: var(--uc-image-list-accent-color, var(--primary-color));
-  --uc-image-list-error-resolved: var(--uc-image-list-error-color, var(--error-color));
+  --uc-image-list-border-resolved: var(--uc-image-list-border-color, var(--uc-paragraph-text-color));
+  --uc-image-list-accent-resolved: var(--uc-image-list-accent-color, var(--uc-primary-color));
+  --uc-image-list-error-resolved: var(--uc-image-list-error-color, var(--uc-error-color));
   --uc-image-list-overlay-resolved: var(--uc-image-list-overlay, rgb(0 0 0 / 55%));
   --uc-image-list-overlay-color-resolved: var(--uc-image-list-overlay-color, #fff);
 

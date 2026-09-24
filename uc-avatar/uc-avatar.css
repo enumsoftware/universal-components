@@ -1,6 +1,6 @@
 :host {
-  --uc-avatar-background-resolved: var(--uc-avatar-background, var(--primary-color));
-  --uc-avatar-color-resolved: var(--uc-avatar-color, var(--primary-contrast-color));
+  --uc-avatar-background-resolved: var(--uc-avatar-background, var(--uc-primary-color));
+  --uc-avatar-color-resolved: var(--uc-avatar-color, var(--uc-primary-contrast-color));
   --uc-avatar-size-resolved: var(--uc-avatar-size, 2.75rem);
   display: inline-flex;
   flex: 0 0 auto;

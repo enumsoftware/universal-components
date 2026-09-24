@@ -8,11 +8,11 @@
   );
   --uc-pagination-page-button-primary-background-resolved: var(
     --uc-pagination-page-button-primary-background,
-    var(--primary-color)
+    var(--uc-primary-color)
   );
   --uc-pagination-page-button-primary-color-resolved: var(
     --uc-pagination-page-button-primary-color,
-    var(--inverse-foreground-color)
+    var(--uc-inverse-foreground-color)
   );
   --uc-pagination-page-button-primary-hover-background-resolved: var(
     --uc-pagination-page-button-primary-hover-background,
@@ -24,19 +24,19 @@
   );
   --uc-pagination-page-button-secondary-color-resolved: var(
     --uc-pagination-page-button-secondary-color,
-    var(--font-color)
+    var(--uc-font-color)
   );
   --uc-pagination-page-button-secondary-border-color-resolved: var(
     --uc-pagination-page-button-secondary-border-color,
-    oklch(from var(--foreground-color) l c h / 0.3)
+    oklch(from var(--uc-foreground-color) l c h / 0.3)
   );
   --uc-pagination-page-button-secondary-hover-background-resolved: var(
     --uc-pagination-page-button-secondary-hover-background,
-    oklch(from var(--primary-color) l c h / 0.2)
+    oklch(from var(--uc-primary-color) l c h / 0.2)
   );
   --uc-pagination-page-button-secondary-hover-color-resolved: var(
     --uc-pagination-page-button-secondary-hover-color,
-    var(--font-color)
+    var(--uc-font-color)
   );
   --uc-pagination-page-button-small-size-resolved: var(--uc-pagination-page-button-small-size, 2rem);
   --uc-pagination-page-button-small-icon-size-resolved: var(

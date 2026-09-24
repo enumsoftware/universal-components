@@ -80,8 +80,8 @@ since every knob edit would otherwise echo back into the log.
 The chrome is assembled out of the components it documents - `uc-input`,
 `uc-select`, `uc-checkbox`, `uc-card`, `uc-tabs`, `uc-button`, `uc-icon-button`,
 `uc-pill`, `uc-divider`, `uc-tree` - and styled from library tokens
-(`--primary-color`, `--card-background-color`, `--sidebar-background-color`,
-`--paragraph-text-color`) rather than a private palette. The workbench is the
+(`--uc-primary-color`, `--uc-card-background-color`, `--uc-sidebar-background-color`,
+`--uc-paragraph-text-color`) rather than a private palette. The workbench is the
 library's largest consumer, so a regression shows up here before it reaches an
 app.
 

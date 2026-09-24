@@ -1,8 +1,8 @@
 :host {
-  --uc-code-editor-label-color-resolved: var(--uc-code-editor-label-color, var(--foreground-color));
+  --uc-code-editor-label-color-resolved: var(--uc-code-editor-label-color, var(--uc-foreground-color));
   --uc-code-editor-toolbar-background-resolved: var(
     --uc-code-editor-toolbar-background,
-    oklch(from var(--foreground-color) l c h / 0.04)
+    oklch(from var(--uc-foreground-color) l c h / 0.04)
   );
   --uc-code-editor-toolbar-border-color-resolved: var(
     --uc-code-editor-toolbar-border-color,
@@ -12,8 +12,8 @@
   --uc-code-editor-toolbar-padding-resolved: var(--uc-code-editor-toolbar-padding, 0.5rem);
   --uc-code-editor-border-color-resolved: var(--uc-code-editor-border-color, var(--uc-input-border-color));
   --uc-code-editor-border-radius-resolved: var(--uc-code-editor-border-radius, 0.75rem);
-  --uc-code-editor-status-color-resolved: var(--uc-code-editor-status-color, var(--paragraph-text-color));
-  --uc-code-editor-error-color-resolved: var(--uc-code-editor-error-color, var(--error-color));
+  --uc-code-editor-status-color-resolved: var(--uc-code-editor-status-color, var(--uc-paragraph-text-color));
+  --uc-code-editor-error-color-resolved: var(--uc-code-editor-error-color, var(--uc-error-color));
   --uc-code-editor-disabled-opacity-resolved: var(--uc-code-editor-disabled-opacity, 0.6);
   display: block;
 }
@@ -87,7 +87,7 @@
   text-align: center;
   font-size: 0.9rem;
   color: var(--uc-code-editor-status-color-resolved);
-  background: var(--background-color);
+  background: var(--uc-background-color);
   pointer-events: none;
 }
 

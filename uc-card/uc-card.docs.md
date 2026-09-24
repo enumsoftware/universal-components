@@ -70,5 +70,5 @@ to the theme token, so one card can be restyled without touching the theme:
 ```
 
 `--uc-card-background`, `--uc-card-border-radius`, `--uc-card-box-shadow` and
-`--uc-card-padding` override `--card-background-color`, `--card-border-radius`,
-`--card-box-shadow` and `--card-padding` respectively.
+`--uc-card-padding` override `--uc-card-background-color`, `--uc-card-border-radius`,
+`--uc-card-box-shadow` and `--uc-card-padding` respectively.

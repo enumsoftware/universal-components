@@ -27,9 +27,9 @@ Advanced markers (coloured pins) need a `mapId`; without one classic markers are
 |---|---|
 | `--uc-map-height` | `400px` |
 | `--uc-map-radius` | `0.75rem` |
-| `--uc-map-area-color` | `--primary-color` |
-| `--uc-map-exclusion-color` | `--error-color` |
-| `--uc-map-marker-color` | `--primary-color` |
+| `--uc-map-area-color` | `--uc-primary-color` |
+| `--uc-map-exclusion-color` | `--uc-error-color` |
+| `--uc-map-marker-color` | `--uc-primary-color` |
 
 Colours are read once when the map loads, because Google Maps needs concrete colour values.
 

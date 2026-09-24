@@ -19,13 +19,13 @@ const LINE_SERIES_FALLBACK_COLORS = [
 ];
 
 const BAR_HOVER_COLOR_FALLBACK = '#5b51f3';
-const AXIS_COLOR_FALLBACK = 'var(--foreground-color)';
-const MUTED_AXIS_COLOR_FALLBACK = 'var(--paragraph-text-color)';
+const AXIS_COLOR_FALLBACK = 'var(--uc-foreground-color)';
+const MUTED_AXIS_COLOR_FALLBACK = 'var(--uc-paragraph-text-color)';
 const AXIS_LINE_COLOR_FALLBACK = 'rgba(255, 255, 255, 0.28)';
 const MUTED_AXIS_LINE_COLOR_FALLBACK = 'rgba(255, 255, 255, 0.2)';
 const GRID_COLOR_FALLBACK = 'rgba(255, 255, 255, 0.14)';
-const LABEL_COLOR_FALLBACK = 'var(--foreground-color)';
-const MUTED_LABEL_COLOR_FALLBACK = 'var(--paragraph-text-color)';
+const LABEL_COLOR_FALLBACK = 'var(--uc-foreground-color)';
+const MUTED_LABEL_COLOR_FALLBACK = 'var(--uc-paragraph-text-color)';
 
 function getCssVariableExpression(variableName: string, fallbackValue: string): string {
   return `var(${variableName}, ${fallbackValue})`;

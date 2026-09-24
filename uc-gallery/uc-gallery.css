@@ -2,7 +2,7 @@
   --uc-gallery-gap-resolved: var(--uc-gallery-gap, 0.5rem);
   --uc-gallery-thumbnail-size-resolved: var(--uc-gallery-thumbnail-size, 7rem);
   --uc-gallery-radius-resolved: var(--uc-gallery-radius, 0.5rem);
-  --uc-gallery-focus-resolved: var(--uc-gallery-focus-color, var(--primary-color));
+  --uc-gallery-focus-resolved: var(--uc-gallery-focus-color, var(--uc-primary-color));
   --uc-gallery-backdrop-resolved: var(--uc-gallery-backdrop, rgb(0 0 0 / 85%));
   --uc-gallery-control-background-resolved: var(--uc-gallery-control-background, rgb(0 0 0 / 55%));
   --uc-gallery-control-color-resolved: var(--uc-gallery-control-color, #fff);

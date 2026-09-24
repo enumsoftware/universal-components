@@ -6,23 +6,23 @@
 :root {
   --uc-color-picker-label-color-resolved: var(
     --uc-color-picker-label-color,
-    oklch(from var(--foreground-color) l c h / 1)
+    oklch(from var(--uc-foreground-color) l c h / 1)
   );
   --uc-color-picker-trigger-hover-background-resolved: var(
     --uc-color-picker-trigger-hover-background,
-    oklch(from var(--foreground-color) l c h / 0.05)
+    oklch(from var(--uc-foreground-color) l c h / 0.05)
   );
   --uc-color-picker-trigger-focus-color-resolved: var(
     --uc-color-picker-trigger-focus-color,
-    var(--primary-color)
+    var(--uc-primary-color)
   );
   --uc-color-picker-trigger-error-color-resolved: var(
     --uc-color-picker-trigger-error-color,
-    var(--error-color)
+    var(--uc-error-color)
   );
   --uc-color-picker-dropdown-background-resolved: var(
     --uc-color-picker-dropdown-background,
-    var(--card-background-color)
+    var(--uc-card-background-color)
   );
   --uc-color-picker-dropdown-shadow-resolved: var(
     --uc-color-picker-dropdown-shadow,
@@ -30,41 +30,41 @@
   );
   --uc-color-picker-dropdown-border-resolved: var(
     --uc-color-picker-dropdown-border,
-    oklch(from var(--foreground-color) l c h / 0.1)
+    oklch(from var(--uc-foreground-color) l c h / 0.1)
   );
   --uc-color-picker-swatch-border-resolved: var(
     --uc-color-picker-swatch-border,
-    oklch(from var(--foreground-color) l c h / 0.15)
+    oklch(from var(--uc-foreground-color) l c h / 0.15)
   );
   --uc-color-picker-value-color-resolved: var(
     --uc-color-picker-value-color,
-    oklch(from var(--foreground-color) l c h / 0.8)
+    oklch(from var(--uc-foreground-color) l c h / 0.8)
   );
-  --uc-color-picker-error-color-resolved: var(--uc-color-picker-error-color, var(--error-color));
+  --uc-color-picker-error-color-resolved: var(--uc-color-picker-error-color, var(--uc-error-color));
   --uc-color-picker-disabled-opacity-resolved: var(--uc-color-picker-disabled-opacity, 0.5);
   --uc-color-picker-mode-btn-background-resolved: var(
     --uc-color-picker-mode-btn-background,
-    oklch(from var(--foreground-color) l c h / 0.06)
+    oklch(from var(--uc-foreground-color) l c h / 0.06)
   );
   --uc-color-picker-mode-btn-active-background-resolved: var(
     --uc-color-picker-mode-btn-active-background,
-    var(--primary-color)
+    var(--uc-primary-color)
   );
   --uc-color-picker-mode-btn-active-color-resolved: var(
     --uc-color-picker-mode-btn-active-color,
-    var(--primary-contrast-color)
+    var(--uc-primary-contrast-color)
   );
   --uc-color-picker-format-btn-color-resolved: var(
     --uc-color-picker-format-btn-color,
-    oklch(from var(--foreground-color) l c h / 0.6)
+    oklch(from var(--uc-foreground-color) l c h / 0.6)
   );
   --uc-color-picker-format-btn-active-color-resolved: var(
     --uc-color-picker-format-btn-active-color,
-    var(--primary-color)
+    var(--uc-primary-color)
   );
   --uc-color-picker-backdrop-resolved: var(
     --uc-color-picker-backdrop,
-    oklch(from var(--foreground-color) l c h / 0.45)
+    oklch(from var(--uc-foreground-color) l c h / 0.45)
   );
 }
 

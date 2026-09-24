@@ -1,7 +1,7 @@
 :host {
-  --uc-toggle-background-resolved: var(--uc-toggle-background, oklch(from var(--foreground-color) l c h / 0.3));
-  --uc-toggle-checked-background-resolved: var(--uc-toggle-checked-background, var(--secondary-color));
-  --uc-toggle-thumb-background-resolved: var(--uc-toggle-thumb-background, var(--background-color));
+  --uc-toggle-background-resolved: var(--uc-toggle-background, oklch(from var(--uc-foreground-color) l c h / 0.3));
+  --uc-toggle-checked-background-resolved: var(--uc-toggle-checked-background, var(--uc-secondary-color));
+  --uc-toggle-thumb-background-resolved: var(--uc-toggle-thumb-background, var(--uc-background-color));
   --uc-toggle-thumb-shadow-resolved: var(--uc-toggle-thumb-shadow, 0 2px 4px rgba(0, 0, 0, 0.15));
   --uc-toggle-width-resolved: var(--uc-toggle-width, 48px);
   --uc-toggle-height-resolved: var(--uc-toggle-height, 28px);

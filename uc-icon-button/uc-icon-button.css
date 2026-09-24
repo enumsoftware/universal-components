@@ -1,54 +1,54 @@
 :host {
-  --uc-icon-button-background-resolved: var(--uc-icon-button-background, var(--background-color));
-  --uc-icon-button-color-resolved: var(--uc-icon-button-color, var(--foreground-color));
+  --uc-icon-button-background-resolved: var(--uc-icon-button-background, var(--uc-background-color));
+  --uc-icon-button-color-resolved: var(--uc-icon-button-color, var(--uc-foreground-color));
   --uc-icon-button-hover-background-resolved: var(
     --uc-icon-button-hover-background,
-    var(--primary-color)
+    var(--uc-primary-color)
   );
   --uc-icon-button-hover-color-resolved: var(
     --uc-icon-button-hover-color,
-    var(--inverse-foreground-color)
+    var(--uc-inverse-foreground-color)
   );
   --uc-icon-button-primary-background-resolved: var(
     --uc-icon-button-primary-background,
-    var(--primary-color)
+    var(--uc-primary-color)
   );
   --uc-icon-button-primary-color-resolved: var(
     --uc-icon-button-primary-color,
-    var(--inverse-foreground-color)
+    var(--uc-inverse-foreground-color)
   );
   --uc-icon-button-primary-hover-background-resolved: var(
     --uc-icon-button-primary-hover-background,
-    oklch(from var(--primary-color) calc(l - 0.1) c h)
+    oklch(from var(--uc-primary-color) calc(l - 0.1) c h)
   );
   --uc-icon-button-inverse-background-resolved: var(
     --uc-icon-button-inverse-background,
-    var(--inverse-background-color)
+    var(--uc-inverse-background-color)
   );
   --uc-icon-button-inverse-color-resolved: var(
     --uc-icon-button-inverse-color,
-    var(--inverse-foreground-color)
+    var(--uc-inverse-foreground-color)
   );
   --uc-icon-button-secondary-border-color-resolved: var(
     --uc-icon-button-secondary-border-color,
-    oklch(from var(--foreground-color) l c h / 0.3)
+    oklch(from var(--uc-foreground-color) l c h / 0.3)
   );
   --uc-icon-button-error-background-resolved: var(
     --uc-icon-button-error-background,
-    oklch(from var(--error-color) l c h / 0.1)
+    oklch(from var(--uc-error-color) l c h / 0.1)
   );
-  --uc-icon-button-error-color-resolved: var(--uc-icon-button-error-color, var(--error-color));
+  --uc-icon-button-error-color-resolved: var(--uc-icon-button-error-color, var(--uc-error-color));
   --uc-icon-button-error-hover-background-resolved: var(
     --uc-icon-button-error-hover-background,
-    var(--error-color)
+    var(--uc-error-color)
   );
   --uc-icon-button-pressed-background-resolved: var(
     --uc-icon-button-pressed-background,
-    var(--primary-color)
+    var(--uc-primary-color)
   );
   --uc-icon-button-pressed-color-resolved: var(
     --uc-icon-button-pressed-color,
-    var(--inverse-foreground-color)
+    var(--uc-inverse-foreground-color)
   );
   --uc-icon-button-pressed-border-color-resolved: var(
     --uc-icon-button-pressed-border-color,

@@ -123,9 +123,9 @@ The component uses standard CSS variables. You can customize these in your globa
 
 ```css
 :root {
-  --foreground-color: #333;
-  --primary-color: #0066cc;
-  --error-color: #d32f2f;
+  --uc-foreground-color: #333;
+  --uc-primary-color: #0066cc;
+  --uc-error-color: #d32f2f;
 }
 ```
 

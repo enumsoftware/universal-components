@@ -1,10 +1,10 @@
 :host {
   --uc-map-height-resolved: var(--uc-map-height, 400px);
   --uc-map-radius-resolved: var(--uc-map-radius, 0.75rem);
-  --uc-map-area-color-resolved: var(--uc-map-area-color, var(--primary-color));
-  --uc-map-exclusion-color-resolved: var(--uc-map-exclusion-color, var(--error-color));
-  --uc-map-marker-color-resolved: var(--uc-map-marker-color, var(--primary-color));
-  --uc-map-placeholder-background-resolved: var(--uc-map-placeholder-background, var(--card-background-color));
+  --uc-map-area-color-resolved: var(--uc-map-area-color, var(--uc-primary-color));
+  --uc-map-exclusion-color-resolved: var(--uc-map-exclusion-color, var(--uc-error-color));
+  --uc-map-marker-color-resolved: var(--uc-map-marker-color, var(--uc-primary-color));
+  --uc-map-placeholder-background-resolved: var(--uc-map-placeholder-background, var(--uc-card-background-color));
 
   position: relative;
   display: flex;
@@ -33,7 +33,7 @@
   border: 1px solid var(--uc-map-area-color-resolved);
   border-radius: 0.375rem;
   background: var(--uc-map-area-color-resolved);
-  color: var(--primary-contrast-color);
+  color: var(--uc-primary-contrast-color);
   font: inherit;
   font-size: 0.85rem;
   cursor: pointer;
@@ -45,7 +45,7 @@
 
   &.uc-map__button--secondary {
     background: transparent;
-    color: var(--foreground-color);
+    color: var(--uc-foreground-color);
   }
 
   &.uc-map__button--danger {
@@ -66,5 +66,5 @@
   place-items: center;
   margin: 0;
   background: var(--uc-map-placeholder-background-resolved);
-  color: var(--foreground-color);
+  color: var(--uc-foreground-color);
 }

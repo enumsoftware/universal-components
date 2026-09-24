@@ -14,7 +14,7 @@
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--paragraph-text-color);
+  color: var(--uc-paragraph-text-color);
 }
 
 h1 {
@@ -43,7 +43,7 @@ h1 {
   font-size: 0.8125rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--paragraph-text-color);
+  color: var(--uc-paragraph-text-color);
 }
 
 .wb-actions {
@@ -66,12 +66,12 @@ h1 {
 
 .wb-actions code,
 .wb-payload {
-  font-family: var(--wb-mono);
+  font-family: var(--uc-wb-mono);
 }
 
 .wb-payload,
 .wb-actions time {
-  color: var(--paragraph-text-color);
+  color: var(--uc-paragraph-text-color);
 }
 
 .wb-example {
@@ -93,7 +93,7 @@ h1 {
 .wb-example-note {
   margin: 0 0 0.6rem;
   font-size: 0.875rem;
-  color: var(--paragraph-text-color);
+  color: var(--uc-paragraph-text-color);
 }
 
 .wb-example-code {
@@ -109,14 +109,14 @@ h1 {
 .wb-empty {
   margin: 0;
   font-size: 0.875rem;
-  color: var(--paragraph-text-color);
+  color: var(--uc-paragraph-text-color);
 }
 
 .wb-failure pre {
-  font-family: var(--wb-mono);
+  font-family: var(--uc-wb-mono);
   font-size: 0.8125rem;
   white-space: pre-wrap;
-  color: var(--error-color);
+  color: var(--uc-error-color);
 }
 
 /*

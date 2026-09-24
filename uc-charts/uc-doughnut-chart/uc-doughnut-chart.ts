@@ -133,7 +133,7 @@ export class UcDoughnutChart implements OnDestroy {
       .append('path')
       .attr('d', arc)
       .attr('fill', (d) => getDoughnutChartSeriesColor(d.data.colorIndex))
-      .attr('stroke', 'var(--background-color)')
+      .attr('stroke', 'var(--uc-background-color)')
       .attr('stroke-width', 2)
       .style('cursor', 'pointer')
       .style('transition', 'opacity 0.2s')

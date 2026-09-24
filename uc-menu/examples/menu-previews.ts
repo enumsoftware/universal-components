@@ -30,7 +30,7 @@ export class MenuBasicExample {}
       padding: 0.6rem 1rem;
       border-radius: 0.5rem;
       border: 1px solid var(--uc-content-hr-color);
-      background: var(--background-color);
+      background: var(--uc-background-color);
       color: inherit;
       font: inherit;
       cursor: pointer;

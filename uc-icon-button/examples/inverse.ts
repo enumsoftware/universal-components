@@ -10,7 +10,7 @@ import { UcIconButton } from '../uc-icon-button';
     :host {
       display: inline-block;
       padding: 1rem;
-      background-color: var(--inverse-background-color);
+      background-color: var(--uc-inverse-background-color);
     }
   `,
   template: `<uc-icon-button label="Edit item" phosphorIcon="pencil" [inverseColor]="true" />`,

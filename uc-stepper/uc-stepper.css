@@ -1,11 +1,11 @@
 :host {
-  --uc-stepper-active-color-resolved: var(--uc-stepper-active-color, var(--primary-color));
-  --uc-stepper-completed-color-resolved: var(--uc-stepper-completed-color, var(--success-color));
-  --uc-stepper-error-color-resolved: var(--uc-stepper-error-color, var(--error-color));
-  --uc-stepper-connector-color-resolved: var(--uc-stepper-connector-color, var(--background-color-90));
-  --uc-stepper-connector-active-color-resolved: var(--uc-stepper-connector-active-color, var(--primary-color));
-  --uc-stepper-label-color-resolved: var(--uc-stepper-label-color, var(--foreground-color));
-  --uc-stepper-label-muted-color-resolved: var(--uc-stepper-label-muted-color, var(--paragraph-text-color));
+  --uc-stepper-active-color-resolved: var(--uc-stepper-active-color, var(--uc-primary-color));
+  --uc-stepper-completed-color-resolved: var(--uc-stepper-completed-color, var(--uc-success-color));
+  --uc-stepper-error-color-resolved: var(--uc-stepper-error-color, var(--uc-error-color));
+  --uc-stepper-connector-color-resolved: var(--uc-stepper-connector-color, var(--uc-background-color-90));
+  --uc-stepper-connector-active-color-resolved: var(--uc-stepper-connector-active-color, var(--uc-primary-color));
+  --uc-stepper-label-color-resolved: var(--uc-stepper-label-color, var(--uc-foreground-color));
+  --uc-stepper-label-muted-color-resolved: var(--uc-stepper-label-muted-color, var(--uc-paragraph-text-color));
   --uc-stepper-indicator-size-resolved: var(--uc-stepper-indicator-size, 2rem);
   --uc-stepper-indicator-font-size-resolved: var(--uc-stepper-indicator-font-size, 0.875rem);
   --uc-stepper-connector-height-resolved: var(--uc-stepper-connector-height, 2px);
