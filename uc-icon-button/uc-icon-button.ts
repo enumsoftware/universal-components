@@ -15,6 +15,7 @@ export class UcIconButton {
   clicked = output<void>();
   disabled = input<boolean>(false);
   label = input<string>('');
+  /** Phosphor icon name. Leave it empty to project your own icon (an SVG, another icon font, a flag). */
   phosphorIcon = input<string>('');
   phosphorWeight = input<string>('bold');
   variant = input<IconButtonVariant>('primary');

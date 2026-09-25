@@ -1,5 +1,6 @@
 import { bool, defineShowcase, select, text } from '../workbench/core';
 import { ICON_BUTTON_VARIANT_OPTIONS } from './uc-icon-button';
+import { IconButtonCustomIconExample } from './examples/custom-icon';
 import { IconButtonInverseExample } from './examples/inverse';
 import { IconButtonToggleExample } from './examples/toggle';
 import { UcIconButton } from './uc-icon-button';
@@ -24,5 +25,10 @@ export default defineShowcase({
     { name: 'Disabled', props: { disabled: true } },
     { name: 'Toggle', component: IconButtonToggleExample },
     { name: 'Inverse', component: IconButtonInverseExample },
+    {
+      name: 'Custom Icon',
+      description: 'Leave phosphorIcon empty and project the icon, such as a flag or an SVG.',
+      component: IconButtonCustomIconExample,
+    },
   ],
 });

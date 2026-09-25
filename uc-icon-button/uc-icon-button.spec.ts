@@ -1,6 +1,29 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UcIconButton } from './uc-icon-button';
+
+@Component({
+  imports: [UcIconButton],
+  template: `
+    <uc-icon-button label="Custom"><svg class="custom-icon"></svg></uc-icon-button>
+    <uc-icon-button label="Phosphor" phosphorIcon="pencil"><svg class="custom-icon"></svg></uc-icon-button>
+  `,
+})
+class UcIconButtonProjectionHost {}
+
+describe('UcIconButton content projection', () => {
+  it('should render projected content as the icon when phosphorIcon is empty', () => {
+    const fixture = TestBed.createComponent(UcIconButtonProjectionHost);
+    fixture.detectChanges();
+
+    const [custom, phosphor] = fixture.nativeElement.querySelectorAll('button') as NodeListOf<HTMLButtonElement>;
+
+    expect(custom.querySelector('svg.custom-icon')).not.toBeNull();
+    expect(phosphor.querySelector('svg.custom-icon')).toBeNull();
+    expect(phosphor.querySelector('i.ph-pencil')).not.toBeNull();
+  });
+});
 
 describe('UcImageButton', () => {
   let component: UcIconButton;
