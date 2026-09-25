@@ -57,6 +57,7 @@ export { UcConfirmationDialog } from './uc-confirmation-dialog/uc-confirmation-d
 export { UcCalendar } from './uc-calendar/uc-calendar';
 export type { CalendarDay, CalendarMode } from './uc-calendar/uc-calendar';
 export { UcDateTimePicker } from './uc-date-time-picker/uc-date-time-picker';
+export { UcIsDevelopment } from './uc-is-development/uc-is-development';
 export { UcDivider } from './uc-divider/uc-divider';
 export { UcEditor } from './uc-editor/uc-editor';
 export {
