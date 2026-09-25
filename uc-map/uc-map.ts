@@ -13,6 +13,7 @@ import {
   signal,
   viewChildren,
 } from '@angular/core';
+import { UcButton } from '@enumsoftware/universal-components';
 import { GoogleMap, MapAdvancedMarker, MapMarker, MapMarkerClusterer, MapPolygon } from '@angular/google-maps';
 import { loadGoogleMaps, loadMarkerClusterer } from './uc-map-loader';
 import type {
@@ -53,7 +54,7 @@ function svgSource(svg: string): string {
  */
 @Component({
   selector: 'uc-map',
-  imports: [GoogleMap, MapAdvancedMarker, MapMarker, MapMarkerClusterer, MapPolygon],
+  imports: [GoogleMap, MapAdvancedMarker, MapMarker, MapMarkerClusterer, MapPolygon, UcButton],
   templateUrl: './uc-map.html',
   styleUrl: './uc-map.css',
   changeDetection: ChangeDetectionStrategy.Eager,

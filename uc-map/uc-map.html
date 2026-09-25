@@ -3,26 +3,24 @@
     @if (mode() === 'polygons') {
       <div class="uc-map__toolbar" role="toolbar">
         @if (draft()) {
-          <button type="button" class="uc-map__button" [disabled]="(draft()?.path?.length ?? 0) < 3" (click)="finishDraft()">
-            {{ finishLabel() }}
-          </button>
-          <button type="button" class="uc-map__button uc-map__button--secondary" (click)="cancelDraft()">
-            {{ cancelLabel() }}
-          </button>
+          <uc-button
+            [text]="finishLabel()"
+            size="small"
+            [disabled]="(draft()?.path?.length ?? 0) < 3"
+            (clicked)="finishDraft()"
+          />
+          <uc-button [text]="cancelLabel()" variant="secondary" size="small" (clicked)="cancelDraft()" />
           <span class="uc-map__hint">{{ drawingHint() }}</span>
         } @else {
-          <button type="button" class="uc-map__button" (click)="startDraft('area')">{{ newAreaLabel() }}</button>
-          <button type="button" class="uc-map__button uc-map__button--secondary" (click)="startDraft('exclusion')">
-            {{ newExclusionLabel() }}
-          </button>
-          <button
-            type="button"
-            class="uc-map__button uc-map__button--danger"
+          <uc-button [text]="newAreaLabel()" size="small" (clicked)="startDraft('area')" />
+          <uc-button [text]="newExclusionLabel()" variant="secondary" size="small" (clicked)="startDraft('exclusion')" />
+          <uc-button
+            [text]="deleteLabel()"
+            variant="error"
+            size="small"
             [disabled]="!selectedPolygonId()"
-            (click)="deleteSelected()"
-          >
-            {{ deleteLabel() }}
-          </button>
+            (clicked)="deleteSelected()"
+          />
         }
       </div>
     }
