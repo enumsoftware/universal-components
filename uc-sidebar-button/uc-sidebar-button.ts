@@ -1,4 +1,5 @@
-import { Component, input, model, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, input, model, output, ChangeDetectionStrategy } from '@angular/core';
+import { UC_DEFAULTS } from '../uc-defaults/uc-defaults';
 
 export const SIDEBAR_BUTTON_STYLE_OPTIONS = ['primary', 'secondary'] as const;
 export type SidebarButtonStyle = (typeof SIDEBAR_BUTTON_STYLE_OPTIONS)[number];
@@ -12,7 +13,7 @@ export type SidebarButtonStyle = (typeof SIDEBAR_BUTTON_STYLE_OPTIONS)[number];
 export class UcSidebarButton {
   text = model.required<string>();
   active = model.required<boolean>();
-  style = input<SidebarButtonStyle>('primary');
+  style = input<SidebarButtonStyle>(inject(UC_DEFAULTS).sidebarButton?.style ?? 'primary');
   clicked = output<void>();
 
   onClick(event: MouseEvent) {

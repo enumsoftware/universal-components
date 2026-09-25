@@ -111,6 +111,20 @@ file. If Playwright browser binaries are missing on your machine:
 npx playwright install chromium
 ```
 
+## Default Variants
+
+Set which variant each control uses when a template does not choose one, once for the whole app:
+
+```ts
+import { provideUcDefaults } from '@enumsoftware/universal-components';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideUcDefaults({ button: { variant: 'secondary' }, tabs: { variant: 'pills' } })],
+};
+```
+
+Controls that are not listed keep their built-in default, and a variant set on an element always wins. Covered controls: `badge`, `button`, `divider`, `iconButton`, `info`, `pill`, `segmentedToggle`, `sidebarButton` (its `style` input) and `tabs`. A lazy route can provide its own defaults, merged over the app's per control. The full table of options and built-in defaults is in the Workbench under **Foundations / Default Variants** (`uc-defaults/uc-defaults.docs.md`).
+
 ## Theming And Component Tokens
 
 Global theme files are exported from the `themes/` directory. Import one of the following in your app's global stylesheet:

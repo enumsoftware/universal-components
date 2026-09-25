@@ -17,6 +17,8 @@ import {
   Renderer2,
 } from '@angular/core';
 
+import { UC_DEFAULTS } from '../uc-defaults/uc-defaults';
+
 export const BADGE_POSITION_OPTIONS = ['top-end', 'top-start', 'bottom-end', 'bottom-start'] as const;
 export type UcBadgePosition = (typeof BADGE_POSITION_OPTIONS)[number];
 
@@ -80,7 +82,7 @@ export class UcBadge {
   readonly ucBadge = input<string | number | null | undefined>(null);
   readonly ucBadgePosition = input<UcBadgePosition>('top-end');
   readonly ucBadgeSize = input<UcBadgeSize>('medium');
-  readonly ucBadgeVariant = input<UcBadgeVariant>('error');
+  readonly ucBadgeVariant = input<UcBadgeVariant>(inject(UC_DEFAULTS).badge?.variant ?? 'error');
   /** Overlap the host's corner. When false the badge sits beside the host instead. */
   readonly ucBadgeOverlap = input(true, { transform: booleanAttribute });
   readonly ucBadgeHidden = input(false, { transform: booleanAttribute });

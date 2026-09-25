@@ -38,7 +38,12 @@ export {
   type UcBadgeSize,
   type UcBadgeVariant,
 } from './uc-badge/uc-badge';
-export { UcButton } from './uc-button/uc-button';
+export {
+  BUTTON_VARIANT_OPTIONS,
+  UcButton,
+  type ButtonVariant,
+} from './uc-button/uc-button';
+export { UC_DEFAULTS, provideUcDefaults, type UcDefaults } from './uc-defaults/uc-defaults';
 export {
   SEGMENTED_TOGGLE_VARIANT_OPTIONS,
   UcSegmentedToggle,
@@ -58,7 +63,7 @@ export { UcCalendar } from './uc-calendar/uc-calendar';
 export type { CalendarDay, CalendarMode } from './uc-calendar/uc-calendar';
 export { UcDateTimePicker } from './uc-date-time-picker/uc-date-time-picker';
 export { UcIsDevelopment } from './uc-is-development/uc-is-development';
-export { UcDivider } from './uc-divider/uc-divider';
+export { UcDivider, type UcDividerVariant } from './uc-divider/uc-divider';
 export { UcEditor } from './uc-editor/uc-editor';
 export {
   UC_EDITOR_COMMAND_DESCRIPTORS,
@@ -77,7 +82,11 @@ export { markdownToHtml } from './uc-editor/uc-markdown-parser';
 export { htmlToMarkdown } from './uc-editor/uc-markdown-serializer';
 export { UcFilePicker } from './uc-file-picker/uc-file-picker';
 export { UcFlag } from './uc-flag/uc-flag';
-export { UcIconButton } from './uc-icon-button/uc-icon-button';
+export {
+  ICON_BUTTON_VARIANT_OPTIONS,
+  UcIconButton,
+  type IconButtonVariant,
+} from './uc-icon-button/uc-icon-button';
 export { UcImageEditorDialog } from './uc-image-editor-dialog/uc-image-editor-dialog';
 export { UcInfo, INFO_VARIANT_OPTIONS, type InfoVariant } from './uc-info/uc-info';
 export { UcInput } from './uc-input/uc-input';
@@ -93,7 +102,11 @@ export { UcSelect } from './uc-select/uc-select';
 export { UcSideNavigation } from './uc-side-navigation/uc-side-navigation';
 export { UcSideNavigationModule } from './uc-side-navigation/uc-side-navigation-module';
 export { UcSidebar } from './uc-side-navigation/uc-sidebar/uc-sidebar';
-export { UcSidebarButton } from './uc-sidebar-button/uc-sidebar-button';
+export {
+  SIDEBAR_BUTTON_STYLE_OPTIONS,
+  UcSidebarButton,
+  type SidebarButtonStyle,
+} from './uc-sidebar-button/uc-sidebar-button';
 export { UcSlider } from './uc-slider/uc-slider';
 export { UcSpinnerLoading } from './uc-spinner-loading/uc-spinner-loading.component';
 export { UcStep } from './uc-stepper/uc-step';

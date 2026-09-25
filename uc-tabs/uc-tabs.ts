@@ -18,6 +18,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { map } from 'rxjs';
+import { UC_DEFAULTS } from '../uc-defaults/uc-defaults';
 import { SelectOption, UcSelect } from '../uc-select/uc-select';
 
 export const TABS_VARIANT_OPTIONS = ['underline', 'pills'] as const;
@@ -62,7 +63,7 @@ export class UcTabs implements OnDestroy {
   readonly tabs = input.required<UcTab[]>();
   readonly activeTab = model.required<string>();
   /** `underline` marks the active tab with a bar beneath it; `pills` fills it with a rounded background. */
-  readonly variant = input<UcTabsVariant>('underline');
+  readonly variant = input<UcTabsVariant>(inject(UC_DEFAULTS).tabs?.variant ?? 'underline');
   /** Accessible name for the dropdown the tabs collapse into on mobile. */
   readonly label = input<string>('Tabs');
   readonly panels = contentChildren(UcTabPanel);

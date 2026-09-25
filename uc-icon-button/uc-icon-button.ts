@@ -1,4 +1,5 @@
-import { Component, computed, input, model, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, inject, input, model, output, ChangeDetectionStrategy } from '@angular/core';
+import { UC_DEFAULTS } from '../uc-defaults/uc-defaults';
 
 /** `icon` is `secondary` without the border: only the icon shows until hover. */
 export const ICON_BUTTON_VARIANT_OPTIONS = ['primary', 'secondary', 'icon', 'error'] as const;
@@ -18,7 +19,7 @@ export class UcIconButton {
   /** Phosphor icon name. Leave it empty to project your own icon (an SVG, another icon font, a flag). */
   phosphorIcon = input<string>('');
   phosphorWeight = input<string>('bold');
-  variant = input<IconButtonVariant>('primary');
+  variant = input<IconButtonVariant>(inject(UC_DEFAULTS).iconButton?.variant ?? 'primary');
 
   /**
    * Toggle state, kept separate from `variant` so pressed and emphasis stay independent axes.

@@ -2,12 +2,14 @@ import {
   afterNextRender,
   booleanAttribute,
   Component,
+  inject,
   input,
   model,
   output,
   signal,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import { UC_DEFAULTS } from '../uc-defaults/uc-defaults';
 import { UcSpinnerLoading } from '../uc-spinner-loading/uc-spinner-loading.component';
 
 /**
@@ -35,7 +37,7 @@ export type ButtonSize = (typeof BUTTON_SIZE_OPTIONS)[number];
 })
 export class UcButton {
   text = model.required();
-  variant = input<ButtonVariant>('primary');
+  variant = input<ButtonVariant>(inject(UC_DEFAULTS).button?.variant ?? 'primary');
   size = input<ButtonSize>('medium');
   align = input<ButtonAlign>('center');
   disabled = input<boolean>(false);
