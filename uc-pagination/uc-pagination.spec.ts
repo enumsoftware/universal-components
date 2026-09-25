@@ -41,6 +41,32 @@ describe('UcPagination', () => {
     expect(component.pageChange.emit).toHaveBeenCalledWith(2);
   });
 
+  it('should use English texts by default', () => {
+    const element: HTMLElement = fixture.nativeElement;
+
+    expect(element.querySelector('[aria-label="Previous page"]')).toBeTruthy();
+    expect(element.querySelector('[aria-label="Jump forward by 3 pages"]')).toBeTruthy();
+    expect(element.querySelector('.uc-pagination-page-select__label')?.textContent?.trim()).toBe('Page size');
+  });
+
+  it('should use the given texts, with {count} in the jump labels', () => {
+    fixture.componentRef.setInput('previousPageLabel', 'Prethodna stranica');
+    fixture.componentRef.setInput('nextPageLabel', 'Sljedeća stranica');
+    fixture.componentRef.setInput('jumpBackwardLabel', '{count} stranice unatrag');
+    fixture.componentRef.setInput('jumpForwardLabel', '{count} stranice naprijed');
+    fixture.componentRef.setInput('pageSizeLabel', 'Po stranici');
+    fixture.componentRef.setInput('pageSizeSelectLabel', 'Odaberite broj po stranici');
+    fixture.detectChanges();
+    const element: HTMLElement = fixture.nativeElement;
+
+    expect(element.querySelector('[aria-label="Prethodna stranica"]')).toBeTruthy();
+    expect(element.querySelector('[aria-label="Sljedeća stranica"]')).toBeTruthy();
+    expect(element.querySelector('[aria-label="3 stranice unatrag"]')).toBeTruthy();
+    expect(element.querySelector('[aria-label="3 stranice naprijed"]')).toBeTruthy();
+    expect(element.querySelector('.uc-pagination-page-select__label')?.textContent?.trim()).toBe('Po stranici');
+    expect(element.querySelector('[aria-label="Odaberite broj po stranici"]')).toBeTruthy();
+  });
+
   it('should resolve page info template placeholders', () => {
     fixture.componentRef.setInput('currentPage', 2);
     fixture.componentRef.setInput('pageInfoTemplate', 'Currently on {currentPage} / {totalPages}');

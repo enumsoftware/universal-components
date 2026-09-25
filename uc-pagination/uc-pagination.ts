@@ -29,6 +29,21 @@ export class UcPagination {
   pageInfoTemplate = input<string>('Page {currentPage} of {totalPages}');
   size = input<PaginationSize>('medium');
 
+  /** Texts, for apps in other languages. The jump labels may use `{count}` for the pages skipped. */
+  previousPageLabel = input<string>('Previous page');
+  nextPageLabel = input<string>('Next page');
+  jumpBackwardLabel = input<string>('Jump backward by {count} pages');
+  jumpForwardLabel = input<string>('Jump forward by {count} pages');
+  pageSizeLabel = input<string>('Page size');
+  pageSizeSelectLabel = input<string>('Select page size');
+
+  protected readonly jumpBackwardText = computed(() =>
+    this.jumpBackwardLabel().replaceAll('{count}', this.pageWindowSize.toString()),
+  );
+  protected readonly jumpForwardText = computed(() =>
+    this.jumpForwardLabel().replaceAll('{count}', this.pageWindowSize.toString()),
+  );
+
   pageChange = output<number>();
   pageSizeChange = output<number>();
 

@@ -1,5 +1,5 @@
 <div class="uc-pagination-page-select">
-  <label class="uc-pagination-page-select__label" [attr.for]="selectId">Page size</label>
+  <label class="uc-pagination-page-select__label" [attr.for]="selectId">{{ label() }}</label>
 
   <button
     #trigger="cdkOverlayOrigin"
@@ -10,7 +10,7 @@
     [attr.aria-expanded]="isOpen()"
     [attr.aria-haspopup]="'listbox'"
     [attr.aria-controls]="selectId + '-panel'"
-    [attr.aria-label]="'Select page size'"
+    [attr.aria-label]="ariaLabel()"
     (click)="toggleDropdown()"
     (keydown)="onTriggerKeydown($event)"
   >

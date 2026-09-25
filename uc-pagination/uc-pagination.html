@@ -3,7 +3,7 @@
     <div class="uc-pagination">
       <uc-pagination-page-button
         class="uc-pagination__btn uc-pagination__btn--fast"
-        [ariaLabel]="'Jump backward by 3 pages'"
+        [ariaLabel]="jumpBackwardText()"
         [phosphorIcon]="'caret-double-left'"
         [variant]="'secondary'"
         [size]="size()"
@@ -13,7 +13,7 @@
 
       <uc-pagination-page-button
         class="uc-pagination__btn"
-        [ariaLabel]="'Previous page'"
+        [ariaLabel]="previousPageLabel()"
         [phosphorIcon]="'caret-left'"
         [variant]="'primary'"
         [size]="size()"
@@ -54,7 +54,7 @@
 
       <uc-pagination-page-button
         class="uc-pagination__btn"
-        [ariaLabel]="'Next page'"
+        [ariaLabel]="nextPageLabel()"
         [phosphorIcon]="'caret-right'"
         [variant]="'primary'"
         [size]="size()"
@@ -64,7 +64,7 @@
 
       <uc-pagination-page-button
         class="uc-pagination__btn uc-pagination__btn--fast"
-        [ariaLabel]="'Jump forward by 3 pages'"
+        [ariaLabel]="jumpForwardText()"
         [phosphorIcon]="'caret-double-right'"
         [variant]="'secondary'"
         [size]="size()"
@@ -88,6 +88,8 @@
           <uc-pagination-page-select
             [selectedSize]="pageSize()"
             [sizes]="pageSizeOptions()"
+            [label]="pageSizeLabel()"
+            [ariaLabel]="pageSizeSelectLabel()"
             [size]="size()"
             (sizeSelected)="onPageSizeSelect($event)"
           />
