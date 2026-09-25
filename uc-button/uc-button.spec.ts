@@ -186,6 +186,23 @@ describe('UcButton', () => {
     expect(component.pressed()).toBe(false);
   });
 
+  it('should left-align a wrapping label when align is left', () => {
+    fixture.componentRef.setInput('align', 'left');
+    fixture.detectChanges();
+
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+    expect(button.style.justifyContent).toBe('left');
+    expect(button.style.textAlign).toBe('start');
+  });
+
+  it('should render the text variant with the uc-text class', () => {
+    fixture.componentRef.setInput('variant', 'text');
+    fixture.detectChanges();
+
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+    expect(button.classList.contains('uc-text')).toBe(true);
+  });
+
   it('should render the link variant as a button styled like a link', () => {
     fixture.componentRef.setInput('variant', 'link');
     fixture.detectChanges();

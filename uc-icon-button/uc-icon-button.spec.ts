@@ -21,6 +21,15 @@ describe('UcImageButton', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should render the icon variant with the uc-icon class', () => {
+    fixture.componentRef.setInput('variant', 'icon');
+    fixture.detectChanges();
+
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+
+    expect(button.classList.contains('uc-icon')).toBe(true);
+  });
+
   it('should expose an accessible name when label is provided', () => {
     fixture.componentRef.setInput('label', 'Edit item');
     fixture.detectChanges();

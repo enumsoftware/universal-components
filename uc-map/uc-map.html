@@ -38,13 +38,13 @@
     >
       @if (mode() === 'view') {
         @if (mapId()) {
-          @if (cluster()) {
+          @if (clustered()) {
             <map-marker-clusterer>
               @for (marker of markers(); track marker.id) {
                 <map-advanced-marker
                   [position]="marker.position"
                   [title]="marker.title ?? ''"
-                  [content]="pinFor(marker.color)"
+                  [content]="contentFor(marker.id, marker.icon ?? markerIcon(), marker.color)"
                   (mapClick)="markerClick.emit(marker)"
                 />
               }
@@ -54,21 +54,31 @@
               <map-advanced-marker
                 [position]="marker.position"
                 [title]="marker.title ?? ''"
-                [content]="pinFor(marker.color)"
+                [content]="contentFor(marker.id, marker.icon ?? markerIcon(), marker.color)"
                 (mapClick)="markerClick.emit(marker)"
               />
             }
           }
         } @else {
-          @if (cluster()) {
+          @if (clustered()) {
             <map-marker-clusterer>
               @for (marker of markers(); track marker.id) {
-                <map-marker [position]="marker.position" [title]="marker.title ?? ''" (mapClick)="markerClick.emit(marker)" />
+                <map-marker
+                  [position]="marker.position"
+                  [title]="marker.title ?? ''"
+                  [options]="classicOptionsFor(marker.icon ?? markerIcon())"
+                  (mapClick)="markerClick.emit(marker)"
+                />
               }
             </map-marker-clusterer>
           } @else {
             @for (marker of markers(); track marker.id) {
-              <map-marker [position]="marker.position" [title]="marker.title ?? ''" (mapClick)="markerClick.emit(marker)" />
+              <map-marker
+                [position]="marker.position"
+                [title]="marker.title ?? ''"
+                [options]="classicOptionsFor(marker.icon ?? markerIcon())"
+                (mapClick)="markerClick.emit(marker)"
+              />
             }
           }
         }
@@ -76,9 +86,9 @@
 
       @if (mode() === 'pick' && selectedPosition(); as position) {
         @if (mapId()) {
-          <map-advanced-marker [position]="position" [gmpDraggable]="true" [content]="pinFor(undefined)" (mapDragend)="onPickDragEnd($event)" />
+          <map-advanced-marker [position]="position" [gmpDraggable]="true" [content]="contentFor(pickMarker, markerIcon(), undefined)" (mapDragend)="onPickDragEnd($event)" />
         } @else {
-          <map-marker [position]="position" [options]="{ draggable: true }" (mapDragend)="onPickDragEnd($event)" />
+          <map-marker [position]="position" [options]="classicOptionsFor(markerIcon(), true)" (mapDragend)="onPickDragEnd($event)" />
         }
       }
 

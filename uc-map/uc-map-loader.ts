@@ -33,3 +33,29 @@ export function loadGoogleMaps(apiKey: string): Promise<void> {
 
   return loading;
 }
+
+let clustererLoading: Promise<void> | null = null;
+
+/**
+ * Loads `@googlemaps/markerclusterer` on demand, so apps that never cluster do not download it.
+ * `@angular/google-maps` reads the library from the `markerClusterer` global that its script build
+ * defines, so the imported module is exposed under that name.
+ */
+export function loadMarkerClusterer(): Promise<void> {
+  const global = globalThis as { markerClusterer?: unknown };
+  if (global.markerClusterer) {
+    return Promise.resolve();
+  }
+
+  clustererLoading ??= import('@googlemaps/markerclusterer').then(
+    (module) => {
+      global.markerClusterer = module;
+    },
+    (error: unknown) => {
+      clustererLoading = null;
+      throw error;
+    },
+  );
+
+  return clustererLoading;
+}

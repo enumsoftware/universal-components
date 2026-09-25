@@ -1,0 +1,104 @@
+:host {
+  --uc-badge-color-resolved: var(--uc-badge-color, var(--uc-inverse-foreground-color));
+  --uc-badge-error-background-resolved: var(--uc-badge-error-background, var(--uc-error-color));
+  --uc-badge-primary-background-resolved: var(--uc-badge-primary-background, var(--uc-primary-color));
+  --uc-badge-success-background-resolved: var(--uc-badge-success-background, var(--uc-success-color));
+  --uc-badge-neutral-background-resolved: var(--uc-badge-neutral-background, var(--uc-foreground-color));
+  --uc-badge-neutral-color-resolved: var(--uc-badge-neutral-color, var(--uc-background-color));
+  --uc-badge-disabled-background-resolved: var(--uc-badge-disabled-background, var(--uc-background-color-90));
+  --uc-badge-disabled-color-resolved: var(--uc-badge-disabled-color, var(--uc-paragraph-text-color));
+  --uc-badge-font-family-resolved: var(--uc-badge-font-family, sans-serif);
+  --uc-badge-font-weight-resolved: var(--uc-badge-font-weight, 700);
+  --uc-badge-small-size-resolved: var(--uc-badge-small-size, 0.5rem);
+  --uc-badge-medium-size-resolved: var(--uc-badge-medium-size, 1.125rem);
+  --uc-badge-medium-font-size-resolved: var(--uc-badge-medium-font-size, 0.6875rem);
+  --uc-badge-large-size-resolved: var(--uc-badge-large-size, 1.5rem);
+  --uc-badge-large-font-size-resolved: var(--uc-badge-large-font-size, 0.8125rem);
+
+  /* Switched by the size and variant classes below. */
+  --uc-badge-current-size-resolved: var(--uc-badge-medium-size-resolved);
+  --uc-badge-current-background-resolved: var(--uc-badge-error-background-resolved);
+  --uc-badge-offset-resolved: calc(var(--uc-badge-current-size-resolved) / -2);
+
+  position: absolute;
+  inset-block-start: var(--uc-badge-offset-resolved);
+  inset-inline-end: var(--uc-badge-offset-resolved);
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: var(--uc-badge-current-size-resolved);
+  height: var(--uc-badge-current-size-resolved);
+  padding-inline: calc(var(--uc-badge-current-size-resolved) / 4);
+  border-radius: calc(var(--uc-badge-current-size-resolved) / 2);
+  background: var(--uc-badge-current-background-resolved);
+  color: var(--uc-badge-color-resolved);
+  /* Not inherited: on an icon host that would be the icon font, which has no digits. */
+  font-family: var(--uc-badge-font-family-resolved);
+  font-size: var(--uc-badge-medium-font-size-resolved);
+  font-weight: var(--uc-badge-font-weight-resolved);
+  font-style: normal;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+:host(.uc-badge--small) {
+  --uc-badge-current-size-resolved: var(--uc-badge-small-size-resolved);
+  padding-inline: 0;
+}
+
+:host(.uc-badge--large) {
+  --uc-badge-current-size-resolved: var(--uc-badge-large-size-resolved);
+  font-size: var(--uc-badge-large-font-size-resolved);
+}
+
+:host(.uc-badge--primary) {
+  --uc-badge-current-background-resolved: var(--uc-badge-primary-background-resolved);
+}
+
+:host(.uc-badge--success) {
+  --uc-badge-current-background-resolved: var(--uc-badge-success-background-resolved);
+}
+
+:host(.uc-badge--neutral) {
+  --uc-badge-current-background-resolved: var(--uc-badge-neutral-background-resolved);
+  color: var(--uc-badge-neutral-color-resolved);
+}
+
+/* Positions: the top-end default is set on :host. */
+:host(.uc-badge--bottom-end),
+:host(.uc-badge--bottom-start) {
+  inset-block-start: auto;
+  inset-block-end: var(--uc-badge-offset-resolved);
+}
+
+:host(.uc-badge--top-start),
+:host(.uc-badge--bottom-start) {
+  inset-inline-end: auto;
+  inset-inline-start: var(--uc-badge-offset-resolved);
+}
+
+/* Beside the host rather than over its corner. Anchored to the host's edge instead of offset by the
+   badge's own size, so a wide count like 99+ never overlaps the host either. */
+:host(.uc-badge--detached.uc-badge--top-end),
+:host(.uc-badge--detached.uc-badge--bottom-end) {
+  inset-inline-end: auto;
+  inset-inline-start: 100%;
+}
+
+:host(.uc-badge--detached.uc-badge--top-start),
+:host(.uc-badge--detached.uc-badge--bottom-start) {
+  inset-inline-start: auto;
+  inset-inline-end: 100%;
+}
+
+:host(.uc-badge--disabled) {
+  background: var(--uc-badge-disabled-background-resolved);
+  color: var(--uc-badge-disabled-color-resolved);
+}
+
+:host(.uc-badge--hidden) {
+  display: none;
+}

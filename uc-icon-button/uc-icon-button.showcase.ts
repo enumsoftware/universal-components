@@ -19,6 +19,7 @@ export default defineShowcase({
   },
   examples: [
     { name: 'Secondary', props: { variant: 'secondary' } },
+    { name: 'Icon', props: { variant: 'icon' } },
     { name: 'Error', props: { variant: 'error', phosphorIcon: 'trash' } },
     { name: 'Disabled', props: { disabled: true } },
     { name: 'Toggle', component: IconButtonToggleExample },

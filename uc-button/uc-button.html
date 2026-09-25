@@ -10,6 +10,7 @@
   [attr.aria-busy]="loading()"
   [attr.aria-pressed]="isToggleEnabled() ? pressed() : null"
   [style.justify-content]="align()"
+  [style.text-align]="align() === 'left' ? 'start' : null"
   (click)="onClick($event)"
   [type]="type()"
 >

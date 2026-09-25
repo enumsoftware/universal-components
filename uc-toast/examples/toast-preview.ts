@@ -18,8 +18,14 @@ export class ToastPreview {
   readonly variant = input<ToastVariant>('success');
   readonly heading = input<string>('Saved');
   readonly message = input<string>('Your report was submitted.');
+  /** Milliseconds; 0 keeps the toast open until closed, empty uses the variant's default. */
+  readonly duration = input<number | null>(null);
 
   show(): void {
-    this.toastService.show(this.message(), { variant: this.variant(), title: this.heading() || undefined });
+    this.toastService.show(this.message(), {
+      variant: this.variant(),
+      title: this.heading() || undefined,
+      duration: this.duration() ?? undefined,
+    });
   }
 }

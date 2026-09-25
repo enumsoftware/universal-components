@@ -6,6 +6,7 @@ export {
   type MapMode,
   type MapPolygonKind,
   type UcMapMarker,
+  type UcMapMarkerIcon,
   type UcMapPolygon,
   type UcMapPosition,
 } from './uc-map-types';

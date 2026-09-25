@@ -1,6 +1,7 @@
 import { Component, computed, input, model, output, ChangeDetectionStrategy } from '@angular/core';
 
-export const ICON_BUTTON_VARIANT_OPTIONS = ['primary', 'secondary', 'error'] as const;
+/** `icon` is `secondary` without the border: only the icon shows until hover. */
+export const ICON_BUTTON_VARIANT_OPTIONS = ['primary', 'secondary', 'icon', 'error'] as const;
 export type IconButtonVariant = (typeof ICON_BUTTON_VARIANT_OPTIONS)[number];
 
 @Component({

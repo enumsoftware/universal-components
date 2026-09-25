@@ -30,6 +30,11 @@
     --uc-button-secondary-border-color,
     oklch(from var(--uc-foreground-color) l c h / 0.3)
   );
+  --uc-button-text-color-resolved: var(--uc-button-text-color, var(--uc-font-color));
+  --uc-button-text-hover-background-resolved: var(
+    --uc-button-text-hover-background,
+    oklch(from var(--uc-button-background-resolved) l c h / 0.3)
+  );
   --uc-button-error-background-resolved: var(--uc-button-error-background, var(--uc-error-color));
   --uc-button-link-color-resolved: var(--uc-button-link-color, var(--uc-primary-color));
   --uc-button-toggle-background-resolved: var(--uc-button-toggle-background, transparent);
@@ -145,6 +150,17 @@
   color: var(--uc-font-color);
 }
 
+/* Text variant: secondary without the border. */
+.uc-button.uc-text {
+  background-color: transparent;
+  color: var(--uc-button-text-color-resolved);
+}
+
+.uc-button.uc-text:hover {
+  background-color: var(--uc-button-text-hover-background-resolved);
+  color: var(--uc-button-text-color-resolved);
+}
+
 .uc-button.uc-error {
   background-color: var(--uc-button-error-background-resolved);
   color: var(--uc-button-color-resolved);
@@ -200,6 +216,12 @@
   color: var(--uc-font-color);
 }
 
+.uc-button.uc-text:disabled,
+.uc-button.uc-text.uc-disabled {
+  background-color: transparent;
+  color: var(--uc-button-text-color-resolved);
+}
+
 .uc-button.uc-error:disabled,
 .uc-button.uc-error.uc-disabled {
   background-color: var(--uc-button-error-background-resolved);
@@ -207,7 +229,9 @@
 }
 
 .uc-button.uc-secondary:disabled:hover,
-.uc-button.uc-secondary.uc-disabled:hover {
+.uc-button.uc-secondary.uc-disabled:hover,
+.uc-button.uc-text:disabled:hover,
+.uc-button.uc-text.uc-disabled:hover {
   background-color: transparent;
 }
 
@@ -260,6 +284,10 @@
 .uc-button.uc-secondary.uc-loading:hover {
   background-color: transparent;
   border: 1px solid var(--uc-button-secondary-border-color-resolved);
+}
+
+.uc-button.uc-text.uc-loading:hover {
+  background-color: transparent;
 }
 
 .uc-button.uc-error.uc-loading:hover {

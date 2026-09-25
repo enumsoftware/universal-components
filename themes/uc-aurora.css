@@ -112,6 +112,21 @@
   --uc-avatar-size: 2.75rem;
 
   /* --- Button --- */
+  --uc-badge-color: var(--uc-inverse-foreground-color);
+  --uc-badge-error-background: var(--uc-error-color);
+  --uc-badge-primary-background: var(--uc-primary-color);
+  --uc-badge-success-background: var(--uc-success-color);
+  --uc-badge-neutral-background: var(--uc-foreground-color);
+  --uc-badge-neutral-color: var(--uc-background-color);
+  --uc-badge-disabled-background: var(--uc-background-color-90);
+  --uc-badge-disabled-color: var(--uc-paragraph-text-color);
+  --uc-badge-font-family: 'Poppins', sans-serif;
+  --uc-badge-font-weight: 700;
+  --uc-badge-small-size: 0.5rem;
+  --uc-badge-medium-size: 1.125rem;
+  --uc-badge-medium-font-size: 0.6875rem;
+  --uc-badge-large-size: 1.5rem;
+  --uc-badge-large-font-size: 0.8125rem;
   --uc-button-background: var(--uc-primary-color, #007bff);
   --uc-button-color: var(--uc-inverse-foreground-color, white);
   --uc-button-height: 2.75rem;
@@ -120,6 +135,8 @@
   --uc-button-font-weight: 700;
   --uc-button-disabled-opacity: 0.6;
   --uc-button-secondary-border-color: oklch(from var(--uc-foreground-color) l c h / 0.3);
+  --uc-button-text-color: var(--uc-font-color);
+  --uc-button-text-hover-background: oklch(from var(--uc-button-background) l c h / 0.3);
   --uc-button-error-background: var(--uc-error-color, #dc3545);
   --uc-button-small-height: 2rem;
   --uc-button-small-padding-inline: 0.65rem;
@@ -164,10 +181,14 @@
   --uc-segmented-toggle-border: 1px solid var(--uc-segmented-toggle-border-color);
   --uc-segmented-toggle-border-radius: 0;
   --uc-segmented-toggle-disabled-opacity: 0.65;
+  --uc-segmented-toggle-pills-gap: 0.5rem;
+  --uc-segmented-toggle-pills-border-radius: 100px;
+  --uc-segmented-toggle-pills-hover-background: oklch(from var(--uc-background-color-90) l c h / 0.5);
   --uc-segmented-toggle-item-color: var(--uc-paragraph-text-color);
   --uc-segmented-toggle-item-disabled-opacity: 0.55;
   --uc-segmented-toggle-item-font-size: 0.95rem;
   --uc-segmented-toggle-item-font-weight: 600;
+  --uc-segmented-toggle-item-icon-size: 1.125rem;
   --uc-segmented-toggle-item-hover-background: oklch(from var(--uc-background-color-90) l c h / 0.35);
   --uc-segmented-toggle-item-line-height: 1.25rem;
   --uc-segmented-toggle-item-padding-block: 0.65rem;

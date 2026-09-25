@@ -31,7 +31,6 @@
   width: 100%;
   max-width: 24rem;
   padding: 0.875rem 1rem;
-  border-left: 4px solid var(--uc-toast-accent);
   border-radius: var(--uc-toast-radius-resolved);
   background: var(--uc-toast-background-resolved);
   box-shadow: var(--uc-toast-shadow-resolved);

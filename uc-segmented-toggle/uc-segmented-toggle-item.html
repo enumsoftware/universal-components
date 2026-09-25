@@ -3,6 +3,7 @@
   class="uc-segmented-toggle-item__button"
   [class.uc-segmented-toggle-item__button--selected]="selected()"
   [class.uc-segmented-toggle-item__button--disabled]="isDisabled()"
+  [class.uc-segmented-toggle-item__button--pills]="pills()"
   [disabled]="isDisabled()"
   role="radio"
   aria-checked="false"
@@ -11,5 +12,9 @@
   [attr.aria-disabled]="isDisabled()"
   (click)="onClick($event)"
 >
+  @if (icon(); as icon) {
+    <uc-phosphor-icon class="uc-segmented-toggle-item__icon" [icon]="icon" [weight]="iconWeight()" />
+  }
+  <ng-content select="[ucSegmentedTogglePrefix]"></ng-content>
   <ng-content></ng-content>
 </button>

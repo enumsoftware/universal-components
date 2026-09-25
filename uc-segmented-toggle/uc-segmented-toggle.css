@@ -6,6 +6,7 @@
     1px solid var(--uc-segmented-toggle-border-color-resolved)
   );
   --uc-segmented-toggle-border-radius-resolved: var(--uc-segmented-toggle-border-radius, 0.75rem);
+  --uc-segmented-toggle-pills-gap-resolved: var(--uc-segmented-toggle-pills-gap, 0.5rem);
   --uc-segmented-toggle-disabled-opacity-resolved: var(--uc-segmented-toggle-disabled-opacity, 0.65);
   display: inline-flex;
   width: fit-content;
@@ -20,6 +21,16 @@
   border: var(--uc-segmented-toggle-border-resolved);
   border-radius: var(--uc-segmented-toggle-border-radius-resolved);
   background: var(--uc-segmented-toggle-background-resolved);
+}
+
+/* Pills: no track, the items stand apart and are rounded on their own. `overflow` stays visible
+   so a pill's focus ring is never clipped. */
+.uc-segmented-toggle.uc-segmented-toggle--pills {
+  gap: var(--uc-segmented-toggle-pills-gap-resolved);
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .uc-segmented-toggle.uc-segmented-toggle--disabled {

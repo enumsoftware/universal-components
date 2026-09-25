@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   ElementRef,
   inject,
   input,
@@ -13,17 +14,41 @@ import {
   viewChildren,
 } from '@angular/core';
 import { GoogleMap, MapAdvancedMarker, MapMarker, MapMarkerClusterer, MapPolygon } from '@angular/google-maps';
-import { loadGoogleMaps } from './uc-map-loader';
-import type { MapMode, MapPolygonKind, UcMapMarker, UcMapPolygon, UcMapPosition } from './uc-map-types';
+import { loadGoogleMaps, loadMarkerClusterer } from './uc-map-loader';
+import type {
+  MapMode,
+  MapPolygonKind,
+  UcMapMarker,
+  UcMapMarkerIcon,
+  UcMapPolygon,
+  UcMapPosition,
+} from './uc-map-types';
 
 interface DraftPolygon {
   kind: MapPolygonKind;
   path: UcMapPosition[];
 }
 
+const DEFAULT_ICON_SIZE = 32;
+
+/** Cache key for the pick marker's icon element, so it never collides with a marker id. */
+const PICK_MARKER = Symbol('pick-marker');
+
+function iconBox(icon: UcMapMarkerIcon): { width: number; height: number; anchor: { x: number; y: number } } {
+  const width = icon.width ?? DEFAULT_ICON_SIZE;
+  const height = icon.height ?? width;
+  return { width, height, anchor: icon.anchor ?? { x: width / 2, y: height } };
+}
+
+/** Inline markup becomes a data URL so it is loaded as an image and never parsed into the page. */
+function svgSource(svg: string): string {
+  const trimmed = svg.trim();
+  return trimmed.startsWith('<') ? `data:image/svg+xml;charset=utf-8,${encodeURIComponent(trimmed)}` : trimmed;
+}
+
 /**
- * Google Maps wrapper for Enum apps. Loads the Maps API on first use, shows (clustered)
- * markers, lets the user pick a position, or draw area and exclusion polygons. Advanced
+ * Google Maps wrapper for Enum apps. Loads the Maps API on first use, shows markers (optionally
+ * clustered), lets the user pick a position, or draw area and exclusion polygons. Advanced
  * markers need a `mapId`; without one classic markers are used.
  */
 @Component({
@@ -42,7 +67,10 @@ export class UcMap {
   zoom = input<number>(13);
   mode = input<MapMode>('view');
   markers = input<readonly UcMapMarker[]>([]);
+  /** Groups nearby markers in `view` mode. The clusterer library is loaded only when this is on. */
   cluster = input<boolean>(true);
+  /** Default icon for every marker and for the pick marker. A marker's own `icon` wins. */
+  markerIcon = input<UcMapMarkerIcon | null>(null);
 
   selectedPosition = model<UcMapPosition | null>(null);
   polygons = model<UcMapPolygon[]>([]);
@@ -61,6 +89,9 @@ export class UcMap {
   private readonly polygonComponents = viewChildren(MapPolygon);
 
   protected readonly status = signal<'loading' | 'ready' | 'error'>('loading');
+  private readonly clustererLoaded = signal(false);
+  /** Markers show unclustered until the clusterer has loaded, and stay so if it fails to load. */
+  protected readonly clustered = computed(() => this.cluster() && this.clustererLoaded());
   protected readonly draft = signal<DraftPolygon | null>(null);
   protected readonly selectedPolygonId = signal<string | null>(null);
   protected readonly colors = signal({ area: '#2f5bd3', exclusion: '#d32f2f', marker: '#2f5bd3' });
@@ -74,9 +105,26 @@ export class UcMap {
     draggableCursor: this.mode() === 'view' ? undefined : 'crosshair',
   }));
 
+  protected readonly pickMarker = PICK_MARKER;
+
   private readonly pins = new Map<string, google.maps.marker.PinElement>();
+  private readonly iconElements = new Map<unknown, { icon: UcMapMarkerIcon; element: HTMLImageElement }>();
+  private readonly classicIcons = new WeakMap<
+    UcMapMarkerIcon,
+    { static: google.maps.MarkerOptions; draggable: google.maps.MarkerOptions }
+  >();
+  private readonly classicDefault: google.maps.MarkerOptions = {};
+  private readonly classicDraggable: google.maps.MarkerOptions = { draggable: true };
 
   constructor() {
+    effect(() => {
+      if (this.cluster() && !this.clustererLoaded() && typeof window !== 'undefined') {
+        loadMarkerClusterer()
+          .then(() => this.clustererLoaded.set(true))
+          .catch(() => undefined);
+      }
+    });
+
     afterNextRender(() => {
       this.readColors();
       loadGoogleMaps(this.apiKey())
@@ -94,6 +142,36 @@ export class UcMap {
     }
 
     return pin;
+  }
+
+  /** Advanced marker content: the custom icon when there is one, otherwise a coloured pin. */
+  protected contentFor(
+    key: unknown,
+    icon: UcMapMarkerIcon | null | undefined,
+    color: string | undefined,
+  ): Node | google.maps.marker.PinElement {
+    return icon ? this.iconElement(key, icon) : this.pinFor(color);
+  }
+
+  /** Classic marker options. Cached per icon so change detection does not reset the marker. */
+  protected classicOptionsFor(icon: UcMapMarkerIcon | null | undefined, draggable = false): google.maps.MarkerOptions {
+    if (!icon) {
+      return draggable ? this.classicDraggable : this.classicDefault;
+    }
+
+    let options = this.classicIcons.get(icon);
+    if (!options) {
+      const { width, height, anchor } = iconBox(icon);
+      const markerIcon: google.maps.Icon = {
+        url: svgSource(icon.svg),
+        scaledSize: new google.maps.Size(width, height),
+        anchor: new google.maps.Point(anchor.x, anchor.y),
+      };
+      options = { static: { icon: markerIcon }, draggable: { icon: markerIcon, draggable: true } };
+      this.classicIcons.set(icon, options);
+    }
+
+    return draggable ? options.draggable : options.static;
   }
 
   protected polygonOptions(kind: MapPolygonKind, selected: boolean, editable: boolean): google.maps.PolygonOptions {
@@ -168,6 +246,26 @@ export class UcMap {
 
     const path = googlePolygon.getPath().getArray().map((latLng) => latLng.toJSON());
     this.polygons.update((polygons) => polygons.map((polygon, i) => (i === index ? { ...polygon, path } : polygon)));
+  }
+
+  /** Each marker needs its own element: a DOM node can only be shown by one marker at a time. */
+  private iconElement(key: unknown, icon: UcMapMarkerIcon): HTMLImageElement {
+    const cached = this.iconElements.get(key);
+    if (cached?.icon === icon) {
+      return cached.element;
+    }
+
+    const { width, height, anchor } = iconBox(icon);
+    const element = document.createElement('img');
+    element.src = svgSource(icon.svg);
+    element.width = width;
+    element.height = height;
+    element.alt = '';
+    element.draggable = false;
+    // Advanced markers put the bottom centre of their content on the position; shift to the anchor.
+    element.style.transform = `translate(${width / 2 - anchor.x}px, ${height - anchor.y}px)`;
+    this.iconElements.set(key, { icon, element });
+    return element;
   }
 
   /** Google Maps needs real colour strings, so the CSS custom properties are resolved once. */

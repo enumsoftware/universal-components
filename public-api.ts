@@ -29,8 +29,21 @@ export type { UcTreeNodeContext } from './uc-tree/uc-tree-node-def';
 export { UcAccordion } from './uc-accordion/uc-accordion';
 export { UcAccordionItem } from './uc-accordion/uc-accordion-item';
 export { UcAvatar } from './uc-avatar/uc-avatar';
+export {
+  BADGE_POSITION_OPTIONS,
+  BADGE_SIZE_OPTIONS,
+  BADGE_VARIANT_OPTIONS,
+  UcBadge,
+  type UcBadgePosition,
+  type UcBadgeSize,
+  type UcBadgeVariant,
+} from './uc-badge/uc-badge';
 export { UcButton } from './uc-button/uc-button';
-export { UcSegmentedToggle } from './uc-segmented-toggle/uc-segmented-toggle';
+export {
+  SEGMENTED_TOGGLE_VARIANT_OPTIONS,
+  UcSegmentedToggle,
+  type UcSegmentedToggleVariant,
+} from './uc-segmented-toggle/uc-segmented-toggle';
 export { UcSegmentedToggleItem } from './uc-segmented-toggle/uc-segmented-toggle-item';
 export { UcCard } from './uc-card/uc-card';
 export { UcBarChart } from './uc-charts/uc-bar-chart/uc-bar-chart';

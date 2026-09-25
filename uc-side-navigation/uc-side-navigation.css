@@ -1,6 +1,7 @@
 :host {
   --uc-side-navigation-sidebar-width-resolved: var(--uc-side-navigation-sidebar-width, 15rem);
   --uc-side-navigation-sidebar-background-resolved: var(--uc-side-navigation-sidebar-background, var(--uc-sidebar-background-color));
+  --uc-side-navigation-sidebar-border-resolved: var(--uc-side-navigation-sidebar-border, 1px solid var(--uc-divider-color));
   --uc-side-navigation-sidebar-border-radius-resolved: var(--uc-side-navigation-sidebar-border-radius, 1rem);
   --uc-side-navigation-backdrop-background-resolved: var(--uc-side-navigation-backdrop-background, rgba(0, 0, 0, 0.8));
   --uc-side-navigation-animation-duration-resolved: var(--uc-side-navigation-animation-duration, 0.3s);
@@ -25,7 +26,10 @@
   overflow: hidden;
 }
 .uc-sidebar-side {
+  box-sizing: border-box;
   background-color: var(--uc-side-navigation-sidebar-background-resolved);
+  /* Separates the docked sidebar from the content; the floating over sidebar needs none. */
+  border-inline-end: var(--uc-side-navigation-sidebar-border-resolved);
   z-index: 1;
   overflow-x: hidden;
   overflow-y: hidden;
