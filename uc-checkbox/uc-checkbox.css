@@ -14,6 +14,9 @@ input[type="checkbox"] {
 }
 
 .uc-checkbox {
+  /* A flex item shrinks by default, so a long label in a narrow grid cell squeezed the box narrower
+     than it is tall. The label wraps instead. */
+  flex: none;
   width: 2rem;
   height: 2rem;
   display: flex;
