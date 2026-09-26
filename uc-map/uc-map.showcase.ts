@@ -13,6 +13,10 @@ export default defineShowcase({
     mapId: text('DEMO_MAP_ID'),
     mode: select(MAP_MODE_OPTIONS, 'view'),
     cluster: bool(true, { description: 'Group nearby markers in view mode.' }),
+    zoomControl: bool(true, { description: 'The + and - zoom buttons.' }),
+    cameraControl: bool(true, { description: 'The arrow buttons that pan the map.' }),
+    mapTypeControl: bool(true, { description: 'The Map / Satellite switch.' }),
+    fullscreenControl: bool(true, { description: 'The full screen button.' }),
     markerCount: number<number | null>(0, {
       description: 'Extra generated markers, to see clustering at work.',
       min: 0,

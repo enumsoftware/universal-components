@@ -16,7 +16,27 @@ interface UcMapInternals {
   cancelDraft(): void;
   selectPolygon(id: string): void;
   deleteSelected(): void;
+  options(): google.maps.MapOptions;
+  map(): google.maps.Map | undefined;
+  zoomBy(step: number): void;
+  pan(x: -1 | 0 | 1, y: -1 | 0 | 1): void;
+  toggleControls(): void;
+  controlsOpen(): boolean;
   contentFor(key: unknown, icon: UcMapMarkerIcon | null | undefined, color: string | undefined): Node;
+}
+
+/** A 300 x 150 map at zoom 13 that records the zoom and pan calls the controls make. */
+function fakeMap() {
+  const zooms: number[] = [];
+  const pans: [number, number][] = [];
+  const instance = {
+    getZoom: () => 13,
+    setZoom: (zoom: number) => zooms.push(zoom),
+    getDiv: () => ({ clientWidth: 300, clientHeight: 150 }),
+    panBy: (x: number, y: number) => pans.push([x, y]),
+  } as unknown as google.maps.Map;
+
+  return { instance, zooms, pans };
 }
 
 describe('UcMap', () => {
@@ -45,6 +65,43 @@ describe('UcMap', () => {
     internals.onMapClick(click(42.65, 18.09));
 
     expect(component.selectedPosition()).toEqual({ lat: 42.65, lng: 18.09 });
+  });
+
+  it('hides the Google map controls, which the library draws instead', () => {
+    expect(internals.options().disableDefaultUI).toBe(true);
+  });
+
+  it('keeps the pan and zoom controls closed until their button is used', () => {
+    expect(internals.controlsOpen()).toBe(false);
+
+    internals.toggleControls();
+    expect(internals.controlsOpen()).toBe(true);
+
+    internals.toggleControls();
+    expect(internals.controlsOpen()).toBe(false);
+  });
+
+  it('zooms the map one step in or out', () => {
+    const map = fakeMap();
+    internals.map = () => map.instance;
+
+    internals.zoomBy(1);
+    internals.zoomBy(-1);
+
+    expect(map.zooms).toEqual([14, 12]);
+  });
+
+  it('pans by a third of the map in the given direction', () => {
+    const map = fakeMap();
+    internals.map = () => map.instance;
+
+    internals.pan(1, 0);
+    internals.pan(0, -1);
+
+    expect(map.pans).toEqual([
+      [100, 0],
+      [0, -50],
+    ]);
   });
 
   it('ignores clicks in view mode', () => {

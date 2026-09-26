@@ -46,6 +46,10 @@ function scatteredMarkers(center: UcMapPosition, count: number): UcMapMarker[] {
       [zoom]="14"
       [markers]="markers()"
       [cluster]="cluster()"
+      [zoomControl]="zoomControl()"
+      [cameraControl]="cameraControl()"
+      [mapTypeControl]="mapTypeControl()"
+      [fullscreenControl]="fullscreenControl()"
       [(selectedPosition)]="selected"
       [(polygons)]="polygons"
     />
@@ -57,6 +61,10 @@ export class MapPreview {
   readonly mapId = input<string>('DEMO_MAP_ID');
   readonly mode = input<MapMode>('view');
   readonly cluster = input<boolean>(true);
+  readonly zoomControl = input<boolean>(true);
+  readonly cameraControl = input<boolean>(true);
+  readonly mapTypeControl = input<boolean>(true);
+  readonly fullscreenControl = input<boolean>(true);
   /** Extra generated markers on top of the three named ones. */
   readonly markerCount = input<number | null>(0);
 

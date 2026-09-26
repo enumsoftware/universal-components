@@ -1,5 +1,6 @@
 import { Component, computed, inject, input, model, output, ChangeDetectionStrategy } from '@angular/core';
 import { UC_DEFAULTS } from '../uc-defaults/uc-defaults';
+import { UcTooltip } from '../uc-tooltip/uc-tooltip';
 
 /** `icon` is `secondary` without the border: only the icon shows until hover. */
 export const ICON_BUTTON_VARIANT_OPTIONS = ['primary', 'secondary', 'icon', 'error'] as const;
@@ -20,6 +21,10 @@ export class UcIconButton {
   phosphorIcon = input<string>('');
   phosphorWeight = input<string>('bold');
   variant = input<IconButtonVariant>(inject(UC_DEFAULTS).iconButton?.variant ?? 'primary');
+  /** For a button that shows and hides something: whether that is shown. `null` leaves it out. */
+  ariaExpanded = input<boolean | null>(null);
+  /** The id of the element this button shows and hides. */
+  ariaControls = input<string | null>(null);
 
   /**
    * Toggle state, kept separate from `variant` so pressed and emphasis stay independent axes.
@@ -30,6 +35,12 @@ export class UcIconButton {
   pressed = model<boolean | null>(null);
 
   readonly isToggle = computed(() => this.pressed() !== null);
+
+  /**
+   * With a ucTooltip on the same element the label is shown by that tooltip, so the button leaves
+   * out its native title; otherwise the browser would show a second tooltip.
+   */
+  protected readonly hasTooltip = inject(UcTooltip, { self: true, optional: true }) !== null;
 
   onClick(event: MouseEvent) {
     if (this.disabled()) {

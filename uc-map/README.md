@@ -45,6 +45,30 @@ const bin: UcMapMarkerIcon = {
 `svg` is either inline markup (starting with `<`) or a URL. The icon is shown as an image, so
 scripts inside the SVG never run. Inline markup needs the `xmlns` attribute to render.
 
+## Map controls
+
+Google's own map buttons are turned off and replaced with library components, so the map matches the
+rest of the app: a `uc-segmented-toggle` for Map / Satellite in the top-left corner, a full screen
+`uc-icon-button` in the top-right, and a camera controls button in the bottom-right. Like Google's own
+camera control, that button starts closed and opens a panel with the pan arrows and, beside them, the
+zoom buttons; Escape closes it again. Each control can be hidden with an input; all are shown by
+default.
+
+| Input | Control |
+|---|---|
+| `zoomControl` | The + and - zoom buttons. Zooming with the wheel or a pinch still works. |
+| `cameraControl` | The arrow buttons that pan the map. Dragging still works. |
+| `mapTypeControl` | The Map / Satellite switch. Satellite shows imagery with labels. |
+| `fullscreenControl` | The full screen button. It puts the whole component, toolbar included, in full screen, and is hidden where the browser cannot do that (Safari on iPhone). |
+
+```html
+<uc-map [apiKey]="key" [cameraControl]="false" [fullscreenControl]="false" />
+```
+
+The buttons are labelled for screen readers with `zoomInLabel`, `zoomOutLabel`, `panUpLabel`,
+`panDownLabel`, `panLeftLabel`, `panRightLabel`, `mapTypeLabel`, `roadmapLabel`, `satelliteLabel`,
+`fullscreenLabel`, `exitFullscreenLabel` and `cameraControlsLabel`, which default to English. Street View is always off.
+
 ## Theming
 
 | Variable | Default |
@@ -54,6 +78,13 @@ scripts inside the SVG never run. Inline markup needs the `xmlns` attribute to r
 | `--uc-map-area-color` | `--uc-primary-color` |
 | `--uc-map-exclusion-color` | `--uc-error-color` |
 | `--uc-map-marker-color` | `--uc-primary-color` |
+| `--uc-map-control-background` | `--uc-background-color` |
+| `--uc-map-control-border` | `1px solid` foreground at 8% |
+| `--uc-map-control-shadow` | a soft two-layer shadow |
+| `--uc-map-control-size` | `2.5rem`, the size of every control button; the pan arrows are 80% of it |
+| `--uc-map-control-hover-background` | foreground at 8% |
+| `--uc-map-control-radius` | `0.75rem` |
+| `--uc-map-control-inset` | `0.75rem`, the gap between the controls and the map edge |
 
 Colours are read once when the map loads, because Google Maps needs concrete colour values.
 

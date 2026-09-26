@@ -160,7 +160,8 @@ function toSearchQuery(value: string | number | null): string {
         </div>
       }
 
-      @if (data.loadMode === 'page') {
+      <!-- Only with a second page: a single page hides uc-pagination, which would leave an empty footer. -->
+      @if (data.loadMode === 'page' && (data.totalItems() ?? 0) > data.pageSize) {
         <div class="uc-select-pager">
           <uc-pagination
             [currentPage]="data.currentPage() - 1"

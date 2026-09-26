@@ -5,6 +5,23 @@
   --uc-map-exclusion-color-resolved: var(--uc-map-exclusion-color, var(--uc-error-color));
   --uc-map-marker-color-resolved: var(--uc-map-marker-color, var(--uc-primary-color));
   --uc-map-placeholder-background-resolved: var(--uc-map-placeholder-background, var(--uc-card-background-color));
+  --uc-map-control-background-resolved: var(--uc-map-control-background, var(--uc-background-color));
+  --uc-map-control-border-resolved: var(
+    --uc-map-control-border,
+    1px solid oklch(from var(--uc-foreground-color) l c h / 0.08)
+  );
+  --uc-map-control-shadow-resolved: var(
+    --uc-map-control-shadow,
+    0 1px 2px rgb(0 0 0 / 0.12),
+    0 4px 12px rgb(0 0 0 / 0.12)
+  );
+  --uc-map-control-radius-resolved: var(--uc-map-control-radius, 0.75rem);
+  --uc-map-control-inset-resolved: var(--uc-map-control-inset, 0.75rem);
+  --uc-map-control-size-resolved: var(--uc-map-control-size, 2.5rem);
+  --uc-map-control-hover-background-resolved: var(
+    --uc-map-control-hover-background,
+    oklch(from var(--uc-foreground-color) l c h / 0.08)
+  );
 
   position: relative;
   display: flex;
@@ -14,9 +31,129 @@
   border-radius: var(--uc-map-radius-resolved);
 }
 
+/* The browser sizes a full screen element itself; only the rounded corners have to go. */
+:host(:fullscreen) {
+  border-radius: 0;
+}
+
+.uc-map__canvas {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
 .uc-map__map {
   flex: 1;
   min-height: 0;
+}
+
+/* The library's controls float over the map on cards, so they read on any imagery. Every button is
+   one square size with an inner padding, like the controls of other map apps. The custom properties
+   are inherited into the icon buttons and the segmented toggle, which is how their size, corners and
+   the quieter hover are set from here. */
+.uc-map__control {
+  --uc-map-button-size: var(--uc-map-control-size-resolved);
+  --uc-map-icon-size: calc(var(--uc-map-button-size) / 2);
+  --uc-map-inner-radius: calc(var(--uc-map-control-radius-resolved) - 0.25rem);
+
+  --uc-icon-button-height: var(--uc-map-button-size);
+  --uc-icon-button-padding-inline: calc((var(--uc-map-button-size) - var(--uc-map-icon-size)) / 2);
+  --uc-icon-button-border-radius: var(--uc-map-inner-radius);
+  --uc-icon-button-color: var(--uc-foreground-color);
+  --uc-icon-button-hover-background: var(--uc-map-control-hover-background-resolved);
+  --uc-icon-button-hover-color: var(--uc-foreground-color);
+
+  --uc-segmented-toggle-pills-gap: 0.125rem;
+  --uc-segmented-toggle-pills-border-radius: var(--uc-map-inner-radius);
+  --uc-segmented-toggle-pills-hover-background: var(--uc-map-control-hover-background-resolved);
+  --uc-segmented-toggle-item-font-size: 0.8125rem;
+  --uc-segmented-toggle-item-line-height: 1rem;
+  --uc-segmented-toggle-item-padding-block: calc((var(--uc-map-button-size) - 1rem) / 2);
+  --uc-segmented-toggle-item-padding-inline: 0.875rem;
+
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  gap: 0.125rem;
+  padding: 0.25rem;
+  border: var(--uc-map-control-border-resolved);
+  border-radius: var(--uc-map-control-radius-resolved);
+  background: var(--uc-map-control-background-resolved);
+  box-shadow: var(--uc-map-control-shadow-resolved);
+}
+
+/* Projected into the icon buttons, so sized here: the buttons leave their content at text size. */
+.uc-map__icon {
+  display: block;
+  font-size: var(--uc-map-icon-size);
+  line-height: 1;
+}
+
+.uc-map__control--map-type {
+  top: var(--uc-map-control-inset-resolved);
+  left: var(--uc-map-control-inset-resolved);
+}
+
+.uc-map__control--fullscreen {
+  top: var(--uc-map-control-inset-resolved);
+  right: var(--uc-map-control-inset-resolved);
+}
+
+.uc-map__corner {
+  position: absolute;
+  z-index: 1;
+  right: var(--uc-map-control-inset-resolved);
+  bottom: calc(var(--uc-map-control-inset-resolved) * 2);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.uc-map__corner .uc-map__control {
+  position: static;
+}
+
+/* Opened above the toggle button: the pan arrows on the left, the zoom buttons beside them. */
+.uc-map__camera-panel {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.uc-map__control--zoom {
+  flex-direction: column;
+}
+
+/* A compact cross of four smaller arrows, so the pad does not outweigh the zoom buttons. */
+.uc-map__control--camera {
+  --uc-map-button-size: calc(var(--uc-map-control-size-resolved) * 0.8);
+
+  display: grid;
+  grid-template-columns: repeat(3, var(--uc-map-button-size));
+  grid-template-rows: repeat(3, var(--uc-map-button-size));
+  grid-template-areas:
+    '. up .'
+    'left . right'
+    '. down .';
+  gap: 0;
+}
+
+.uc-map__pan-up {
+  grid-area: up;
+}
+
+.uc-map__pan-left {
+  grid-area: left;
+}
+
+.uc-map__pan-right {
+  grid-area: right;
+}
+
+.uc-map__pan-down {
+  grid-area: down;
 }
 
 .uc-map__toolbar {

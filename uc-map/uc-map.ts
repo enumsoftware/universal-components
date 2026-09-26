@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   effect,
   ElementRef,
   inject,
@@ -11,9 +12,15 @@ import {
   model,
   output,
   signal,
+  viewChild,
   viewChildren,
 } from '@angular/core';
-import { UcButton } from '@enumsoftware/universal-components';
+import {
+  UcButton,
+  UcIconButton,
+  UcSegmentedToggle,
+  UcSegmentedToggleItem,
+} from '@enumsoftware/universal-components';
 import { GoogleMap, MapAdvancedMarker, MapMarker, MapMarkerClusterer, MapPolygon } from '@angular/google-maps';
 import { loadGoogleMaps, loadMarkerClusterer } from './uc-map-loader';
 import type {
@@ -31,6 +38,8 @@ interface DraftPolygon {
 }
 
 const DEFAULT_ICON_SIZE = 32;
+
+let nextControlsId = 0;
 
 /** Cache key for the pick marker's icon element, so it never collides with a marker id. */
 const PICK_MARKER = Symbol('pick-marker');
@@ -54,7 +63,17 @@ function svgSource(svg: string): string {
  */
 @Component({
   selector: 'uc-map',
-  imports: [GoogleMap, MapAdvancedMarker, MapMarker, MapMarkerClusterer, MapPolygon, UcButton],
+  imports: [
+    GoogleMap,
+    MapAdvancedMarker,
+    MapMarker,
+    MapMarkerClusterer,
+    MapPolygon,
+    UcButton,
+    UcIconButton,
+    UcSegmentedToggle,
+    UcSegmentedToggleItem,
+  ],
   templateUrl: './uc-map.html',
   styleUrl: './uc-map.css',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -73,6 +92,19 @@ export class UcMap {
   /** Default icon for every marker and for the pick marker. A marker's own `icon` wins. */
   markerIcon = input<UcMapMarkerIcon | null>(null);
 
+  /*
+   * The map's own controls, drawn with library components in place of Google's. Each can be hidden;
+   * zooming with the wheel or a pinch and dragging the map keep working without them.
+   */
+  /** The + and - zoom buttons. */
+  zoomControl = input<boolean>(true);
+  /** The arrow buttons that pan the map. */
+  cameraControl = input<boolean>(true);
+  /** The Map / Satellite switch. */
+  mapTypeControl = input<boolean>(true);
+  /** The full screen button. Also hidden where the browser cannot show an element full screen. */
+  fullscreenControl = input<boolean>(true);
+
   selectedPosition = model<UcMapPosition | null>(null);
   polygons = model<UcMapPolygon[]>([]);
 
@@ -84,10 +116,23 @@ export class UcMap {
   cancelLabel = input<string>('Cancel');
   deleteLabel = input<string>('Delete selected');
   drawingHint = input<string>('Click on the map to add points. At least three are needed.');
+  zoomInLabel = input<string>('Zoom in');
+  zoomOutLabel = input<string>('Zoom out');
+  panUpLabel = input<string>('Move up');
+  panDownLabel = input<string>('Move down');
+  panLeftLabel = input<string>('Move left');
+  panRightLabel = input<string>('Move right');
+  mapTypeLabel = input<string>('Map type');
+  roadmapLabel = input<string>('Map');
+  satelliteLabel = input<string>('Satellite');
+  fullscreenLabel = input<string>('Full screen');
+  exitFullscreenLabel = input<string>('Exit full screen');
+  cameraControlsLabel = input<string>('Map camera controls');
 
   markerClick = output<UcMapMarker>();
 
   private readonly polygonComponents = viewChildren(MapPolygon);
+  private readonly mapComponent = viewChild(GoogleMap);
 
   protected readonly status = signal<'loading' | 'ready' | 'error'>('loading');
   private readonly clustererLoaded = signal(false);
@@ -97,11 +142,21 @@ export class UcMap {
   protected readonly selectedPolygonId = signal<string | null>(null);
   protected readonly colors = signal({ area: '#2f5bd3', exclusion: '#d32f2f', marker: '#2f5bd3' });
 
+  /** `hybrid` is satellite imagery with labels, which is what Google's own Satellite button shows. */
+  protected readonly mapType = signal<string>('roadmap');
+  /** Bound to google-map's own input: changing `options` would reset the view to `center` and `zoom`. */
+  protected readonly mapTypeId = computed(() => this.mapType() as google.maps.MapTypeId);
+  protected readonly fullscreenSupported = signal(false);
+  protected readonly isFullscreen = signal(false);
+  /** The pan and zoom panel starts closed behind one button, as Google's camera control does. */
+  protected readonly controlsOpen = signal(false);
+  protected readonly controlsId = `uc-map-camera-controls-${nextControlsId++}`;
+
   protected readonly options = computed<google.maps.MapOptions>(() => ({
     mapId: this.mapId() ?? undefined,
     clickableIcons: false,
-    streetViewControl: false,
-    fullscreenControl: true,
+    // Google's buttons are replaced by the library's own, in the template.
+    disableDefaultUI: true,
     gestureHandling: 'cooperative',
     draggableCursor: this.mode() === 'view' ? undefined : 'crosshair',
   }));
@@ -118,6 +173,8 @@ export class UcMap {
   private readonly classicDraggable: google.maps.MarkerOptions = { draggable: true };
 
   constructor() {
+    const destroyRef = inject(DestroyRef);
+
     effect(() => {
       if (this.cluster() && !this.clustererLoaded() && typeof window !== 'undefined') {
         loadMarkerClusterer()
@@ -127,6 +184,12 @@ export class UcMap {
     });
 
     afterNextRender(() => {
+      const host = this.host.nativeElement;
+      const onFullscreenChange = () => this.isFullscreen.set(document.fullscreenElement === host);
+      this.fullscreenSupported.set(document.fullscreenEnabled === true);
+      document.addEventListener('fullscreenchange', onFullscreenChange);
+      destroyRef.onDestroy(() => document.removeEventListener('fullscreenchange', onFullscreenChange));
+
       this.readColors();
       loadGoogleMaps(this.apiKey())
         .then(() => this.status.set('ready'))
@@ -143,6 +206,40 @@ export class UcMap {
     }
 
     return pin;
+  }
+
+  protected toggleControls(): void {
+    this.controlsOpen.update((open) => !open);
+  }
+
+  protected zoomBy(step: number): void {
+    const map = this.map();
+    if (map) {
+      map.setZoom((map.getZoom() ?? this.zoom()) + step);
+    }
+  }
+
+  /** Moves the view by a third of the map in the given direction, as Google's own arrows do. */
+  protected pan(x: -1 | 0 | 1, y: -1 | 0 | 1): void {
+    const map = this.map();
+    if (map) {
+      const canvas = map.getDiv();
+      map.panBy((x * canvas.clientWidth) / 3, (y * canvas.clientHeight) / 3);
+    }
+  }
+
+  /** The whole component goes full screen, so the library's controls and the toolbar come along. */
+  protected toggleFullscreen(): void {
+    const host = this.host.nativeElement;
+    if (document.fullscreenElement === host) {
+      void document.exitFullscreen();
+    } else {
+      void host.requestFullscreen();
+    }
+  }
+
+  protected map(): google.maps.Map | undefined {
+    return this.mapComponent()?.googleMap;
   }
 
   /** Advanced marker content: the custom icon when there is one, otherwise a coloured pin. */

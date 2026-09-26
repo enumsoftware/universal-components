@@ -26,8 +26,14 @@ export class UcPagination {
   pageSizeOptions = input<number[]>(this.defaultPageSizes);
   showPageInfo = input<boolean>(true);
   showPageSelector = input<boolean>(true);
+  /** Placeholders: `{currentPage}`, `{totalPages}` and `{totalItems}` (for a count such as "40 results"). */
   pageInfoTemplate = input<string>('Page {currentPage} of {totalPages}');
   size = input<PaginationSize>('medium');
+  /**
+   * Hides the whole paginator while every item fits on one page. It stays shown while a smaller
+   * page size would split the items again, so the page size selector can still bring pages back.
+   */
+  hideSinglePage = input<boolean>(true);
 
   /** Texts, for apps in other languages. The jump labels may use `{count}` for the pages skipped. */
   previousPageLabel = input<string>('Previous page');
@@ -49,13 +55,22 @@ export class UcPagination {
 
   totalPages = computed(() => Math.ceil(this.totalItems() / this.pageSize()));
 
+  protected readonly hidden = computed(() => {
+    if (!this.hideSinglePage() || this.totalPages() > 1) {
+      return false;
+    }
+
+    return !this.showPageSelector() || this.totalItems() <= Math.min(...this.pageSizeOptions());
+  });
+
   pageInfoText = computed(() => {
     const currentPageText = (this.currentPage() + 1).toString();
     const totalPagesText = this.totalPages().toString();
 
     return this.pageInfoTemplate()
       .replaceAll('{currentPage}', currentPageText)
-      .replaceAll('{totalPages}', totalPagesText);
+      .replaceAll('{totalPages}', totalPagesText)
+      .replaceAll('{totalItems}', this.totalItems().toString());
   });
 
   isPreviousDisabled = computed(() => this.currentPage() === 0);

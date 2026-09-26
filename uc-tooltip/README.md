@@ -31,6 +31,20 @@ export class ExampleComponent {}
 <uc-button [ucTooltip]="'Save changes'" [text]="'Save'"></uc-button>
 ```
 
+### Keyboard
+
+The tooltip also shows while the host or anything inside it has keyboard focus, so it works on
+components such as `uc-icon-button`, whose real `<button>` is inside. A host the keyboard cannot
+reach on its own (an icon or a `<span>`) gets `tabindex="0"`; a host that is focusable or
+contains a focusable element gets no extra tab stop.
+
+On `uc-icon-button` the tooltip replaces the button's native `title`, so only one tooltip
+shows. Keep `label` set: it stays the button's accessible name.
+
+```html
+<uc-icon-button phosphorIcon="x" label="Clear filters" [ucTooltip]="'Clear filters'" />
+```
+
 ## Global Configuration
 
 Set app-wide defaults for position and margin using `provideUcTooltipConfig()` in your app providers:

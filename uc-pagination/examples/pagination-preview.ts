@@ -20,6 +20,7 @@ import { PaginationSize, UcPagination } from '../uc-pagination';
       [showPageSelector]="showPageSelector()"
       [pageInfoTemplate]="pageInfoTemplate()"
       [size]="size()"
+      [hideSinglePage]="hideSinglePage()"
       (pageChange)="page.set($event)"
       (pageSizeChange)="onPageSizeChange($event)"
     />
@@ -34,6 +35,7 @@ export class PaginationPreview {
   readonly showPageSelector = input<boolean>(true);
   readonly pageInfoTemplate = input<string>('Page {currentPage} of {totalPages}');
   readonly size = input<PaginationSize>('medium');
+  readonly hideSinglePage = input<boolean>(true);
 
   protected readonly page = signal(0);
   protected readonly currentPageSize = signal(10);

@@ -25,19 +25,31 @@
       </div>
     }
 
-    <google-map
-      class="uc-map__map"
-      width="100%"
-      height="100%"
-      [center]="center()"
-      [zoom]="zoom()"
-      [options]="options()"
-      (mapClick)="onMapClick($event)"
-    >
-      @if (mode() === 'view') {
-        @if (mapId()) {
-          @if (clustered()) {
-            <map-marker-clusterer>
+    <div class="uc-map__canvas">
+      <google-map
+        class="uc-map__map"
+        width="100%"
+        height="100%"
+        [center]="center()"
+        [zoom]="zoom()"
+        [mapTypeId]="mapTypeId()"
+        [options]="options()"
+        (mapClick)="onMapClick($event)"
+      >
+        @if (mode() === 'view') {
+          @if (mapId()) {
+            @if (clustered()) {
+              <map-marker-clusterer>
+                @for (marker of markers(); track marker.id) {
+                  <map-advanced-marker
+                    [position]="marker.position"
+                    [title]="marker.title ?? ''"
+                    [content]="contentFor(marker.id, marker.icon ?? markerIcon(), marker.color)"
+                    (mapClick)="markerClick.emit(marker)"
+                  />
+                }
+              </map-marker-clusterer>
+            } @else {
               @for (marker of markers(); track marker.id) {
                 <map-advanced-marker
                   [position]="marker.position"
@@ -46,20 +58,20 @@
                   (mapClick)="markerClick.emit(marker)"
                 />
               }
-            </map-marker-clusterer>
-          } @else {
-            @for (marker of markers(); track marker.id) {
-              <map-advanced-marker
-                [position]="marker.position"
-                [title]="marker.title ?? ''"
-                [content]="contentFor(marker.id, marker.icon ?? markerIcon(), marker.color)"
-                (mapClick)="markerClick.emit(marker)"
-              />
             }
-          }
-        } @else {
-          @if (clustered()) {
-            <map-marker-clusterer>
+          } @else {
+            @if (clustered()) {
+              <map-marker-clusterer>
+                @for (marker of markers(); track marker.id) {
+                  <map-marker
+                    [position]="marker.position"
+                    [title]="marker.title ?? ''"
+                    [options]="classicOptionsFor(marker.icon ?? markerIcon())"
+                    (mapClick)="markerClick.emit(marker)"
+                  />
+                }
+              </map-marker-clusterer>
+            } @else {
               @for (marker of markers(); track marker.id) {
                 <map-marker
                   [position]="marker.position"
@@ -68,41 +80,103 @@
                   (mapClick)="markerClick.emit(marker)"
                 />
               }
-            </map-marker-clusterer>
-          } @else {
-            @for (marker of markers(); track marker.id) {
-              <map-marker
-                [position]="marker.position"
-                [title]="marker.title ?? ''"
-                [options]="classicOptionsFor(marker.icon ?? markerIcon())"
-                (mapClick)="markerClick.emit(marker)"
-              />
             }
           }
         }
-      }
 
-      @if (mode() === 'pick' && selectedPosition(); as position) {
-        @if (mapId()) {
-          <map-advanced-marker [position]="position" [gmpDraggable]="true" [content]="contentFor(pickMarker, markerIcon(), undefined)" (mapDragend)="onPickDragEnd($event)" />
-        } @else {
-          <map-marker [position]="position" [options]="classicOptionsFor(markerIcon(), true)" (mapDragend)="onPickDragEnd($event)" />
+        @if (mode() === 'pick' && selectedPosition(); as position) {
+          @if (mapId()) {
+            <map-advanced-marker [position]="position" [gmpDraggable]="true" [content]="contentFor(pickMarker, markerIcon(), undefined)" (mapDragend)="onPickDragEnd($event)" />
+          } @else {
+            <map-marker [position]="position" [options]="classicOptionsFor(markerIcon(), true)" (mapDragend)="onPickDragEnd($event)" />
+          }
         }
+
+        @for (polygon of polygons(); track polygon.id; let index = $index) {
+          <map-polygon
+            [paths]="polygon.path"
+            [options]="polygonOptions(polygon.kind, polygon.id === selectedPolygonId(), mode() === 'polygons' && !draft())"
+            (polygonClick)="selectPolygon(polygon.id)"
+            (polygonMouseup)="syncPolygon(index)"
+          />
+        }
+
+        @if (draft(); as current) {
+          <map-polygon [paths]="current.path" [options]="polygonOptions(current.kind, true, false)" />
+        }
+      </google-map>
+
+      @if (mapTypeControl()) {
+        <div class="uc-map__control uc-map__control--map-type">
+          <uc-segmented-toggle [(value)]="mapType" variant="pills" [ariaLabel]="mapTypeLabel()">
+            <uc-segmented-toggle-item value="roadmap">{{ roadmapLabel() }}</uc-segmented-toggle-item>
+            <uc-segmented-toggle-item value="hybrid">{{ satelliteLabel() }}</uc-segmented-toggle-item>
+          </uc-segmented-toggle>
+        </div>
       }
 
-      @for (polygon of polygons(); track polygon.id; let index = $index) {
-        <map-polygon
-          [paths]="polygon.path"
-          [options]="polygonOptions(polygon.kind, polygon.id === selectedPolygonId(), mode() === 'polygons' && !draft())"
-          (polygonClick)="selectPolygon(polygon.id)"
-          (polygonMouseup)="syncPolygon(index)"
-        />
+      @if (fullscreenControl() && fullscreenSupported()) {
+        <div class="uc-map__control uc-map__control--fullscreen">
+          <uc-icon-button
+            variant="icon"
+            [label]="isFullscreen() ? exitFullscreenLabel() : fullscreenLabel()"
+            (clicked)="toggleFullscreen()"
+          >
+            <i class="uc-map__icon ph-bold" [class]="isFullscreen() ? 'ph-corners-in' : 'ph-corners-out'" aria-hidden="true"></i>
+          </uc-icon-button>
+        </div>
       }
 
-      @if (draft(); as current) {
-        <map-polygon [paths]="current.path" [options]="polygonOptions(current.kind, true, false)" />
+      @if (cameraControl() || zoomControl()) {
+        <div class="uc-map__corner" (keydown.escape)="controlsOpen.set(false)">
+          @if (controlsOpen()) {
+            <div class="uc-map__camera-panel" [id]="controlsId">
+              @if (cameraControl()) {
+                <div class="uc-map__control uc-map__control--camera">
+                  <uc-icon-button class="uc-map__pan-up" variant="icon" [label]="panUpLabel()" (clicked)="pan(0, -1)">
+                    <i class="uc-map__icon ph-bold ph-caret-up" aria-hidden="true"></i>
+                  </uc-icon-button>
+                  <uc-icon-button class="uc-map__pan-left" variant="icon" [label]="panLeftLabel()" (clicked)="pan(-1, 0)">
+                    <i class="uc-map__icon ph-bold ph-caret-left" aria-hidden="true"></i>
+                  </uc-icon-button>
+                  <uc-icon-button class="uc-map__pan-right" variant="icon" [label]="panRightLabel()" (clicked)="pan(1, 0)">
+                    <i class="uc-map__icon ph-bold ph-caret-right" aria-hidden="true"></i>
+                  </uc-icon-button>
+                  <uc-icon-button class="uc-map__pan-down" variant="icon" [label]="panDownLabel()" (clicked)="pan(0, 1)">
+                    <i class="uc-map__icon ph-bold ph-caret-down" aria-hidden="true"></i>
+                  </uc-icon-button>
+                </div>
+              }
+              @if (zoomControl()) {
+                <div class="uc-map__control uc-map__control--zoom">
+                  <uc-icon-button variant="icon" [label]="zoomInLabel()" (clicked)="zoomBy(1)">
+                    <i class="uc-map__icon ph-bold ph-plus" aria-hidden="true"></i>
+                  </uc-icon-button>
+                  <uc-icon-button variant="icon" [label]="zoomOutLabel()" (clicked)="zoomBy(-1)">
+                    <i class="uc-map__icon ph-bold ph-minus" aria-hidden="true"></i>
+                  </uc-icon-button>
+                </div>
+              }
+            </div>
+          }
+          <div class="uc-map__control">
+            <uc-icon-button
+              variant="icon"
+              [label]="cameraControlsLabel()"
+              [ariaExpanded]="controlsOpen()"
+              [ariaControls]="controlsOpen() ? controlsId : null"
+              (clicked)="toggleControls()"
+            >
+              <i
+                class="uc-map__icon ph-bold"
+                [class]="controlsOpen() ? 'ph-x' : 'ph-arrows-out-cardinal'"
+                aria-hidden="true"
+              ></i>
+            </uc-icon-button>
+          </div>
+        </div>
       }
-    </google-map>
+    </div>
   }
   @case ('error') {
     <p class="uc-map__message" role="alert">{{ errorLabel() }}</p>

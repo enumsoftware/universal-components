@@ -1,7 +1,25 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { UcTooltip } from '../uc-tooltip/uc-tooltip';
 import { UcIconButton } from './uc-icon-button';
+
+@Component({
+  imports: [UcIconButton, UcTooltip],
+  template: `<uc-icon-button label="Clear filters" phosphorIcon="x" [ucTooltip]="'Clear filters'" />`,
+})
+class UcIconButtonTooltipHost {}
+
+describe('UcIconButton with ucTooltip', () => {
+  it('should leave out the native title, so only the tooltip shows, and keep the accessible name', () => {
+    const fixture = TestBed.createComponent(UcIconButtonTooltipHost);
+    fixture.detectChanges();
+
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+    expect(button.hasAttribute('title')).toBe(false);
+    expect(button.getAttribute('aria-label')).toBe('Clear filters');
+  });
+});
 
 @Component({
   imports: [UcIconButton],
@@ -121,6 +139,19 @@ describe('UcImageButton', () => {
 
     expect(component.pressed()).toBe(false);
     expect(clicks).toBe(0);
+  });
+
+  it('should expose aria-expanded and aria-controls only when set', () => {
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+    expect(button.hasAttribute('aria-expanded')).toBe(false);
+    expect(button.hasAttribute('aria-controls')).toBe(false);
+
+    fixture.componentRef.setInput('ariaExpanded', false);
+    fixture.componentRef.setInput('ariaControls', 'panel');
+    fixture.detectChanges();
+
+    expect(button.getAttribute('aria-expanded')).toBe('false');
+    expect(button.getAttribute('aria-controls')).toBe('panel');
   });
 
   it('should not render an empty title when no label is provided', () => {
