@@ -365,7 +365,7 @@
   --uc-color-picker-swatch-border: oklch(from var(--uc-foreground-color) l c h / 0.15);
   --uc-color-picker-value-color: oklch(from var(--uc-foreground-color) l c h / 0.8);
   --uc-color-picker-error-color: var(--uc-error-color);
-  --uc-color-picker-disabled-opacity: 1;
+  --uc-color-picker-disabled-opacity: 0.5;
   --uc-color-picker-mode-btn-background: oklch(from var(--uc-foreground-color) l c h / 0.06);
   --uc-color-picker-mode-btn-active-background: var(--uc-primary-color);
   --uc-color-picker-mode-btn-active-color: var(--uc-primary-contrast-color, #fff);

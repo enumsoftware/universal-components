@@ -45,6 +45,41 @@ const bin: UcMapMarkerIcon = {
 `svg` is either inline markup (starting with `<`) or a URL. The icon is shown as an image, so
 scripts inside the SVG never run. Inline markup needs the `xmlns` attribute to render.
 
+## Fitting service areas
+
+When the map has `area` polygons, it zooms and moves so all of them fit on screen, with
+`fitPadding` pixels (48 by default) kept free around them. It does this when the map loads and
+whenever the app passes in new polygons, for example after loading them or when switching records.
+Areas the user draws, reshapes or deletes on the map never move the view, and exclusions are not
+fitted on their own. Set `fitToAreas` to `false` to keep `center` and `zoom` instead.
+
+```html
+<uc-map [apiKey]="key" mode="view" [polygons]="serviceAreas()" [fitPadding]="64" />
+```
+
+## Scrolling and touch
+
+`gestureHandling` sets how scrolling and touch move the map, as in the Google Maps SDK. Left unset, it
+follows the device: `greedy` when the main input is a touch screen (`(pointer: coarse)`), so one finger
+moves the map, and `cooperative` with a mouse or trackpad, so scrolling the page is not caught by the
+map. It updates if that changes, such as a tablet getting a keyboard and trackpad attached.
+
+On a phone, `greedy` means a swipe that starts on the map moves the map, not the page. For a tall map in
+a long page, set `cooperative` so the page can still be scrolled past it.
+
+| Value | Behaviour |
+|---|---|
+| `cooperative` | Ctrl + scroll, or two fingers on touch, moves the map. Plain scrolling scrolls the page, so a map in a long page does not trap it. |
+| `greedy` | Every scroll and touch gesture moves the map. Suits a full-screen map. |
+| `none` | Gestures never move the map; only its buttons do. |
+| `auto` | Google picks: `cooperative` when the page scrolls or the map is in an iframe, otherwise `greedy`. |
+
+```html
+<uc-map [apiKey]="key" gestureHandling="greedy" />
+```
+
+It can change while the map is shown without resetting the view.
+
 ## Map controls
 
 Google's own map buttons are turned off and replaced with library components, so the map matches the

@@ -1,4 +1,8 @@
 :host {
+  /* Contains the hidden native checkbox below. Without it the absolutely positioned input is
+     placed against the page, and a checkbox far down a scrolling container makes the whole page
+     taller (a second scrollbar). */
+  position: relative;
   display: flex;
   flex-direction: row;
   gap: 1rem;

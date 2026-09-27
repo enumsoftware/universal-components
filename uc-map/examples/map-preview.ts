@@ -1,7 +1,7 @@
 import { JsonPipe } from '@angular/common';
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, effect, input, signal } from '@angular/core';
 import { UcMap } from '../uc-map';
-import type { MapMode, UcMapMarker, UcMapMarkerIcon, UcMapPolygon, UcMapPosition } from '../uc-map-types';
+import type { MapGestureHandling, MapMode, UcMapMarker, UcMapMarkerIcon, UcMapPolygon, UcMapPosition } from '../uc-map-types';
 
 const LIGHT_ICON: UcMapMarkerIcon = {
   svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
@@ -33,6 +33,18 @@ function scatteredMarkers(center: UcMapPosition, count: number): UcMapMarker[] {
   }));
 }
 
+/** A service area around the old town, larger than the default view, so fitting it zooms out. */
+const SAMPLE_SERVICE_AREA: UcMapPolygon = {
+  id: 'sample-area',
+  kind: 'area',
+  path: [
+    { lat: 42.668, lng: 18.06 },
+    { lat: 42.668, lng: 18.13 },
+    { lat: 42.63, lng: 18.13 },
+    { lat: 42.63, lng: 18.06 },
+  ],
+};
+
 /** Needs a Google Maps API key; without one the map shows its error state. */
 @Component({
   selector: 'uc-map-preview',
@@ -46,6 +58,7 @@ function scatteredMarkers(center: UcMapPosition, count: number): UcMapMarker[] {
       [zoom]="14"
       [markers]="markers()"
       [cluster]="cluster()"
+      [gestureHandling]="gestureHandling() ?? null"
       [zoomControl]="zoomControl()"
       [cameraControl]="cameraControl()"
       [mapTypeControl]="mapTypeControl()"
@@ -61,6 +74,7 @@ export class MapPreview {
   readonly mapId = input<string>('DEMO_MAP_ID');
   readonly mode = input<MapMode>('view');
   readonly cluster = input<boolean>(true);
+  readonly gestureHandling = input<MapGestureHandling | undefined>(undefined);
   readonly zoomControl = input<boolean>(true);
   readonly cameraControl = input<boolean>(true);
   readonly mapTypeControl = input<boolean>(true);
@@ -80,4 +94,11 @@ export class MapPreview {
   ]);
   protected readonly selected = signal<UcMapPosition | null>(null);
   protected readonly polygons = signal<UcMapPolygon[]>([]);
+
+  /** Starts the map with a sample service area, which the map then fits on screen. */
+  readonly withServiceArea = input<boolean>(false);
+
+  constructor() {
+    effect(() => this.polygons.set(this.withServiceArea() ? [SAMPLE_SERVICE_AREA] : []));
+  }
 }

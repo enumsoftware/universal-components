@@ -2,7 +2,7 @@
   <div
     class="spinner-loader"
     role="status"
-    aria-label="Loading"
+    [attr.aria-label]="label()"
     [style.width]="size()"
     [style.height]="size()"
     [style.border-width]="thickness()"

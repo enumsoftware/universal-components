@@ -218,14 +218,29 @@
   color: var(--uc-color-picker-format-btn-active-color-resolved);
 }
 
-.uc-color-picker__formatted-value {
+.uc-color-picker__value-input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--uc-color-picker-dropdown-border-resolved);
+  border-radius: 0.375rem;
+  background: transparent;
+  color: var(--uc-color-picker-value-color-resolved);
+  font: inherit;
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--uc-color-picker-value-color-resolved);
   letter-spacing: 0.02em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+}
+
+.uc-color-picker__value-input:focus-visible {
+  outline: 2px solid var(--uc-color-picker-trigger-focus-color-resolved);
+  outline-offset: -1px;
+}
+
+.uc-color-picker__value-input.uc-color-picker__value-input--invalid {
+  border-color: var(--uc-color-picker-error-color-resolved);
+  outline-color: var(--uc-color-picker-error-color-resolved);
 }
 
 .uc-color-picker__actions {
@@ -249,8 +264,15 @@
 
 /* States */
 
-.uc-color-picker--disabled {
+.uc-color-picker--disabled,
+.uc-color-picker--readonly {
   pointer-events: none;
+}
+
+/* Dimmed so a disabled picker does not look like one that fails to open. Read-only keeps full
+   colour: its value is real, just not editable. */
+.uc-color-picker--disabled {
+  opacity: var(--uc-color-picker-disabled-opacity-resolved);
 }
 
 .uc-color-picker--hidden {

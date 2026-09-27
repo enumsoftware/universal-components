@@ -43,3 +43,13 @@ export interface UcMapPolygon {
  */
 export const MAP_MODE_OPTIONS = ['view', 'pick', 'polygons'] as const;
 export type MapMode = (typeof MAP_MODE_OPTIONS)[number];
+
+/**
+ * How the map reacts to scrolling and touch, as Google Maps' `gestureHandling`:
+ * - `cooperative`: Ctrl + scroll (or two fingers on touch) moves the map; plain scrolling scrolls the page.
+ * - `greedy`: every scroll and touch gesture moves the map.
+ * - `none`: gestures never move the map; only the map's buttons do.
+ * - `auto`: Google picks, which is `cooperative` when the page scrolls or the map is in an iframe.
+ */
+export const MAP_GESTURE_HANDLING_OPTIONS = ['cooperative', 'greedy', 'none', 'auto'] as const;
+export type MapGestureHandling = (typeof MAP_GESTURE_HANDLING_OPTIONS)[number];

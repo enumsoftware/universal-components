@@ -12,7 +12,7 @@ import {
   model,
   output,
   signal,
-  viewChild,
+  untracked,
   viewChildren,
 } from '@angular/core';
 import {
@@ -24,6 +24,7 @@ import {
 import { GoogleMap, MapAdvancedMarker, MapMarker, MapMarkerClusterer, MapPolygon } from '@angular/google-maps';
 import { loadGoogleMaps, loadMarkerClusterer } from './uc-map-loader';
 import type {
+  MapGestureHandling,
   MapMode,
   MapPolygonKind,
   UcMapMarker,
@@ -49,6 +50,21 @@ function iconBox(icon: UcMapMarkerIcon): { width: number; height: number; anchor
   const height = icon.height ?? width;
   return { width, height, anchor: icon.anchor ?? { x: width / 2, y: height } };
 }
+
+/** The box around every service area (`area` polygon), or null when there is none to fit. */
+function areaBounds(polygons: readonly UcMapPolygon[]): google.maps.LatLngBoundsLiteral | null {
+  const points = polygons.filter((polygon) => polygon.kind === 'area').flatMap((polygon) => polygon.path);
+  if (points.length === 0) {
+    return null;
+  }
+
+  const lats = points.map((point) => point.lat);
+  const lngs = points.map((point) => point.lng);
+  return { north: Math.max(...lats), south: Math.min(...lats), east: Math.max(...lngs), west: Math.min(...lngs) };
+}
+
+/** A touch screen as the main input, where a swipe on the map should move it rather than the page. */
+const TOUCH_FIRST = '(pointer: coarse)';
 
 /** Inline markup becomes a data URL so it is loaded as an image and never parsed into the page. */
 function svgSource(svg: string): string {
@@ -86,6 +102,12 @@ export class UcMap {
   center = input<UcMapPosition>({ lat: 45.815, lng: 15.982 });
   zoom = input<number>(13);
   mode = input<MapMode>('view');
+  /**
+   * How scrolling and touch move the map. See `MapGestureHandling`. Unset, it follows the device:
+   * `greedy` when the main input is touch, so one finger moves the map, and `cooperative` with a
+   * mouse or trackpad, so scrolling the page does not get caught by the map.
+   */
+  gestureHandling = input<MapGestureHandling | null>(null);
   markers = input<readonly UcMapMarker[]>([]);
   /** Groups nearby markers in `view` mode. The clusterer library is loaded only when this is on. */
   cluster = input<boolean>(true);
@@ -107,6 +129,13 @@ export class UcMap {
 
   selectedPosition = model<UcMapPosition | null>(null);
   polygons = model<UcMapPolygon[]>([]);
+  /**
+   * Zoom and move the map so every service area (`area` polygon) fits on screen, when the map loads
+   * and whenever the app passes in new polygons. Areas the user draws or edits never move the view.
+   */
+  fitToAreas = input<boolean>(true);
+  /** Space in pixels kept between the fitted areas and the edge of the map. */
+  fitPadding = input<number>(48);
 
   loadingLabel = input<string>('Loading map');
   errorLabel = input<string>('The map could not be loaded.');
@@ -132,7 +161,15 @@ export class UcMap {
   markerClick = output<UcMapMarker>();
 
   private readonly polygonComponents = viewChildren(MapPolygon);
-  private readonly mapComponent = viewChild(GoogleMap);
+  private readonly mapInstance = signal<google.maps.Map | null>(null);
+  /** Read once up front for the map's first options, then kept current by a media query listener. */
+  private readonly touchFirst = signal(typeof matchMedia === 'function' && matchMedia(TOUCH_FIRST).matches);
+  protected readonly resolvedGestureHandling = computed<MapGestureHandling>(
+    () => this.gestureHandling() ?? (this.touchFirst() ? 'greedy' : 'cooperative'),
+  );
+  /** The last polygons this component produced itself, so its own edits are not fitted to. */
+  private ownPolygons: readonly UcMapPolygon[] | null = null;
+  private fittedPolygons: readonly UcMapPolygon[] | null = null;
 
   protected readonly status = signal<'loading' | 'ready' | 'error'>('loading');
   private readonly clustererLoaded = signal(false);
@@ -157,8 +194,8 @@ export class UcMap {
     clickableIcons: false,
     // Google's buttons are replaced by the library's own, in the template.
     disableDefaultUI: true,
-    gestureHandling: 'cooperative',
-    draggableCursor: this.mode() === 'view' ? undefined : 'crosshair',
+    // Read untracked: a later change is applied to the map directly, see the constructor.
+    gestureHandling: untracked(() => this.resolvedGestureHandling()),
   }));
 
   protected readonly pickMarker = PICK_MARKER;
@@ -175,6 +212,30 @@ export class UcMap {
   constructor() {
     const destroyRef = inject(DestroyRef);
 
+    // Set on the map directly rather than through `options`: google-map re-applies `center` and `zoom`
+    // whenever `options` change, which would throw away a fitted or panned view on every mode switch.
+    effect(() => {
+      this.mapInstance()?.setOptions({ draggableCursor: this.mode() === 'view' ? null : 'crosshair' });
+    });
+
+    effect(() => {
+      this.mapInstance()?.setOptions({ gestureHandling: this.resolvedGestureHandling() });
+    });
+
+    effect(() => {
+      const map = this.mapInstance();
+      const polygons = this.polygons();
+      if (!map || !this.fitToAreas() || polygons === this.ownPolygons || polygons === this.fittedPolygons) {
+        return;
+      }
+
+      const bounds = areaBounds(polygons);
+      if (bounds) {
+        this.fittedPolygons = polygons;
+        map.fitBounds(bounds, this.fitPadding());
+      }
+    });
+
     effect(() => {
       if (this.cluster() && !this.clustererLoaded() && typeof window !== 'undefined') {
         loadMarkerClusterer()
@@ -189,6 +250,14 @@ export class UcMap {
       this.fullscreenSupported.set(document.fullscreenEnabled === true);
       document.addEventListener('fullscreenchange', onFullscreenChange);
       destroyRef.onDestroy(() => document.removeEventListener('fullscreenchange', onFullscreenChange));
+
+      // A tablet can gain or lose a keyboard and trackpad while the map is open.
+      if (typeof matchMedia === 'function') {
+        const touchQuery = matchMedia(TOUCH_FIRST);
+        const onTouchChange = (event: MediaQueryListEvent) => this.touchFirst.set(event.matches);
+        touchQuery.addEventListener('change', onTouchChange);
+        destroyRef.onDestroy(() => touchQuery.removeEventListener('change', onTouchChange));
+      }
 
       this.readColors();
       loadGoogleMaps(this.apiKey())
@@ -239,7 +308,16 @@ export class UcMap {
   }
 
   protected map(): google.maps.Map | undefined {
-    return this.mapComponent()?.googleMap;
+    return this.mapInstance() ?? undefined;
+  }
+
+  protected onMapInitialized(map: google.maps.Map): void {
+    this.mapInstance.set(map);
+  }
+
+  private setOwnPolygons(polygons: UcMapPolygon[]): void {
+    this.ownPolygons = polygons;
+    this.polygons.set(polygons);
   }
 
   /** Advanced marker content: the custom icon when there is one, otherwise a coloured pin. */
@@ -315,7 +393,7 @@ export class UcMap {
       return;
     }
 
-    this.polygons.update((polygons) => [...polygons, { id: crypto.randomUUID(), kind: draft.kind, path: draft.path }]);
+    this.setOwnPolygons([...this.polygons(), { id: crypto.randomUUID(), kind: draft.kind, path: draft.path }]);
     this.draft.set(null);
   }
 
@@ -331,7 +409,7 @@ export class UcMap {
 
   protected deleteSelected(): void {
     const id = this.selectedPolygonId();
-    this.polygons.update((polygons) => polygons.filter((polygon) => polygon.id !== id));
+    this.setOwnPolygons(this.polygons().filter((polygon) => polygon.id !== id));
     this.selectedPolygonId.set(null);
   }
 
@@ -343,7 +421,7 @@ export class UcMap {
     }
 
     const path = googlePolygon.getPath().getArray().map((latLng) => latLng.toJSON());
-    this.polygons.update((polygons) => polygons.map((polygon, i) => (i === index ? { ...polygon, path } : polygon)));
+    this.setOwnPolygons(this.polygons().map((polygon, i) => (i === index ? { ...polygon, path } : polygon)));
   }
 
   /** Each marker needs its own element: a DOM node can only be shown by one marker at a time. */

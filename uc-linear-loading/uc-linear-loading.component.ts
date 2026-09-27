@@ -1,4 +1,4 @@
-import { Component, model, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, model, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'uc-linear-loading',
@@ -10,4 +10,6 @@ import { Component, model, ChangeDetectionStrategy } from '@angular/core';
 export class UcLinearLoading {
   color = model<string | undefined>();
   loading = model.required();
+  /** What screen readers announce while it runs; replace it in apps in other languages. */
+  label = input<string>('Loading');
 }

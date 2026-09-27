@@ -35,6 +35,7 @@
         [mapTypeId]="mapTypeId()"
         [options]="options()"
         (mapClick)="onMapClick($event)"
+        (mapInitialized)="onMapInitialized($event)"
       >
         @if (mode() === 'view') {
           @if (mapId()) {
