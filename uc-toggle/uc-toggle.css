@@ -20,6 +20,16 @@
   transition: background 0.2s;
   display: inline-block;
 }
+.slide-toggle:focus-visible {
+  outline: 2px solid var(--uc-toggle-focus-outline-color, var(--uc-primary-color));
+  outline-offset: 2px;
+}
+
+.slide-toggle.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .slide-toggle.checked {
   background: var(--uc-toggle-checked-background-resolved);
 }

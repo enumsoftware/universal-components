@@ -6,6 +6,8 @@
     1px solid var(--uc-segmented-toggle-border-color-resolved)
   );
   --uc-segmented-toggle-border-radius-resolved: var(--uc-segmented-toggle-border-radius, 0.75rem);
+  --uc-segmented-toggle-padding-resolved: var(--uc-segmented-toggle-padding, 0.25rem);
+  --uc-segmented-toggle-gap-resolved: var(--uc-segmented-toggle-gap, 0.125rem);
   --uc-segmented-toggle-pills-gap-resolved: var(--uc-segmented-toggle-pills-gap, 0.5rem);
   --uc-segmented-toggle-disabled-opacity-resolved: var(--uc-segmented-toggle-disabled-opacity, 0.65);
   display: inline-flex;
@@ -13,11 +15,17 @@
   max-width: 100%;
 }
 
+/* A padded track with each option rounded inside it, the look of the uc-map Map / Satellite switch.
+   The options' corners are derived from the track's here, on every toggle, so a toggle that sets its
+   own radius or padding keeps them nested. */
 .uc-segmented-toggle {
   display: inline-flex;
   align-items: stretch;
+  gap: var(--uc-segmented-toggle-gap-resolved);
   overflow: hidden;
   width: 100%;
+  box-sizing: border-box;
+  padding: var(--uc-segmented-toggle-padding-resolved);
   border: var(--uc-segmented-toggle-border-resolved);
   border-radius: var(--uc-segmented-toggle-border-radius-resolved);
   background: var(--uc-segmented-toggle-background-resolved);
@@ -28,6 +36,7 @@
 .uc-segmented-toggle.uc-segmented-toggle--pills {
   gap: var(--uc-segmented-toggle-pills-gap-resolved);
   overflow: visible;
+  padding: 0;
   border: 0;
   border-radius: 0;
   background: transparent;

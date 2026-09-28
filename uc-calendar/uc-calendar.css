@@ -77,16 +77,23 @@ uc-calendar {
     --uc-dtp-range-preview-endcap-inset,
     5%
   );
+  --uc-dtp-calendar-border-resolved: var(--uc-dtp-calendar-border, none);
+  --uc-dtp-calendar-border-radius-resolved: var(--uc-dtp-calendar-border-radius, 0.75rem);
 }
 
-.uc-calendar__grid {
+/* themes/theme.css styles every <table> under [data-theme] (border, rounded corners, background,
+   margin, row hover), and the grid is a table. These selectors are made specific enough to win over
+   those rules, including the stronger `.uc-content table` ones, so the calendar looks the same
+   wherever it is placed. No border by default; --uc-dtp-calendar-border turns one on. */
+uc-calendar table.uc-calendar__grid.uc-calendar__grid {
   display: table;
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
   margin: 0;
-  border: none;
+  border: var(--uc-dtp-calendar-border-resolved);
+  border-radius: var(--uc-dtp-calendar-border-radius-resolved);
   background: transparent;
   outline: none;
   box-shadow: none;
@@ -104,8 +111,7 @@ uc-calendar {
   }
 }
 
-.uc-calendar__grid th,
-.uc-calendar__grid td {
+uc-calendar .uc-calendar__grid.uc-calendar__grid :is(th, td) {
   display: table-cell;
   width: 14.2857%;
   vertical-align: middle;
@@ -118,10 +124,13 @@ uc-calendar {
   line-height: inherit;
 }
 
-.uc-calendar__grid thead,
-.uc-calendar__grid tbody,
-.uc-calendar__grid tr {
+uc-calendar .uc-calendar__grid.uc-calendar__grid :is(thead, tbody, tr) {
   border: none;
+}
+
+/* The theme tints a hovered table row; a calendar marks the hovered day instead. */
+uc-calendar .uc-calendar__grid.uc-calendar__grid tbody tr:hover {
+  background: transparent;
 }
 
 .uc-calendar__day-cell {

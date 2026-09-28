@@ -10,16 +10,12 @@
   );
   --uc-segmented-toggle-item-hover-background-resolved: var(
     --uc-segmented-toggle-item-hover-background,
-    oklch(from var(--uc-background-color-90) l c h / 0.35)
-  );
-  --uc-segmented-toggle-item-separator-color-resolved: var(
-    --uc-segmented-toggle-item-separator-color,
-    var(--uc-background-color-90)
+    oklch(from var(--uc-foreground-color) l c h / 0.08)
   );
   --uc-segmented-toggle-item-font-size-resolved: var(--uc-segmented-toggle-item-font-size, 0.95rem);
   --uc-segmented-toggle-item-font-weight-resolved: var(--uc-segmented-toggle-item-font-weight, 600);
   --uc-segmented-toggle-item-line-height-resolved: var(--uc-segmented-toggle-item-line-height, 1.25rem);
-  --uc-segmented-toggle-item-padding-block-resolved: var(--uc-segmented-toggle-item-padding-block, 0.65rem);
+  --uc-segmented-toggle-item-padding-block-resolved: var(--uc-segmented-toggle-item-padding-block, 0.4rem);
   --uc-segmented-toggle-item-padding-inline-resolved: var(--uc-segmented-toggle-item-padding-inline, 1rem);
   --uc-segmented-toggle-pills-border-radius-resolved: var(--uc-segmented-toggle-pills-border-radius, 100px);
   --uc-segmented-toggle-pills-hover-background-resolved: var(
@@ -45,14 +41,14 @@
   line-height: var(--uc-segmented-toggle-item-line-height-resolved);
   padding-block: var(--uc-segmented-toggle-item-padding-block-resolved);
   padding-inline: var(--uc-segmented-toggle-item-padding-inline-resolved);
+  /* Inherited from the toggle: an option's corners sit just inside the track's. */
+  border-radius: calc(
+    var(--uc-segmented-toggle-border-radius-resolved, 0.75rem) - var(--uc-segmented-toggle-padding-resolved, 0.25rem)
+  );
   cursor: pointer;
   transition:
     background-color 0.2s,
     color 0.2s;
-}
-
-:host(:not(:last-child)) .uc-segmented-toggle-item__button:not(.uc-segmented-toggle-item__button--pills) {
-  border-right: 1px solid var(--uc-segmented-toggle-item-separator-color-resolved);
 }
 
 /* Inherited into uc-phosphor-icon's :host, where it overrides the :root theme size so the icon

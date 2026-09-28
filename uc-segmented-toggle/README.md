@@ -91,6 +91,32 @@ You can project any content inside each item.
 </uc-segmented-toggle>
 ```
 
+## Default Style
+
+The options sit in a padded track, the selected one drawn as a rounded pill inside it, with no dividers
+between them. It matches the Map / Satellite switch on `uc-map`.
+
+| Token | Default | |
+|---|---|---|
+| `--uc-segmented-toggle-background` | `--uc-background-color` | The track |
+| `--uc-segmented-toggle-border` | 1px `--uc-input-border-color` | The track |
+| `--uc-segmented-toggle-border-radius` | `0.75rem` | The track; the options use this minus the padding |
+| `--uc-segmented-toggle-padding` | `0.25rem` | Space between the track and the options |
+| `--uc-segmented-toggle-gap` | `0.125rem` | Space between the options |
+| `--uc-segmented-toggle-item-hover-background` | foreground at 8% | |
+| `--uc-segmented-toggle-item-selected-background` | `--uc-primary-color` | |
+
+The options' corners are worked out from each toggle's own radius and padding, so a toggle sized down
+with these tokens keeps them nested:
+
+```css
+.toolbar {
+  --uc-segmented-toggle-border-radius: 0.5rem;
+  --uc-segmented-toggle-padding: 0.1875rem;
+  --uc-segmented-toggle-item-padding-block: 0.25rem;
+}
+```
+
 ## Pills Variant
 
 `variant="pills"` draws each item as a separate, fully rounded pill with a gap between them, matching
@@ -134,7 +160,7 @@ Disable the entire group:
 #### Inputs
 
 - `disabled: boolean` - Disables all toggle items.
-- `variant: 'default' | 'pills'` - Joined segments in a track (default) or separate rounded pills.
+- `variant: 'default' | 'pills'` - Options in a padded track (default) or separate rounded pills.
 
 #### Model (Two-Way Bindable)
 

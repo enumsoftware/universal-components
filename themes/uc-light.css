@@ -179,6 +179,8 @@
   --uc-segmented-toggle-border-color: var(--uc-input-border-color);
   --uc-segmented-toggle-border: 1px solid var(--uc-segmented-toggle-border-color);
   --uc-segmented-toggle-border-radius: 0.75rem;
+  --uc-segmented-toggle-padding: 0.25rem;
+  --uc-segmented-toggle-gap: 0.125rem;
   --uc-segmented-toggle-disabled-opacity: 0.65;
   --uc-segmented-toggle-pills-gap: 0.5rem;
   --uc-segmented-toggle-pills-border-radius: 100px;
@@ -188,9 +190,9 @@
   --uc-segmented-toggle-item-font-size: 0.95rem;
   --uc-segmented-toggle-item-font-weight: 600;
   --uc-segmented-toggle-item-icon-size: 1.125rem;
-  --uc-segmented-toggle-item-hover-background: oklch(from var(--uc-background-color-90) l c h / 0.35);
+  --uc-segmented-toggle-item-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-segmented-toggle-item-line-height: 1.25rem;
-  --uc-segmented-toggle-item-padding-block: 0.65rem;
+  --uc-segmented-toggle-item-padding-block: 0.4rem;
   --uc-segmented-toggle-item-padding-inline: 1rem;
   --uc-segmented-toggle-item-selected-background: var(--uc-primary-color);
   --uc-segmented-toggle-item-selected-color: var(--uc-inverse-foreground-color);
@@ -383,6 +385,8 @@
   --uc-dtp-dropdown-bg: var(--uc-card-background-color);
   --uc-dtp-dropdown-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   --uc-dtp-dropdown-border: oklch(from var(--uc-foreground-color) l c h / 0.1);
+  --uc-dtp-calendar-border: none;
+  --uc-dtp-calendar-border-radius: 0.75rem;
   --uc-dtp-weekday-color: oklch(from var(--uc-foreground-color) l c h / 0.4);
   --uc-dtp-day-hover-bg: oklch(from var(--uc-primary-color) l c h / 0.1);
   --uc-dtp-day-today-color: var(--uc-primary-color);
