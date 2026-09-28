@@ -22,6 +22,7 @@ import {
   UcSegmentedToggleItem,
 } from '@enumsoftware/universal-components';
 import { GoogleMap, MapAdvancedMarker, MapMarker, MapMarkerClusterer, MapPolygon } from '@angular/google-maps';
+import { CLUSTER_ICON_SIZE, clusterIconSvg, type UcMapClusterStyle } from './uc-map-cluster';
 import { loadGoogleMaps, loadMarkerClusterer } from './uc-map-loader';
 import type {
   MapGestureHandling,
@@ -39,6 +40,17 @@ interface DraftPolygon {
 }
 
 const DEFAULT_ICON_SIZE = 32;
+
+/**
+ * The part of @googlemaps/markerclusterer's `Renderer` that uc-map implements. Typed here so type
+ * checking an app never needs that optional package.
+ */
+interface ClusterRenderer {
+  render(cluster: {
+    count: number;
+    position: google.maps.LatLng;
+  }): google.maps.Marker | google.maps.marker.AdvancedMarkerElement;
+}
 
 let nextControlsId = 0;
 
@@ -111,6 +123,8 @@ export class UcMap {
   markers = input<readonly UcMapMarker[]>([]);
   /** Groups nearby markers in `view` mode. The clusterer library is loaded only when this is on. */
   cluster = input<boolean>(true);
+  /** A cluster's name for screen readers and its tooltip. `{count}` is the number of markers in it. */
+  clusterLabel = input<string>('{count} markers');
   /** Default icon for every marker and for the pick marker. A marker's own `icon` wins. */
   markerIcon = input<UcMapMarkerIcon | null>(null);
 
@@ -177,7 +191,57 @@ export class UcMap {
   protected readonly clustered = computed(() => this.cluster() && this.clustererLoaded());
   protected readonly draft = signal<DraftPolygon | null>(null);
   protected readonly selectedPolygonId = signal<string | null>(null);
-  protected readonly colors = signal({ area: '#2f5bd3', exclusion: '#d32f2f', marker: '#2f5bd3' });
+  protected readonly colors = signal({
+    area: '#2f5bd3',
+    exclusion: '#d32f2f',
+    marker: '#2f5bd3',
+    cluster: { background: '#2f5bd3', color: '#ffffff', borderColor: '#ffffff', borderWidth: 0 } as UcMapClusterStyle,
+  });
+
+  /**
+   * Draws each cluster as an SVG circle with its count (`99+` above 99), in the `--uc-map-cluster-*`
+   * colours. Advanced markers are used with a `mapId`, classic ones without, as for single markers.
+   *
+   * A new renderer is made whenever those colours change, such as on a theme switch: the clusterer
+   * keeps the icons it has drawn, and google-map rebuilds it, redrawing every icon, only when its
+   * `renderer` input changes.
+   */
+  protected readonly clusterRenderer = computed<ClusterRenderer>(() => {
+    const style = this.colors().cluster;
+    return { render: (cluster) => this.renderCluster(cluster, style) };
+  });
+
+  private renderCluster(
+    { count, position }: { count: number; position: google.maps.LatLng },
+    style: UcMapClusterStyle,
+  ): google.maps.Marker | google.maps.marker.AdvancedMarkerElement {
+    const url = svgSource(clusterIconSvg(count, style));
+    const title = this.clusterLabel().replaceAll('{count}', String(count));
+    // Above every single marker, and bigger clusters above smaller ones.
+    const zIndex = Number(google.maps.Marker.MAX_ZINDEX) + count;
+
+    if (this.mapId()) {
+      const icon = document.createElement('img');
+      icon.src = url;
+      icon.width = CLUSTER_ICON_SIZE;
+      icon.height = CLUSTER_ICON_SIZE;
+      icon.alt = '';
+      // Advanced markers put the bottom centre of their content on the position; centre it instead.
+      icon.style.transform = 'translateY(50%)';
+      return new google.maps.marker.AdvancedMarkerElement({ position, content: icon, title, zIndex });
+    }
+
+    return new google.maps.Marker({
+      position,
+      title,
+      zIndex,
+      icon: {
+        url,
+        scaledSize: new google.maps.Size(CLUSTER_ICON_SIZE, CLUSTER_ICON_SIZE),
+        anchor: new google.maps.Point(CLUSTER_ICON_SIZE / 2, CLUSTER_ICON_SIZE / 2),
+      },
+    });
+  }
 
   /** `hybrid` is satellite imagery with labels, which is what Google's own Satellite button shows. */
   protected readonly mapType = signal<string>('roadmap');
@@ -260,6 +324,7 @@ export class UcMap {
       }
 
       this.readColors();
+      this.watchTheme(destroyRef);
       loadGoogleMaps(this.apiKey())
         .then(() => this.status.set('ready'))
         .catch(() => this.status.set('error'));
@@ -444,15 +509,48 @@ export class UcMap {
     return element;
   }
 
-  /** Google Maps needs real colour strings, so the CSS custom properties are resolved once. */
+  /**
+   * Reads the colours again when the theme changes. A theme is switched with `data-theme` (or a class
+   * or inline style) on the map or any element above it, not only on <html>, or by the system light
+   * and dark setting.
+   */
+  private watchTheme(destroyRef: DestroyRef): void {
+    const observer = new MutationObserver(() => this.readColors());
+    for (let element: Element | null = this.host.nativeElement; element; element = element.parentElement) {
+      observer.observe(element, { attributes: true, attributeFilter: ['data-theme', 'class', 'style'] });
+    }
+    destroyRef.onDestroy(() => observer.disconnect());
+
+    if (typeof matchMedia === 'function') {
+      const scheme = matchMedia('(prefers-color-scheme: dark)');
+      const onSchemeChange = () => this.readColors();
+      scheme.addEventListener('change', onSchemeChange);
+      destroyRef.onDestroy(() => scheme.removeEventListener('change', onSchemeChange));
+    }
+  }
+
+  /**
+   * Google Maps needs real colour strings, so the CSS custom properties are resolved here, on load and
+   * on every theme change. Unchanged colours are not set again, so an unrelated class change on an
+   * ancestor does not rebuild the clusterer.
+   */
   private readColors(): void {
     const style = getComputedStyle(this.host.nativeElement);
     const read = (name: string, fallback: string) => style.getPropertyValue(name).trim() || fallback;
 
-    this.colors.set({
+    const colors = {
       area: read('--uc-map-area-color-resolved', '#2f5bd3'),
       exclusion: read('--uc-map-exclusion-color-resolved', '#d32f2f'),
       marker: read('--uc-map-marker-color-resolved', '#2f5bd3'),
-    });
+      cluster: {
+        background: read('--uc-map-cluster-background-resolved', '#2f5bd3'),
+        color: read('--uc-map-cluster-color-resolved', '#ffffff'),
+        borderColor: read('--uc-map-cluster-border-color-resolved', '#ffffff'),
+        borderWidth: parseFloat(read('--uc-map-cluster-border-width-resolved', '0')) || 0,
+      },
+    };
+    if (JSON.stringify(colors) !== JSON.stringify(this.colors())) {
+      this.colors.set(colors);
+    }
   }
 }

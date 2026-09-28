@@ -11,10 +11,19 @@
   cursor: pointer;
 }
 
+/* Visually hidden but still focusable and announced; the box shows its state and focus. */
 input[type="checkbox"] {
   position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
   opacity: 0;
-  visibility: hidden;
+  pointer-events: none;
+}
+
+input[type="checkbox"]:focus-visible + .uc-checkbox {
+  outline: 2px solid var(--uc-checkbox-focus-outline-color, var(--uc-primary-color));
+  outline-offset: 2px;
 }
 
 .uc-checkbox {

@@ -21,6 +21,7 @@ import {
   getChartMutedAxisLineColor,
   getChartSeriesColor,
 } from '../uc-chart-palette';
+import { thinAxisLabels } from '../uc-chart-axis';
 
 const TOOLTIP_OFFSET_X = 12;
 const TOOLTIP_OFFSET_Y = 12;
@@ -202,9 +203,8 @@ export class UcBarChart implements OnDestroy {
       .call(d3.axisBottom(x0).tickSizeOuter(0))
       .call((axis) => axis.select('.domain').remove())
       .call((axis) => axis.selectAll('.tick line').attr('stroke', mutedAxisLineColor))
-      .selectAll('text')
-      .attr('fill', mutedAxisColor)
-      .attr('font-size', '0.75rem');
+      .call((axis) => axis.selectAll('text').attr('fill', mutedAxisColor).attr('font-size', '0.75rem'))
+      .call((axis) => thinAxisLabels(axis, x0.step()));
 
     g.append('g')
       .call(d3.axisLeft(y).ticks(5).tickSizeOuter(0))

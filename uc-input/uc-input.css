@@ -5,6 +5,8 @@
   --uc-input-background-error-color-resolved: var(--uc-input-background-error-color, oklch(from var(--uc-error-color) l c h / 0.1));
   --uc-input-disabled-background-color-resolved: var(--uc-input-disabled-background-color, oklch(from var(--uc-background-color) calc(l * 0.96) c h));
   --uc-input-disabled-color-resolved: var(--uc-input-disabled-color, oklch(from var(--uc-foreground-color) l c h / 0.55));
+  --uc-input-password-font-size-resolved: var(--uc-input-password-font-size, 1.5rem);
+  --uc-input-password-letter-spacing-resolved: var(--uc-input-password-letter-spacing, 0.1em);
   display: flex;
   flex-grow: 1;
   flex-shrink: 1;
@@ -119,5 +121,13 @@
     background-color: var(--uc-input-disabled-background-color-resolved);
     color: var(--uc-input-disabled-color-resolved);
     cursor: not-allowed;
+  }
+
+  /* The masking dots are drawn at the text size, which makes them tiny. A larger size and a little
+     spacing make them readable. The field keeps its fixed height, the placeholder keeps its normal
+     size, and a revealed password is plain text again, so neither is affected. */
+  &[type='password']:not(:placeholder-shown) {
+    font-size: var(--uc-input-password-font-size-resolved);
+    letter-spacing: var(--uc-input-password-letter-spacing-resolved);
   }
 }

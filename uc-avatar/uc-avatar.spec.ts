@@ -68,6 +68,7 @@ describe('UcAvatar', () => {
 
     const avatar = fixture.nativeElement.querySelector('.uc-avatar');
     expect(avatar.style.backgroundColor).toBe('rgb(20, 108, 148)');
-    expect(avatar.style.getPropertyValue('--uc-avatar-size')).toBe('3rem');
+    // The size goes on the host, where the stylesheet resolves --uc-avatar-size-resolved.
+    expect(fixture.nativeElement.style.getPropertyValue('--uc-avatar-size')).toBe('3rem');
   });
 });

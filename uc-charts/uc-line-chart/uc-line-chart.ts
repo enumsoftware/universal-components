@@ -18,6 +18,7 @@ import {
   getChartMutedAxisLineColor,
   getLineChartSeriesColor,
 } from '../uc-chart-palette';
+import { thinAxisLabels } from '../uc-chart-axis';
 import { UcLineChartInterpolation, UcLineChartSeries } from './uc-line-chart.model';
 
 const TOOLTIP_OFFSET_X = 12;
@@ -127,6 +128,9 @@ export class UcLineChart implements OnDestroy {
     const minValue = allValues.length > 0 ? Math.min(...allValues, 0) : 0;
     const maxValue = allValues.length > 0 ? Math.max(...allValues) : 0;
     const padding = (maxValue - minValue) * 0.1 || 1;
+    // Counts get whole-number ticks, and a chart that starts at zero does not dip below it.
+    const wholeNumbers = allValues.every((value) => Number.isInteger(value));
+    const yMin = minValue >= 0 ? 0 : minValue - padding;
 
     const svg = d3
       .select(container)
@@ -144,8 +148,9 @@ export class UcLineChart implements OnDestroy {
 
     const yScale = d3
       .scaleLinear()
-      .domain([minValue - padding, maxValue + padding])
+      .domain([yMin, maxValue + padding])
       .range([height, 0]);
+    const yTicks = wholeNumbers ? yScale.ticks().filter((tick) => Number.isInteger(tick)) : yScale.ticks();
 
     const line = d3
       .line<{ label: string; value: number }>()
@@ -165,6 +170,7 @@ export class UcLineChart implements OnDestroy {
       .call(
         d3
           .axisLeft(yScale)
+          .tickValues(yTicks)
           .tickSize(-width)
           .tickFormat(null as any)
       )
@@ -179,11 +185,17 @@ export class UcLineChart implements OnDestroy {
       .call((axis) => axis.select('.domain').remove())
       .call((axis) => axis.selectAll('.tick line').attr('stroke', mutedAxisLineColor))
       .call((axis) => axis.selectAll('text').attr('fill', mutedAxisColor))
-      .style('font-size', '12px');
+      .style('font-size', '12px')
+      .call((axis) => thinAxisLabels(axis, xScale.step()));
+
+    const yAxis = d3.axisLeft(yScale).tickValues(yTicks);
+    if (wholeNumbers) {
+      yAxis.tickFormat(d3.format('d'));
+    }
 
     svg
       .append('g')
-      .call(d3.axisLeft(yScale))
+      .call(yAxis)
       .call((axis) => axis.select('.domain').remove())
       .call((axis) => axis.selectAll('.tick line').attr('stroke', axisLineColor))
       .call((axis) => axis.selectAll('text').attr('fill', axisColor))

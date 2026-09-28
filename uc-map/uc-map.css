@@ -5,6 +5,11 @@
   --uc-map-exclusion-color-resolved: var(--uc-map-exclusion-color, var(--uc-error-color));
   --uc-map-marker-color-resolved: var(--uc-map-marker-color, var(--uc-primary-color));
   --uc-map-placeholder-background-resolved: var(--uc-map-placeholder-background, var(--uc-card-background-color));
+  /* No border by default; set a width to add one. */
+  --uc-map-cluster-background-resolved: var(--uc-map-cluster-background, var(--uc-primary-color));
+  --uc-map-cluster-color-resolved: var(--uc-map-cluster-color, var(--uc-inverse-foreground-color));
+  --uc-map-cluster-border-color-resolved: var(--uc-map-cluster-border-color, var(--uc-background-color));
+  --uc-map-cluster-border-width-resolved: var(--uc-map-cluster-border-width, 0px);
   --uc-map-control-background-resolved: var(--uc-map-control-background, var(--uc-background-color));
   --uc-map-control-border-resolved: var(
     --uc-map-control-border,

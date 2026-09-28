@@ -40,7 +40,7 @@
         @if (mode() === 'view') {
           @if (mapId()) {
             @if (clustered()) {
-              <map-marker-clusterer>
+              <map-marker-clusterer [renderer]="clusterRenderer()">
                 @for (marker of markers(); track marker.id) {
                   <map-advanced-marker
                     [position]="marker.position"
@@ -62,7 +62,7 @@
             }
           } @else {
             @if (clustered()) {
-              <map-marker-clusterer>
+              <map-marker-clusterer [renderer]="clusterRenderer()">
                 @for (marker of markers(); track marker.id) {
                   <map-marker
                     [position]="marker.position"

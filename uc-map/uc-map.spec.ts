@@ -1,5 +1,6 @@
 /// <reference types="google.maps" />
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { UcMap } from './uc-map';
 import { loadMarkerClusterer } from './uc-map-loader';
 import type { UcMapMarkerIcon, UcMapPolygon } from './uc-map-types';
@@ -10,6 +11,11 @@ function click(lat: number, lng: number): google.maps.MapMouseEvent {
 }
 
 interface UcMapInternals {
+  clusterRenderer(): {
+    render(cluster: { count: number; position: google.maps.LatLng }): unknown;
+  };
+  colors: { set(value: unknown): void; (): { cluster: object } };
+  readColors(): void;
   onMapClick(event: google.maps.MapMouseEvent): void;
   startDraft(kind: 'area' | 'exclusion'): void;
   finishDraft(): void;
@@ -181,6 +187,102 @@ describe('UcMap', () => {
 
   it('uses cooperative gesture handling with a mouse or trackpad', () => {
     expect(internals.options().gestureHandling).toBe('cooperative');
+  });
+
+  describe('cluster icons', () => {
+    const originalGoogle = (globalThis as { google?: unknown }).google;
+
+    /** Records what the renderer builds instead of creating real Google markers. */
+    class FakeMarker {
+      static MAX_ZINDEX = 1000;
+      constructor(readonly options: google.maps.MarkerOptions) {}
+    }
+    class FakeAdvancedMarker {
+      constructor(readonly options: google.maps.marker.AdvancedMarkerElementOptions) {}
+    }
+
+    beforeEach(() => {
+      (globalThis as { google?: unknown }).google = {
+        maps: {
+          Marker: FakeMarker,
+          Size: class {
+            constructor(readonly width: number, readonly height: number) {}
+          },
+          Point: class {
+            constructor(readonly x: number, readonly y: number) {}
+          },
+          marker: { AdvancedMarkerElement: FakeAdvancedMarker },
+        },
+      };
+    });
+
+    afterEach(() => {
+      (globalThis as { google?: unknown }).google = originalGoogle;
+    });
+
+    const position = { lat: () => 42.65, lng: () => 18.09 } as unknown as google.maps.LatLng;
+    const svgOf = (url: string) => decodeURIComponent(url.slice(url.indexOf(',') + 1));
+
+    it('draws a classic marker with the count, centred on the cluster', () => {
+      const marker = internals.clusterRenderer().render({ count: 12, position }) as FakeMarker;
+      const icon = marker.options.icon as google.maps.Icon;
+
+      expect(svgOf(icon.url)).toContain('>12</text>');
+      expect(icon.anchor).toEqual({ x: 20, y: 20 });
+      expect(marker.options.title).toBe('12 markers');
+      expect(marker.options.zIndex).toBe(1012);
+    });
+
+    it('shows 99+ above 99 and uses the cluster label input', () => {
+      fixture.componentRef.setInput('clusterLabel', '{count} prijava');
+
+      const marker = internals.clusterRenderer().render({ count: 180, position }) as FakeMarker;
+
+      expect(svgOf((marker.options.icon as google.maps.Icon).url)).toContain('>99+</text>');
+      expect(marker.options.title).toBe('180 prijava');
+    });
+
+    it('makes a new renderer when the cluster colours change, and only then', () => {
+      // Re-reading unchanged colours, as an unrelated class change above the map does, keeps the
+      // renderer, so the clusterer is not rebuilt for nothing.
+      internals.readColors();
+      const first = internals.clusterRenderer();
+      internals.readColors();
+      expect(internals.clusterRenderer()).toBe(first);
+
+      const second = internals.clusterRenderer();
+      internals.colors.set({
+        ...internals.colors(),
+        cluster: { background: '#000000', color: '#ffffff', borderColor: '#ffffff', borderWidth: 0 },
+      });
+      const marker = internals.clusterRenderer().render({ count: 3, position }) as FakeMarker;
+
+      expect(internals.clusterRenderer()).not.toBe(second);
+      expect(svgOf((marker.options.icon as google.maps.Icon).url)).toContain('fill="#000000"');
+    });
+
+    it('draws an advanced marker when the map has a mapId', () => {
+      fixture.componentRef.setInput('mapId', 'DEMO_MAP_ID');
+
+      const marker = internals.clusterRenderer().render({ count: 5, position }) as FakeAdvancedMarker;
+      const content = marker.options.content as HTMLImageElement;
+
+      expect(marker).toBeInstanceOf(FakeAdvancedMarker);
+      expect(svgOf(content.src)).toContain('>5</text>');
+      expect(content.style.transform).toBe('translateY(50%)');
+    });
+  });
+
+  it('reads the colours again when the theme changes on an element above the map', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const readColors = vi.spyOn(internals, 'readColors');
+
+    document.documentElement.setAttribute('data-theme', 'dark');
+    await Promise.resolve();
+
+    expect(readColors).toHaveBeenCalled();
+    document.documentElement.removeAttribute('data-theme');
   });
 
   describe('on a touch-first device', () => {

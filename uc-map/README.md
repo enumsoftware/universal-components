@@ -27,6 +27,32 @@ With `cluster` on (the default), nearby markers in `view` mode are grouped. `@go
 is imported only when clustering is first used; until it has loaded, or if it fails to load, markers are
 shown unclustered. Set `[cluster]="false"` to always show every marker on its own.
 
+## Cluster icons
+
+Clusters are drawn as a circle with the number of markers in them, from 0 to 99 and then `99+`. Style
+them with CSS custom properties on `uc-map` or in the theme:
+
+| Variable | Default |
+|---|---|
+| `--uc-map-cluster-background` | `--uc-primary-color` |
+| `--uc-map-cluster-color` | `--uc-inverse-foreground-color`, the number |
+| `--uc-map-cluster-border-color` | `--uc-background-color` |
+| `--uc-map-cluster-border-width` | `0`, no border; set a width such as `2px` to add one |
+
+```css
+uc-map.reports {
+  --uc-map-cluster-background: #d32f2f;
+  --uc-map-cluster-color: #fff;
+  --uc-map-cluster-border-color: #fff;
+  --uc-map-cluster-border-width: 2px;
+}
+```
+
+Like the other map colours they are read when the map loads and again whenever the theme changes, so
+clusters, areas and pins follow a switch between light and dark. The icon is an SVG image, so its
+number uses the system font rather than the page's web font. `clusterLabel` (default
+`'{count} markers'`) names each cluster for screen readers and its tooltip.
+
 ## Custom icons
 
 Give a marker an `icon` to replace its coloured pin, or set `markerIcon` to use one icon for every
@@ -121,7 +147,9 @@ The buttons are labelled for screen readers with `zoomInLabel`, `zoomOutLabel`, 
 | `--uc-map-control-radius` | `0.75rem` |
 | `--uc-map-control-inset` | `0.75rem`, the gap between the controls and the map edge |
 
-Colours are read once when the map loads, because Google Maps needs concrete colour values.
+Google Maps needs concrete colour values, so these are read when the map loads and again whenever the
+theme changes: a `data-theme`, class or style change on the map or any element above it, or the system
+light and dark setting.
 
 ## Accessibility
 
