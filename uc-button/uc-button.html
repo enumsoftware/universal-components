@@ -16,7 +16,7 @@
 >
   <span class="uc-button-content">
     <ng-content select="[ucButtonPrefix]"></ng-content>
-    {{ text() }}
+    <span class="uc-button-label">{{ text() }}</span>
     <ng-content select="[ucButtonSuffix]"></ng-content>
   </span>
 

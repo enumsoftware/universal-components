@@ -103,3 +103,15 @@
 .uc-segmented-toggle-item__button.uc-segmented-toggle-item__button--selected.uc-segmented-toggle-item__button--disabled:hover {
   background: var(--uc-segmented-toggle-item-selected-background-resolved);
 }
+
+/* Optical centring: the text box is trimmed to the capitals and the baseline, so the text sits in the
+   middle of its shape instead of being pushed down by the font's built-in space above and below. The
+   margin gives back exactly what was trimmed, so the control keeps its height. Browsers without
+   text-box keep the untrimmed layout. */
+@supports (text-box: trim-both cap alphabetic) {
+  .uc-segmented-toggle-item__label {
+    display: block;
+    text-box: trim-both cap alphabetic;
+    margin-block: calc((1lh - 1cap) / 2);
+  }
+}

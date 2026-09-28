@@ -16,5 +16,5 @@
     <uc-phosphor-icon class="uc-segmented-toggle-item__icon" [icon]="icon" [weight]="iconWeight()" />
   }
   <ng-content select="[ucSegmentedTogglePrefix]"></ng-content>
-  <ng-content></ng-content>
+  <span class="uc-segmented-toggle-item__label"><ng-content></ng-content></span>
 </button>

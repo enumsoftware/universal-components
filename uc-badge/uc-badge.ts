@@ -35,7 +35,7 @@ export type UcBadgeVariant = (typeof BADGE_VARIANT_OPTIONS)[number];
  */
 @Component({
   selector: 'uc-badge',
-  template: `{{ badge().ucBadgeSize() === 'small' ? '' : badge().text() }}`,
+  template: `@if (badge().ucBadgeSize() !== 'small') {<span class="uc-badge__label">{{ badge().text() }}</span>}`,
   styleUrl: './uc-badge.css',
   changeDetection: ChangeDetectionStrategy.Eager,
   host: {

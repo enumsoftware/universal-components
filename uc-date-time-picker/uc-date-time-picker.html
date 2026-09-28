@@ -79,7 +79,7 @@
           class="uc-date-time-picker__year-btn"
           [class.uc-date-time-picker__year-btn--current]="year === viewYear()"
           (click)="selectYear(year)"
-        >{{ year }}</button>
+        ><span class="uc-date-time-picker__cell-label">{{ year }}</span></button>
         }
       </div>
       }
@@ -100,7 +100,7 @@
           class="uc-date-time-picker__month-btn"
           [class.uc-date-time-picker__month-btn--current]="$index + 1 === viewMonth()"
           (click)="selectMonth($index + 1)"
-        >{{ month.slice(0, 3) }}</button>
+        ><span class="uc-date-time-picker__cell-label">{{ month.slice(0, 3) }}</span></button>
         }
       </div>
       }

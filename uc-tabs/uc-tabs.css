@@ -158,3 +158,15 @@
     }
   }
 }
+
+/* Optical centring: the text box is trimmed to the capitals and the baseline, so the text sits in the
+   middle of its shape instead of being pushed down by the font's built-in space above and below. The
+   margin gives back exactly what was trimmed, so the control keeps its height. Browsers without
+   text-box keep the untrimmed layout. */
+@supports (text-box: trim-both cap alphabetic) {
+  .uc-tabs__tab-label {
+    display: block;
+    text-box: trim-both cap alphabetic;
+    margin-block: calc((1lh - 1cap) / 2);
+  }
+}
