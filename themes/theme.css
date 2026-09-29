@@ -49,6 +49,15 @@ body {
   background-color: var(--uc-side-navigation-backdrop-background, rgba(0, 0, 0, 0.8)) !important;
 }
 
+/*
+ * The backdrop behind CDK dialogs (Dialog's default backdrop class). CDK's own 32% black barely
+ * separates a dialog from a dark page, so dark themes set a stronger one. Two classes, so this wins
+ * over @angular/cdk/overlay-prebuilt.css whichever is loaded last.
+ */
+.cdk-overlay-backdrop.cdk-overlay-dark-backdrop {
+  background: var(--uc-dialog-backdrop-background, rgba(0, 0, 0, 0.32));
+}
+
 :where(*) {
   --uc-scrollbar-track-color-resolved: var(--uc-scrollbar-track-color, oklch(from var(--uc-primary-color) l 0.02 h / 0.3));
   --uc-scrollbar-thumb-color-resolved: var(--uc-scrollbar-thumb-color, oklch(from var(--uc-primary-color) l 0.02 h / 0.9));

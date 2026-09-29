@@ -144,6 +144,11 @@ export class UcMap {
   selectedPosition = model<UcMapPosition | null>(null);
   polygons = model<UcMapPolygon[]>([]);
   /**
+   * Shows the area and exclusion polygons. In `polygons` mode they are always shown, since they are
+   * being drawn and edited there. Hidden areas are not fitted on screen; showing them fits them.
+   */
+  showPolygons = input<boolean>(true);
+  /**
    * Zoom and move the map so every service area (`area` polygon) fits on screen, when the map loads
    * and whenever the app passes in new polygons. Areas the user draws or edits never move the view.
    */
@@ -176,6 +181,7 @@ export class UcMap {
 
   private readonly polygonComponents = viewChildren(MapPolygon);
   private readonly mapInstance = signal<google.maps.Map | null>(null);
+  protected readonly polygonsVisible = computed(() => this.showPolygons() || this.mode() === 'polygons');
   /** Read once up front for the map's first options, then kept current by a media query listener. */
   private readonly touchFirst = signal(typeof matchMedia === 'function' && matchMedia(TOUCH_FIRST).matches);
   protected readonly resolvedGestureHandling = computed<MapGestureHandling>(
@@ -289,7 +295,13 @@ export class UcMap {
     effect(() => {
       const map = this.mapInstance();
       const polygons = this.polygons();
-      if (!map || !this.fitToAreas() || polygons === this.ownPolygons || polygons === this.fittedPolygons) {
+      if (
+        !map ||
+        !this.fitToAreas() ||
+        !this.polygonsVisible() ||
+        polygons === this.ownPolygons ||
+        polygons === this.fittedPolygons
+      ) {
         return;
       }
 
@@ -423,7 +435,9 @@ export class UcMap {
       fillColor: color,
       fillOpacity: kind === 'area' ? 0.12 : 0.25,
       editable,
-      clickable: true,
+      // Only when editing polygons: in pick mode a click inside an area (such as a service area)
+      // must reach the map and place the marker, and in view mode areas are just shown.
+      clickable: this.mode() === 'polygons',
     };
   }
 
@@ -509,6 +523,61 @@ export class UcMap {
     return element;
   }
 
+  private colorProbe: HTMLElement | null = null;
+  private colorCanvas: CanvasRenderingContext2D | null | undefined;
+
+  /**
+   * A CSS colour as plain rgb() or rgba(). Theme tokens are often relative or wide-gamut colours
+   * (`oklch(from #161c2d calc(l * 0.8) c h)`), which some browsers cannot draw inside the SVG images
+   * used for pins and clusters. The browser resolves the colour on a hidden element, and one pixel
+   * drawn on a canvas turns it into sRGB. Without a canvas (tests, very old browsers) the value is
+   * returned as the browser computed it.
+   */
+  private resolveColor(value: string): string {
+    if (!value || typeof document === 'undefined') {
+      return value;
+    }
+
+    if (!this.colorProbe) {
+      this.colorProbe = document.createElement('span');
+      this.colorProbe.hidden = true;
+      this.colorProbe.setAttribute('aria-hidden', 'true');
+      this.host.nativeElement.appendChild(this.colorProbe);
+    }
+
+    const probe = this.colorProbe;
+    probe.style.color = '';
+    probe.style.color = value;
+    if (!probe.style.color) {
+      return value;
+    }
+    const computed = getComputedStyle(probe).color || value;
+
+    if (this.colorCanvas === undefined) {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1;
+        canvas.height = 1;
+        this.colorCanvas = canvas.getContext('2d', { willReadFrequently: true });
+      } catch {
+        this.colorCanvas = null;
+      }
+    }
+
+    const context = this.colorCanvas;
+    if (!context) {
+      return computed;
+    }
+
+    context.clearRect(0, 0, 1, 1);
+    context.fillStyle = computed;
+    context.fillRect(0, 0, 1, 1);
+    const [red, green, blue, alpha] = context.getImageData(0, 0, 1, 1).data;
+    return alpha === 255
+      ? `rgb(${red}, ${green}, ${blue})`
+      : `rgba(${red}, ${green}, ${blue}, ${Number((alpha / 255).toFixed(3))})`;
+  }
+
   /**
    * Reads the colours again when the theme changes. A theme is switched with `data-theme` (or a class
    * or inline style) on the map or any element above it, not only on <html>, or by the system light
@@ -536,7 +605,7 @@ export class UcMap {
    */
   private readColors(): void {
     const style = getComputedStyle(this.host.nativeElement);
-    const read = (name: string, fallback: string) => style.getPropertyValue(name).trim() || fallback;
+    const read = (name: string, fallback: string) => this.resolveColor(style.getPropertyValue(name).trim()) || fallback;
 
     const colors = {
       area: read('--uc-map-area-color-resolved', '#2f5bd3'),
@@ -546,7 +615,7 @@ export class UcMap {
         background: read('--uc-map-cluster-background-resolved', '#2f5bd3'),
         color: read('--uc-map-cluster-color-resolved', '#ffffff'),
         borderColor: read('--uc-map-cluster-border-color-resolved', '#ffffff'),
-        borderWidth: parseFloat(read('--uc-map-cluster-border-width-resolved', '0')) || 0,
+        borderWidth: parseFloat(style.getPropertyValue('--uc-map-cluster-border-width-resolved')) || 0,
       },
     };
     if (JSON.stringify(colors) !== JSON.stringify(this.colors())) {

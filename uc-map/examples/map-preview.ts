@@ -58,6 +58,7 @@ const SAMPLE_SERVICE_AREA: UcMapPolygon = {
       [zoom]="14"
       [markers]="markers()"
       [cluster]="cluster()"
+      [showPolygons]="showPolygons()"
       [gestureHandling]="gestureHandling() ?? null"
       [zoomControl]="zoomControl()"
       [cameraControl]="cameraControl()"
@@ -66,7 +67,10 @@ const SAMPLE_SERVICE_AREA: UcMapPolygon = {
       [(selectedPosition)]="selected"
       [(polygons)]="polygons"
     />
-    <pre>{{ selected() | json }}</pre>
+
+    @if(selected()) {
+      <pre class="uc-mt-2">{{ selected() | json }}</pre>
+    }
   `,
 })
 export class MapPreview {
@@ -74,6 +78,7 @@ export class MapPreview {
   readonly mapId = input<string>('DEMO_MAP_ID');
   readonly mode = input<MapMode>('view');
   readonly cluster = input<boolean>(true);
+  readonly showPolygons = input<boolean>(true);
   readonly gestureHandling = input<MapGestureHandling | undefined>(undefined);
   readonly zoomControl = input<boolean>(true);
   readonly cameraControl = input<boolean>(true);
@@ -96,7 +101,7 @@ export class MapPreview {
   protected readonly polygons = signal<UcMapPolygon[]>([]);
 
   /** Starts the map with a sample service area, which the map then fits on screen. */
-  readonly withServiceArea = input<boolean>(false);
+  readonly withServiceArea = input<boolean>(true);
 
   constructor() {
     effect(() => this.polygons.set(this.withServiceArea() ? [SAMPLE_SERVICE_AREA] : []));

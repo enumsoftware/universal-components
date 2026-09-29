@@ -1,0 +1,37 @@
+@if (readonly()) {
+  <!-- Shown only: one image for assistive technology, such as "3.6 of 5". -->
+  <span class="uc-rating uc-rating--readonly" role="img" [attr.aria-label]="readonlyLabel() || null" [style.--uc-rating-size]="size()">
+    @for (star of stars(); track star) {
+      <span class="uc-rating__star" aria-hidden="true">
+        <i class="ph-fill ph-star uc-rating__empty"></i>
+        <i class="ph-fill ph-star uc-rating__full" [style.width.%]="fill(star)"></i>
+      </span>
+    }
+  </span>
+} @else {
+  <div
+    class="uc-rating"
+    role="radiogroup"
+    [attr.aria-label]="ariaLabelledby() ? null : ariaLabel()"
+    [attr.aria-labelledby]="ariaLabelledby()"
+    [attr.aria-disabled]="disabled() || null"
+    [class.uc-rating--disabled]="disabled()"
+    [style.--uc-rating-size]="size()"
+  >
+    @for (star of stars(); track star) {
+      <span
+        #star
+        class="uc-rating__star uc-rating__option"
+        role="radio"
+        [attr.aria-checked]="value() === star"
+        [attr.aria-label]="label(star)"
+        [attr.tabindex]="tabIndex(star)"
+        (click)="choose(star)"
+        (keydown)="onKeydown($event, star)"
+      >
+        <i class="ph-fill ph-star uc-rating__empty" aria-hidden="true"></i>
+        <i class="ph-fill ph-star uc-rating__full" [style.width.%]="fill(star)" aria-hidden="true"></i>
+      </span>
+    }
+  </div>
+}

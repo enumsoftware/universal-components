@@ -29,6 +29,7 @@ interface UcMapInternals {
   toggleControls(): void;
   controlsOpen(): boolean;
   onMapInitialized(map: google.maps.Map): void;
+  polygonsVisible(): boolean;
   contentFor(key: unknown, icon: UcMapMarkerIcon | null | undefined, color: string | undefined): Node;
 }
 
@@ -96,6 +97,22 @@ describe('UcMap', () => {
     internals.onMapClick(click(42.65, 18.09));
 
     expect(component.selectedPosition()).toEqual({ lat: 42.65, lng: 18.09 });
+  });
+
+  it('lets clicks pass through areas except while editing polygons', () => {
+    const clickable = () =>
+      (component as unknown as { polygonOptions(kind: 'area', selected: boolean, editable: boolean): google.maps.PolygonOptions })
+        .polygonOptions('area', false, false).clickable;
+
+    // A click inside a service area has to reach the map to place the pick marker.
+    fixture.componentRef.setInput('mode', 'pick');
+    expect(clickable()).toBe(false);
+
+    fixture.componentRef.setInput('mode', 'view');
+    expect(clickable()).toBe(false);
+
+    fixture.componentRef.setInput('mode', 'polygons');
+    expect(clickable()).toBe(true);
   });
 
   it('hides the Google map controls, which the library draws instead', () => {
@@ -330,6 +347,30 @@ describe('UcMap', () => {
       { gestureHandling: 'cooperative' },
       { gestureHandling: 'greedy' },
     ]);
+  });
+
+  it('hides the polygons with showPolygons, but always shows them in polygons mode', () => {
+    expect(internals.polygonsVisible()).toBe(true);
+
+    fixture.componentRef.setInput('showPolygons', false);
+    expect(internals.polygonsVisible()).toBe(false);
+
+    fixture.componentRef.setInput('mode', 'polygons');
+    expect(internals.polygonsVisible()).toBe(true);
+  });
+
+  it('does not fit hidden areas, and fits them once they are shown', () => {
+    const map = fakeMap();
+    fixture.componentRef.setInput('showPolygons', false);
+    component.polygons.set([SERVICE_AREA]);
+    internals.onMapInitialized(map.instance);
+    TestBed.tick();
+    expect(map.fits).toEqual([]);
+
+    fixture.componentRef.setInput('showPolygons', true);
+    TestBed.tick();
+
+    expect(map.fits).toHaveLength(1);
   });
 
   it('zooms the map one step in or out', () => {

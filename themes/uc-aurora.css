@@ -511,6 +511,7 @@
   --uc-side-navigation-sidebar-background: var(--uc-sidebar-background-color);
   --uc-side-navigation-sidebar-border-radius: 0;
   --uc-side-navigation-backdrop-background: rgba(0, 0, 0, 0.8);
+  --uc-dialog-backdrop-background: rgba(0, 0, 0, 0.32);
   --uc-side-navigation-animation-duration: 0.3s;
 
   /* --- Sidebar Button --- */

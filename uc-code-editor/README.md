@@ -24,7 +24,7 @@ language badge.
 The component is standalone and can be imported directly:
 
 ```typescript
-import { UcCodeEditor } from '@enumsoftware/universal-components';
+import { UcCodeEditor } from '@enumsoftware/universal-components/uc-code-editor';
 
 @Component({
   imports: [UcCodeEditor],
@@ -34,7 +34,47 @@ export class MyComponent {}
 ```
 
 `monaco-editor` is a regular dependency of this package (not a peer dependency), so no extra
-install step is required.
+install step is required. It is a separate entry point, so apps without a code editor never build Monaco.
+
+### App build setup
+
+Monaco needs three entries in the app's `angular.json`, under the build target's `options`:
+
+```json
+"loader": { ".ttf": "file" },
+"styles": [
+  "node_modules/monaco-editor/min/vs/editor/editor.main.css",
+  "src/styles.css"
+],
+"assets": [
+  {
+    "glob": "editor.worker.js",
+    "input": "node_modules/@enumsoftware/universal-components/dist/uc-code-editor",
+    "output": "uc-code-editor"
+  }
+]
+```
+
+- **`loader`**: Monaco's stylesheets reference an icon font. Without it the build fails with
+  "No loader is configured for \".ttf\" files".
+- **`styles`**: Monaco imports its CSS from JavaScript, and an Angular build writes that out but never
+  links it, so without this line the editor is partly unstyled (its hidden input shows as an empty box
+  above the code). Keep the app's own stylesheets in the list.
+- **`assets`**: copies Monaco's editor worker, which ships prebuilt with this package, to
+  `uc-code-editor/editor.worker.js` in the build output. Without it the worker 404s, Monaco logs errors
+  and falls back to running on the main thread, which can make typing in large files sluggish.
+
+If the app serves the worker from another path, tell the editor where:
+
+```ts
+import { provideUcCodeEditorConfig } from '@enumsoftware/universal-components/uc-code-editor';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideUcCodeEditorConfig({ workerUrl: 'assets/monaco/editor.worker.js' })],
+};
+```
+
+The URL is resolved against the page's `<base href>`.
 
 ## Basic Usage
 
@@ -120,21 +160,21 @@ json, css, html): this keeps the worker footprint and bundler configuration smal
 live IntelliSense-style diagnostics. Syntax highlighting, bracket matching, folding, and editing
 still work for every language Monaco ships a grammar for.
 
-This relies on `new Worker(new URL('./uc-code-editor.worker', import.meta.url), { type: 'module' })`.
-Angular's esbuild-based application builder requires that path to be a real relative file rather
-than a bare `monaco-editor/...` specifier (it resolves the argument as a literal path next to the
-importing file, not through node_modules), which is why the actual `monaco-editor` worker import
-is delegated to the colocated `uc-code-editor.worker.ts` instead of being inlined directly.
+The worker is prebuilt by `scripts/build-code-editor-worker.ts` as part of `npm run build`, into
+`dist/uc-code-editor/editor.worker.js`: one self-contained file with no imports left to resolve. An
+app's Angular build does not bundle a `new Worker(new URL(...))` found inside `node_modules`, so the
+worker cannot be referenced relative to the library's own code; the app copies the file instead (see
+[App build setup](#app-build-setup)).
 
-This has only been verified against this repo's own workbench app (Angular's esbuild application
-builder, consuming the component's TypeScript source directly). It has **not** been verified
-end-to-end against a consumer that installs this package from npm and builds with `ng-packagr` in
-between: `ng-packagr` bundles everything reachable through real imports into one FESM file, and it
-is not confirmed that the colocated worker file still ends up at the right relative path next to
-that bundle, or that `ng-packagr`/a consumer's bundler resolves this worker-bundling convention the
-same way the workbench's dev server does. If you hit a "could not resolve" error for
-`uc-code-editor.worker` (or the editor silently runs without a worker) in a real downstream build,
-that is the likely cause — please report it.
+Because only the generic worker ships, Monaco's JSON, CSS, HTML and TypeScript language services,
+which each expect their own worker, are switched off: no validation, symbol outline, colour
+decorators or IntelliSense. Highlighting stays for every language, and folding follows indentation.
+An app that sets `self.MonacoEnvironment` itself before the first editor loads, for example with all of
+Monaco's per-language workers, keeps its own setup and the full language services.
+
+This setup was verified in an app that installs the package and builds it in production: the worker
+loads from `uc-code-editor/editor.worker.js`, highlighting works for JSON and TypeScript, and the console
+stays clean.
 
 ## Styling
 

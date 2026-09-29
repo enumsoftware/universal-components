@@ -6,6 +6,7 @@ import {
   afterNextRender,
   computed,
   effect,
+  inject,
   input,
   model,
   signal,
@@ -20,8 +21,8 @@ import {
   WithOptionalFieldTree,
 } from '@angular/forms/signals';
 import type * as Monaco from 'monaco-editor';
-import { UcIconButton } from '../uc-icon-button/uc-icon-button';
-import { UcPill } from '../uc-pill/uc-pill';
+import { UcIconButton, UcPill } from '@enumsoftware/universal-components';
+import { UC_CODE_EDITOR_CONFIG } from './uc-code-editor-config';
 import { loadMonaco } from './uc-code-editor-monaco-loader';
 import { ucCodeEditorLanguageLabel } from './uc-code-editor-languages';
 
@@ -45,6 +46,8 @@ export class UcCodeEditor implements FormValueControl<string | null>, OnDestroy 
   private readonly editorHost = viewChild<ElementRef<HTMLElement>>('editorHost');
 
   // Input properties
+  private readonly config = inject(UC_CODE_EDITOR_CONFIG);
+
   readonly id = input.required<string>();
   readonly label = input<string>('');
   /** Keeps the label available to assistive tech while removing it from the layout. */
@@ -262,7 +265,7 @@ export class UcCodeEditor implements FormValueControl<string | null>, OnDestroy 
     }
 
     try {
-      const monacoApi = await loadMonaco();
+      const monacoApi = await loadMonaco(this.config.workerUrl);
       this.monacoApi = monacoApi;
 
       this.editor = monacoApi.editor.create(host, {

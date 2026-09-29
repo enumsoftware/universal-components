@@ -1,6 +1,7 @@
 # @enumsoftware/universal-components
 
-Reusable Angular standalone UI components consumed directly from source.
+Reusable Angular standalone UI components, built with ng-packagr into partially compiled ES modules
+that the app's Angular build links and tree-shakes: an app only ships the components it uses.
 
 ## Install in a consumer app
 
@@ -8,19 +9,37 @@ Reusable Angular standalone UI components consumed directly from source.
 npm install github:enumsoftware/universal-components#main
 ```
 
+Installing from git runs the package's `prepare` script, which builds it.
+
 ## Import patterns
 
-Use either the public API:
+Most components come from the main entry point:
 
 ```ts
 import { UcButton, UcInput } from '@enumsoftware/universal-components';
 ```
 
-Or deep imports for component-level usage:
+Three have their own entry points, so an app that does not use them never builds or ships their heavy
+dependencies:
+
+| Import from | Components | Brings in |
+|---|---|---|
+| `@enumsoftware/universal-components/uc-map` | `UcMap` | Google Maps (`@angular/google-maps`, and `@googlemaps/markerclusterer` on demand) |
+| `@enumsoftware/universal-components/uc-charts` | `UcBarChart`, `UcLineChart`, `UcDoughnutChart` | d3 |
+| `@enumsoftware/universal-components/uc-code-editor` | `UcCodeEditor` | Monaco, loaded on demand |
 
 ```ts
-import { UcButton } from '@enumsoftware/universal-components/uc-button/uc-button';
+import { UcMap } from '@enumsoftware/universal-components/uc-map';
+import { UcBarChart } from '@enumsoftware/universal-components/uc-charts';
+import { UcCodeEditor } from '@enumsoftware/universal-components/uc-code-editor';
 ```
+
+Only these paths are exported; importing a component's own file, such as
+`@enumsoftware/universal-components/uc-button/uc-button`, is not supported and fails to resolve.
+
+An app that uses `uc-code-editor` needs three entries in its `angular.json`: a `.ttf` loader,
+Monaco's stylesheet in `styles`, and an `assets` entry that copies Monaco's editor worker, which ships
+with this package. See [App build setup](uc-code-editor/README.md#app-build-setup).
 
 ## Component Docs
 
@@ -28,7 +47,7 @@ import { UcButton } from '@enumsoftware/universal-components/uc-button/uc-button
 - [UcCodeEditor](uc-code-editor/README.md)
 - [UcEditor](uc-editor/README.md)
 - [UcMenu](uc-menu/README.md)
-- [UcMap](uc-map/README.md) (separate entry point: `@enumsoftware/universal-components/uc-map`)
+- [UcMap](uc-map/README.md)
 
 ## Compatibility
 

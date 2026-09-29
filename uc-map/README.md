@@ -71,13 +71,23 @@ const bin: UcMapMarkerIcon = {
 `svg` is either inline markup (starting with `<`) or a URL. The icon is shown as an image, so
 scripts inside the SVG never run. Inline markup needs the `xmlns` attribute to render.
 
+## Showing and hiding areas
+
+`showPolygons` (default `true`) shows or hides the area and exclusion polygons, for example behind a
+"Show service areas" switch. In `polygons` mode they are always shown, since they are drawn and edited
+there. The polygons themselves are kept: hiding them only stops drawing them.
+
+```html
+<uc-map [apiKey]="key" [polygons]="serviceAreas()" [showPolygons]="showAreas()" />
+```
+
 ## Fitting service areas
 
 When the map has `area` polygons, it zooms and moves so all of them fit on screen, with
 `fitPadding` pixels (48 by default) kept free around them. It does this when the map loads and
 whenever the app passes in new polygons, for example after loading them or when switching records.
 Areas the user draws, reshapes or deletes on the map never move the view, and exclusions are not
-fitted on their own. Set `fitToAreas` to `false` to keep `center` and `zoom` instead.
+fitted on their own. Hidden areas (`showPolygons` off) are not fitted; showing them fits them. Set `fitToAreas` to `false` to keep `center` and `zoom` instead.
 
 ```html
 <uc-map [apiKey]="key" mode="view" [polygons]="serviceAreas()" [fitPadding]="64" />

@@ -1,6 +1,3 @@
-export type { UcBarChartDataPoint, UcBarChartSeries, UcBarChartInput } from './uc-charts/uc-bar-chart/uc-bar-chart.model';
-export type { UcLineChartSeries, UcLineChartDataPoint } from './uc-charts/uc-line-chart/uc-line-chart.model';
-export type { UcDoughnutChartDataPoint } from './uc-charts/uc-doughnut-chart/uc-doughnut-chart.model';
 export type { UcConfirmationDialogData } from './uc-confirmation-dialog/uc-confirmation-dialog';
 export type { UcImageEditorDialogData } from './uc-image-editor-dialog/uc-image-editor-dialog';
 export type {
@@ -11,7 +8,6 @@ export type {
 } from './uc-editor/uc-editor-format';
 export type { UcEditorFormatId, UcEditorFormatInput } from './uc-editor/uc-editor-formats';
 export type { UcEditorView } from './uc-editor/uc-editor';
-export type { UcCodeEditorMode, UcCodeEditorTheme } from './uc-code-editor/uc-code-editor';
 export type {
   SelectOption,
   UcSelectDataSource,
@@ -51,12 +47,7 @@ export {
 } from './uc-segmented-toggle/uc-segmented-toggle';
 export { UcSegmentedToggleItem } from './uc-segmented-toggle/uc-segmented-toggle-item';
 export { UcCard } from './uc-card/uc-card';
-export { UcBarChart } from './uc-charts/uc-bar-chart/uc-bar-chart';
-export { UcLineChart } from './uc-charts/uc-line-chart/uc-line-chart';
-export { UcDoughnutChart } from './uc-charts/uc-doughnut-chart/uc-doughnut-chart';
 export { UcCheckbox } from './uc-checkbox/uc-checkbox';
-export { UcCodeEditor } from './uc-code-editor/uc-code-editor';
-export { ucCodeEditorLanguageLabel } from './uc-code-editor/uc-code-editor-languages';
 export { UcColorPicker } from './uc-color-picker/uc-color-picker';
 export { UcConfirmationDialog } from './uc-confirmation-dialog/uc-confirmation-dialog';
 export { UcCalendar } from './uc-calendar/uc-calendar';
@@ -95,6 +86,7 @@ export { UcMenu } from './uc-menu/uc-menu';
 export { UcMenuItemComponent } from './uc-menu/uc-menu-item-component';
 export { UcMenuItem } from './uc-menu/uc-menu-item';
 export { UcMenuTriggerFor } from './uc-menu/uc-menu-trigger-for';
+export { UcOptimizedImage } from './uc-optimized-image/uc-optimized-image';
 export { UcPagination } from './uc-pagination/uc-pagination';
 export { UcPill, PILL_VARIANT_OPTIONS, PILL_SIZE_OPTIONS, type PillVariant, type PillSize } from './uc-pill/uc-pill';
 export { UcPhosphorIcon } from './uc-phosphor-icon/uc-phosphor-icon';
@@ -114,6 +106,7 @@ export { UcStepper } from './uc-stepper/uc-stepper';
 export { UcTabPanel, UcTabs } from './uc-tabs/uc-tabs';
 export { UcTextarea } from './uc-textarea/uc-textarea';
 export { UcToggle } from './uc-toggle/uc-toggle';
+export { UcRating } from './uc-rating/uc-rating';
 export { UcTooltip, UC_TOOLTIP_CONFIG, provideUcTooltipConfig } from './uc-tooltip/uc-tooltip';
 export { UcTree } from './uc-tree/uc-tree';
 export { UcTreeNodeDef } from './uc-tree/uc-tree-node-def';

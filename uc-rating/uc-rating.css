@@ -1,0 +1,61 @@
+:host {
+  --uc-rating-color-resolved: var(--uc-rating-color, #f5b301);
+  --uc-rating-empty-color-resolved: var(--uc-rating-empty-color, var(--uc-divider-color));
+  --uc-rating-focus-outline-color-resolved: var(--uc-rating-focus-outline-color, var(--uc-primary-color));
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.uc-rating {
+  display: inline-flex;
+  gap: calc(var(--uc-rating-size) * 0.12);
+  font-size: var(--uc-rating-size);
+  line-height: 1;
+}
+
+.uc-rating__star {
+  position: relative;
+  display: inline-flex;
+  border-radius: 4px;
+}
+
+.uc-rating__empty {
+  color: var(--uc-rating-empty-color-resolved);
+}
+
+/* The filled star sits on top of the empty one, cut to the filled share (a whole star or a fraction). */
+.uc-rating__full {
+  position: absolute;
+  inset: 0 auto 0 0;
+  overflow: hidden;
+  color: var(--uc-rating-color-resolved);
+}
+
+.uc-rating__option {
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+}
+
+.uc-rating__option:hover {
+  transform: scale(1.12);
+}
+
+.uc-rating__option:focus-visible {
+  outline: 2px solid var(--uc-rating-focus-outline-color-resolved);
+  outline-offset: 2px;
+}
+
+.uc-rating--disabled .uc-rating__option {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.uc-rating--disabled .uc-rating__option:hover {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .uc-rating__option {
+    transition: none;
+  }
+}

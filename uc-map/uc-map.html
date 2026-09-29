@@ -93,13 +93,15 @@
           }
         }
 
-        @for (polygon of polygons(); track polygon.id; let index = $index) {
-          <map-polygon
-            [paths]="polygon.path"
-            [options]="polygonOptions(polygon.kind, polygon.id === selectedPolygonId(), mode() === 'polygons' && !draft())"
-            (polygonClick)="selectPolygon(polygon.id)"
-            (polygonMouseup)="syncPolygon(index)"
-          />
+        @if (polygonsVisible()) {
+          @for (polygon of polygons(); track polygon.id; let index = $index) {
+            <map-polygon
+              [paths]="polygon.path"
+              [options]="polygonOptions(polygon.kind, polygon.id === selectedPolygonId(), mode() === 'polygons' && !draft())"
+              (polygonClick)="selectPolygon(polygon.id)"
+              (polygonMouseup)="syncPolygon(index)"
+            />
+          }
         }
 
         @if (draft(); as current) {
