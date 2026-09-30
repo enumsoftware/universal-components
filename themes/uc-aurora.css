@@ -474,7 +474,7 @@
   --uc-pagination-select-panel-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
   /* --- Pill --- */
-  --uc-pill-background: oklch(from var(--uc-primary-color) l c h / 0.15);
+  --uc-pill-background: color-mix(in oklch, var(--uc-primary-color) 15%, var(--uc-background-color));
   --uc-pill-color: var(--uc-primary-color);
   --uc-pill-border-radius: 0;
   --uc-pill-padding: 0.5rem 2rem;
@@ -486,9 +486,9 @@
   --uc-pill-compact-line-height: 1rem;
   --uc-pill-info-background: var(--uc-background-color-90);
   --uc-pill-info-color: var(--uc-foreground-color);
-  --uc-pill-valid-background: oklch(from var(--uc-success-color) l c h / 0.2);
+  --uc-pill-valid-background: color-mix(in oklch, var(--uc-success-color) 20%, var(--uc-background-color));
   --uc-pill-valid-color: oklch(from var(--uc-success-color) calc(l - 0.22) c h);
-  --uc-pill-error-background: oklch(from var(--uc-error-color) l c h / 0.2);
+  --uc-pill-error-background: color-mix(in oklch, var(--uc-error-color) 20%, var(--uc-background-color));
   --uc-pill-error-color: oklch(from var(--uc-error-color) calc(l - 0.12) c h);
 
   /* --- Select --- */
