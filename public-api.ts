@@ -52,6 +52,7 @@ export { UcColorPicker } from './uc-color-picker/uc-color-picker';
 export { UcConfirmationDialog } from './uc-confirmation-dialog/uc-confirmation-dialog';
 export { UcCalendar } from './uc-calendar/uc-calendar';
 export type { CalendarDay, CalendarMode } from './uc-calendar/uc-calendar';
+export { UC_DATE_LOCALE, provideUcDateLocale, type UcDateLabels, type UcDateLocaleConfig } from './uc-calendar/uc-date-locale';
 export { UcDateTimePicker } from './uc-date-time-picker/uc-date-time-picker';
 export { UcIsDevelopment } from './uc-is-development/uc-is-development';
 export { UcDivider, type UcDividerVariant } from './uc-divider/uc-divider';

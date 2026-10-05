@@ -14,6 +14,7 @@ export default defineShowcase({
     showTime: bool(false),
     disabled: bool(false),
     readonly: bool(false),
+    locale: text('en-US'),
   },
   examples: [
     {
@@ -22,5 +23,9 @@ export default defineShowcase({
     },
     { name: 'Range Mode', props: { mode: 'range', label: 'Date range', placeholder: 'Select date range' } },
     { name: 'Disabled', props: { disabled: true } },
+    {
+      name: 'Croatian (hr-HR)',
+      props: { locale: 'hr-HR', label: 'Datum polaska', placeholder: undefined, dateFormat: { day: '2-digit', month: '2-digit', year: 'numeric' } },
+    },
   ],
 });
