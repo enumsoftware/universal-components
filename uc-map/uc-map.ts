@@ -140,6 +140,14 @@ export class UcMap {
   mapTypeControl = input<boolean>(true);
   /** The full screen button. Also hidden where the browser cannot show an element full screen. */
   fullscreenControl = input<boolean>(true);
+  /**
+   * The Street View button, bottom left. Pressing it shows where Street View exists (Google's blue
+   * lines); the next click on the map opens the panorama nearest to that spot, facing it. Off by
+   * default: every opened panorama is a billed Street View load on the Maps key.
+   */
+  streetViewControl = input<boolean>(false);
+  /** How far from the clicked spot a panorama may be, in metres. */
+  streetViewRadius = input<number>(50);
 
   selectedPosition = model<UcMapPosition | null>(null);
   polygons = model<UcMapPolygon[]>([]);
@@ -176,11 +184,22 @@ export class UcMap {
   fullscreenLabel = input<string>('Full screen');
   exitFullscreenLabel = input<string>('Exit full screen');
   cameraControlsLabel = input<string>('Map camera controls');
+  streetViewLabel = input<string>('Street View');
+  streetViewHint = input<string>('Click a blue line on the map to open Street View.');
+  noStreetViewLabel = input<string>('Street View is not available here.');
+  exitStreetViewLabel = input<string>('Back to map');
 
   markerClick = output<UcMapMarker>();
 
   private readonly polygonComponents = viewChildren(MapPolygon);
   private readonly mapInstance = signal<google.maps.Map | null>(null);
+  /** Waiting for the click that opens Street View; the coverage lines are shown meanwhile. */
+  protected readonly streetViewPicking = signal(false);
+  /** While Street View is open the map-only controls are hidden; they would act on the hidden map. */
+  protected readonly streetViewOpen = signal(false);
+  /** Shown over the map when the clicked spot has no panorama nearby. */
+  protected readonly streetViewMessage = signal<string | null>(null);
+  private coverageLayer: google.maps.StreetViewCoverageLayer | null = null;
   protected readonly polygonsVisible = computed(() => this.showPolygons() || this.mode() === 'polygons');
   /** Read once up front for the map's first options, then kept current by a media query listener. */
   private readonly touchFirst = signal(typeof matchMedia === 'function' && matchMedia(TOUCH_FIRST).matches);
@@ -285,11 +304,43 @@ export class UcMap {
     // Set on the map directly rather than through `options`: google-map re-applies `center` and `zoom`
     // whenever `options` change, which would throw away a fitted or panned view on every mode switch.
     effect(() => {
-      this.mapInstance()?.setOptions({ draggableCursor: this.mode() === 'view' ? null : 'crosshair' });
+      this.mapInstance()?.setOptions({
+        draggableCursor: this.mode() === 'view' && !this.streetViewPicking() ? null : 'crosshair',
+      });
     });
 
     effect(() => {
       this.mapInstance()?.setOptions({ gestureHandling: this.resolvedGestureHandling() });
+    });
+
+    effect((onCleanup) => {
+      const map = this.mapInstance();
+      if (!map || !this.streetViewControl()) {
+        return;
+      }
+
+      // The library's buttons replace the panorama's close and full screen buttons.
+      const panorama = map.getStreetView();
+      panorama.setOptions({ enableCloseButton: false, fullscreenControl: false });
+      const listener = panorama.addListener('visible_changed', () => this.streetViewOpen.set(panorama.getVisible()));
+      onCleanup(() => {
+        listener.remove();
+        panorama.setVisible(false);
+        this.streetViewPicking.set(false);
+        this.streetViewOpen.set(false);
+      });
+    });
+
+    effect((onCleanup) => {
+      const map = this.mapInstance();
+      if (!map || !this.streetViewPicking()) {
+        return;
+      }
+
+      this.streetViewMessage.set(null);
+      const layer = (this.coverageLayer ??= new google.maps.StreetViewCoverageLayer());
+      layer.setMap(map);
+      onCleanup(() => layer.setMap(null));
     });
 
     effect(() => {
@@ -447,6 +498,12 @@ export class UcMap {
       return;
     }
 
+    this.streetViewMessage.set(null);
+    if (this.streetViewPicking()) {
+      void this.openStreetView(position);
+      return;
+    }
+
     if (this.mode() === 'pick') {
       this.selectedPosition.set(position);
     } else if (this.mode() === 'polygons' && this.draft()) {
@@ -459,6 +516,40 @@ export class UcMap {
     if (position) {
       this.selectedPosition.set(position);
     }
+  }
+
+  /** Opens the panorama nearest to the clicked spot, turned to face it. */
+  private async openStreetView(target: UcMapPosition): Promise<void> {
+    this.streetViewPicking.set(false);
+    const map = this.mapInstance();
+    if (!map) {
+      return;
+    }
+
+    try {
+      const { data } = await new google.maps.StreetViewService().getPanorama({
+        location: target,
+        radius: this.streetViewRadius(),
+        preference: google.maps.StreetViewPreference.NEAREST,
+        source: google.maps.StreetViewSource.OUTDOOR,
+      });
+      const pano = data.location?.pano;
+      const from = data.location?.latLng?.toJSON();
+      if (!pano || !from) {
+        throw new Error('No panorama near the clicked spot.');
+      }
+
+      const panorama = map.getStreetView();
+      panorama.setPano(pano);
+      panorama.setPov({ heading: headingBetween(from, target), pitch: 0 });
+      panorama.setVisible(true);
+    } catch {
+      this.streetViewMessage.set(this.noStreetViewLabel());
+    }
+  }
+
+  protected closeStreetView(): void {
+    this.mapInstance()?.getStreetView().setVisible(false);
   }
 
   protected startDraft(kind: MapPolygonKind): void {
@@ -622,4 +713,15 @@ export class UcMap {
       this.colors.set(colors);
     }
   }
+}
+
+/** Compass bearing from one point to another, so Street View faces the clicked spot. */
+export function headingBetween(from: UcMapPosition, to: UcMapPosition): number {
+  const radians = (degrees: number) => (degrees * Math.PI) / 180;
+  const fromLat = radians(from.lat);
+  const toLat = radians(to.lat);
+  const deltaLng = radians(to.lng - from.lng);
+  const y = Math.sin(deltaLng) * Math.cos(toLat);
+  const x = Math.cos(fromLat) * Math.sin(toLat) - Math.sin(fromLat) * Math.cos(toLat) * Math.cos(deltaLng);
+  return ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
 }

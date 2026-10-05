@@ -64,6 +64,7 @@ const SAMPLE_SERVICE_AREA: UcMapPolygon = {
       [cameraControl]="cameraControl()"
       [mapTypeControl]="mapTypeControl()"
       [fullscreenControl]="fullscreenControl()"
+      [streetViewControl]="streetViewControl()"
       [(selectedPosition)]="selected"
       [(polygons)]="polygons"
     />
@@ -84,6 +85,7 @@ export class MapPreview {
   readonly cameraControl = input<boolean>(true);
   readonly mapTypeControl = input<boolean>(true);
   readonly fullscreenControl = input<boolean>(true);
+  readonly streetViewControl = input<boolean>(false);
   /** Extra generated markers on top of the three named ones. */
   readonly markerCount = input<number | null>(0);
 

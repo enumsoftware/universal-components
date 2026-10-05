@@ -1,6 +1,6 @@
 @switch (status()) {
   @case ('ready') {
-    @if (mode() === 'polygons') {
+    @if (mode() === 'polygons' && !streetViewOpen()) {
       <div class="uc-map__toolbar" role="toolbar">
         @if (draft()) {
           <uc-button
@@ -25,7 +25,7 @@
       </div>
     }
 
-    <div class="uc-map__canvas">
+    <div class="uc-map__canvas" (keydown.escape)="streetViewPicking.set(false)">
       <google-map
         class="uc-map__map"
         width="100%"
@@ -109,7 +109,7 @@
         }
       </google-map>
 
-      @if (mapTypeControl()) {
+      @if (mapTypeControl() && !streetViewOpen()) {
         <div class="uc-map__control uc-map__control--map-type">
           <uc-segmented-toggle [(value)]="mapType" variant="pills" [ariaLabel]="mapTypeLabel()">
             <uc-segmented-toggle-item value="roadmap">{{ roadmapLabel() }}</uc-segmented-toggle-item>
@@ -130,7 +130,27 @@
         </div>
       }
 
-      @if (cameraControl() || zoomControl()) {
+      @if (streetViewControl()) {
+        <div class="uc-map__control uc-map__control--street-view">
+          @if (streetViewOpen()) {
+            <uc-icon-button variant="icon" [label]="exitStreetViewLabel()" (clicked)="closeStreetView()">
+              <i class="uc-map__icon ph-bold ph-map-trifold" aria-hidden="true"></i>
+            </uc-icon-button>
+          } @else {
+            <uc-icon-button variant="icon" [label]="streetViewLabel()" [(pressed)]="streetViewPicking">
+              <i class="uc-map__icon ph-bold ph-person-simple-walk" aria-hidden="true"></i>
+            </uc-icon-button>
+          }
+        </div>
+
+        @if (streetViewPicking()) {
+          <p class="uc-map__notice" aria-live="polite">{{ streetViewHint() }}</p>
+        } @else if (streetViewMessage(); as message) {
+          <p class="uc-map__notice" role="status">{{ message }}</p>
+        }
+      }
+
+      @if ((cameraControl() || zoomControl()) && !streetViewOpen()) {
         <div class="uc-map__corner" (keydown.escape)="controlsOpen.set(false)">
           @if (controlsOpen()) {
             <div class="uc-map__camera-panel" [id]="controlsId">

@@ -131,6 +131,7 @@ default.
 | `cameraControl` | The arrow buttons that pan the map. Dragging still works. |
 | `mapTypeControl` | The Map / Satellite switch. Satellite shows imagery with labels. |
 | `fullscreenControl` | The full screen button. It puts the whole component, toolbar included, in full screen, and is hidden where the browser cannot do that (Safari on iPhone). |
+| `streetViewControl` | The Street View button, bottom left. **Off by default**, see below. |
 
 ```html
 <uc-map [apiKey]="key" [cameraControl]="false" [fullscreenControl]="false" />
@@ -138,7 +139,30 @@ default.
 
 The buttons are labelled for screen readers with `zoomInLabel`, `zoomOutLabel`, `panUpLabel`,
 `panDownLabel`, `panLeftLabel`, `panRightLabel`, `mapTypeLabel`, `roadmapLabel`, `satelliteLabel`,
-`fullscreenLabel`, `exitFullscreenLabel` and `cameraControlsLabel`, which default to English. Street View is always off.
+`fullscreenLabel`, `exitFullscreenLabel`, `cameraControlsLabel`, `streetViewLabel` and
+`exitStreetViewLabel`, which default to English.
+
+## Street View
+
+`streetViewControl` adds a person button in the bottom-left corner, drawn like the other controls
+instead of Google's Pegman. It works like Google's control, with a click in place of the drag:
+
+1. Pressing the button shows where Street View exists (Google's blue lines), turns the cursor into a
+   crosshair and shows `streetViewHint` over the map. Pressing it again, or Escape, cancels.
+2. The next click on the map opens the outdoor panorama nearest to that spot, within
+   `streetViewRadius` metres (default 50), turned to face the clicked spot. In `pick` mode that
+   click does not move the marker. With no panorama nearby, `noStreetViewLabel` is shown instead.
+3. While the panorama is open the button becomes a map button (`exitStreetViewLabel`) that goes back;
+   the Map / Satellite switch, the camera controls and the drawing toolbar are hidden, and the full
+   screen button stays. The panorama keeps Google's own pan, zoom and address controls.
+
+```html
+<uc-map [apiKey]="key" [streetViewControl]="true" />
+```
+
+It is off by default because every opened panorama is billed as a Dynamic Street View load on the
+Maps key; it needs no other API than the Maps JavaScript API. Advanced markers (used when there is a
+`mapId`) are not drawn inside panoramas, so the picked point is not visible there.
 
 ## Theming
 
@@ -165,3 +189,6 @@ light and dark setting.
 
 Picking a point on a map is not possible with a keyboard. Pair `pick` mode with another way to
 enter a location, such as an address search.
+
+The same goes for opening Street View: the button and Escape work from the keyboard, but the spot is
+chosen with a click.

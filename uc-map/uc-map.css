@@ -183,3 +183,30 @@
   background: var(--uc-map-placeholder-background-resolved);
   color: var(--uc-foreground-color);
 }
+
+/* The corner the other controls leave free; raised like the camera controls to clear Google's logo. */
+.uc-map__control--street-view {
+  left: var(--uc-map-control-inset-resolved);
+  bottom: calc(var(--uc-map-control-inset-resolved) * 2);
+}
+
+/* The Street View hint and "not available" message: a control-like panel centred under the top row,
+   so it never covers the Map / Satellite switch or the full screen button on narrow maps. */
+.uc-map__notice {
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--uc-map-control-inset-resolved) * 2 + var(--uc-map-control-size-resolved));
+  left: 50%;
+  max-width: calc(100% - var(--uc-map-control-inset-resolved) * 2);
+  margin: 0;
+  padding: 0.5rem 0.875rem;
+  transform: translateX(-50%);
+  border: var(--uc-map-control-border-resolved);
+  border-radius: var(--uc-map-control-radius-resolved);
+  background: var(--uc-map-control-background-resolved);
+  box-shadow: var(--uc-map-control-shadow-resolved);
+  color: var(--uc-foreground-color);
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
+  text-align: center;
+}

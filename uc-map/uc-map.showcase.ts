@@ -22,6 +22,9 @@ export default defineShowcase({
     cameraControl: bool(true, { description: 'The arrow buttons that pan the map.' }),
     mapTypeControl: bool(true, { description: 'The Map / Satellite switch.' }),
     fullscreenControl: bool(true, { description: 'The full screen button.' }),
+    streetViewControl: bool(false, {
+      description: 'The Street View button, bottom left. Press it, then click a blue line to open Street View.',
+    }),
     markerCount: number<number | null>(0, {
       description: 'Extra generated markers, to see clustering at work.',
       min: 0,
@@ -35,6 +38,11 @@ export default defineShowcase({
       props: { markerCount: 200, cluster: true },
     },
     { name: 'Pick a location', props: { mode: 'pick' } },
+    {
+      name: 'Street View',
+      description: 'Press the person button bottom left, then click a blue line. The map button brings the map back.',
+      props: { streetViewControl: true },
+    },
     { name: 'Draw service area', props: { mode: 'polygons' } },
     {
       name: 'Fit to service area',

@@ -1,7 +1,7 @@
 /// <reference types="google.maps" />
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
-import { UcMap } from './uc-map';
+import { headingBetween, UcMap } from './uc-map';
 import { loadMarkerClusterer } from './uc-map-loader';
 import type { UcMapMarkerIcon, UcMapPolygon } from './uc-map-types';
 
@@ -483,5 +483,200 @@ describe('UcMap', () => {
     expect(internals.contentFor(1, icon, undefined)).toBe(first);
     expect(internals.contentFor(2, icon, undefined)).not.toBe(first);
     expect(internals.contentFor(1, { svg: '/other.svg' }, undefined)).not.toBe(first);
+  });
+});
+
+interface StreetViewInternals {
+  onMapInitialized(map: google.maps.Map): void;
+  onMapClick(event: google.maps.MapMouseEvent): void;
+  closeStreetView(): void;
+  streetViewPicking: { set(value: boolean): void; (): boolean };
+  streetViewOpen(): boolean;
+  streetViewMessage(): string | null;
+}
+
+/** The panorama, coverage layer and lookup service the Street View button uses, recorded. */
+function fakeStreetView(nearest: { pano: string; position: google.maps.LatLngLiteral } | null) {
+  const listeners: (() => void)[] = [];
+  const panorama = {
+    options: {} as google.maps.StreetViewPanoramaOptions,
+    pano: null as string | null,
+    pov: null as google.maps.StreetViewPov | null,
+    visible: false,
+    setOptions(options: google.maps.StreetViewPanoramaOptions) {
+      Object.assign(this.options, options);
+    },
+    setPano(pano: string) {
+      this.pano = pano;
+    },
+    setPov(pov: google.maps.StreetViewPov) {
+      this.pov = pov;
+    },
+    getVisible() {
+      return this.visible;
+    },
+    setVisible(visible: boolean) {
+      this.visible = visible;
+      listeners.forEach((listener) => listener());
+    },
+    addListener(_event: string, listener: () => void) {
+      listeners.push(listener);
+      return { remove: () => listeners.splice(listeners.indexOf(listener), 1) };
+    },
+  };
+  const coverage = { map: null as unknown };
+  const lookups: google.maps.StreetViewLocationRequest[] = [];
+
+  const map = {
+    ...fakeMap().instance,
+    getStreetView: () => panorama,
+  } as unknown as google.maps.Map;
+
+  (globalThis as { google?: unknown }).google = {
+    maps: {
+      StreetViewPreference: { NEAREST: 'nearest' },
+      StreetViewSource: { OUTDOOR: 'outdoor' },
+      StreetViewCoverageLayer: class {
+        setMap(target: unknown) {
+          coverage.map = target;
+        }
+      },
+      StreetViewService: class {
+        async getPanorama(request: google.maps.StreetViewLocationRequest) {
+          lookups.push(request);
+          if (!nearest) {
+            throw new Error('ZERO_RESULTS');
+          }
+          return { data: { location: { pano: nearest.pano, latLng: { toJSON: () => nearest.position } } } };
+        }
+      },
+    },
+  };
+
+  return { map, panorama, coverage, lookups };
+}
+
+describe('UcMap Street View', () => {
+  let fixture: ComponentFixture<UcMap>;
+  let component: UcMap;
+  let internals: StreetViewInternals;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ imports: [UcMap] }).compileComponents();
+
+    fixture = TestBed.createComponent(UcMap);
+    component = fixture.componentInstance;
+    internals = component as unknown as StreetViewInternals;
+    fixture.componentRef.setInput('apiKey', 'test-key');
+    fixture.componentRef.setInput('streetViewControl', true);
+  });
+
+  afterEach(() => {
+    delete (globalThis as { google?: unknown }).google;
+  });
+
+  it('replaces the panorama close and full screen buttons with the library ones', () => {
+    const streetView = fakeStreetView(null);
+    internals.onMapInitialized(streetView.map);
+    TestBed.tick();
+
+    expect(streetView.panorama.options).toEqual({ enableCloseButton: false, fullscreenControl: false });
+  });
+
+  it('shows the coverage lines only while waiting for the click', () => {
+    const streetView = fakeStreetView(null);
+    internals.onMapInitialized(streetView.map);
+    TestBed.tick();
+    expect(streetView.coverage.map).toBeNull();
+
+    internals.streetViewPicking.set(true);
+    TestBed.tick();
+    expect(streetView.coverage.map).toBe(streetView.map);
+
+    internals.streetViewPicking.set(false);
+    TestBed.tick();
+    expect(streetView.coverage.map).toBeNull();
+  });
+
+  it('opens the nearest panorama facing the clicked spot instead of moving the pick marker', async () => {
+    // The panorama is just south of the clicked spot, so it has to look north.
+    const streetView = fakeStreetView({ pano: 'pano-1', position: { lat: 42.6495, lng: 18.09 } });
+    fixture.componentRef.setInput('mode', 'pick');
+    fixture.componentRef.setInput('streetViewRadius', 30);
+    internals.onMapInitialized(streetView.map);
+    TestBed.tick();
+
+    internals.streetViewPicking.set(true);
+    internals.onMapClick(click(42.65, 18.09));
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(streetView.lookups).toEqual([
+      { location: { lat: 42.65, lng: 18.09 }, radius: 30, preference: 'nearest', source: 'outdoor' },
+    ]);
+    expect(streetView.panorama.pano).toBe('pano-1');
+    expect(streetView.panorama.pov?.heading).toBeCloseTo(0, 5);
+    expect(streetView.panorama.visible).toBe(true);
+    expect(internals.streetViewOpen()).toBe(true);
+    expect(internals.streetViewPicking()).toBe(false);
+    expect(component.selectedPosition()).toBeNull();
+  });
+
+  it('says so when there is no panorama near the clicked spot', async () => {
+    const streetView = fakeStreetView(null);
+    internals.onMapInitialized(streetView.map);
+    TestBed.tick();
+
+    internals.streetViewPicking.set(true);
+    internals.onMapClick(click(42.65, 18.09));
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(streetView.panorama.visible).toBe(false);
+    expect(internals.streetViewMessage()).toBe('Street View is not available here.');
+
+    // The next press of the button clears it.
+    internals.streetViewPicking.set(true);
+    TestBed.tick();
+    expect(internals.streetViewMessage()).toBeNull();
+  });
+
+  it('goes back to the map with the library button', () => {
+    const streetView = fakeStreetView(null);
+    internals.onMapInitialized(streetView.map);
+    TestBed.tick();
+    streetView.panorama.setVisible(true);
+    expect(internals.streetViewOpen()).toBe(true);
+
+    internals.closeStreetView();
+
+    expect(streetView.panorama.visible).toBe(false);
+    expect(internals.streetViewOpen()).toBe(false);
+  });
+
+  it('turns the crosshair on while waiting for the click', () => {
+    const streetView = fakeStreetView(null);
+    const updates: google.maps.MapOptions[] = [];
+    (streetView.map as unknown as { setOptions(options: google.maps.MapOptions): void }).setOptions = (options) =>
+      updates.push(options);
+    internals.onMapInitialized(streetView.map);
+    TestBed.tick();
+
+    internals.streetViewPicking.set(true);
+    TestBed.tick();
+
+    expect(updates.filter((update) => 'draggableCursor' in update)).toEqual([
+      { draggableCursor: null },
+      { draggableCursor: 'crosshair' },
+    ]);
+  });
+});
+
+describe('headingBetween', () => {
+  it('gives the compass bearing between two points', () => {
+    expect(headingBetween({ lat: 0, lng: 0 }, { lat: 1, lng: 0 })).toBeCloseTo(0, 5);
+    expect(headingBetween({ lat: 0, lng: 0 }, { lat: 0, lng: 1 })).toBeCloseTo(90, 5);
+    expect(headingBetween({ lat: 1, lng: 0 }, { lat: 0, lng: 0 })).toBeCloseTo(180, 5);
+    expect(headingBetween({ lat: 0, lng: 1 }, { lat: 0, lng: 0 })).toBeCloseTo(270, 5);
   });
 });
