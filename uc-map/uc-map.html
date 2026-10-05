@@ -25,7 +25,7 @@
       </div>
     }
 
-    <div class="uc-map__canvas" (keydown.escape)="streetViewPicking.set(false)">
+    <div class="uc-map__canvas" (keydown.escape)="onEscape()">
       <google-map
         class="uc-map__map"
         width="100%"
@@ -131,17 +131,20 @@
       }
 
       @if (streetViewControl()) {
-        <div class="uc-map__control uc-map__control--street-view" (pointerdown)="onStreetViewPointerDown($event)">
-          @if (streetViewOpen()) {
-            <uc-icon-button variant="icon" [label]="exitStreetViewLabel()" (clicked)="closeStreetView()">
-              <i class="uc-map__icon ph-bold ph-map-trifold" aria-hidden="true"></i>
-            </uc-icon-button>
-          } @else {
+        @if (streetViewOpen()) {
+          <!-- A labelled button where the Map / Satellite switch was: an icon alone was easy to miss. -->
+          <div class="uc-map__control uc-map__control--street-view-exit">
+            <uc-button size="small" [text]="exitStreetViewLabel()" (clicked)="closeStreetView()">
+              <i ucButtonPrefix class="ph-bold ph-arrow-left" aria-hidden="true"></i>
+            </uc-button>
+          </div>
+        } @else {
+          <div class="uc-map__control uc-map__control--street-view" (pointerdown)="onStreetViewPointerDown($event)">
             <uc-icon-button variant="icon" [label]="streetViewLabel()" [(pressed)]="streetViewPicking">
               <i class="uc-map__icon ph-bold ph-person-simple-walk" aria-hidden="true"></i>
             </uc-icon-button>
-          }
-        </div>
+          </div>
+        }
 
         @if (streetViewDrag(); as drag) {
           <span class="uc-map__street-view-ghost" [style.left.px]="drag.x" [style.top.px]="drag.y" aria-hidden="true">

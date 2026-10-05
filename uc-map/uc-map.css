@@ -194,6 +194,12 @@
   user-select: none;
 }
 
+/* The way back from Street View, in the corner the Map / Satellite switch uses on the map. */
+.uc-map__control--street-view-exit {
+  top: var(--uc-map-control-inset-resolved);
+  left: var(--uc-map-control-inset-resolved);
+}
+
 /* The person that follows the pointer while the button is dragged; its feet mark the drop point. */
 .uc-map__street-view-ghost {
   position: absolute;

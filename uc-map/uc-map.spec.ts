@@ -490,6 +490,7 @@ interface StreetViewInternals {
   onMapInitialized(map: google.maps.Map): void;
   onMapClick(event: google.maps.MapMouseEvent): void;
   closeStreetView(): void;
+  onEscape(): void;
   streetViewPicking: { set(value: boolean): void; (): boolean };
   streetViewOpen(): boolean;
   streetViewMessage(): string | null;
@@ -541,6 +542,7 @@ function fakeStreetView(nearest: { pano: string; position: google.maps.LatLngLit
 
   (globalThis as { google?: unknown }).google = {
     maps: {
+      ControlPosition: { LEFT_BOTTOM: 'left-bottom' },
       StreetViewPreference: { NEAREST: 'nearest' },
       StreetViewSource: { GOOGLE: 'google', OUTDOOR: 'outdoor' },
       Point: class {
@@ -607,6 +609,7 @@ describe('UcMap Street View', () => {
       enableCloseButton: false,
       fullscreenControl: false,
       motionTrackingControl: false,
+      addressControlOptions: { position: 'left-bottom' },
     });
   });
 
@@ -677,6 +680,21 @@ describe('UcMap Street View', () => {
 
     internals.closeStreetView();
 
+    expect(streetView.panorama.visible).toBe(false);
+    expect(internals.streetViewOpen()).toBe(false);
+  });
+
+  it('goes back to the map with Escape, or stops waiting for the click', () => {
+    const streetView = fakeStreetView(null);
+    internals.onMapInitialized(streetView.map);
+    TestBed.tick();
+
+    internals.streetViewPicking.set(true);
+    internals.onEscape();
+    expect(internals.streetViewPicking()).toBe(false);
+
+    streetView.panorama.setVisible(true);
+    internals.onEscape();
     expect(streetView.panorama.visible).toBe(false);
     expect(internals.streetViewOpen()).toBe(false);
   });

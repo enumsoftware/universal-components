@@ -333,9 +333,15 @@ export class UcMap {
       }
 
       // The library's buttons replace the panorama's close and full screen buttons; the motion
-      // tracking button would sit under the full screen one.
+      // tracking button would sit under the full screen one. The street name moves to the bottom
+      // left, which the Street View button leaves free, so the way back can take the top left.
       const panorama = map.getStreetView();
-      panorama.setOptions({ enableCloseButton: false, fullscreenControl: false, motionTrackingControl: false });
+      panorama.setOptions({
+        enableCloseButton: false,
+        fullscreenControl: false,
+        motionTrackingControl: false,
+        addressControlOptions: { position: google.maps.ControlPosition.LEFT_BOTTOM },
+      });
       const listener = panorama.addListener('visible_changed', () => this.streetViewOpen.set(panorama.getVisible()));
       const overlay = createProjectionOverlay();
       overlay.setMap(map);
@@ -650,6 +656,15 @@ export class UcMap {
 
   protected closeStreetView(): void {
     this.mapInstance()?.getStreetView().setVisible(false);
+  }
+
+  /** Escape leaves Street View, or stops waiting for the click that would open it. */
+  protected onEscape(): void {
+    if (this.streetViewOpen()) {
+      this.closeStreetView();
+    } else {
+      this.streetViewPicking.set(false);
+    }
   }
 
   protected startDraft(kind: MapPolygonKind): void {
