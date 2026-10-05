@@ -132,11 +132,11 @@
 
       @if (streetViewControl()) {
         @if (streetViewOpen()) {
-          <!-- A labelled button where the Map / Satellite switch was: an icon alone was easy to miss. -->
+          <!-- A back arrow top left, where the Map / Satellite switch is on the map and Google Maps puts its own. -->
           <div class="uc-map__control uc-map__control--street-view-exit">
-            <uc-button size="small" [text]="exitStreetViewLabel()" (clicked)="closeStreetView()">
-              <i ucButtonPrefix class="ph-bold ph-arrow-left" aria-hidden="true"></i>
-            </uc-button>
+            <uc-icon-button variant="icon" [label]="exitStreetViewLabel()" (clicked)="closeStreetView()">
+              <i class="uc-map__icon ph-bold ph-arrow-left" aria-hidden="true"></i>
+            </uc-icon-button>
           </div>
         } @else {
           <div class="uc-map__control uc-map__control--street-view" (pointerdown)="onStreetViewPointerDown($event)">

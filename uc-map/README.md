@@ -156,7 +156,7 @@ instead of Google's Pegman, and used the same way:
    way. Pressing it again, or Escape, cancels. This is the way that works from the keyboard. In
    `pick` mode that click does not move the marker.
 3. With no panorama nearby, `noStreetViewLabel` is shown instead.
-4. While the panorama is open a labelled button (`exitStreetViewLabel`, top left) goes back to the
+4. While the panorama is open a back arrow button top left (named `exitStreetViewLabel`) goes back to the
    map, as does Escape. The Map / Satellite switch, the camera controls and the drawing toolbar are
    hidden, and the full screen button stays. The panorama keeps Google's own pan and zoom controls,
    with the street name moved to the bottom left.
