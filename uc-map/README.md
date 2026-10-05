@@ -145,14 +145,18 @@ The buttons are labelled for screen readers with `zoomInLabel`, `zoomOutLabel`, 
 ## Street View
 
 `streetViewControl` adds a person button in the bottom-left corner, drawn like the other controls
-instead of Google's Pegman. It works like Google's control, with a click in place of the drag:
+instead of Google's Pegman, and used the same way:
 
-1. Pressing the button shows where Street View exists (Google's blue lines), turns the cursor into a
-   crosshair and shows `streetViewHint` over the map. Pressing it again, or Escape, cancels.
-2. The next click on the map opens the outdoor panorama nearest to that spot, within
-   `streetViewRadius` metres (default 50), turned to face the clicked spot. In `pick` mode that
-   click does not move the marker. With no panorama nearby, `noStreetViewLabel` is shown instead.
-3. While the panorama is open the button becomes a map button (`exitStreetViewLabel`) that goes back;
+1. **Drag and drop.** Drag the button onto the map. A person follows the pointer, Google's blue lines
+   show where Street View exists and `streetViewDragHint` is shown over the map. Dropping it opens the
+   panorama nearest to the drop point (Google's own outdoor imagery, as with its Pegman, not uploaded photos), within `streetViewRadius` metres (default 50), turned
+   to face that spot. Dropped outside the map, nothing happens. Works with a mouse, a pen and touch.
+2. **Press, then click.** Pressing the button without dragging shows the blue lines, turns the cursor
+   into a crosshair and shows `streetViewHint`; the next click on the map opens the panorama the same
+   way. Pressing it again, or Escape, cancels. This is the way that works from the keyboard. In
+   `pick` mode that click does not move the marker.
+3. With no panorama nearby, `noStreetViewLabel` is shown instead.
+4. While the panorama is open the button becomes a map button (`exitStreetViewLabel`) that goes back;
    the Map / Satellite switch, the camera controls and the drawing toolbar are hidden, and the full
    screen button stays. The panorama keeps Google's own pan, zoom and address controls.
 
@@ -190,5 +194,5 @@ light and dark setting.
 Picking a point on a map is not possible with a keyboard. Pair `pick` mode with another way to
 enter a location, such as an address search.
 
-The same goes for opening Street View: the button and Escape work from the keyboard, but the spot is
-chosen with a click.
+The same goes for opening Street View: dragging needs a pointer, and pressing the button from the
+keyboard waits for a click on the map. The button and Escape themselves work from the keyboard.

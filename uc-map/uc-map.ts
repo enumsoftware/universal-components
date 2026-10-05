@@ -78,6 +78,9 @@ function areaBounds(polygons: readonly UcMapPolygon[]): google.maps.LatLngBounds
 /** A touch screen as the main input, where a swipe on the map should move it rather than the page. */
 const TOUCH_FIRST = '(pointer: coarse)';
 
+/** How far the pointer must move before a press on the Street View button becomes a drag, in pixels. */
+const STREET_VIEW_DRAG_THRESHOLD = 5;
+
 /** Inline markup becomes a data URL so it is loaded as an image and never parsed into the page. */
 function svgSource(svg: string): string {
   const trimmed = svg.trim();
@@ -141,9 +144,10 @@ export class UcMap {
   /** The full screen button. Also hidden where the browser cannot show an element full screen. */
   fullscreenControl = input<boolean>(true);
   /**
-   * The Street View button, bottom left. Pressing it shows where Street View exists (Google's blue
-   * lines); the next click on the map opens the panorama nearest to that spot, facing it. Off by
-   * default: every opened panorama is a billed Street View load on the Maps key.
+   * The Street View button, bottom left. Drag it onto the map, as with Google's own control, to open
+   * the panorama nearest to where it is dropped, facing that spot; Google's blue lines show where
+   * Street View exists while dragging. Pressing it instead waits for a click on the map, which also
+   * works from the keyboard. Off by default: every opened panorama is a billed Street View load.
    */
   streetViewControl = input<boolean>(false);
   /** How far from the clicked spot a panorama may be, in metres. */
@@ -186,6 +190,7 @@ export class UcMap {
   cameraControlsLabel = input<string>('Map camera controls');
   streetViewLabel = input<string>('Street View');
   streetViewHint = input<string>('Click a blue line on the map to open Street View.');
+  streetViewDragHint = input<string>('Drop on a blue line to open Street View.');
   noStreetViewLabel = input<string>('Street View is not available here.');
   exitStreetViewLabel = input<string>('Back to map');
 
@@ -199,7 +204,15 @@ export class UcMap {
   protected readonly streetViewOpen = signal(false);
   /** Shown over the map when the clicked spot has no panorama nearby. */
   protected readonly streetViewMessage = signal<string | null>(null);
+  /** Where the dragged Street View button is, relative to the map, while it is being dragged. */
+  protected readonly streetViewDrag = signal<{ x: number; y: number } | null>(null);
+  /** Coverage lines are shown while waiting for a click and while dragging. */
+  private readonly streetViewCoverage = computed(() => this.streetViewPicking() || this.streetViewDrag() !== null);
   private coverageLayer: google.maps.StreetViewCoverageLayer | null = null;
+  /** Gives the map's projection, which turns the drop point's pixels into a position. */
+  private projectionOverlay: google.maps.OverlayView | null = null;
+  private dragStart: { x: number; y: number } | null = null;
+  private stopDragListeners: (() => void) | null = null;
   protected readonly polygonsVisible = computed(() => this.showPolygons() || this.mode() === 'polygons');
   /** Read once up front for the map's first options, then kept current by a media query listener. */
   private readonly touchFirst = signal(typeof matchMedia === 'function' && matchMedia(TOUCH_FIRST).matches);
@@ -319,12 +332,19 @@ export class UcMap {
         return;
       }
 
-      // The library's buttons replace the panorama's close and full screen buttons.
+      // The library's buttons replace the panorama's close and full screen buttons; the motion
+      // tracking button would sit under the full screen one.
       const panorama = map.getStreetView();
-      panorama.setOptions({ enableCloseButton: false, fullscreenControl: false });
+      panorama.setOptions({ enableCloseButton: false, fullscreenControl: false, motionTrackingControl: false });
       const listener = panorama.addListener('visible_changed', () => this.streetViewOpen.set(panorama.getVisible()));
+      const overlay = createProjectionOverlay();
+      overlay.setMap(map);
+      this.projectionOverlay = overlay;
       onCleanup(() => {
         listener.remove();
+        overlay.setMap(null);
+        this.projectionOverlay = null;
+        this.endStreetViewDrag();
         panorama.setVisible(false);
         this.streetViewPicking.set(false);
         this.streetViewOpen.set(false);
@@ -333,7 +353,7 @@ export class UcMap {
 
     effect((onCleanup) => {
       const map = this.mapInstance();
-      if (!map || !this.streetViewPicking()) {
+      if (!map || !this.streetViewCoverage()) {
         return;
       }
 
@@ -531,7 +551,8 @@ export class UcMap {
         location: target,
         radius: this.streetViewRadius(),
         preference: google.maps.StreetViewPreference.NEAREST,
-        source: google.maps.StreetViewSource.OUTDOOR,
+        // Google's own outdoor imagery, as its Pegman shows, not photos businesses or people uploaded.
+        sources: [google.maps.StreetViewSource.GOOGLE, google.maps.StreetViewSource.OUTDOOR],
       });
       const pano = data.location?.pano;
       const from = data.location?.latLng?.toJSON();
@@ -546,6 +567,85 @@ export class UcMap {
     } catch {
       this.streetViewMessage.set(this.noStreetViewLabel());
     }
+  }
+
+  /**
+   * A press on the Street View button. It becomes a drag once the pointer moves; released without
+   * moving, it stays a press and the button's click toggles the click-to-open mode as before. The
+   * listeners sit on the window, so the map underneath cannot take the pointer away mid-drag.
+   */
+  protected onStreetViewPointerDown(event: Pick<PointerEvent, 'button' | 'clientX' | 'clientY'>): void {
+    if (event.button !== 0 || this.streetViewOpen()) {
+      return;
+    }
+
+    this.endStreetViewDrag();
+    this.dragStart = { x: event.clientX, y: event.clientY };
+
+    const move = (moveEvent: MouseEvent) => this.moveStreetViewDrag(moveEvent.clientX, moveEvent.clientY);
+    const up = (upEvent: MouseEvent) => this.dropStreetView(upEvent.clientX, upEvent.clientY);
+    const cancel = () => this.endStreetViewDrag();
+    window.addEventListener('pointermove', move, true);
+    window.addEventListener('pointerup', up, true);
+    window.addEventListener('pointercancel', cancel, true);
+    this.stopDragListeners = () => {
+      window.removeEventListener('pointermove', move, true);
+      window.removeEventListener('pointerup', up, true);
+      window.removeEventListener('pointercancel', cancel, true);
+    };
+  }
+
+  private moveStreetViewDrag(clientX: number, clientY: number): void {
+    const start = this.dragStart;
+    const rect = this.mapInstance()?.getDiv().getBoundingClientRect();
+    if (!start || !rect) {
+      return;
+    }
+
+    if (!this.streetViewDrag() && Math.hypot(clientX - start.x, clientY - start.y) < STREET_VIEW_DRAG_THRESHOLD) {
+      return;
+    }
+
+    this.streetViewPicking.set(false);
+    this.streetViewDrag.set({ x: clientX - rect.left, y: clientY - rect.top });
+  }
+
+  private dropStreetView(clientX: number, clientY: number): void {
+    const dragged = this.streetViewDrag() !== null;
+    this.endStreetViewDrag();
+    if (!dragged) {
+      return;
+    }
+
+    // The release after a drag must not also count as a press of the button.
+    swallowNextClick();
+    const target = this.positionAt(clientX, clientY);
+    if (target) {
+      void this.openStreetView(target);
+    }
+  }
+
+  private endStreetViewDrag(): void {
+    this.stopDragListeners?.();
+    this.stopDragListeners = null;
+    this.dragStart = null;
+    this.streetViewDrag.set(null);
+  }
+
+  /** The map position under a point on the screen, or null when the point is outside the map. */
+  private positionAt(clientX: number, clientY: number): UcMapPosition | null {
+    const rect = this.mapInstance()?.getDiv().getBoundingClientRect();
+    const projection = this.projectionOverlay?.getProjection();
+    if (!rect || !projection) {
+      return null;
+    }
+
+    if (clientX < rect.left || clientX > rect.right || clientY < rect.top || clientY > rect.bottom) {
+      return null;
+    }
+
+    const position = projection.fromContainerPixelToLatLng(new google.maps.Point(clientX - rect.left, clientY - rect.top));
+    return position?.toJSON() ?? null;
   }
 
   protected closeStreetView(): void {
@@ -724,4 +824,24 @@ export function headingBetween(from: UcMapPosition, to: UcMapPosition): number {
   const y = Math.sin(deltaLng) * Math.cos(toLat);
   const x = Math.cos(fromLat) * Math.sin(toLat) - Math.sin(fromLat) * Math.cos(toLat) * Math.cos(deltaLng);
   return ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
+}
+
+/** An overlay that draws nothing; the map gives it the projection between pixels and positions. */
+function createProjectionOverlay(): google.maps.OverlayView {
+  const overlay = new google.maps.OverlayView();
+  overlay.onAdd = () => {};
+  overlay.draw = () => {};
+  overlay.onRemove = () => {};
+  return overlay;
+}
+
+/** Stops the click the browser fires after a drag released over the button it started on. */
+function swallowNextClick(): void {
+  const swallow = (event: MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+  window.addEventListener('click', swallow, { capture: true, once: true });
+  // A drag released elsewhere fires no click; do not keep waiting for one.
+  setTimeout(() => window.removeEventListener('click', swallow, true));
 }

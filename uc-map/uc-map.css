@@ -188,6 +188,28 @@
 .uc-map__control--street-view {
   left: var(--uc-map-control-inset-resolved);
   bottom: calc(var(--uc-map-control-inset-resolved) * 2);
+  /* Dragged like Google's Pegman: no page scroll or text selection while it moves. */
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+/* The person that follows the pointer while the button is dragged; its feet mark the drop point. */
+.uc-map__street-view-ghost {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: var(--uc-map-control-size-resolved);
+  height: var(--uc-map-control-size-resolved);
+  border: var(--uc-map-control-border-resolved);
+  border-radius: 50%;
+  background: var(--uc-map-control-background-resolved);
+  box-shadow: var(--uc-map-control-shadow-resolved);
+  color: var(--uc-primary-color);
+  font-size: calc(var(--uc-map-control-size-resolved) / 2);
+  pointer-events: none;
+  transform: translate(-50%, -100%);
 }
 
 /* The Street View hint and "not available" message: a control-like panel centred under the top row,

@@ -131,7 +131,7 @@
       }
 
       @if (streetViewControl()) {
-        <div class="uc-map__control uc-map__control--street-view">
+        <div class="uc-map__control uc-map__control--street-view" (pointerdown)="onStreetViewPointerDown($event)">
           @if (streetViewOpen()) {
             <uc-icon-button variant="icon" [label]="exitStreetViewLabel()" (clicked)="closeStreetView()">
               <i class="uc-map__icon ph-bold ph-map-trifold" aria-hidden="true"></i>
@@ -143,7 +143,12 @@
           }
         </div>
 
-        @if (streetViewPicking()) {
+        @if (streetViewDrag(); as drag) {
+          <span class="uc-map__street-view-ghost" [style.left.px]="drag.x" [style.top.px]="drag.y" aria-hidden="true">
+            <i class="ph-bold ph-person-simple-walk"></i>
+          </span>
+          <p class="uc-map__notice" aria-live="polite">{{ streetViewDragHint() }}</p>
+        } @else if (streetViewPicking()) {
           <p class="uc-map__notice" aria-live="polite">{{ streetViewHint() }}</p>
         } @else if (streetViewMessage(); as message) {
           <p class="uc-map__notice" role="status">{{ message }}</p>

@@ -493,6 +493,8 @@ interface StreetViewInternals {
   streetViewPicking: { set(value: boolean): void; (): boolean };
   streetViewOpen(): boolean;
   streetViewMessage(): string | null;
+  streetViewDrag(): { x: number; y: number } | null;
+  onStreetViewPointerDown(event: { button: number; clientX: number; clientY: number }): void;
 }
 
 /** The panorama, coverage layer and lookup service the Street View button uses, recorded. */
@@ -530,12 +532,33 @@ function fakeStreetView(nearest: { pano: string; position: google.maps.LatLngLit
   const map = {
     ...fakeMap().instance,
     getStreetView: () => panorama,
+    getDiv: () => ({
+      clientWidth: 300,
+      clientHeight: 150,
+      getBoundingClientRect: () => ({ left: 100, top: 50, right: 400, bottom: 200 }),
+    }),
   } as unknown as google.maps.Map;
 
   (globalThis as { google?: unknown }).google = {
     maps: {
       StreetViewPreference: { NEAREST: 'nearest' },
-      StreetViewSource: { OUTDOOR: 'outdoor' },
+      StreetViewSource: { GOOGLE: 'google', OUTDOOR: 'outdoor' },
+      Point: class {
+        constructor(
+          public x: number,
+          public y: number,
+        ) {}
+      },
+      OverlayView: class {
+        setMap() {}
+        getProjection() {
+          return {
+            fromContainerPixelToLatLng: (point: { x: number; y: number }) => ({
+              toJSON: () => ({ lat: point.y, lng: point.x }),
+            }),
+          };
+        }
+      },
       StreetViewCoverageLayer: class {
         setMap(target: unknown) {
           coverage.map = target;
@@ -580,7 +603,11 @@ describe('UcMap Street View', () => {
     internals.onMapInitialized(streetView.map);
     TestBed.tick();
 
-    expect(streetView.panorama.options).toEqual({ enableCloseButton: false, fullscreenControl: false });
+    expect(streetView.panorama.options).toEqual({
+      enableCloseButton: false,
+      fullscreenControl: false,
+      motionTrackingControl: false,
+    });
   });
 
   it('shows the coverage lines only while waiting for the click', () => {
@@ -612,7 +639,7 @@ describe('UcMap Street View', () => {
     await Promise.resolve();
 
     expect(streetView.lookups).toEqual([
-      { location: { lat: 42.65, lng: 18.09 }, radius: 30, preference: 'nearest', source: 'outdoor' },
+      { location: { lat: 42.65, lng: 18.09 }, radius: 30, preference: 'nearest', sources: ['google', 'outdoor'] },
     ]);
     expect(streetView.panorama.pano).toBe('pano-1');
     expect(streetView.panorama.pov?.heading).toBeCloseTo(0, 5);
@@ -669,6 +696,106 @@ describe('UcMap Street View', () => {
       { draggableCursor: null },
       { draggableCursor: 'crosshair' },
     ]);
+  });
+});
+
+describe('UcMap Street View drag and drop', () => {
+  let fixture: ComponentFixture<UcMap>;
+  let internals: StreetViewInternals;
+
+  const pointer = (type: string, clientX: number, clientY: number) =>
+    window.dispatchEvent(new MouseEvent(type, { clientX, clientY }));
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ imports: [UcMap] }).compileComponents();
+
+    fixture = TestBed.createComponent(UcMap);
+    internals = fixture.componentInstance as unknown as StreetViewInternals;
+    fixture.componentRef.setInput('apiKey', 'test-key');
+    fixture.componentRef.setInput('streetViewControl', true);
+  });
+
+  afterEach(() => {
+    delete (globalThis as { google?: unknown }).google;
+  });
+
+  it('opens the panorama nearest to where the button is dropped', async () => {
+    const streetView = fakeStreetView({ pano: 'pano-1', position: { lat: 40, lng: 50 } });
+    internals.onMapInitialized(streetView.map);
+    TestBed.tick();
+
+    internals.onStreetViewPointerDown({ button: 0, clientX: 120, clientY: 190 });
+    pointer('pointermove', 150, 100);
+    TestBed.tick();
+
+    // The person follows the pointer over the map, with the coverage lines shown.
+    expect(internals.streetViewDrag()).toEqual({ x: 50, y: 50 });
+    expect(streetView.coverage.map).toBe(streetView.map);
+
+    pointer('pointerup', 150, 100);
+    TestBed.tick();
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(streetView.lookups.map((lookup) => lookup.location)).toEqual([{ lat: 50, lng: 50 }]);
+    expect(streetView.panorama.visible).toBe(true);
+    expect(internals.streetViewDrag()).toBeNull();
+    expect(streetView.coverage.map).toBeNull();
+  });
+
+  it('leaves a press without movement to the button, which waits for a click', () => {
+    const streetView = fakeStreetView({ pano: 'pano-1', position: { lat: 40, lng: 50 } });
+    internals.onMapInitialized(streetView.map);
+    TestBed.tick();
+
+    internals.onStreetViewPointerDown({ button: 0, clientX: 120, clientY: 190 });
+    pointer('pointermove', 122, 191);
+    pointer('pointerup', 122, 191);
+
+    expect(internals.streetViewDrag()).toBeNull();
+    expect(streetView.lookups).toEqual([]);
+  });
+
+  it('does nothing when the button is dropped outside the map', async () => {
+    const streetView = fakeStreetView({ pano: 'pano-1', position: { lat: 40, lng: 50 } });
+    internals.onMapInitialized(streetView.map);
+    TestBed.tick();
+
+    internals.onStreetViewPointerDown({ button: 0, clientX: 120, clientY: 190 });
+    pointer('pointermove', 150, 100);
+    pointer('pointerup', 500, 400);
+    await Promise.resolve();
+
+    expect(streetView.lookups).toEqual([]);
+    expect(streetView.panorama.visible).toBe(false);
+    expect(internals.streetViewDrag()).toBeNull();
+  });
+
+  it('does not count the release after a drag as a press of the button', () => {
+    const streetView = fakeStreetView(null);
+    internals.onMapInitialized(streetView.map);
+    TestBed.tick();
+
+    internals.onStreetViewPointerDown({ button: 0, clientX: 120, clientY: 190 });
+    pointer('pointermove', 150, 100);
+    pointer('pointerup', 150, 100);
+
+    const click = new MouseEvent('click', { bubbles: true, cancelable: true });
+    document.body.dispatchEvent(click);
+
+    expect(click.defaultPrevented).toBe(true);
+    expect(internals.streetViewPicking()).toBe(false);
+  });
+
+  it('ignores presses other than the main button', () => {
+    const streetView = fakeStreetView(null);
+    internals.onMapInitialized(streetView.map);
+    TestBed.tick();
+
+    internals.onStreetViewPointerDown({ button: 2, clientX: 120, clientY: 190 });
+    pointer('pointermove', 150, 100);
+
+    expect(internals.streetViewDrag()).toBeNull();
   });
 });
 
