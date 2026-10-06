@@ -168,6 +168,8 @@ export class UcMap {
   /** Space in pixels kept between the fitted areas and the edge of the map. */
   fitPadding = input<number>(48);
 
+  /** Accessible name for the map. Google names every map "Map", so give each map on a page its own. */
+  ariaLabel = input<string | null>(null);
   loadingLabel = input<string>('Loading map');
   errorLabel = input<string>('The map could not be loaded.');
   newAreaLabel = input<string>('New area');
@@ -324,6 +326,22 @@ export class UcMap {
 
     effect(() => {
       this.mapInstance()?.setOptions({ gestureHandling: this.resolvedGestureHandling() });
+    });
+
+    // The Maps API has no option for the name of the region it renders, so it is set on the element.
+    // Applied again on the first idle in case the region is built after the map is created.
+    effect((onCleanup) => {
+      const map = this.mapInstance();
+      const label = this.ariaLabel();
+      if (!map || !label) {
+        return;
+      }
+
+      const apply = () =>
+        map.getDiv().querySelector('[role="region"][aria-roledescription="map"]')?.setAttribute('aria-label', label);
+      apply();
+      const listener = google.maps.event.addListenerOnce(map, 'idle', apply);
+      onCleanup(() => listener.remove());
     });
 
     effect((onCleanup) => {

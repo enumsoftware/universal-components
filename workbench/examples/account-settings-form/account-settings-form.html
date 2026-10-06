@@ -40,26 +40,26 @@
 
       <div class="wb-settings-toggle-row">
         <div>
-          <p class="wb-settings-toggle-label">Email notifications</p>
+          <p class="wb-settings-toggle-label" id="settings-email-label">Email notifications</p>
           <p class="wb-settings-toggle-hint">Product updates and account activity.</p>
         </div>
-        <uc-toggle [(checked)]="emailNotifications" />
+        <uc-toggle [(checked)]="emailNotifications" ariaLabelledby="settings-email-label" />
       </div>
 
       <div class="wb-settings-toggle-row">
         <div>
-          <p class="wb-settings-toggle-label">SMS alerts</p>
+          <p class="wb-settings-toggle-label" id="settings-sms-label">SMS alerts</p>
           <p class="wb-settings-toggle-hint">Urgent security notifications only.</p>
         </div>
-        <uc-toggle [(checked)]="smsAlerts" />
+        <uc-toggle [(checked)]="smsAlerts" ariaLabelledby="settings-sms-label" />
       </div>
 
       <div class="wb-settings-toggle-row">
         <div>
-          <p class="wb-settings-toggle-label">Weekly digest</p>
+          <p class="wb-settings-toggle-label" id="settings-digest-label">Weekly digest</p>
           <p class="wb-settings-toggle-hint">A summary email every Monday.</p>
         </div>
-        <uc-toggle [(checked)]="weeklyDigest" />
+        <uc-toggle [(checked)]="weeklyDigest" ariaLabelledby="settings-digest-label" />
       </div>
 
       <uc-checkbox
