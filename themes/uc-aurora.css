@@ -201,6 +201,15 @@
   --uc-segmented-toggle-item-selected-color: var(--uc-inverse-foreground-color);
   --uc-segmented-toggle-item-separator-color: var(--uc-background-color-90);
 
+  /* --- Weekday Picker --- */
+  --uc-weekday-picker-day-size: 2.75rem;
+  --uc-weekday-picker-gap: 0.375rem;
+  --uc-weekday-picker-day-color: var(--uc-paragraph-text-color);
+  --uc-weekday-picker-day-background: var(--uc-background-color-90);
+  --uc-weekday-picker-day-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.12);
+  --uc-weekday-picker-selected-color: var(--uc-inverse-foreground-color);
+  --uc-weekday-picker-selected-background: var(--uc-primary-color);
+  --uc-weekday-picker-label-color: var(--uc-foreground-color);
   /* --- Menu Item --- */
   --uc-menu-item-border-radius: 0;
   --uc-menu-item-color: var(--uc-foreground-color);

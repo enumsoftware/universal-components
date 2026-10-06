@@ -14,6 +14,8 @@ export interface UcDateLabels {
   minutes: string;
   previous: string;
   next: string;
+  /** Name of the uc-weekday-picker group when it shows no label of its own. */
+  weekdays: string;
 }
 
 /** App-wide defaults for the calendar and date picker; a component's own inputs still win. */
@@ -53,6 +55,7 @@ const EN_LABELS: UcDateLabels = {
   minutes: 'Minutes',
   previous: 'Previous',
   next: 'Next',
+  weekdays: 'Days of the week',
 };
 
 /** Built-in texts by language subtag; any other language falls back to English. */
@@ -70,6 +73,7 @@ const BUILT_IN_LABELS: Record<string, UcDateLabels> = {
     minutes: 'Minute',
     previous: 'Prethodno',
     next: 'Sljedeće',
+    weekdays: 'Dani u tjednu',
   },
 };
 
@@ -117,9 +121,9 @@ export function localeMonthNames(locale: string, width: 'long' | 'short'): strin
   return Array.from({ length: 12 }, (_, i) => capitalise(format.format(new Date(Date.UTC(2026, i, 1))), locale));
 }
 
-/** Short weekday names in the locale, starting with `firstDayOfWeek` (1 = Monday). */
-export function localeWeekdayNames(locale: string, firstDayOfWeek: number): string[] {
-  const format = new Intl.DateTimeFormat(locale, { weekday: 'short', timeZone: 'UTC' });
+/** Weekday names in the locale, starting with `firstDayOfWeek` (1 = Monday), capitalised for headings. */
+export function localeWeekdayNames(locale: string, firstDayOfWeek: number, width: 'short' | 'long' = 'short'): string[] {
+  const format = new Intl.DateTimeFormat(locale, { weekday: width, timeZone: 'UTC' });
   // 2024-01-01 was a Monday.
   return Array.from({ length: 7 }, (_, i) => {
     const dayOfWeek = ((firstDayOfWeek - 1 + i) % 7) + 1;

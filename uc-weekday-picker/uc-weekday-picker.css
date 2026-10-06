@@ -1,0 +1,91 @@
+:host {
+  --uc-weekday-picker-day-size-resolved: var(--uc-weekday-picker-day-size, 2.75rem);
+  --uc-weekday-picker-gap-resolved: var(--uc-weekday-picker-gap, 0.375rem);
+  --uc-weekday-picker-day-color-resolved: var(--uc-weekday-picker-day-color, var(--uc-paragraph-text-color));
+  --uc-weekday-picker-day-background-resolved: var(--uc-weekday-picker-day-background, var(--uc-background-color-90));
+  --uc-weekday-picker-day-hover-background-resolved: var(
+    --uc-weekday-picker-day-hover-background,
+    oklch(from var(--uc-foreground-color) l c h / 0.12)
+  );
+  --uc-weekday-picker-selected-color-resolved: var(--uc-weekday-picker-selected-color, var(--uc-inverse-foreground-color));
+  --uc-weekday-picker-selected-background-resolved: var(--uc-weekday-picker-selected-background, var(--uc-primary-color));
+  --uc-weekday-picker-label-color-resolved: var(--uc-weekday-picker-label-color, var(--uc-foreground-color));
+  display: block;
+}
+
+.uc-weekday-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.uc-weekday-picker__label {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--uc-weekday-picker-label-color-resolved);
+}
+
+.uc-weekday-picker__days {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--uc-weekday-picker-gap-resolved);
+}
+
+.uc-weekday-picker__day {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: var(--uc-weekday-picker-day-size-resolved);
+  height: var(--uc-weekday-picker-day-size-resolved);
+  padding-inline: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 100px;
+  background: var(--uc-weekday-picker-day-background-resolved);
+  color: var(--uc-weekday-picker-day-color-resolved);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.uc-weekday-picker__day:hover {
+  background: var(--uc-weekday-picker-day-hover-background-resolved);
+}
+
+.uc-weekday-picker__day:focus-visible {
+  outline: 2px solid var(--uc-primary-color);
+  outline-offset: 2px;
+}
+
+.uc-weekday-picker__day.uc-weekday-picker__day--selected {
+  background: var(--uc-weekday-picker-selected-background-resolved);
+  color: var(--uc-weekday-picker-selected-color-resolved);
+}
+
+.uc-weekday-picker__day.uc-weekday-picker__day--selected:hover {
+  background: oklch(from var(--uc-weekday-picker-selected-background-resolved) calc(l * 0.9) c h);
+}
+
+.uc-weekday-picker__day:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* Not colour alone: unselected days also get an error border while the field is invalid. */
+.uc-weekday-picker__days--error .uc-weekday-picker__day:not(.uc-weekday-picker__day--selected) {
+  border-color: var(--uc-error-color);
+}
+
+.uc-weekday-picker__errors {
+  display: flex;
+  flex-direction: column;
+}
+
+.uc-weekday-picker__error {
+  font-size: 0.8rem;
+  color: var(--uc-error-color);
+}
