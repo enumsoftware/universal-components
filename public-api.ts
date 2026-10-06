@@ -107,6 +107,7 @@ export { UcStepper } from './uc-stepper/uc-stepper';
 export { UcTabPanel, UcTabs } from './uc-tabs/uc-tabs';
 export { UcTextarea } from './uc-textarea/uc-textarea';
 export { UcToggle } from './uc-toggle/uc-toggle';
+export { UcWeekdayPicker, type UcWeekday } from './uc-weekday-picker/uc-weekday-picker';
 export { UcRating } from './uc-rating/uc-rating';
 export { UcTooltip, UC_TOOLTIP_CONFIG, provideUcTooltipConfig } from './uc-tooltip/uc-tooltip';
 export { UcTree } from './uc-tree/uc-tree';

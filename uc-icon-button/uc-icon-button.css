@@ -3,11 +3,11 @@
   --uc-icon-button-color-resolved: var(--uc-icon-button-color, var(--uc-foreground-color));
   --uc-icon-button-hover-background-resolved: var(
     --uc-icon-button-hover-background,
-    var(--uc-primary-color)
+    oklch(from var(--uc-foreground-color) l c h / 0.08)
   );
   --uc-icon-button-hover-color-resolved: var(
     --uc-icon-button-hover-color,
-    var(--uc-inverse-foreground-color)
+    var(--uc-foreground-color)
   );
   --uc-icon-button-primary-background-resolved: var(
     --uc-icon-button-primary-background,
@@ -41,6 +41,10 @@
   --uc-icon-button-error-hover-background-resolved: var(
     --uc-icon-button-error-hover-background,
     var(--uc-error-color)
+  );
+  --uc-icon-button-error-hover-color-resolved: var(
+    --uc-icon-button-error-hover-color,
+    var(--uc-inverse-foreground-color)
   );
   --uc-icon-button-pressed-background-resolved: var(
     --uc-icon-button-pressed-background,
@@ -137,7 +141,7 @@
 
 .uc-image-button.uc-error:not(.uc-image-button--disabled):hover {
   background-color: var(--uc-icon-button-error-hover-background-resolved);
-  color: var(--uc-icon-button-hover-color-resolved);
+  color: var(--uc-icon-button-error-hover-color-resolved);
 }
 
 /* Pressed is its own axis, so it only swaps the fill and leaves each variant's geometry alone.
@@ -147,4 +151,11 @@
   background-color: var(--uc-icon-button-pressed-background-resolved);
   color: var(--uc-icon-button-pressed-color-resolved);
   border-color: var(--uc-icon-button-pressed-border-color-resolved);
+}
+
+/* The neutral hover above would wash out a pressed button, so a pressed button keeps its fill and
+   only darkens on hover, as uc-button's pressed toggle does. */
+.uc-image-button.uc-image-button--pressed:not(.uc-image-button--disabled):hover {
+  background-color: oklch(from var(--uc-icon-button-pressed-background-resolved) calc(l * 0.9) c h);
+  color: var(--uc-icon-button-pressed-color-resolved);
 }

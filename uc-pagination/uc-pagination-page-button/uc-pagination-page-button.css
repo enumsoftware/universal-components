@@ -32,7 +32,7 @@
   );
   --uc-pagination-page-button-secondary-hover-background-resolved: var(
     --uc-pagination-page-button-secondary-hover-background,
-    oklch(from var(--uc-primary-color) l c h / 0.2)
+    oklch(from var(--uc-foreground-color) l c h / 0.08)
   );
   --uc-pagination-page-button-secondary-hover-color-resolved: var(
     --uc-pagination-page-button-secondary-hover-color,

@@ -1,5 +1,5 @@
 :host {
-  --uc-menu-item-hover-background-resolved: var(--uc-menu-item-hover-background, oklch(from var(--uc-primary-color) l c h / 0.12));
+  --uc-menu-item-hover-background-resolved: var(--uc-menu-item-hover-background, oklch(from var(--uc-foreground-color) l c h / 0.08));
   --uc-menu-item-border-radius-resolved: var(--uc-menu-item-border-radius, 0.5rem);
   --uc-menu-item-color-resolved: var(--uc-menu-item-color, var(--uc-foreground-color));
   --uc-menu-item-padding-block-resolved: var(--uc-menu-item-padding-block, 0.55rem);
