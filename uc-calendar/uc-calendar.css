@@ -27,7 +27,7 @@ uc-calendar {
   );
   --uc-dtp-day-hover-bg-resolved: var(
     --uc-dtp-day-hover-bg,
-    oklch(from var(--uc-primary-color) l c h / 0.1)
+    oklch(from var(--uc-foreground-color) l c h / 0.08)
   );
   --uc-dtp-day-today-color-resolved: var(
     --uc-dtp-day-today-color,

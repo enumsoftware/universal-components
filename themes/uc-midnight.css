@@ -139,6 +139,7 @@
   --uc-button-font-weight: 700;
   --uc-button-disabled-opacity: 0.6;
   --uc-button-secondary-border-color: oklch(from var(--uc-foreground-color) l c h / 0.3);
+  --uc-button-secondary-hover-background: oklch(from var(--uc-button-background) l c h / 0.3);
   --uc-button-text-color: var(--uc-font-color);
   --uc-button-text-hover-background: oklch(from var(--uc-button-background) l c h / 0.3);
   --uc-button-error-background: var(--uc-error-color, #dc3545);
@@ -356,6 +357,7 @@
   --uc-icon-button-error-background: oklch(from var(--uc-error-color) l c h / 0.1);
   --uc-icon-button-error-color: var(--uc-error-color);
   --uc-icon-button-error-hover-background: var(--uc-error-color);
+  --uc-icon-button-error-hover-color: var(--uc-inverse-foreground-color);
   --uc-icon-button-pressed-background: var(--uc-primary-color);
   --uc-icon-button-pressed-color: var(--uc-inverse-foreground-color);
   --uc-icon-button-pressed-border-color: transparent;

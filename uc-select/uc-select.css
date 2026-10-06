@@ -9,7 +9,7 @@
   --uc-select-label-color-resolved: var(--uc-select-label-color, oklch(from var(--uc-foreground-color) l c h / 1));
   --uc-select-placeholder-color-resolved: var(--uc-select-placeholder-color, oklch(from var(--uc-foreground-color) l c h / 0.35));
   --uc-select-arrow-color-resolved: var(--uc-select-arrow-color, oklch(from var(--uc-foreground-color) l c h / 0.5));
-  --uc-select-option-hover-background-resolved: var(--uc-select-option-hover-background, oklch(from var(--uc-primary-color) l c h / 0.1));
+  --uc-select-option-hover-background-resolved: var(--uc-select-option-hover-background, oklch(from var(--uc-foreground-color) l c h / 0.08));
   --uc-select-option-selected-background-resolved: var(--uc-select-option-selected-background, oklch(from var(--uc-primary-color) l c h / 0.15));
   --uc-select-option-selected-color-resolved: var(--uc-select-option-selected-color, var(--uc-primary-color));
   --uc-select-panel-shadow-resolved: var(--uc-select-panel-shadow, 0 4px 12px rgba(0, 0, 0, 0.15));
@@ -146,7 +146,7 @@
  */
 .uc-select-panel {
   /* Re-resolved here so the tokens the component copies onto this element take effect. */
-  --uc-select-option-hover-background-resolved: var(--uc-select-option-hover-background, oklch(from var(--uc-primary-color) l c h / 0.1));
+  --uc-select-option-hover-background-resolved: var(--uc-select-option-hover-background, oklch(from var(--uc-foreground-color) l c h / 0.08));
   --uc-select-option-selected-background-resolved: var(--uc-select-option-selected-background, oklch(from var(--uc-primary-color) l c h / 0.15));
   --uc-select-option-selected-color-resolved: var(--uc-select-option-selected-color, var(--uc-primary-color));
   --uc-select-panel-shadow-resolved: var(--uc-select-panel-shadow, 0 4px 12px rgba(0, 0, 0, 0.15));

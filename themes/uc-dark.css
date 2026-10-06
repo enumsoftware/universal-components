@@ -64,7 +64,7 @@
   --uc-content-mark-color: var(--uc-foreground-color);
   --uc-content-hr-color: oklch(from #ffffff l c h / 0.12);
   --uc-table-border-color: oklch(from #ffffff l c h / 0.12);
-  --uc-table-row-hover-background: oklch(from var(--uc-primary-color) l c h / 0.1);
+  --uc-table-row-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.06);
   --uc-table-caption-color: var(--uc-paragraph-text-color);
   --uc-dialog-background-color: var(--uc-card-background-color);
   --uc-dialog-box-shadow-color: oklch(from #161c2d l c h / 0.2);
@@ -136,8 +136,9 @@
   --uc-button-font-weight: 700;
   --uc-button-disabled-opacity: 0.6;
   --uc-button-secondary-border-color: oklch(from var(--uc-foreground-color) l c h / 0.3);
+  --uc-button-secondary-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-button-text-color: var(--uc-font-color);
-  --uc-button-text-hover-background: oklch(from var(--uc-button-background) l c h / 0.3);
+  --uc-button-text-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-button-error-background: var(--uc-error-color, #dc3545);
   --uc-button-small-height: 2rem;
   --uc-button-small-padding-inline: 0.65rem;
@@ -168,7 +169,7 @@
   --uc-button-spinner-indicator-background: currentColor;
   --uc-button-loading-opacity: 0.85;
   --uc-button-toggle-background: transparent;
-  --uc-button-toggle-hover-background: oklch(from var(--uc-primary-color) l c h / 0.12);
+  --uc-button-toggle-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-button-toggle-color: var(--uc-font-color);
   --uc-button-toggle-border-color: oklch(from var(--uc-foreground-color) l c h / 0.3);
   --uc-button-toggle-pressed-background: var(--uc-primary-color);
@@ -212,7 +213,7 @@
   /* --- Menu Item --- */
   --uc-menu-item-border-radius: 0.5rem;
   --uc-menu-item-color: var(--uc-foreground-color);
-  --uc-menu-item-hover-background: oklch(from var(--uc-primary-color) l c h / 0.12);
+  --uc-menu-item-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-menu-item-padding-block: 0.55rem;
   --uc-menu-item-padding-inline: 0.75rem;
 
@@ -344,8 +345,8 @@
   /* --- Icon Button --- */
   --uc-icon-button-background: var(--uc-background-color);
   --uc-icon-button-color: var(--uc-foreground-color);
-  --uc-icon-button-hover-background: var(--uc-primary-color);
-  --uc-icon-button-hover-color: var(--uc-inverse-foreground-color);
+  --uc-icon-button-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
+  --uc-icon-button-hover-color: var(--uc-foreground-color);
   --uc-icon-button-primary-background: var(--uc-primary-color);
   --uc-icon-button-primary-color: var(--uc-inverse-foreground-color);
   --uc-icon-button-primary-hover-background: oklch(from var(--uc-primary-color) calc(l - 0.1) c h);
@@ -355,6 +356,7 @@
   --uc-icon-button-error-background: oklch(from var(--uc-error-color) l c h / 0.1);
   --uc-icon-button-error-color: var(--uc-error-color);
   --uc-icon-button-error-hover-background: var(--uc-error-color);
+  --uc-icon-button-error-hover-color: var(--uc-inverse-foreground-color);
   --uc-icon-button-pressed-background: var(--uc-primary-color);
   --uc-icon-button-pressed-color: var(--uc-inverse-foreground-color);
   --uc-icon-button-pressed-border-color: transparent;
@@ -399,7 +401,7 @@
   --uc-dtp-calendar-border: none;
   --uc-dtp-calendar-border-radius: 0.75rem;
   --uc-dtp-weekday-color: oklch(from var(--uc-foreground-color) l c h / 0.4);
-  --uc-dtp-day-hover-bg: oklch(from var(--uc-primary-color) l c h / 0.1);
+  --uc-dtp-day-hover-bg: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-dtp-day-today-color: var(--uc-primary-color);
   --uc-dtp-day-today-border: var(--uc-primary-color);
   --uc-dtp-day-selected-bg: var(--uc-primary-color);
@@ -411,7 +413,7 @@
   --uc-dtp-disabled-opacity: 1;
   --uc-dtp-backdrop: oklch(from var(--uc-foreground-color) l c h / 0.45);
   --uc-dtp-today-btn-color: var(--uc-primary-color);
-  --uc-dtp-today-btn-hover-bg: oklch(from var(--uc-primary-color) l c h / 0.1);
+  --uc-dtp-today-btn-hover-bg: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-dtp-range-bg: oklch(from var(--uc-primary-color) l c h / 0.15);
   --uc-dtp-range-preview-bg: oklch(from var(--uc-primary-color) l c h / 0.08);
   --uc-dtp-range-preview-circle-bg: oklch(from var(--uc-primary-color) l c h / 0.25);
@@ -459,7 +461,7 @@
   --uc-pagination-page-button-secondary-background: transparent;
   --uc-pagination-page-button-secondary-color: var(--uc-font-color);
   --uc-pagination-page-button-secondary-border-color: oklch(from var(--uc-foreground-color) l c h / 0.3);
-  --uc-pagination-page-button-secondary-hover-background: oklch(from var(--uc-primary-color) l c h / 0.2);
+  --uc-pagination-page-button-secondary-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-pagination-page-button-secondary-hover-color: var(--uc-font-color);
   --uc-pagination-page-button-disabled-opacity: 0.6;
   --uc-pagination-page-button-small-size: 2rem;
@@ -503,7 +505,7 @@
   --uc-select-label-color: oklch(from var(--uc-foreground-color) l c h / 1);
   --uc-select-placeholder-color: oklch(from var(--uc-foreground-color) l c h / 0.68);
   --uc-select-arrow-color: oklch(from var(--uc-foreground-color) l c h / 0.5);
-  --uc-select-option-hover-background: oklch(from var(--uc-primary-color) l c h / 0.1);
+  --uc-select-option-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-select-option-selected-background: oklch(from var(--uc-primary-color) l c h / 0.15);
   --uc-select-option-selected-color: var(--uc-primary-color);
   --uc-select-panel-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -527,7 +529,7 @@
   --uc-sidebar-button-color: var(--uc-foreground-color);
   --uc-sidebar-button-active-background: var(--uc-primary-color);
   --uc-sidebar-button-active-color: var(--uc-inverse-foreground-color);
-  --uc-sidebar-button-hover-background: oklch(from var(--uc-primary-color) l c h / 0.2);
+  --uc-sidebar-button-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-sidebar-button-border: none;
   --uc-sidebar-button-active-border: none;
   --uc-sidebar-button-hover-border: none;
@@ -613,7 +615,7 @@
   --uc-tree-node-font-size: 0.875rem;
   --uc-tree-node-font-weight: 500;
   --uc-tree-branch-font-weight: 600;
-  --uc-tree-node-hover-background: oklch(from var(--uc-primary-color) l c h / 0.12);
+  --uc-tree-node-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-tree-node-selected-background: var(--uc-primary-color);
   --uc-tree-node-selected-color: var(--uc-inverse-foreground-color);
   --uc-tree-focus-outline: 2px solid var(--uc-primary-color);

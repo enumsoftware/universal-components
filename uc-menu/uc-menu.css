@@ -35,7 +35,7 @@
 :host ::ng-deep [data-uc-menu-item='true']:hover,
 :host ::ng-deep [data-uc-menu-item='true']:focus-visible {
   outline: none;
-  background: oklch(from var(--uc-primary-color) l c h / 0.12);
+  background: oklch(from var(--uc-foreground-color) l c h / 0.08);
 }
 
 :host ::ng-deep [data-uc-menu-item='true'][aria-disabled='true'] {
