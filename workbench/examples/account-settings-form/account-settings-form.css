@@ -111,3 +111,8 @@ uc-checkbox {
     justify-content: flex-end;
   }
 }
+
+/* The avatars get saturated brand colors from avatarColorFor, which need white initials in both themes. */
+uc-avatar {
+  --uc-avatar-color: #ffffff;
+}

@@ -537,9 +537,9 @@
   --uc-pill-info-background: var(--uc-background-color-90);
   --uc-pill-info-color: var(--uc-foreground-color);
   --uc-pill-valid-background: color-mix(in oklch, var(--uc-success-color) 20%, var(--uc-background-color));
-  --uc-pill-valid-color: oklch(from var(--uc-success-color) calc(l - 0.22) c h);
+  --uc-pill-valid-color: oklch(from var(--uc-success-color) calc(l + 0.1) c h);
   --uc-pill-error-background: color-mix(in oklch, var(--uc-error-color) 20%, var(--uc-background-color));
-  --uc-pill-error-color: oklch(from var(--uc-error-color) calc(l - 0.12) c h);
+  --uc-pill-error-color: oklch(from var(--uc-error-color) calc(l + 0.1) c h);
 
   /* --- Rating --- */
   --uc-rating-color: #f5b301;

@@ -41,7 +41,7 @@
   gap: 1rem;
 }
 
-.wb-dashboard-tickets-head h3 {
+.wb-dashboard-tickets-head h2 {
   margin: 0;
   font-size: 1rem;
 }
@@ -127,4 +127,9 @@
     flex-basis: 100%;
     order: 1;
   }
+}
+
+/* The avatars get saturated brand colors from avatarColorFor, which need white initials in both themes. */
+uc-avatar {
+  --uc-avatar-color: #ffffff;
 }

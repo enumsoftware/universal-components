@@ -11,6 +11,7 @@ export default defineShowcase({
   knobs: {
     apiKey: text('', { placeholder: 'Google Maps API key' }),
     mapId: text('DEMO_MAP_ID'),
+    ariaLabel: text('Service map', { description: 'Accessible name for the map. Give each map on a page its own.' }),
     mode: select(MAP_MODE_OPTIONS, 'view'),
     gestureHandling: select([undefined, ...MAP_GESTURE_HANDLING_OPTIONS], undefined, {
       description: 'Unset follows the device: greedy on touch screens, cooperative with a mouse or trackpad.',
@@ -35,19 +36,19 @@ export default defineShowcase({
     {
       name: 'Clustering',
       description: 'Two hundred markers grouped into clusters; zoom in to split them. Turn cluster off to compare.',
-      props: { markerCount: 200, cluster: true },
+      props: { markerCount: 200, cluster: true, ariaLabel: 'Clustered reports map' },
     },
-    { name: 'Pick a location', props: { mode: 'pick' } },
+    { name: 'Pick a location', props: { mode: 'pick', ariaLabel: 'Location picker map' } },
     {
       name: 'Street View',
       description: 'Drag the person button bottom left onto a blue line. The map button brings the map back.',
-      props: { streetViewControl: true },
+      props: { streetViewControl: true, ariaLabel: 'Street View map' },
     },
-    { name: 'Draw service area', props: { mode: 'polygons' } },
+    { name: 'Draw service area', props: { mode: 'polygons', ariaLabel: 'Service area drawing map' } },
     {
       name: 'Fit to service area',
       description: 'The map zooms out from its default view so the whole sample service area fits, with padding.',
-      props: { withServiceArea: true },
+      props: { withServiceArea: true, ariaLabel: 'Fitted service area map' },
     },
   ],
 });
