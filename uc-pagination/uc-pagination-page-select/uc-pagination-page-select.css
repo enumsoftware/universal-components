@@ -160,7 +160,7 @@
 }
 
 .uc-pagination-page-select__option:hover {
-  background-color: oklch(from var(--uc-primary-color) l c h / 0.1);
+  background-color: oklch(from var(--uc-foreground-color) l c h / 0.08);
 }
 
 .uc-pagination-page-select__option:focus-visible {

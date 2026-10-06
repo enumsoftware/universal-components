@@ -8,7 +8,7 @@
 
 /* Side Mode */
 .uc-wrapper-side {
-  --uc-sidebar-width: var(--uc-side-navigation-sidebar-width-resolved);
+  --uc-sidebar-width-resolved: var(--uc-side-navigation-sidebar-width-resolved);
 
   display: grid;
   grid-template-columns: 0rem 1fr;
@@ -24,18 +24,18 @@
 }
 
 .uc-wrapper-side:has(.uc-sidebar-opened) {
-  grid-template-columns: var(--uc-sidebar-width) 1fr;
+  grid-template-columns: var(--uc-sidebar-width-resolved) 1fr;
 }
 
 .uc-sidebar-opened {
   transform: translateX(0%);
   transition: transform 0.3s ease allow-discrete;
   overflow: hidden;
-  width: var(--uc-sidebar-width);
+  width: var(--uc-sidebar-width-resolved);
 }
 
 .uc-sidebar-closed {
-  width: var(--uc-sidebar-width);
+  width: var(--uc-sidebar-width-resolved);
   transform: translateX(-100%);
   transition: transform 0.3s ease allow-discrete;
   overflow: hidden;
@@ -55,7 +55,7 @@
   position: relative;
 }
 .uc-sidebar-over {
-  --uc-sidebar-animation-duration: var(--uc-side-navigation-animation-duration-resolved);
+  --uc-sidebar-animation-duration-resolved: var(--uc-side-navigation-animation-duration-resolved);
 
   position-anchor: --side-navigation-anchor;
   position: absolute;
@@ -75,10 +75,10 @@
 
   &.animations-enabled {
     transition:
-      transform var(--uc-sidebar-animation-duration) ease-in-out,
-      opacity var(--uc-sidebar-animation-duration) ease-in-out,
-      display var(--uc-sidebar-animation-duration) allow-discrete,
-      overlay var(--uc-sidebar-animation-duration) allow-discrete;
+      transform var(--uc-sidebar-animation-duration-resolved) ease-in-out,
+      opacity var(--uc-sidebar-animation-duration-resolved) ease-in-out,
+      display var(--uc-sidebar-animation-duration-resolved) allow-discrete,
+      overlay var(--uc-sidebar-animation-duration-resolved) allow-discrete;
   }
 
   &:popover-open {
@@ -108,9 +108,9 @@
 
   &.animations-enabled::backdrop {
     transition: 
-      opacity var(--uc-sidebar-animation-duration) ease-in-out,
-      display var(--uc-sidebar-animation-duration) allow-discrete,
-      overlay var(--uc-sidebar-animation-duration) allow-discrete;
+      opacity var(--uc-sidebar-animation-duration-resolved) ease-in-out,
+      display var(--uc-sidebar-animation-duration-resolved) allow-discrete,
+      overlay var(--uc-sidebar-animation-duration-resolved) allow-discrete;
   }
 }
 

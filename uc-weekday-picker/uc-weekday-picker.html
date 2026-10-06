@@ -1,0 +1,38 @@
+<div
+  class="uc-weekday-picker"
+  role="group"
+  [attr.aria-labelledby]="showLabel() ? id() + '-label' : null"
+  [attr.aria-label]="showLabel() ? null : groupName()"
+  [attr.aria-describedby]="showErrorState() ? id() + '-errors' : null"
+>
+  @if (showLabel()) {
+    <span class="uc-weekday-picker__label" [id]="id() + '-label'">{{ label() }}</span>
+  }
+
+  <div class="uc-weekday-picker__days" [class.uc-weekday-picker__days--error]="showErrorState()">
+    @for (weekday of weekdays(); track weekday.day) {
+      <button
+        type="button"
+        class="uc-weekday-picker__day"
+        [class.uc-weekday-picker__day--selected]="weekday.selected"
+        [id]="id() + '-' + weekday.day"
+        [attr.aria-pressed]="weekday.selected"
+        [attr.aria-label]="weekday.name"
+        [attr.title]="weekday.name"
+        [disabled]="disabled()"
+        (click)="toggle(weekday.day)"
+        (blur)="touched.set(true)"
+      >
+        <span aria-hidden="true">{{ weekday.shortName }}</span>
+      </button>
+    }
+  </div>
+
+  @if (showErrorState()) {
+    <div class="uc-weekday-picker__errors" [id]="id() + '-errors'">
+      @for (error of errors(); track error) {
+        <span class="uc-weekday-picker__error">{{ error.message }}</span>
+      }
+    </div>
+  }
+</div>
