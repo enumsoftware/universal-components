@@ -28,8 +28,9 @@ and a variant set on an element always wins:
 
 | Key | Control | Input | Options | Built-in default |
 |---|---|---|---|---|
+| `anchor` | `ucAnchor` | `variant` | `primary`, `error` | `primary` |
 | `badge` | `ucBadge` | `variant` | `error`, `primary`, `success`, `neutral` | `error` |
-| `button` | `uc-button` | `variant` | `primary`, `secondary`, `text`, `error`, `link` | `primary` |
+| `button` | `uc-button` | `variant` | `primary`, `secondary`, `text`, `error` | `primary` |
 | `divider` | `uc-divider` | `variant` | `default`, `inverse` | `default` |
 | `iconButton` | `uc-icon-button` | `variant` | `primary`, `secondary`, `icon`, `error` | `primary` |
 | `info` | `uc-info` | `variant` | `info`, `warning`, `error` | `info` |

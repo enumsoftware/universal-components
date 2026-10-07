@@ -14,9 +14,8 @@ import { UcSpinnerLoading } from '../uc-spinner-loading/uc-spinner-loading.compo
 
 /**
  * `text` is `secondary` without the border, for low-emphasis actions.
- * `link` looks like a text link but stays a button, for actions such as opening a dialog.
  */
-export const BUTTON_VARIANT_OPTIONS = ['primary', 'secondary', 'text', 'error', 'link'] as const;
+export const BUTTON_VARIANT_OPTIONS = ['primary', 'secondary', 'text', 'error'] as const;
 export type ButtonVariant = (typeof BUTTON_VARIANT_OPTIONS)[number];
 
 export const BUTTON_ALIGN_OPTIONS = ['left', 'center'] as const;

@@ -1,5 +1,6 @@
 import { EnvironmentProviders, inject, InjectionToken, makeEnvironmentProviders } from '@angular/core';
 
+import type { UcAnchorVariant } from '../uc-anchor/uc-anchor';
 import type { UcBadgeVariant } from '../uc-badge/uc-badge';
 import type { ButtonVariant } from '../uc-button/uc-button';
 import type { UcDividerVariant } from '../uc-divider/uc-divider';
@@ -15,6 +16,7 @@ import type { UcTabsVariant } from '../uc-tabs/uc-tabs';
  * listed keeps its built-in default, and a variant set on an element always wins over this.
  */
 export interface UcDefaults {
+  anchor?: { variant?: UcAnchorVariant };
   badge?: { variant?: UcBadgeVariant };
   button?: { variant?: ButtonVariant };
   divider?: { variant?: UcDividerVariant };

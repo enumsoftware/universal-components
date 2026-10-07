@@ -142,7 +142,7 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-Controls that are not listed keep their built-in default, and a variant set on an element always wins. Covered controls: `badge`, `button`, `divider`, `iconButton`, `info`, `pill`, `segmentedToggle`, `sidebarButton` (its `style` input) and `tabs`. A lazy route can provide its own defaults, merged over the app's per control. The full table of options and built-in defaults is in the Workbench under **Foundations / Default Variants** (`uc-defaults/uc-defaults.docs.md`).
+Controls that are not listed keep their built-in default, and a variant set on an element always wins. Covered controls: `anchor`, `badge`, `button`, `divider`, `iconButton`, `info`, `pill`, `segmentedToggle`, `sidebarButton` (its `style` input) and `tabs`. A lazy route can provide its own defaults, merged over the app's per control. The full table of options and built-in defaults is in the Workbench under **Foundations / Default Variants** (`uc-defaults/uc-defaults.docs.md`).
 
 ## Theming And Component Tokens
 

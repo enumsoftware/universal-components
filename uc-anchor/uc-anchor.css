@@ -1,0 +1,83 @@
+/*
+ * Reuses uc-button's own theme tokens (--uc-button-*) for primary/error at its medium size, so a
+ * styled anchor matches the button it sits next to without the app declaring the same colors
+ * twice.
+ */
+:host {
+  --uc-anchor-background-resolved: var(--uc-button-background, var(--uc-primary-color));
+  --uc-anchor-color-resolved: var(--uc-button-color, var(--uc-inverse-foreground-color));
+  --uc-anchor-disabled-opacity-resolved: var(--uc-button-disabled-opacity, 0.6);
+  --uc-anchor-error-background-resolved: var(--uc-button-error-background, var(--uc-error-color));
+
+  --uc-anchor-height-resolved: var(--uc-button-medium-height, var(--uc-button-height, 2.75rem));
+  --uc-anchor-padding-inline-resolved: var(--uc-button-medium-padding-inline, var(--uc-button-padding-inline, 2rem));
+  --uc-anchor-border-radius-resolved: var(
+    --uc-button-medium-border-radius,
+    var(--uc-button-border-radius, 0.75rem)
+  );
+  --uc-anchor-font-size-resolved: var(--uc-button-medium-font-size, 1rem);
+  --uc-anchor-line-height-resolved: var(--uc-button-medium-line-height, 1.25rem);
+  --uc-anchor-font-weight-resolved: var(--uc-button-medium-font-weight, var(--uc-button-font-weight, 700));
+  --uc-anchor-gap-resolved: var(--uc-button-medium-gap, 1rem);
+
+  display: inline-flex;
+}
+
+.uc-anchor {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--uc-anchor-gap-resolved);
+  height: var(--uc-anchor-height-resolved);
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: var(--uc-anchor-font-weight-resolved);
+  font-size: var(--uc-anchor-font-size-resolved);
+  line-height: var(--uc-anchor-line-height-resolved);
+  padding-inline: var(--uc-anchor-padding-inline-resolved);
+  border-radius: var(--uc-anchor-border-radius-resolved);
+  border: 0 solid transparent;
+  text-decoration: none;
+}
+
+/* Angular applies the variant class one style-change event after the anchor element is inserted,
+   so a transition that is live on first render animates the anchor from its unstyled colors to
+   its variant colors. `uc-transitions` is added after the first paint. */
+.uc-anchor.uc-transitions {
+  transition:
+    background 0.3s,
+    border 0.3s,
+    color 0.3s;
+}
+
+.uc-anchor.uc-primary {
+  background-color: var(--uc-anchor-background-resolved);
+  color: var(--uc-anchor-color-resolved);
+}
+
+.uc-anchor.uc-primary:hover {
+  background-color: oklch(from var(--uc-anchor-background-resolved) calc(l * 0.9) calc(c * 1) calc(h * 1));
+}
+
+.uc-anchor.uc-error {
+  background-color: var(--uc-anchor-error-background-resolved);
+  color: var(--uc-anchor-color-resolved);
+}
+
+.uc-anchor.uc-error:hover {
+  background-color: oklch(from var(--uc-anchor-error-background-resolved) l c h / 0.9);
+}
+
+.uc-anchor.uc-disabled {
+  cursor: not-allowed;
+  opacity: var(--uc-anchor-disabled-opacity-resolved);
+}
+
+.uc-anchor.uc-primary.uc-disabled:hover {
+  background-color: var(--uc-anchor-background-resolved);
+}
+
+.uc-anchor.uc-error.uc-disabled:hover {
+  background-color: var(--uc-anchor-error-background-resolved);
+}
