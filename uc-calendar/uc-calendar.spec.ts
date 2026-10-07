@@ -100,6 +100,38 @@ describe('UcCalendar', () => {
     expect(emitted).toEqual(['2026-08-20']);
   });
 
+  const weekdayHeadings = (): string[] =>
+    Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('.uc-calendar__weekday-label'))
+      .map((el) => el.textContent?.trim() ?? '');
+
+  it('should start US English weeks on Sunday', () => {
+    fixture.componentRef.setInput('locale', 'en-US');
+    fixture.componentRef.setInput('selectedDate', '2026-09-07');
+    fixture.detectChanges();
+
+    expect(weekdayHeadings()[0]).toBe('Sun');
+    // September 2026 starts on a Tuesday: two days of August lead the grid.
+    expect(component.calendarDays()[0].iso).toBe('2026-08-30');
+  });
+
+  it('should use Croatian names and Monday-first weeks for hr-HR', () => {
+    fixture.componentRef.setInput('locale', 'hr-HR');
+    fixture.componentRef.setInput('selectedDate', '2026-09-07');
+    fixture.detectChanges();
+
+    expect(weekdayHeadings()).toEqual(['Pon', 'Uto', 'Sri', 'Čet', 'Pet', 'Sub', 'Ned']);
+    expect(component.calendarDays()[0].iso).toBe('2026-08-31');
+    expect(selectedDay()?.getAttribute('aria-label')).toBe('ponedjeljak, 7. rujna 2026.');
+  });
+
+  it('should let firstDayOfWeek override the locale', () => {
+    fixture.componentRef.setInput('locale', 'hr-HR');
+    fixture.componentRef.setInput('firstDayOfWeek', 7);
+    fixture.detectChanges();
+
+    expect(weekdayHeadings()[0]).toBe('Ned');
+  });
+
   it('should fall back to today for an unparseable date', () => {
     const today = todayPlainDate();
     fixture.componentRef.setInput('selectedDate', '2026-0');

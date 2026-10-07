@@ -1,6 +1,6 @@
 :host {
-  --uc-tooltip-background-resolved: var(--uc-tooltip-background, var(--inverse-background-color));
-  --uc-tooltip-color-resolved: var(--uc-tooltip-color, var(--inverse-foreground-color));
+  --uc-tooltip-background-resolved: var(--uc-tooltip-background, var(--uc-inverse-background-color));
+  --uc-tooltip-color-resolved: var(--uc-tooltip-color, var(--uc-inverse-foreground-color));
   --uc-tooltip-padding-resolved: var(--uc-tooltip-padding, 0.5rem 0.75rem);
   --uc-tooltip-border-radius-resolved: var(--uc-tooltip-border-radius, 4px);
   --uc-tooltip-shadow-resolved: var(--uc-tooltip-shadow, 0 2px 8px rgba(0, 0, 0, 0.15));

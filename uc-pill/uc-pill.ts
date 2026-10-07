@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, input, model, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, model, output, signal } from '@angular/core';
+import { UC_DEFAULTS } from '../uc-defaults/uc-defaults';
 
 export const PILL_VARIANT_OPTIONS = ['default', 'info', 'valid', 'error'] as const;
 export type PillVariant = (typeof PILL_VARIANT_OPTIONS)[number];
@@ -16,7 +17,7 @@ export type PillSize = (typeof PILL_SIZE_OPTIONS)[number];
 export class UcPill {
   text = model<string | null>(null);
   href = input<string | null>(null);
-  variant = input<PillVariant>('default');
+  variant = input<PillVariant>(inject(UC_DEFAULTS).pill?.variant ?? 'default');
   size = input<PillSize>('default');
   clicked = output<void>();
 

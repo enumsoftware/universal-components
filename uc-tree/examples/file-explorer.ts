@@ -91,7 +91,7 @@ const NODES: UcTreeNode[] = [
     .explorer__status {
       margin: 0;
       font-size: 0.8125rem;
-      color: var(--paragraph-text-color);
+      color: var(--uc-paragraph-text-color);
     }
   `,
 })

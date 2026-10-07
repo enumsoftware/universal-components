@@ -26,13 +26,42 @@ export class UcPagination {
   pageSizeOptions = input<number[]>(this.defaultPageSizes);
   showPageInfo = input<boolean>(true);
   showPageSelector = input<boolean>(true);
+  /** Placeholders: `{currentPage}`, `{totalPages}` and `{totalItems}` (for a count such as "40 results"). */
   pageInfoTemplate = input<string>('Page {currentPage} of {totalPages}');
   size = input<PaginationSize>('medium');
+  /**
+   * Hides the whole paginator while every item fits on one page. It stays shown while a smaller
+   * page size would split the items again, so the page size selector can still bring pages back.
+   */
+  hideSinglePage = input<boolean>(true);
+
+  /** Texts, for apps in other languages. The jump labels may use `{count}` for the pages skipped. */
+  previousPageLabel = input<string>('Previous page');
+  nextPageLabel = input<string>('Next page');
+  jumpBackwardLabel = input<string>('Jump backward by {count} pages');
+  jumpForwardLabel = input<string>('Jump forward by {count} pages');
+  pageSizeLabel = input<string>('Page size');
+  pageSizeSelectLabel = input<string>('Select page size');
+
+  protected readonly jumpBackwardText = computed(() =>
+    this.jumpBackwardLabel().replaceAll('{count}', this.pageWindowSize.toString()),
+  );
+  protected readonly jumpForwardText = computed(() =>
+    this.jumpForwardLabel().replaceAll('{count}', this.pageWindowSize.toString()),
+  );
 
   pageChange = output<number>();
   pageSizeChange = output<number>();
 
   totalPages = computed(() => Math.ceil(this.totalItems() / this.pageSize()));
+
+  protected readonly hidden = computed(() => {
+    if (!this.hideSinglePage() || this.totalPages() > 1) {
+      return false;
+    }
+
+    return !this.showPageSelector() || this.totalItems() <= Math.min(...this.pageSizeOptions());
+  });
 
   pageInfoText = computed(() => {
     const currentPageText = (this.currentPage() + 1).toString();
@@ -40,7 +69,8 @@ export class UcPagination {
 
     return this.pageInfoTemplate()
       .replaceAll('{currentPage}', currentPageText)
-      .replaceAll('{totalPages}', totalPagesText);
+      .replaceAll('{totalPages}', totalPagesText)
+      .replaceAll('{totalItems}', this.totalItems().toString());
   });
 
   isPreviousDisabled = computed(() => this.currentPage() === 0);

@@ -9,7 +9,7 @@
     target="_blank"
     rel="noopener noreferrer"
   >
-    <ng-content>{{ text() }}</ng-content>
+    <span class="uc-pill__label"><ng-content>{{ text() }}</ng-content></span>
   </a>
 } @else {
   <div
@@ -21,6 +21,6 @@
     [class.uc-pill--clickable]="isClickable()"
     (click)="clicked.emit()"
   >
-    <ng-content>{{ text() }}</ng-content>
+    <span class="uc-pill__label"><ng-content>{{ text() }}</ng-content></span>
   </div>
 }

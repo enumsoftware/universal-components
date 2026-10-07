@@ -1,6 +1,6 @@
 :host {
-  --uc-button-background-resolved: var(--uc-button-background, var(--primary-color));
-  --uc-button-color-resolved: var(--uc-button-color, var(--inverse-foreground-color));
+  --uc-button-background-resolved: var(--uc-button-background, var(--uc-primary-color));
+  --uc-button-color-resolved: var(--uc-button-color, var(--uc-inverse-foreground-color));
   --uc-button-small-height-resolved: var(--uc-button-small-height, 2rem);
   --uc-button-small-padding-inline-resolved: var(--uc-button-small-padding-inline, 0.65rem);
   --uc-button-small-border-radius-resolved: var(--uc-button-small-border-radius, 0.25rem);
@@ -28,34 +28,44 @@
   --uc-button-disabled-opacity-resolved: var(--uc-button-disabled-opacity, 0.6);
   --uc-button-secondary-border-color-resolved: var(
     --uc-button-secondary-border-color,
-    oklch(from var(--foreground-color) l c h / 0.3)
+    oklch(from var(--uc-foreground-color) l c h / 0.3)
   );
-  --uc-button-error-background-resolved: var(--uc-button-error-background, var(--error-color));
+  --uc-button-secondary-hover-background-resolved: var(
+    --uc-button-secondary-hover-background,
+    oklch(from var(--uc-foreground-color) l c h / 0.08)
+  );
+  --uc-button-text-color-resolved: var(--uc-button-text-color, var(--uc-font-color));
+  --uc-button-text-hover-background-resolved: var(
+    --uc-button-text-hover-background,
+    oklch(from var(--uc-foreground-color) l c h / 0.08)
+  );
+  --uc-button-error-background-resolved: var(--uc-button-error-background, var(--uc-error-color));
+  --uc-button-link-color-resolved: var(--uc-button-link-color, var(--uc-primary-color));
   --uc-button-toggle-background-resolved: var(--uc-button-toggle-background, transparent);
   --uc-button-toggle-hover-background-resolved: var(
     --uc-button-toggle-hover-background,
-    oklch(from var(--primary-color) l c h / 0.12)
+    oklch(from var(--uc-foreground-color) l c h / 0.08)
   );
-  --uc-button-toggle-color-resolved: var(--uc-button-toggle-color, var(--font-color));
+  --uc-button-toggle-color-resolved: var(--uc-button-toggle-color, var(--uc-font-color));
   --uc-button-toggle-border-color-resolved: var(
     --uc-button-toggle-border-color,
-    oklch(from var(--foreground-color) l c h / 0.3)
+    oklch(from var(--uc-foreground-color) l c h / 0.3)
   );
   --uc-button-toggle-pressed-background-resolved: var(
     --uc-button-toggle-pressed-background,
-    var(--primary-color)
+    var(--uc-primary-color)
   );
   --uc-button-toggle-pressed-hover-background-resolved: var(
     --uc-button-toggle-pressed-hover-background,
-    oklch(from var(--primary-color) calc(l * 0.9) c h)
+    oklch(from var(--uc-primary-color) calc(l * 0.9) c h)
   );
   --uc-button-toggle-pressed-color-resolved: var(
     --uc-button-toggle-pressed-color,
-    var(--inverse-foreground-color)
+    var(--uc-inverse-foreground-color)
   );
   --uc-button-toggle-pressed-border-color-resolved: var(
     --uc-button-toggle-pressed-border-color,
-    var(--primary-color)
+    var(--uc-primary-color)
   );
 
   --uc-button-small-spinner-size-resolved: var(--uc-button-small-spinner-size, 0.85rem);
@@ -134,14 +144,25 @@
 
 .uc-button.uc-secondary {
   background-color: transparent;
-  color: var(--font-color);
+  color: var(--uc-font-color);
   border: 1px solid var(--uc-button-secondary-border-color-resolved);
 }
 
 .uc-button.uc-secondary:hover {
   border: 1px solid transparent;
-  background-color: oklch(from var(--uc-button-background-resolved) l c h / 0.3);
-  color: var(--font-color);
+  background-color: var(--uc-button-secondary-hover-background-resolved);
+  color: var(--uc-font-color);
+}
+
+/* Text variant: secondary without the border. */
+.uc-button.uc-text {
+  background-color: transparent;
+  color: var(--uc-button-text-color-resolved);
+}
+
+.uc-button.uc-text:hover {
+  background-color: var(--uc-button-text-hover-background-resolved);
+  color: var(--uc-button-text-color-resolved);
 }
 
 .uc-button.uc-error {
@@ -151,6 +172,28 @@
 
 .uc-button.uc-error:hover {
   background-color: oklch(from var(--uc-button-error-background-resolved) l c h / 0.9);
+}
+
+/* Link variant: text only, like a link, but still a button (keyboard, role, disabled). It takes
+   its font from the surrounding text, as a real link does, so the size input does not apply. */
+.uc-button.uc-link,
+.uc-button.uc-link:hover {
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--uc-button-link-color-resolved);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.uc-button.uc-link:hover {
+  text-decoration-thickness: 2px;
 }
 
 .uc-button:hover {
@@ -174,7 +217,13 @@
 .uc-button.uc-secondary.uc-disabled {
   background-color: transparent;
   border: 1px solid var(--uc-button-secondary-border-color-resolved);
-  color: var(--font-color);
+  color: var(--uc-font-color);
+}
+
+.uc-button.uc-text:disabled,
+.uc-button.uc-text.uc-disabled {
+  background-color: transparent;
+  color: var(--uc-button-text-color-resolved);
 }
 
 .uc-button.uc-error:disabled,
@@ -184,7 +233,9 @@
 }
 
 .uc-button.uc-secondary:disabled:hover,
-.uc-button.uc-secondary.uc-disabled:hover {
+.uc-button.uc-secondary.uc-disabled:hover,
+.uc-button.uc-text:disabled:hover,
+.uc-button.uc-text.uc-disabled:hover {
   background-color: transparent;
 }
 
@@ -239,6 +290,10 @@
   border: 1px solid var(--uc-button-secondary-border-color-resolved);
 }
 
+.uc-button.uc-text.uc-loading:hover {
+  background-color: transparent;
+}
+
 .uc-button.uc-error.uc-loading:hover {
   background-color: var(--uc-button-error-background-resolved);
 }
@@ -284,4 +339,16 @@
 .uc-button.uc-loading-labeled .uc-button-loader {
   position: static;
   inset: auto;
+}
+
+/* Optical centring: the text box is trimmed to the capitals and the baseline, so the text sits in the
+   middle of its shape instead of being pushed down by the font's built-in space above and below. The
+   margin gives back exactly what was trimmed, so the control keeps its height. Browsers without
+   text-box keep the untrimmed layout. */
+@supports (text-box: trim-both cap alphabetic) {
+  .uc-button:not(.uc-link) :is(.uc-button-label, .uc-button-loading-text) {
+    display: block;
+    text-box: trim-both cap alphabetic;
+    margin-block: calc((1lh - 1cap) / 2);
+  }
 }

@@ -11,7 +11,10 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": false,
     "isolatedModules": true,
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "paths": {
+      "@enumsoftware/universal-components": ["./public-api.ts"]
+    }
   },
   "angularCompilerOptions": {
     "strictTemplates": true

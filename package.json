@@ -1,20 +1,21 @@
 {
   "name": "@enumsoftware/universal-components",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Reusable Angular standalone UI components for Enum Software apps",
   "scripts": {
     "a11y": "node scripts/a11y.ts",
     "a11y:update": "node scripts/a11y.ts --update",
-    "build": "ng build universal-components",
+    "build": "ng build universal-components && node scripts/build-code-editor-worker.ts",
     "pack:dist": "npm run build ; npm pack",
     "prepare": "npm run build",
     "scripts:typecheck": "tsc -p scripts/tsconfig.json",
     "test": "ng test universal-components",
     "tokens:check": "node scripts/check-token-parity.ts",
     "utilities:build": "node scripts/build-utilities.ts",
-    "workbench": "npm run workbench:registry && ng serve workbench",
-    "workbench:build": "npm run workbench:registry && ng build workbench",
-    "workbench:registry": "node scripts/build-showcase-registry.ts"
+    "workbench": "npm run workbench:registry && npm run workbench:worker && ng serve workbench",
+    "workbench:build": "npm run workbench:registry && npm run workbench:worker && ng build workbench",
+    "workbench:registry": "node scripts/build-showcase-registry.ts",
+    "workbench:worker": "node scripts/build-code-editor-worker.ts workbench/generated/uc-code-editor/editor.worker.js"
   },
   "license": "MIT",
   "repository": {
@@ -39,6 +40,18 @@
     "./public-api": {
       "types": "./dist/types/enumsoftware-universal-components.d.ts",
       "default": "./dist/fesm2022/enumsoftware-universal-components.mjs"
+    },
+    "./uc-map": {
+      "types": "./dist/types/enumsoftware-universal-components-uc-map.d.ts",
+      "default": "./dist/fesm2022/enumsoftware-universal-components-uc-map.mjs"
+    },
+    "./uc-charts": {
+      "types": "./dist/types/enumsoftware-universal-components-uc-charts.d.ts",
+      "default": "./dist/fesm2022/enumsoftware-universal-components-uc-charts.mjs"
+    },
+    "./uc-code-editor": {
+      "types": "./dist/types/enumsoftware-universal-components-uc-code-editor.d.ts",
+      "default": "./dist/fesm2022/enumsoftware-universal-components-uc-code-editor.mjs"
     },
     "./themes/theme.css": "./themes/theme.css",
     "./themes/utilities.css": "./themes/utilities.css",
@@ -65,8 +78,10 @@
     "@angular/common": "^22.0.0",
     "@angular/core": "^22.0.0",
     "@angular/forms": "^22.0.0",
+    "@angular/google-maps": "^22.0.0",
     "@angular/platform-browser": "^22.0.0",
     "@angular/router": "^22.0.0",
+    "@googlemaps/markerclusterer": "^2.6.0",
     "rxjs": "^7.8.0"
   },
   "dependencies": {
@@ -87,11 +102,15 @@
     "@angular/compiler-cli": "^22.0.0",
     "@angular/core": "^22.0.0",
     "@angular/forms": "^22.0.0",
+    "@angular/google-maps": "^22.2.0",
     "@angular/platform-browser": "^22.0.0",
     "@angular/router": "^22.0.0",
+    "@googlemaps/markerclusterer": "^2.6.2",
     "@types/d3": "^7.4.3",
+    "@types/google.maps": "^3.66.3",
     "@types/node": "^24.0.0",
     "axe-core": "^4.12.1",
+    "esbuild": "0.28.1",
     "jsdom": "^30.0.1",
     "marked": "^18.0.11",
     "ng-packagr": "^22.0.0",
@@ -108,5 +127,13 @@
     "@parcel/watcher@2.5.6": true,
     "lmdb@3.5.4": true,
     "msgpackr-extract@3.0.4": true
+  },
+  "peerDependenciesMeta": {
+    "@angular/google-maps": {
+      "optional": true
+    },
+    "@googlemaps/markerclusterer": {
+      "optional": true
+    }
   }
 }

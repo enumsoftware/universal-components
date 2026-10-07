@@ -1,5 +1,8 @@
 :host {
-  display: inline-block;
+  /* inline-flex shrinks the host to the flag. As inline-block it takes the surrounding line height and
+     the flag sits on the text baseline inside it, so a parent that centres the host leaves the flag high. */
+  display: inline-flex;
+  vertical-align: middle;
 }
 
 .circular {

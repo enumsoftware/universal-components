@@ -1,4 +1,5 @@
 import {
+  afterNextRender,
   Directive,
   ElementRef,
   inject,
@@ -92,14 +93,19 @@ function cssLengthToPx(value: string): number {
   return px;
 }
 
+/** Elements the keyboard already reaches, so the tooltip host needs no tabindex of its own. */
+const FOCUSABLE = 'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"]), [contenteditable="true"]';
+
 @Directive({
   selector: '[ucTooltip]',
   host: {
     '(mouseenter)': 'show()',
     '(mouseleave)': 'hide()',
-    '(focus)': 'show()',
-    '(blur)': 'hide()',
-    tabindex: '0',
+    // focusin/focusout bubble, so a tooltip on a component (uc-icon-button) also shows when the
+    // button inside it gets keyboard focus.
+    '(focusin)': 'show()',
+    '(focusout)': 'hide()',
+    '[attr.tabindex]': 'hostTabIndex()',
     'aria-describedby': 'tooltipIdComputed()',
   },
 })
@@ -118,6 +124,21 @@ export class UcTooltip {
   ucTooltip = input<string>('');
   ucTooltipPosition = input<UcTooltipPosition | undefined>(undefined);
   ucTooltipMargin = input<string | undefined>(undefined);
+
+  /**
+   * A host the keyboard cannot reach (an icon, a span) gets tabindex 0 so its tooltip can be read.
+   * A host that is focusable itself or contains a focusable element (a button, uc-icon-button)
+   * gets none, so it adds no extra tab stop. Decided after render, once the host's content exists.
+   */
+  protected readonly hostTabIndex = signal<string | null>(null);
+
+  constructor() {
+    const host = this.elementRef.nativeElement as HTMLElement;
+    afterNextRender(() => {
+      const reachable = host.matches(FOCUSABLE) || host.hasAttribute('tabindex') || !!host.querySelector(FOCUSABLE);
+      this.hostTabIndex.set(reachable ? null : '0');
+    });
+  }
 
   show() {
     if (this.overlayRef) return;

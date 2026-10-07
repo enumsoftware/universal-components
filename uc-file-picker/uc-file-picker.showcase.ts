@@ -15,6 +15,13 @@ export default defineShowcase({
     maxFileSizeBytes: number(null, { description: 'Maximum accepted file size in bytes. Leave empty for no limit.' }),
     editImages: bool(false),
     imageEditorTitle: text('Crop image'),
+    dropzoneText: text('Drag & drop a file here or click to browse'),
+    removeLabel: text('Remove file'),
+    previewAlt: text('Selected file preview'),
+    fileTooLargeText: text('File is too large. Maximum size is {size}.', {
+      description: '{size} is replaced with the formatted maxFileSizeBytes.',
+    }),
+    readErrorText: text('Failed to read the selected file.'),
   },
   examples: [
     {
@@ -33,6 +40,18 @@ export default defineShowcase({
     {
       name: 'Tiny Size Limit',
       props: { helperText: 'Pick any file over 10KB to see the size error', maxFileSizeBytes: 10 * 1024 },
+    },
+    {
+      name: 'Translated',
+      props: {
+        label: 'Učitaj sliku',
+        dropzoneText: 'Povucite sliku ovdje ili kliknite za odabir',
+        removeLabel: 'Ukloni sliku',
+        previewAlt: 'Pregled odabrane slike',
+        fileTooLargeText: 'Slika je prevelika. Najviše {size}.',
+        helperText: 'Svi tekstovi komponente mogu se prevesti.',
+        maxFileSizeBytes: 10 * 1024,
+      },
     },
   ],
 });

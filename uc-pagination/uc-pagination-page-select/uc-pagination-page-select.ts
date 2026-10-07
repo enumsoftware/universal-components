@@ -29,6 +29,10 @@ export class UcPaginationPageSelect {
   selectedSize = input.required<number>();
   sizes = input<number[]>([10, 25, 50, 100]);
   size = input<'small' | 'medium'>('medium');
+  /** Visible label next to the picker. */
+  label = input<string>('Page size');
+  /** Accessible name of the picker button. */
+  ariaLabel = input<string>('Select page size');
 
   sizeSelected = output<number>();
 

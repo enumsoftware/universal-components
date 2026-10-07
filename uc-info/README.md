@@ -88,8 +88,8 @@ The component uses content projection for flexibility:
 
 The component uses CSS custom properties from `styles.scss` to respect the application's theming:
 
-- **Info variant**: Uses `--primary-color`
+- **Info variant**: Uses `--uc-primary-color`
 - **Warning variant**: Uses orange/yellow colors that adapt to light/dark theme
-- **Error variant**: Uses `--error-color`
+- **Error variant**: Uses `--uc-error-color`
 
 All colors are automatically adjusted for backgrounds, borders, and text to ensure readability in both light and dark themes.

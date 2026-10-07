@@ -1,6 +1,7 @@
 # @enumsoftware/universal-components
 
-Reusable Angular standalone UI components consumed directly from source.
+Reusable Angular standalone UI components, built with ng-packagr into partially compiled ES modules
+that the app's Angular build links and tree-shakes: an app only ships the components it uses.
 
 ## Install in a consumer app
 
@@ -8,19 +9,37 @@ Reusable Angular standalone UI components consumed directly from source.
 npm install github:enumsoftware/universal-components#main
 ```
 
+Installing from git runs the package's `prepare` script, which builds it.
+
 ## Import patterns
 
-Use either the public API:
+Most components come from the main entry point:
 
 ```ts
 import { UcButton, UcInput } from '@enumsoftware/universal-components';
 ```
 
-Or deep imports for component-level usage:
+Three have their own entry points, so an app that does not use them never builds or ships their heavy
+dependencies:
+
+| Import from | Components | Brings in |
+|---|---|---|
+| `@enumsoftware/universal-components/uc-map` | `UcMap` | Google Maps (`@angular/google-maps`, and `@googlemaps/markerclusterer` on demand) |
+| `@enumsoftware/universal-components/uc-charts` | `UcBarChart`, `UcLineChart`, `UcDoughnutChart` | d3 |
+| `@enumsoftware/universal-components/uc-code-editor` | `UcCodeEditor` | Monaco, loaded on demand |
 
 ```ts
-import { UcButton } from '@enumsoftware/universal-components/uc-button/uc-button';
+import { UcMap } from '@enumsoftware/universal-components/uc-map';
+import { UcBarChart } from '@enumsoftware/universal-components/uc-charts';
+import { UcCodeEditor } from '@enumsoftware/universal-components/uc-code-editor';
 ```
+
+Only these paths are exported; importing a component's own file, such as
+`@enumsoftware/universal-components/uc-button/uc-button`, is not supported and fails to resolve.
+
+An app that uses `uc-code-editor` needs three entries in its `angular.json`: a `.ttf` loader,
+Monaco's stylesheet in `styles`, and an `assets` entry that copies Monaco's editor worker, which ships
+with this package. See [App build setup](uc-code-editor/README.md#app-build-setup).
 
 ## Component Docs
 
@@ -28,6 +47,7 @@ import { UcButton } from '@enumsoftware/universal-components/uc-button/uc-button
 - [UcCodeEditor](uc-code-editor/README.md)
 - [UcEditor](uc-editor/README.md)
 - [UcMenu](uc-menu/README.md)
+- [UcMap](uc-map/README.md)
 
 ## Compatibility
 
@@ -110,6 +130,20 @@ file. If Playwright browser binaries are missing on your machine:
 npx playwright install chromium
 ```
 
+## Default Variants
+
+Set which variant each control uses when a template does not choose one, once for the whole app:
+
+```ts
+import { provideUcDefaults } from '@enumsoftware/universal-components';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideUcDefaults({ button: { variant: 'secondary' }, tabs: { variant: 'pills' } })],
+};
+```
+
+Controls that are not listed keep their built-in default, and a variant set on an element always wins. Covered controls: `badge`, `button`, `divider`, `iconButton`, `info`, `pill`, `segmentedToggle`, `sidebarButton` (its `style` input) and `tabs`. A lazy route can provide its own defaults, merged over the app's per control. The full table of options and built-in defaults is in the Workbench under **Foundations / Default Variants** (`uc-defaults/uc-defaults.docs.md`).
+
 ## Theming And Component Tokens
 
 Global theme files are exported from the `themes/` directory. Import one of the following in your app's global stylesheet:
@@ -126,7 +160,7 @@ Use `data-theme="light"`, `data-theme="dark"`, `data-theme="aurora"`, or `data-t
 
 Standard override model:
 
-1. Semantic theme tokens (`--primary-color`, `--foreground-color`, `--card-background-color`, etc.)
+1. Semantic theme tokens (`--uc-primary-color`, `--uc-foreground-color`, `--uc-card-background-color`, etc.)
 2. Standardized component tokens (`--uc-token-*`), for example `--uc-token-uc-button-background`
 3. Per-component variables (`--uc-button-background`, etc.) still work and are resolved inside component host styles
 

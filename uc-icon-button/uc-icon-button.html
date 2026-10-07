@@ -7,8 +7,10 @@
   [disabled]="disabled()"
   [attr.aria-disabled]="disabled()"
   [attr.aria-pressed]="pressed()"
+  [attr.aria-expanded]="ariaExpanded()"
+  [attr.aria-controls]="ariaControls()"
   [attr.aria-label]="label() || null"
-  [attr.title]="label() || null"
+  [attr.title]="hasTooltip ? null : label() || null"
 >
   @if (phosphorIcon()) {
     <i class="ph-{{ phosphorWeight() }} ph-{{ phosphorIcon() }} text-2xl"></i>

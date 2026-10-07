@@ -4,7 +4,7 @@
   --uc-spinner-loading-size-resolved: var(--uc-spinner-loading-size, 2.5rem);
   --uc-spinner-loading-thickness-resolved: var(--uc-spinner-loading-thickness, 0.25rem);
   --uc-spinner-loading-track-background-resolved: var(--uc-spinner-loading-track-background, rgba(0, 0, 0, 0.05));
-  --uc-spinner-loading-indicator-background-resolved: var(--uc-spinner-loading-indicator-background, var(--primary-color));
+  --uc-spinner-loading-indicator-background-resolved: var(--uc-spinner-loading-indicator-background, var(--uc-primary-color));
 }
 
 .spinner-loader {

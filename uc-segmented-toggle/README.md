@@ -39,6 +39,41 @@ export class ExampleComponent {}
 selectedFilter = 'all';
 ```
 
+## Icon and Text
+
+Set `icon` to a Phosphor icon name (without the `ph-` prefix) to show it before the item's text.
+`iconWeight` picks the Phosphor weight and defaults to `bold`.
+
+```html
+<uc-segmented-toggle [(value)]="selectedView">
+  <uc-segmented-toggle-item value="list" icon="list-bullets">List</uc-segmented-toggle-item>
+  <uc-segmented-toggle-item value="map" icon="map-pin">Map</uc-segmented-toggle-item>
+  <uc-segmented-toggle-item value="grid" icon="squares-four" ariaLabel="Grid view" />
+</uc-segmented-toggle>
+```
+
+An item with only an icon needs `ariaLabel`. The icon size is themed with
+`--uc-segmented-toggle-item-icon-size`.
+
+## Custom Prefix
+
+For anything other than a Phosphor icon, such as a `uc-flag`, mark the element with
+`ucSegmentedTogglePrefix`. It is placed where `icon` would be, before the text, wherever it is written
+inside the item.
+
+```html
+<uc-segmented-toggle [(value)]="language" ariaLabel="Language">
+  <uc-segmented-toggle-item value="hr">
+    <uc-flag ucSegmentedTogglePrefix countryCode="hr" size="1.125rem" [circular]="true" />
+    Hrvatski
+  </uc-segmented-toggle-item>
+  <uc-segmented-toggle-item value="en">
+    <uc-flag ucSegmentedTogglePrefix countryCode="gb" size="1.125rem" [circular]="true" />
+    English
+  </uc-segmented-toggle-item>
+</uc-segmented-toggle>
+```
+
 ## Text and Icon Projection
 
 You can project any content inside each item.
@@ -55,6 +90,48 @@ You can project any content inside each item.
   </uc-segmented-toggle-item>
 </uc-segmented-toggle>
 ```
+
+## Default Style
+
+The options sit in a padded track, the selected one drawn as a rounded pill inside it, with no dividers
+between them. It matches the Map / Satellite switch on `uc-map`.
+
+| Token | Default | |
+|---|---|---|
+| `--uc-segmented-toggle-background` | `--uc-background-color` | The track |
+| `--uc-segmented-toggle-border` | 1px `--uc-input-border-color` | The track |
+| `--uc-segmented-toggle-border-radius` | `0.75rem` | The track; the options use this minus the padding |
+| `--uc-segmented-toggle-padding` | `0.25rem` | Space between the track and the options |
+| `--uc-segmented-toggle-gap` | `0.125rem` | Space between the options |
+| `--uc-segmented-toggle-item-hover-background` | foreground at 8% | |
+| `--uc-segmented-toggle-item-selected-background` | `--uc-primary-color` | |
+
+The options' corners are worked out from each toggle's own radius and padding, so a toggle sized down
+with these tokens keeps them nested:
+
+```css
+.toolbar {
+  --uc-segmented-toggle-border-radius: 0.5rem;
+  --uc-segmented-toggle-padding: 0.1875rem;
+  --uc-segmented-toggle-item-padding-block: 0.25rem;
+}
+```
+
+## Pills Variant
+
+`variant="pills"` draws each item as a separate, fully rounded pill with a gap between them, matching
+the `pills` variant of `uc-tabs`.
+
+```html
+<uc-segmented-toggle [(value)]="selectedFilter" variant="pills">
+  <uc-segmented-toggle-item value="all">All</uc-segmented-toggle-item>
+  <uc-segmented-toggle-item value="products">Products</uc-segmented-toggle-item>
+</uc-segmented-toggle>
+```
+
+Theme it with `--uc-segmented-toggle-pills-gap`, `--uc-segmented-toggle-pills-border-radius` and
+`--uc-segmented-toggle-pills-hover-background`. The selected pill uses the
+`--uc-segmented-toggle-item-selected-*` tokens.
 
 ## Disabled States
 
@@ -83,6 +160,7 @@ Disable the entire group:
 #### Inputs
 
 - `disabled: boolean` - Disables all toggle items.
+- `variant: 'default' | 'pills'` - Options in a padded track (default) or separate rounded pills.
 
 #### Model (Two-Way Bindable)
 
@@ -95,6 +173,8 @@ Disable the entire group:
 - `value: string` - Unique value for this item.
 - `disabled: boolean` - Disables only this item.
 - `ariaLabel: string | null` - Accessible name for icon-only items.
+- `icon: string | null` - Phosphor icon name shown before the text.
+- `iconWeight: PhosphorIconWeight` - Weight of `icon`. Defaults to `bold`.
 
 ## Accessibility
 

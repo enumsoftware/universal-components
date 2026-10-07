@@ -2,15 +2,21 @@ import {
   afterNextRender,
   booleanAttribute,
   Component,
+  inject,
   input,
   model,
   output,
   signal,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import { UC_DEFAULTS } from '../uc-defaults/uc-defaults';
 import { UcSpinnerLoading } from '../uc-spinner-loading/uc-spinner-loading.component';
 
-export const BUTTON_VARIANT_OPTIONS = ['primary', 'secondary', 'error'] as const;
+/**
+ * `text` is `secondary` without the border, for low-emphasis actions.
+ * `link` looks like a text link but stays a button, for actions such as opening a dialog.
+ */
+export const BUTTON_VARIANT_OPTIONS = ['primary', 'secondary', 'text', 'error', 'link'] as const;
 export type ButtonVariant = (typeof BUTTON_VARIANT_OPTIONS)[number];
 
 export const BUTTON_ALIGN_OPTIONS = ['left', 'center'] as const;
@@ -31,7 +37,7 @@ export type ButtonSize = (typeof BUTTON_SIZE_OPTIONS)[number];
 })
 export class UcButton {
   text = model.required();
-  variant = input<ButtonVariant>('primary');
+  variant = input<ButtonVariant>(inject(UC_DEFAULTS).button?.variant ?? 'primary');
   size = input<ButtonSize>('medium');
   align = input<ButtonAlign>('center');
   disabled = input<boolean>(false);
@@ -76,8 +82,10 @@ export class UcButton {
   }
 
   onClick(event: MouseEvent) {
-    event.preventDefault();
+    // Only a blocked click is cancelled; otherwise a submit or reset button must keep its
+    // default action, or the surrounding form would never submit.
     if (this.disabled() || this.loading()) {
+      event.preventDefault();
       return;
     }
 

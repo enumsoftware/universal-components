@@ -1,13 +1,13 @@
 :host {
-  --uc-divider-color-resolved: var(--uc-divider-color, oklch(from var(--foreground-color) l c h / 0.15));
-  --uc-divider-text-color-resolved: var(--uc-divider-text-color, var(--paragraph-text-color));
+  --uc-divider-color-resolved: var(--uc-divider-color, oklch(from var(--uc-foreground-color) l c h / 0.15));
+  --uc-divider-text-color-resolved: var(--uc-divider-text-color, var(--uc-paragraph-text-color));
   --uc-divider-inverse-color-resolved: var(
     --uc-divider-inverse-color,
-    oklch(from var(--inverse-foreground-color) l c h / 0.15)
+    oklch(from var(--uc-inverse-foreground-color) l c h / 0.15)
   );
   --uc-divider-inverse-text-color-resolved: var(
     --uc-divider-inverse-text-color,
-    var(--inverse-foreground-color)
+    var(--uc-inverse-foreground-color)
   );
   --uc-divider-margin-resolved: var(--uc-divider-margin, 1rem 0);
   display: flex;

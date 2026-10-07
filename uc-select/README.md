@@ -206,9 +206,9 @@ The component uses CSS custom properties for theming. Customize these in your gl
 
 ```css
 :root {
-  --foreground-color: #333;
-  --primary-color: #0066cc;
-  --error-color: #d32f2f;
+  --uc-foreground-color: #333;
+  --uc-primary-color: #0066cc;
+  --uc-error-color: #d32f2f;
   --uc-input-background-color: #fff;
   --uc-input-border-color: #ccc;
   --uc-input-border-radius: 4px;

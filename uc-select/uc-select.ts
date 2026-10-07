@@ -160,7 +160,8 @@ function toSearchQuery(value: string | number | null): string {
         </div>
       }
 
-      @if (data.loadMode === 'page') {
+      <!-- Only with a second page: a single page hides uc-pagination, which would leave an empty footer. -->
+      @if (data.loadMode === 'page' && (data.totalItems() ?? 0) > data.pageSize) {
         <div class="uc-select-pager">
           <uc-pagination
             [currentPage]="data.currentPage() - 1"
@@ -214,8 +215,8 @@ const PANEL_INHERITED_PROPERTIES = [
   '--uc-input-background-color',
   '--uc-input-border-color',
   '--uc-input-border-radius',
-  '--foreground-color',
-  '--primary-color',
+  '--uc-foreground-color',
+  '--uc-primary-color',
 ] as const;
 
 @Component({

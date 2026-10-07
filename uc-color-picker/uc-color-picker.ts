@@ -1,11 +1,16 @@
 import {
   Component,
+  ElementRef,
+  Injector,
   ViewEncapsulation,
+  afterNextRender,
   computed,
+  inject,
   input,
   model,
   output,
   signal,
+  viewChild,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -19,9 +24,9 @@ import { UcButton } from '../uc-button/uc-button';
 import { UcColorArea } from './uc-color-area/uc-color-area';
 import { UcColorWheel } from './uc-color-wheel/uc-color-wheel';
 import { UcTabPanel, UcTabs, type UcTab } from '../uc-tabs/uc-tabs';
+import { parseColor, type ColorFormat, type ParsedColor } from './uc-color-parse';
 
 type ColorMode = 'area' | 'wheel';
-type ColorFormat = 'hex' | 'rgb' | 'hsl';
 
 interface RgbColor {
   r: number;
@@ -56,6 +61,8 @@ export class UcColorPicker implements FormValueControl<string> {
   readonly errors = input<readonly WithOptionalFieldTree<ValidationError>[]>([]);
   readonly disabledReasons = input<readonly WithOptionalFieldTree<DisabledReason>[]>([]);
   readonly invalid = input<boolean>(false);
+  /** Accessible name of the value field, where a colour can be typed or pasted. */
+  readonly valueLabel = input<string>('Color value');
 
   value = model<string>('#ff0000');
   draftValue = model<string>('#ff0000');
@@ -65,6 +72,11 @@ export class UcColorPicker implements FormValueControl<string> {
   readonly isOpen = signal<boolean>(false);
   readonly colorMode = signal<ColorMode>('area');
   readonly colorFormat = signal<ColorFormat>('hex');
+  /** What the user is typing in the value field; null shows the current colour instead. */
+  readonly typedValue = signal<string | null>(null);
+
+  private readonly injector = inject(Injector);
+  private readonly valueInput = viewChild<ElementRef<HTMLInputElement>>('valueInput');
 
   readonly colorModeTabs: UcTab[] = [
     { key: 'area', label: 'Area' },
@@ -73,6 +85,12 @@ export class UcColorPicker implements FormValueControl<string> {
 
   readonly displayValue = computed(() => this.value().toUpperCase());
   readonly showErrorState = computed(() => this.invalid() && this.touched());
+
+  readonly valueText = computed(() => this.typedValue() ?? this.formattedValue());
+  readonly valueInvalid = computed(() => {
+    const typed = this.typedValue();
+    return typed !== null && typed.trim() !== '' && parseColor(typed) === null;
+  });
 
   readonly formattedValue = computed<string>(() => {
     const hex = this.draftValue();
@@ -98,9 +116,15 @@ export class UcColorPicker implements FormValueControl<string> {
   openDropdown() {
     this.draftValue.set(this.value());
     this.isOpen.set(true);
+    // Focused with its text selected, so a colour can be pasted straight away. Not on touch screens,
+    // where focusing a text field would pop up the keyboard over the picker.
+    if (typeof matchMedia === 'function' && matchMedia('(pointer: fine)').matches) {
+      afterNextRender(() => this.valueInput()?.nativeElement.select(), { injector: this.injector });
+    }
   }
 
   closeDropdown() {
+    this.typedValue.set(null);
     this.isOpen.set(false);
   }
 
@@ -134,6 +158,47 @@ export class UcColorPicker implements FormValueControl<string> {
 
   onColorChange(hex: string) {
     this.draftValue.set(hex);
+  }
+
+  /** Every complete colour typed updates the preview; half-typed text leaves it alone. */
+  onValueInput(event: Event) {
+    const text = (event.target as HTMLInputElement).value;
+    this.typedValue.set(text);
+    const color = parseColor(text);
+    if (color) {
+      this.applyColor(color);
+    }
+  }
+
+  onValueEnter(event: Event) {
+    event.preventDefault();
+    if (!this.valueInvalid()) {
+      this.saveChanges();
+    }
+  }
+
+  /** Leaving the field shows the current colour again, which also clears invalid text. */
+  onValueBlur() {
+    this.typedValue.set(null);
+  }
+
+  /** A colour pasted anywhere else in the open panel is taken too; the value field handles its own. */
+  onPanelPaste(event: ClipboardEvent) {
+    if (event.target === this.valueInput()?.nativeElement) {
+      return;
+    }
+
+    const color = parseColor(event.clipboardData?.getData('text') ?? '');
+    if (color) {
+      event.preventDefault();
+      this.typedValue.set(null);
+      this.applyColor(color);
+    }
+  }
+
+  private applyColor(color: ParsedColor) {
+    this.draftValue.set(color.hex);
+    this.colorFormat.set(color.format);
   }
 
   private parseHex(hex: string): RgbColor | null {

@@ -151,6 +151,8 @@ export class RangeExampleComponent {
 | `rangeEnd` | `string` | `''` | Range end date in `YYYY-MM-DD` format |
 | `rangeStep` | `'start' \| 'end'` | `'start'` | Which range endpoint is being picked; controls the hover-preview direction |
 | `hoverDate` | `Temporal.PlainDate \| null` | `null` | Currently hovered date, used to render the range preview strip |
+| `locale` | `string \| undefined` | `undefined` | BCP 47 locale for weekday names and day labels. Omit to use `provideUcDateLocale`, then Angular's `LOCALE_ID`. |
+| `firstDayOfWeek` | `number \| undefined` | `undefined` | First grid column, 1 = Monday ... 7 = Sunday. Omit to use the locale's own first day of the week. |
 
 ### Outputs
 
@@ -167,7 +169,7 @@ interface CalendarDay {
   date: Temporal.PlainDate;
   /** `YYYY-MM-DD`, ready to hand straight back to `selectedDate`/`rangeStart`/`rangeEnd`. */
   iso: string;
-  /** Spoken-language label for the day button, e.g. `Wed Aug 13 2026`. */
+  /** Spoken label for the day button in the calendar's locale, e.g. `Wednesday, August 13, 2026`. */
   label: string;
   dayNumber: number;
   isCurrentMonth: boolean;
@@ -180,6 +182,39 @@ interface CalendarDay {
   isRangePreviewEnd: boolean;
 }
 ```
+
+## Localization
+
+`uc-calendar` and `uc-date-time-picker` follow Angular's `LOCALE_ID`, so an app that sets it gets month and
+weekday names, the first day of the week and the date format of its language with no extra code:
+
+```typescript
+providers: [{ provide: LOCALE_ID, useValue: 'hr-HR' }]
+```
+
+To set the date locale on its own (or for one lazy route), or to change texts, use `provideUcDateLocale`:
+
+```typescript
+import { provideUcDateLocale } from '@enumsoftware/universal-components';
+
+providers: [provideUcDateLocale({ locale: 'hr-HR', firstDayOfWeek: 1, labels: { save: 'Potvrdi' } })]
+```
+
+A component's own `locale` / `firstDayOfWeek` inputs win over both. Names and formats come from `Intl`, so any
+locale works. The picker's texts (Today, Cancel, Save, placeholders, screen-reader labels) are built in for
+English and Croatian; other languages fall back to English and can be supplied through `labels`.
+
+`uc-date-time-picker` also takes:
+
+| Input | Type | Default | Description |
+|-------|------|---------|-------------|
+| `locale` | `string \| undefined` | `undefined` | As on `uc-calendar`; passed down to its calendar. |
+| `dateFormat` | `Intl.DateTimeFormatOptions` | `{ day: 'numeric', month: 'short', year: 'numeric' }` | How the chosen date is shown: `Sep 7, 2026`, `7. ruj 2026.` For `07. 09. 2026.` use `{ day: '2-digit', month: '2-digit', year: 'numeric' }`. |
+| `labels` | `Partial<UcDateLabels>` | `{}` | Overrides for the built-in texts. |
+| `placeholder` | `string \| undefined` | `undefined` | Omit for the locale's "Select date" text. |
+
+The value stays `YYYY-MM-DD` (or `YYYY-MM-DDTHH:mm`) in every locale; only what is shown changes. A time is
+shown in the locale's clock (`2:05 PM`, `14:05`).
 
 ## Migrating from the `Date` API
 
@@ -208,23 +243,23 @@ on the calendar or any ancestor to re-theme it:
 .my-calendar-wrapper {
   --uc-dtp-weekday-color: #888;
   --uc-dtp-value-color: #111;
-  --uc-dtp-day-hover-bg: oklch(from var(--primary-color) l c h / 0.1);
-  --uc-dtp-day-today-color: var(--primary-color);
-  --uc-dtp-day-today-border: var(--primary-color);
+  --uc-dtp-day-hover-bg: oklch(from var(--uc-primary-color) l c h / 0.1);
+  --uc-dtp-day-today-color: var(--uc-primary-color);
+  --uc-dtp-day-today-border: var(--uc-primary-color);
   --uc-dtp-day-state-padding: 0.1rem;
-  --uc-dtp-day-selected-bg: var(--primary-color);
+  --uc-dtp-day-selected-bg: var(--uc-primary-color);
   --uc-dtp-day-selected-color: #fff;
   --uc-dtp-day-selected-inset: 3px;
   --uc-dtp-day-other-month-color: #bbb;
-  --uc-dtp-trigger-focus-color: var(--primary-color);
+  --uc-dtp-trigger-focus-color: var(--uc-primary-color);
   /* range */
-  --uc-dtp-range-bg: oklch(from var(--primary-color) l c h / 0.15);
+  --uc-dtp-range-bg: oklch(from var(--uc-primary-color) l c h / 0.15);
   --uc-dtp-range-row-gap: 2px;
   --uc-dtp-range-endcap-inset: 5%;
   /* range preview */
-  --uc-dtp-range-preview-bg: oklch(from var(--primary-color) l c h / 0.08);
-  --uc-dtp-range-preview-circle-bg: oklch(from var(--primary-color) l c h / 0.25);
-  --uc-dtp-range-preview-outline-color: oklch(from var(--primary-color) l c h / 0.5);
+  --uc-dtp-range-preview-bg: oklch(from var(--uc-primary-color) l c h / 0.08);
+  --uc-dtp-range-preview-circle-bg: oklch(from var(--uc-primary-color) l c h / 0.25);
+  --uc-dtp-range-preview-outline-color: oklch(from var(--uc-primary-color) l c h / 0.5);
   --uc-dtp-range-preview-row-gap: 2px;
   --uc-dtp-range-preview-endcap-inset: 5%;
 }

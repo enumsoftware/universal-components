@@ -1,26 +1,28 @@
 :host {
-  --uc-segmented-toggle-item-color-resolved: var(--uc-segmented-toggle-item-color, var(--paragraph-text-color));
+  --uc-segmented-toggle-item-color-resolved: var(--uc-segmented-toggle-item-color, var(--uc-paragraph-text-color));
   --uc-segmented-toggle-item-selected-color-resolved: var(
     --uc-segmented-toggle-item-selected-color,
-    var(--inverse-foreground-color)
+    var(--uc-inverse-foreground-color)
   );
   --uc-segmented-toggle-item-selected-background-resolved: var(
     --uc-segmented-toggle-item-selected-background,
-    var(--primary-color)
+    var(--uc-primary-color)
   );
   --uc-segmented-toggle-item-hover-background-resolved: var(
     --uc-segmented-toggle-item-hover-background,
-    oklch(from var(--background-color-90) l c h / 0.35)
-  );
-  --uc-segmented-toggle-item-separator-color-resolved: var(
-    --uc-segmented-toggle-item-separator-color,
-    var(--background-color-90)
+    oklch(from var(--uc-foreground-color) l c h / 0.08)
   );
   --uc-segmented-toggle-item-font-size-resolved: var(--uc-segmented-toggle-item-font-size, 0.95rem);
   --uc-segmented-toggle-item-font-weight-resolved: var(--uc-segmented-toggle-item-font-weight, 600);
   --uc-segmented-toggle-item-line-height-resolved: var(--uc-segmented-toggle-item-line-height, 1.25rem);
-  --uc-segmented-toggle-item-padding-block-resolved: var(--uc-segmented-toggle-item-padding-block, 0.65rem);
+  --uc-segmented-toggle-item-padding-block-resolved: var(--uc-segmented-toggle-item-padding-block, 0.4rem);
   --uc-segmented-toggle-item-padding-inline-resolved: var(--uc-segmented-toggle-item-padding-inline, 1rem);
+  --uc-segmented-toggle-pills-border-radius-resolved: var(--uc-segmented-toggle-pills-border-radius, 100px);
+  --uc-segmented-toggle-pills-hover-background-resolved: var(
+    --uc-segmented-toggle-pills-hover-background,
+    oklch(from var(--uc-background-color-90) l c h / 0.5)
+  );
+  --uc-segmented-toggle-item-icon-size-resolved: var(--uc-segmented-toggle-item-icon-size, 1.125rem);
   --uc-segmented-toggle-item-disabled-opacity-resolved: var(--uc-segmented-toggle-item-disabled-opacity, 0.55);
   display: flex;
 }
@@ -39,22 +41,37 @@
   line-height: var(--uc-segmented-toggle-item-line-height-resolved);
   padding-block: var(--uc-segmented-toggle-item-padding-block-resolved);
   padding-inline: var(--uc-segmented-toggle-item-padding-inline-resolved);
+  /* Inherited from the toggle: an option's corners sit just inside the track's. */
+  border-radius: calc(
+    var(--uc-segmented-toggle-border-radius-resolved, 0.75rem) - var(--uc-segmented-toggle-padding-resolved, 0.25rem)
+  );
   cursor: pointer;
   transition:
     background-color 0.2s,
     color 0.2s;
 }
 
-:host(:not(:last-child)) .uc-segmented-toggle-item__button {
-  border-right: 1px solid var(--uc-segmented-toggle-item-separator-color-resolved);
+/* Inherited into uc-phosphor-icon's :host, where it overrides the :root theme size so the icon
+   sits at text scale beside the label. */
+.uc-segmented-toggle-item__icon {
+  --uc-phosphor-icon-size: var(--uc-segmented-toggle-item-icon-size-resolved);
 }
 
 .uc-segmented-toggle-item__button:hover {
   background: var(--uc-segmented-toggle-item-hover-background-resolved);
 }
 
+/* Before the selected and disabled rules, which share its specificity and must win on hover. */
+.uc-segmented-toggle-item__button.uc-segmented-toggle-item__button--pills {
+  border-radius: var(--uc-segmented-toggle-pills-border-radius-resolved);
+}
+
+.uc-segmented-toggle-item__button.uc-segmented-toggle-item__button--pills:hover {
+  background: var(--uc-segmented-toggle-pills-hover-background-resolved);
+}
+
 .uc-segmented-toggle-item__button:focus-visible {
-  outline: 2px solid var(--primary-color);
+  outline: 2px solid var(--uc-primary-color);
   outline-offset: -2px;
 }
 
@@ -85,4 +102,16 @@
 .uc-segmented-toggle-item__button.uc-segmented-toggle-item__button--selected:disabled:hover,
 .uc-segmented-toggle-item__button.uc-segmented-toggle-item__button--selected.uc-segmented-toggle-item__button--disabled:hover {
   background: var(--uc-segmented-toggle-item-selected-background-resolved);
+}
+
+/* Optical centring: the text box is trimmed to the capitals and the baseline, so the text sits in the
+   middle of its shape instead of being pushed down by the font's built-in space above and below. The
+   margin gives back exactly what was trimmed, so the control keeps its height. Browsers without
+   text-box keep the untrimmed layout. */
+@supports (text-box: trim-both cap alphabetic) {
+  .uc-segmented-toggle-item__label {
+    display: block;
+    text-box: trim-both cap alphabetic;
+    margin-block: calc((1lh - 1cap) / 2);
+  }
 }

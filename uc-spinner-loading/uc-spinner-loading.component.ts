@@ -1,4 +1,4 @@
-import { Component, model, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, model, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'uc-spinner-loading',
@@ -12,4 +12,6 @@ export class UcSpinnerLoading {
   size = model<string | undefined>();
   thickness = model<string | undefined>();
   loading = model.required();
+  /** What screen readers announce while it spins; replace it in apps in other languages. */
+  label = input<string>('Loading');
 }

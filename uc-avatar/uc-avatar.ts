@@ -7,6 +7,8 @@ import { UcPhosphorIcon } from '../uc-phosphor-icon/uc-phosphor-icon';
   templateUrl: './uc-avatar.html',
   styleUrl: './uc-avatar.css',
   changeDetection: ChangeDetectionStrategy.Eager,
+  // On the host, where the stylesheet resolves the size; set lower down it would never apply.
+  host: { '[style.--uc-avatar-size]': 'size()' },
 })
 export class UcAvatar {
   imageUrl = input<string | null>(null);

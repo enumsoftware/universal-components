@@ -1,9 +1,4 @@
 {
-  "components/accordion": {
-    "examples.light": {
-      "color-contrast": 1
-    }
-  },
   "components/avatar": {
     "examples.dark": {
       "color-contrast": 1
@@ -14,10 +9,10 @@
   },
   "components/calendar": {
     "examples.dark": {
-      "color-contrast": 50
+      "color-contrast": 36
     },
     "examples.light": {
-      "color-contrast": 50
+      "color-contrast": 36
     },
     "playground.dark": {
       "color-contrast": 13
@@ -37,11 +32,6 @@
   "components/info": {
     "examples.dark": {
       "color-contrast": 1
-    }
-  },
-  "components/pill": {
-    "examples.dark": {
-      "color-contrast": 2
     }
   }
 }

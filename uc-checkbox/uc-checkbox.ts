@@ -25,6 +25,16 @@ export class UcCheckbox implements FormCheckboxControl {
   checked = model<boolean>(false);
   errors?: InputSignal<readonly WithOptionalFieldTree<ValidationError>[]> | undefined;
 
+  /** The native input changed: by its label, the keyboard (Space) or assistive technology. */
+  onInputChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (this.disabled()) {
+      input.checked = this.checked();
+      return;
+    }
+    this.checked.set(input.checked);
+  }
+
   toggleCheckbox(): void {
     if (!this.disabled()) {
       this.checked.update((val) => !val);

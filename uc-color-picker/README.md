@@ -10,6 +10,7 @@ A reusable color picker component for Angular with a dropdown color wheel interf
 - **Signal Forms Ready**: Implements `FormValueControl` for `FormField` usage.
 - **Accessible**: Proper labels, disabled/readonly states, and error messages.
 - **Keyboard Navigation**: Supports Enter and Space keys to toggle the dropdown.
+- **Paste or type a colour**: The value field takes hex, `rgb()` or `hsl()`, and is focused and selected when the picker opens.
 
 ## Installation
 
@@ -53,6 +54,7 @@ export class ExampleComponent {
 2. **Selecting a Color**: Click or drag on the color wheel in the dropdown
 3. **Closing the Picker**: Click outside the dropdown or select a color
 4. **Keyboard Support**: Tab to focus the swatch, then use Enter or Space to toggle
+5. **Pasting or Typing a Color**: When the picker opens, its value field is focused with the text selected (with a mouse or trackpad; not on touch screens, where it would open the keyboard), so Ctrl+V replaces it. It reads `#e91e63`, `e91e63`, `#f80`, `rgb(233, 30, 99)`, `rgb(233 30 99 / 50%)`, a bare `233, 30, 99`, `hsl(340, 82%, 52%)` and `hsla()`. Transparency is dropped, since the picker has none. The preview updates as soon as the text is a complete colour, the HEX / RGB / HSL buttons switch to the format entered, Enter saves, and text that is not a colour is outlined in red until the field is left. A colour pasted anywhere else in the open panel is taken too.
 
 ## With Signal Forms (`FormField`)
 
@@ -103,6 +105,7 @@ export class BrandFormComponent {
 | `errors` | `ValidationError[]` | `[]` | Validation errors to display |
 | `disabledReasons` | `DisabledReason[]` | `[]` | Reasons why the control is disabled |
 | `invalid` | `boolean` | `false` | Whether the control is invalid |
+| `valueLabel` | `string` | `'Color value'` | Accessible name of the value field |
 
 ### Models (Two-Way Bindable)
 
@@ -123,9 +126,9 @@ The component uses standard CSS variables. You can customize these in your globa
 
 ```css
 :root {
-  --foreground-color: #333;
-  --primary-color: #0066cc;
-  --error-color: #d32f2f;
+  --uc-foreground-color: #333;
+  --uc-primary-color: #0066cc;
+  --uc-error-color: #d32f2f;
 }
 ```
 

@@ -1,14 +1,19 @@
+<!-- The real control: it takes the keyboard focus, is what screen readers announce, and is what the
+     label toggles. The box after it only shows its state. -->
 <input
   [id]="id()"
   class="uc-input-control"
   [class.uc-input-error]="$safeNavigationMigration(errors?.())"
   [class.uc-input-disabled]="disabled()"
   type="checkbox"
+  [checked]="checked()"
   [disabled]="disabled()"
+  (change)="onInputChange($event)"
 />
 
 <div
   class="uc-checkbox"
+  aria-hidden="true"
   [class.selected]="checked()"
   [class.disabled]="disabled()"
   (click)="toggleCheckbox()"

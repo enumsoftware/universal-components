@@ -7,14 +7,14 @@
  */
 export const CARD_EXAMPLE_FRAME_STYLES = `
   .frame {
-    border: 1px dashed color-mix(in oklab, var(--primary-color) 55%, transparent);
+    border: 1px dashed color-mix(in oklab, var(--uc-primary-color) 55%, transparent);
     border-radius: 0.75rem;
     padding: 0.75rem;
   }
 
   .label {
     margin-block-end: 0.5rem;
-    color: var(--paragraph-text-color);
+    color: var(--uc-paragraph-text-color);
     font-size: 0.8rem;
   }
 `;

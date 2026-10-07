@@ -42,6 +42,13 @@ export class UcFilePicker {
   readonly editImages = input<boolean>(false);
   readonly imageEditorTitle = input<string>('Edit image');
 
+  /** Texts shown to the user, so apps can translate them. `{size}` is replaced with the formatted limit. */
+  readonly dropzoneText = input<string>('Drag & drop a file here or click to browse');
+  readonly removeLabel = input<string>('Remove file');
+  readonly previewAlt = input<string>('Selected file preview');
+  readonly fileTooLargeText = input<string>('File is too large. Maximum size is {size}.');
+  readonly readErrorText = input<string>('Failed to read the selected file.');
+
   readonly selectedFile = signal<File | null>(null);
   readonly previewUrl = signal<string | null>(null);
   readonly fileSelected = output<string | null>();
@@ -123,9 +130,7 @@ export class UcFilePicker {
     if (maxFileSizeBytes && file.size > maxFileSizeBytes) {
       this.selectedFile.set(null);
       this.previewUrl.set(null);
-      this.errorMessage.set(
-        `File is too large. Maximum size is ${this.formatBytes(maxFileSizeBytes)}.`,
-      );
+      this.errorMessage.set(this.fileTooLargeText().replace('{size}', this.formatBytes(maxFileSizeBytes)));
       if (input) {
         input.value = '';
       }
@@ -189,7 +194,7 @@ export class UcFilePicker {
       this.fileSelected.emit(result);
     };
     reader.onerror = () => {
-      this.errorMessage.set('Failed to read the selected file.');
+      this.errorMessage.set(this.readErrorText());
       this.previewUrl.set(null);
       this.fileChanged.emit(null);
       this.fileSelected.emit(null);

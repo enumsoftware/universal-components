@@ -1,0 +1,39 @@
+<ul class="uc-gallery">
+  @for (image of images(); track image.url; let index = $index) {
+    <li class="uc-gallery__item">
+      <button type="button" class="uc-gallery__thumbnail" [attr.aria-label]="thumbnailLabel(index)" (click)="open(index)">
+        <img class="uc-gallery__thumbnail-image" [src]="image.thumbnailUrl ?? image.url" [alt]="image.alt" loading="lazy" />
+      </button>
+    </li>
+  }
+</ul>
+
+<dialog
+  #dialog
+  class="uc-gallery__lightbox"
+  [attr.aria-label]="activeImage()?.alt"
+  (keydown)="onKeydown($event)"
+  (click)="onBackdropClick($event)"
+>
+  @if (activeImage(); as image) {
+    <figure class="uc-gallery__figure">
+      <img class="uc-gallery__image" [src]="image.url" [alt]="image.alt" />
+      @if (hasMany()) {
+        <figcaption class="uc-gallery__counter">{{ activeIndex() + 1 }} / {{ images().length }}</figcaption>
+      }
+    </figure>
+  }
+
+  <button type="button" class="uc-gallery__control uc-gallery__control--close" [attr.aria-label]="closeLabel()" (click)="close()">
+    <i class="ph ph-x" aria-hidden="true"></i>
+  </button>
+
+  @if (hasMany()) {
+    <button type="button" class="uc-gallery__control uc-gallery__control--previous" [attr.aria-label]="previousLabel()" (click)="previous()">
+      <i class="ph ph-caret-left" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="uc-gallery__control uc-gallery__control--next" [attr.aria-label]="nextLabel()" (click)="next()">
+      <i class="ph ph-caret-right" aria-hidden="true"></i>
+    </button>
+  }
+</dialog>

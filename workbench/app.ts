@@ -78,7 +78,7 @@ import { WbSidebar } from './shell/sidebar';
         align-items: center;
         gap: 0.5rem;
         padding: 0.5rem 0.75rem;
-        background-color: var(--sidebar-background-color);
+        background-color: var(--uc-sidebar-background-color);
         border-block-end: 1px solid var(--uc-content-hr-color);
         position: sticky;
         top: 0;

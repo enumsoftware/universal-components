@@ -2,7 +2,7 @@
   display: block;
   width: 100%;
   --uc-linear-loading-track-background-resolved: var(--uc-linear-loading-track-background, rgba(0, 0, 0, 0.05));
-  --uc-linear-loading-bar-background-resolved: var(--uc-linear-loading-bar-background, var(--primary-color));
+  --uc-linear-loading-bar-background-resolved: var(--uc-linear-loading-bar-background, var(--uc-primary-color));
 }
 
 .linear-loader {

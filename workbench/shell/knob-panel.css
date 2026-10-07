@@ -37,11 +37,11 @@
 .wb-knob-hint {
   margin: 0.25rem 0 0;
   font-size: 0.75rem;
-  color: var(--paragraph-text-color);
+  color: var(--uc-paragraph-text-color);
 }
 
 .wb-empty {
   margin: 0;
   font-size: 0.875rem;
-  color: var(--paragraph-text-color);
+  color: var(--uc-paragraph-text-color);
 }

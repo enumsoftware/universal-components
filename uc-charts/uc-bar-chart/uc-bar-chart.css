@@ -1,6 +1,6 @@
 uc-bar-chart {
-  --uc-bar-chart-legend-label-color-resolved: var(--uc-bar-chart-legend-label-color, var(--foreground-color));
-  --uc-bar-chart-legend-value-color-resolved: var(--uc-bar-chart-legend-value-color, var(--paragraph-text-color));
+  --uc-bar-chart-legend-label-color-resolved: var(--uc-bar-chart-legend-label-color, var(--uc-foreground-color));
+  --uc-bar-chart-legend-value-color-resolved: var(--uc-bar-chart-legend-value-color, var(--uc-paragraph-text-color));
   --uc-bar-chart-legend-disabled-opacity-resolved: var(--uc-bar-chart-legend-disabled-opacity, 0.5);
   display: block;
   width: 100%;
@@ -23,8 +23,8 @@ uc-bar-chart .uc-bar-chart {
     pointer-events: none;
     z-index: 2;
     transform: translateY(-100%);
-    background-color: var(--foreground-color);
-    color: var(--background-color);
+    background-color: var(--uc-foreground-color);
+    color: var(--uc-background-color);
     border-radius: 0.5rem;
     padding: 0.4rem 0.55rem;
     font-size: 0.75rem;
@@ -75,7 +75,7 @@ uc-bar-chart .uc-bar-chart {
   }
 
   .uc-bar-chart__legend-button:focus-visible {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid var(--uc-primary-color);
     outline-offset: 3px;
     border-radius: 0.375rem;
   }

@@ -4,7 +4,7 @@
 >
   <thead>
     <tr>
-      @for (day of weekDays; track day) {
+      @for (day of weekDays(); track $index) {
       <th scope="col" class="uc-calendar__weekday">
         <span class="uc-calendar__weekday-label">{{ day }}</span>
       </th>
@@ -34,7 +34,7 @@
           (mouseleave)="dayLeave.emit()"
         >
           <span class="uc-calendar__day-range-bg"></span>
-          <span class="uc-calendar__day-circle">{{ day.dayNumber }}</span>
+          <span class="uc-calendar__day-circle"><span class="uc-calendar__day-number">{{ day.dayNumber }}</span></span>
         </button>
       </td>
       }

@@ -1,6 +1,7 @@
 <div
   class="uc-color-picker"
-  [class.uc-color-picker--disabled]="disabled() || readonly()"
+  [class.uc-color-picker--disabled]="disabled()"
+  [class.uc-color-picker--readonly]="readonly()"
   [class.uc-color-picker--hidden]="hidden()"
 >
   @if (label()) {
@@ -37,7 +38,7 @@
     [cdkConnectedOverlayPanelClass]="'uc-color-picker__overlay-pane'"
     (backdropClick)="cancelChanges()"
   >
-    <div class="uc-color-picker__dropdown">
+    <div class="uc-color-picker__dropdown" (paste)="onPanelPaste($event)">
       <!-- Mode toggle + picker -->
       <uc-tabs
         [tabs]="colorModeTabs"
@@ -101,9 +102,21 @@
               HSL
             </button>
           </div>
-          <span class="uc-color-picker__formatted-value"
-            >{{ formattedValue() }}</span
-          >
+          <!-- Takes hex, rgb() or hsl(), typed or pasted; the format buttons follow what was entered. -->
+          <input
+            #valueInput
+            type="text"
+            class="uc-color-picker__value-input"
+            [class.uc-color-picker__value-input--invalid]="valueInvalid()"
+            spellcheck="false"
+            autocomplete="off"
+            [attr.aria-label]="valueLabel()"
+            [attr.aria-invalid]="valueInvalid()"
+            [value]="valueText()"
+            (input)="onValueInput($event)"
+            (keydown.enter)="onValueEnter($event)"
+            (blur)="onValueBlur()"
+          />
         </div>
       </div>
 

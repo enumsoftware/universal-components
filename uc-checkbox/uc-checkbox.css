@@ -1,4 +1,8 @@
 :host {
+  /* Contains the hidden native checkbox below. Without it the absolutely positioned input is
+     placed against the page, and a checkbox far down a scrolling container makes the whole page
+     taller (a second scrollbar). */
+  position: relative;
   display: flex;
   flex-direction: row;
   gap: 1rem;
@@ -7,13 +11,25 @@
   cursor: pointer;
 }
 
+/* Visually hidden but still focusable and announced; the box shows its state and focus. */
 input[type="checkbox"] {
   position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
   opacity: 0;
-  visibility: hidden;
+  pointer-events: none;
+}
+
+input[type="checkbox"]:focus-visible + .uc-checkbox {
+  outline: 2px solid var(--uc-checkbox-focus-outline-color, var(--uc-primary-color));
+  outline-offset: 2px;
 }
 
 .uc-checkbox {
+  /* A flex item shrinks by default, so a long label in a narrow grid cell squeezed the box narrower
+     than it is tall. The label wraps instead. */
+  flex: none;
   width: 2rem;
   height: 2rem;
   display: flex;
@@ -21,25 +37,25 @@ input[type="checkbox"] {
   justify-content: center;
   gap: 0.5rem;
   cursor: pointer;
-  color: var(--foreground-color);
+  color: var(--uc-foreground-color);
   border: 2px solid
     var(--uc-checkbox-border-color, oklch(from black l c h / 0.2));
   border-radius: 0.5rem;
   font-size: 1.25rem;
   background-color: var(
     --uc-checkbox-background-color,
-    var(--background-color)
+    var(--uc-background-color)
   );
   transition: all 0.2s ease-in-out;
 }
 
 .uc-checkbox:hover {
-  border-color: var(--uc-checkbox-selected-color, var(--secondary-color));
+  border-color: var(--uc-checkbox-selected-color, var(--uc-secondary-color));
 }
 
 .uc-checkbox.selected {
-  color: var(--inverse-foreground-color);
-  background-color: var(--uc-checkbox-selected-color, var(--secondary-color));
+  color: var(--uc-inverse-foreground-color);
+  background-color: var(--uc-checkbox-selected-color, var(--uc-secondary-color));
   border: 2px solid transparent;
 }
 

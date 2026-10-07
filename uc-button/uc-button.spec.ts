@@ -186,6 +186,55 @@ describe('UcButton', () => {
     expect(component.pressed()).toBe(false);
   });
 
+  it('should left-align a wrapping label when align is left', () => {
+    fixture.componentRef.setInput('align', 'left');
+    fixture.detectChanges();
+
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+    expect(button.style.justifyContent).toBe('left');
+    expect(button.style.textAlign).toBe('start');
+  });
+
+  it('should render the text variant with the uc-text class', () => {
+    fixture.componentRef.setInput('variant', 'text');
+    fixture.detectChanges();
+
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+    expect(button.classList.contains('uc-text')).toBe(true);
+  });
+
+  it('should render the link variant as a button styled like a link', () => {
+    fixture.componentRef.setInput('variant', 'link');
+    fixture.detectChanges();
+
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+    expect(button.tagName).toBe('BUTTON');
+    expect(button.classList.contains('uc-link')).toBe(true);
+  });
+
+  it('should keep the default action of an enabled click so submit buttons submit their form', () => {
+    fixture.componentRef.setInput('type', 'submit');
+    fixture.detectChanges();
+
+    const event = new MouseEvent('click', { cancelable: true });
+    component.onClick(event);
+
+    expect(event.defaultPrevented).toBe(false);
+  });
+
+  it('should cancel the click and not emit while loading', () => {
+    let emitted = false;
+    component.clicked.subscribe(() => (emitted = true));
+    fixture.componentRef.setInput('loading', true);
+    fixture.detectChanges();
+
+    const event = new MouseEvent('click', { cancelable: true });
+    component.onClick(event);
+
+    expect(event.defaultPrevented).toBe(true);
+    expect(emitted).toBe(false);
+  });
+
   it('should enable transitions after the first paint', async () => {
     await fixture.whenStable();
     await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));

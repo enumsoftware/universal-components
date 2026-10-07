@@ -35,6 +35,7 @@
             "index": "workbench/index.html",
             "tsConfig": "tsconfig.workbench.json",
             "styles": [
+              "node_modules/monaco-editor/min/vs/editor/editor.main.css",
               "workbench/styles.css"
             ],
             "outputPath": "dist-workbench",
@@ -44,7 +45,18 @@
             ],
             "loader": {
               ".ttf": "file"
-            }
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "workbench/public"
+              },
+              {
+                "glob": "editor.worker.js",
+                "input": "workbench/generated/uc-code-editor",
+                "output": "uc-code-editor"
+              }
+            ]
           },
           "configurations": {
             "production": {

@@ -93,7 +93,7 @@ The component uses CSS custom properties for theming. You can customize the foll
 
 ```css
 --accordion-gap: 0.5rem;
---accordion-border: 1px solid var(--border-color, #e5e7eb);
+--accordion-border: 1px solid var(--uc-divider-color, #e5e7eb);
 --accordion-border-radius: 0.375rem;
 --accordion-padding: 1rem;
 --accordion-header-background: #f9fafb;

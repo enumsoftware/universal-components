@@ -1,9 +1,11 @@
 <button
+  type="button"
   class="uc-button"
   [class.inactive]="!active()"
   [class.active]="active()"
+  [attr.aria-current]="active() ? 'page' : null"
   (click)="onClick($event)"
 >
   <ng-content />
-  <span> {{ text() }} </span>
+  <span class="uc-sidebar-button__label">{{ text() }}</span>
 </button>

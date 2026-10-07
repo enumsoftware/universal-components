@@ -1,4 +1,7 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, input, ChangeDetectionStrategy } from '@angular/core';
+import { UC_DEFAULTS } from '../uc-defaults/uc-defaults';
+
+export type UcDividerVariant = 'default' | 'inverse';
 
 @Component({
   selector: 'uc-divider',
@@ -13,7 +16,7 @@ import { Component, input, ChangeDetectionStrategy } from '@angular/core';
   },
 })
 export class UcDivider {
-  variant = input<'default' | 'inverse'>('default');
+  variant = input<UcDividerVariant>(inject(UC_DEFAULTS).divider?.variant ?? 'default');
   vertical = input<boolean>(false);
   text = input<string>();
 }

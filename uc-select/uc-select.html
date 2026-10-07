@@ -119,7 +119,8 @@
         </div>
       }
 
-      @if (loadMode() === 'page') {
+      <!-- Only with a second page: a single page hides uc-pagination, which would leave an empty footer. -->
+      @if (loadMode() === 'page' && (totalItems() ?? 0) > pageSize()) {
         <div class="uc-select-pager">
           <uc-pagination
             [currentPage]="currentPage() - 1"

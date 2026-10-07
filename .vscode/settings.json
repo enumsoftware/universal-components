@@ -12,9 +12,6 @@
   "js/ts.tsdk.path": "./node_modules/typescript/lib",
   "js/ts.tsdk.promptToUseWorkspaceVersion": true,
   "github.copilot.chat.commitMessageGeneration.instructions": [
-    // {
-    //   "file": "../.agents/skills/git-commit/SKILL.md"
-    // },
     {
       "file": "../.agents/instructions/git-commit.instructions.md"
     }

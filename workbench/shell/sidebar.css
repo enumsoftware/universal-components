@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: 0.75rem;
   padding: 1.25rem 1rem;
-  background-color: var(--sidebar-background-color);
+  background-color: var(--uc-sidebar-background-color);
   border-inline-end: 1px solid var(--uc-content-hr-color);
   /*
     Pinned to the viewport so the group list - not the page - is what scrolls
@@ -50,7 +50,7 @@ uc-input {
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--paragraph-text-color);
+  color: var(--uc-paragraph-text-color);
 }
 
 nav {

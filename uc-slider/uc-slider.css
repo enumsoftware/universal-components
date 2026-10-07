@@ -1,9 +1,9 @@
 :host {
-  --uc-slider-track-background-resolved: var(--uc-slider-track-background, var(--background-color-80));
-  --uc-slider-thumb-background-resolved: var(--uc-slider-thumb-background, var(--primary-color));
-  --uc-slider-label-color-resolved: var(--uc-slider-label-color, var(--foreground-color));
-  --uc-slider-value-color-resolved: var(--uc-slider-value-color, var(--paragraph-text-color));
-  --uc-slider-error-color-resolved: var(--uc-slider-error-color, var(--error-color));
+  --uc-slider-track-background-resolved: var(--uc-slider-track-background, var(--uc-background-color-80));
+  --uc-slider-thumb-background-resolved: var(--uc-slider-thumb-background, var(--uc-primary-color));
+  --uc-slider-label-color-resolved: var(--uc-slider-label-color, var(--uc-foreground-color));
+  --uc-slider-value-color-resolved: var(--uc-slider-value-color, var(--uc-paragraph-text-color));
+  --uc-slider-error-color-resolved: var(--uc-slider-error-color, var(--uc-error-color));
   --uc-slider-disabled-opacity-resolved: var(--uc-slider-disabled-opacity, 0.5);
 }
 

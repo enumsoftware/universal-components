@@ -27,15 +27,15 @@ import type { ShowcaseLayout } from '../core';
        * border-box would silently change that.
        */
       box-sizing: border-box;
-      background-color: var(--background-color);
-      color: var(--font-color);
+      background-color: var(--uc-background-color);
+      color: var(--uc-font-color);
       border: 1px solid var(--uc-content-hr-color);
-      border-radius: var(--card-border-radius);
+      border-radius: var(--uc-card-border-radius);
       overflow: auto;
     }
 
     .wb-canvas:focus-visible {
-      outline: 2px solid var(--primary-color);
+      outline: 2px solid var(--uc-primary-color);
       outline-offset: 2px;
     }
 

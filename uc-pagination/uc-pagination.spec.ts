@@ -41,12 +41,45 @@ describe('UcPagination', () => {
     expect(component.pageChange.emit).toHaveBeenCalledWith(2);
   });
 
+  it('should use English texts by default', () => {
+    const element: HTMLElement = fixture.nativeElement;
+
+    expect(element.querySelector('[aria-label="Previous page"]')).toBeTruthy();
+    expect(element.querySelector('[aria-label="Jump forward by 3 pages"]')).toBeTruthy();
+    expect(element.querySelector('.uc-pagination-page-select__label')?.textContent?.trim()).toBe('Page size');
+  });
+
+  it('should use the given texts, with {count} in the jump labels', () => {
+    fixture.componentRef.setInput('previousPageLabel', 'Prethodna stranica');
+    fixture.componentRef.setInput('nextPageLabel', 'Sljedeća stranica');
+    fixture.componentRef.setInput('jumpBackwardLabel', '{count} stranice unatrag');
+    fixture.componentRef.setInput('jumpForwardLabel', '{count} stranice naprijed');
+    fixture.componentRef.setInput('pageSizeLabel', 'Po stranici');
+    fixture.componentRef.setInput('pageSizeSelectLabel', 'Odaberite broj po stranici');
+    fixture.detectChanges();
+    const element: HTMLElement = fixture.nativeElement;
+
+    expect(element.querySelector('[aria-label="Prethodna stranica"]')).toBeTruthy();
+    expect(element.querySelector('[aria-label="Sljedeća stranica"]')).toBeTruthy();
+    expect(element.querySelector('[aria-label="3 stranice unatrag"]')).toBeTruthy();
+    expect(element.querySelector('[aria-label="3 stranice naprijed"]')).toBeTruthy();
+    expect(element.querySelector('.uc-pagination-page-select__label')?.textContent?.trim()).toBe('Po stranici');
+    expect(element.querySelector('[aria-label="Odaberite broj po stranici"]')).toBeTruthy();
+  });
+
   it('should resolve page info template placeholders', () => {
     fixture.componentRef.setInput('currentPage', 2);
     fixture.componentRef.setInput('pageInfoTemplate', 'Currently on {currentPage} / {totalPages}');
     fixture.detectChanges();
 
     expect(component.pageInfoText()).toBe('Currently on 3 / 10');
+  });
+
+  it('should resolve the total items placeholder', () => {
+    fixture.componentRef.setInput('pageInfoTemplate', 'Page {currentPage} of {totalPages} · {totalItems} items');
+    fixture.detectChanges();
+
+    expect(component.pageInfoText()).toBe('Page 1 of 10 · 100 items');
   });
 
   it('should show max 3 visible pages around current page', () => {
@@ -100,6 +133,7 @@ describe('UcPagination', () => {
   });
 
   it('should keep page size selector visible when page size exceeds total items', () => {
+    fixture.componentRef.setInput('hideSinglePage', false);
     fixture.componentRef.setInput('totalItems', 5);
     fixture.componentRef.setInput('pageSize', 10);
     fixture.componentRef.setInput('showPageSelector', true);
@@ -111,6 +145,7 @@ describe('UcPagination', () => {
   });
 
   it('should show pagination controls with a single page when page size exceeds total items', () => {
+    fixture.componentRef.setInput('hideSinglePage', false);
     fixture.componentRef.setInput('totalItems', 5);
     fixture.componentRef.setInput('pageSize', 10);
     fixture.detectChanges();
@@ -128,6 +163,41 @@ describe('UcPagination', () => {
     expect(nextButton).toBeTruthy();
     expect(previousButton.disabled).toBe(true);
     expect(nextButton.disabled).toBe(true);
+  });
+
+  it('should hide the whole paginator by default when every item fits on one page', () => {
+    fixture.componentRef.setInput('totalItems', 7);
+    fixture.componentRef.setInput('pageSize', 10);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('.uc-pagination-container')).toBeNull();
+  });
+
+  it('should stay shown on a single page while a smaller page size would split the items', () => {
+    // 40 items at 100 per page is one page, but at 10 per page it is four: the selector must stay.
+    fixture.componentRef.setInput('totalItems', 40);
+    fixture.componentRef.setInput('pageSize', 100);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('uc-pagination-page-select')).not.toBeNull();
+  });
+
+  it('should hide a single page when the page size selector is turned off', () => {
+    fixture.componentRef.setInput('totalItems', 40);
+    fixture.componentRef.setInput('pageSize', 100);
+    fixture.componentRef.setInput('showPageSelector', false);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('.uc-pagination-container')).toBeNull();
+  });
+
+  it('should show again once there is more than one page', () => {
+    fixture.componentRef.setInput('totalItems', 7);
+    fixture.detectChanges();
+    fixture.componentRef.setInput('totalItems', 11);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('.uc-pagination-container')).not.toBeNull();
   });
 
   it('should render page numbers as toggle buttons with the current page pressed', () => {

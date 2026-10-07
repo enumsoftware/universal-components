@@ -1,4 +1,19 @@
-<div class="slide-toggle" [class.checked]="checked()" [class.disabled]="disabled()" (click)="onToggle()">
+<!-- A switch for screen readers and the keyboard: focusable, announces on/off, toggles with Space or Enter. -->
+<div
+  class="slide-toggle"
+  role="switch"
+  [attr.id]="id()"
+  [attr.aria-checked]="checked()"
+  [attr.aria-disabled]="disabled() || null"
+  [attr.aria-label]="ariaLabel()"
+  [attr.aria-labelledby]="ariaLabelledby()"
+  [attr.tabindex]="disabled() ? -1 : 0"
+  [class.checked]="checked()"
+  [class.disabled]="disabled()"
+  (click)="onToggle()"
+  (keydown.space)="onKey($event)"
+  (keydown.enter)="onKey($event)"
+>
   <div class="track"></div>
   <div class="thumb"></div>
 </div>

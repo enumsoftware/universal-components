@@ -30,6 +30,7 @@
       class="uc-code-editor-surface"
       [style.height]="height()"
       [attr.aria-busy]="loading()"
+      [attr.aria-disabled]="disabled() || null"
     >
       <div #editorHost class="uc-code-editor-mount" [id]="id()"></div>
 

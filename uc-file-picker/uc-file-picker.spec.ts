@@ -150,4 +150,34 @@ describe('UcFilePicker', () => {
 
     expect(component.selectedFile()).toBeNull();
   });
+
+  it('should show a neutral drop zone text by default', () => {
+    const text = fixture.nativeElement.querySelector('.uc-file-picker__dropzone-text');
+    expect(text.textContent.trim()).toBe('Drag & drop a file here or click to browse');
+  });
+
+  it('should show translated texts', () => {
+    fixture.componentRef.setInput('dropzoneText', 'Povucite datoteku ovdje ili kliknite za odabir');
+    fixture.componentRef.setInput('fileTooLargeText', 'Datoteka je prevelika. Najviše {size}.');
+    fixture.componentRef.setInput('maxFileSizeBytes', 1024);
+    fixture.detectChanges();
+
+    const text = fixture.nativeElement.querySelector('.uc-file-picker__dropzone-text');
+    expect(text.textContent.trim()).toBe('Povucite datoteku ovdje ili kliknite za odabir');
+
+    dropFile(makeFile(2048));
+    expect(component.errorMessage()).toBe('Datoteka je prevelika. Najviše 1.0 KB.');
+  });
+
+  it('should label the remove button and the preview', async () => {
+    fixture.componentRef.setInput('removeLabel', 'Ukloni datoteku');
+    fixture.componentRef.setInput('previewAlt', 'Pregled odabrane slike');
+    component.previewUrl.set('data:image/png;base64,AAAA');
+    fixture.detectChanges();
+
+    const remove: HTMLButtonElement = fixture.nativeElement.querySelector('.uc-clear-button button');
+    const preview: HTMLImageElement = fixture.nativeElement.querySelector('.uc-file-picker-preview img');
+    expect(remove.getAttribute('aria-label')).toBe('Ukloni datoteku');
+    expect(preview.alt).toBe('Pregled odabrane slike');
+  });
 });

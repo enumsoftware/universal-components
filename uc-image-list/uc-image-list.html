@@ -1,0 +1,80 @@
+<div class="uc-image-list">
+  <ol
+    class="uc-image-list__items"
+    cdkDropList
+    cdkDropListOrientation="mixed"
+    [cdkDropListDisabled]="disabled()"
+    (cdkDropListDropped)="drop($event)"
+  >
+    @for (item of items(); track item.id; let index = $index; let first = $first; let last = $last) {
+      <li class="uc-image-list__item" [class.uc-image-list__item--error]="item.status === 'error'" cdkDrag>
+        <img class="uc-image-list__image" [src]="item.url" [alt]="item.alt" />
+
+        @if (item.status === 'uploading') {
+          <span class="uc-image-list__status" aria-live="polite">
+            <i class="ph ph-spinner-gap uc-image-list__spinner" aria-hidden="true"></i>
+          </span>
+        }
+
+        <div class="uc-image-list__actions">
+          <button
+            type="button"
+            class="uc-image-list__action"
+            [attr.aria-label]="label(moveBackLabel(), index)"
+            [disabled]="disabled() || first"
+            (click)="move(index, index - 1)"
+          >
+            <i class="ph ph-caret-left" aria-hidden="true"></i>
+          </button>
+          @if (editable()) {
+            <button
+              type="button"
+              class="uc-image-list__action"
+              [attr.aria-label]="label(editLabel(), index)"
+              [disabled]="disabled() || item.status === 'uploading'"
+              (click)="edit.emit(item)"
+            >
+              <i class="ph ph-crop" aria-hidden="true"></i>
+            </button>
+          }
+          <button
+            type="button"
+            class="uc-image-list__action uc-image-list__action--danger"
+            [attr.aria-label]="label(removeLabel(), index)"
+            [disabled]="disabled()"
+            (click)="remove(item)"
+          >
+            <i class="ph ph-trash" aria-hidden="true"></i>
+          </button>
+          <button
+            type="button"
+            class="uc-image-list__action"
+            [attr.aria-label]="label(moveForwardLabel(), index)"
+            [disabled]="disabled() || last"
+            (click)="move(index, index + 1)"
+          >
+            <i class="ph ph-caret-right" aria-hidden="true"></i>
+          </button>
+        </div>
+      </li>
+    }
+
+    @if (canAdd()) {
+      <li class="uc-image-list__item uc-image-list__item--add">
+        <label class="uc-image-list__add">
+          <i class="ph ph-camera-plus uc-image-list__add-icon" aria-hidden="true"></i>
+          <span>{{ addLabel() }}</span>
+          <input
+            class="uc-image-list__input"
+            type="file"
+            multiple
+            [accept]="accept()"
+            (change)="onFilesChosen($event)"
+          />
+        </label>
+      </li>
+    }
+  </ol>
+
+  <p class="uc-image-list__count">{{ countText() }}</p>
+</div>

@@ -15,59 +15,59 @@ uc-calendar {
 
   --uc-dtp-trigger-focus-color-resolved: var(
     --uc-dtp-trigger-focus-color,
-    var(--primary-color)
+    var(--uc-primary-color)
   );
   --uc-dtp-value-color-resolved: var(
     --uc-dtp-value-color,
-    var(--foreground-color)
+    var(--uc-foreground-color)
   );
   --uc-dtp-weekday-color-resolved: var(
     --uc-dtp-weekday-color,
-    oklch(from var(--foreground-color) l c h / 0.4)
+    oklch(from var(--uc-foreground-color) l c h / 0.4)
   );
   --uc-dtp-day-hover-bg-resolved: var(
     --uc-dtp-day-hover-bg,
-    oklch(from var(--primary-color) l c h / 0.1)
+    oklch(from var(--uc-foreground-color) l c h / 0.08)
   );
   --uc-dtp-day-today-color-resolved: var(
     --uc-dtp-day-today-color,
-    var(--primary-color)
+    var(--uc-primary-color)
   );
   --uc-dtp-day-today-border-resolved: var(
     --uc-dtp-day-today-border,
-    var(--primary-color)
+    var(--uc-primary-color)
   );
   --uc-dtp-day-selected-bg-resolved: var(
     --uc-dtp-day-selected-bg,
-    var(--primary-color)
+    var(--uc-primary-color)
   );
   --uc-dtp-day-selected-color-resolved: var(
     --uc-dtp-day-selected-color,
-    var(--primary-contrast-color)
+    var(--uc-primary-contrast-color)
   );
   --uc-dtp-day-state-padding-resolved: var(--uc-dtp-day-state-padding, 0.1rem);
   --uc-dtp-day-selected-inset-resolved: var(--uc-dtp-day-selected-inset, 3px);
   --uc-dtp-day-other-month-color-resolved: var(
     --uc-dtp-day-other-month-color,
-    oklch(from var(--foreground-color) l c h / 0.3)
+    oklch(from var(--uc-foreground-color) l c h / 0.3)
   );
   --uc-dtp-range-bg-resolved: var(
     --uc-dtp-range-bg,
-    oklch(from var(--primary-color) l c h / 0.15)
+    oklch(from var(--uc-primary-color) l c h / 0.15)
   );
   --uc-dtp-range-row-gap-resolved: var(--uc-dtp-range-row-gap, 2px);
   --uc-dtp-range-endcap-inset-resolved: var(--uc-dtp-range-endcap-inset, 5%);
   --uc-dtp-range-preview-bg-resolved: var(
     --uc-dtp-range-preview-bg,
-    oklch(from var(--primary-color) l c h / 0.08)
+    oklch(from var(--uc-primary-color) l c h / 0.08)
   );
   --uc-dtp-range-preview-circle-bg-resolved: var(
     --uc-dtp-range-preview-circle-bg,
-    oklch(from var(--primary-color) l c h / 0.25)
+    oklch(from var(--uc-primary-color) l c h / 0.25)
   );
   --uc-dtp-range-preview-outline-color-resolved: var(
     --uc-dtp-range-preview-outline-color,
-    oklch(from var(--primary-color) l c h / 0.5)
+    oklch(from var(--uc-primary-color) l c h / 0.5)
   );
   --uc-dtp-range-preview-row-gap-resolved: var(
     --uc-dtp-range-preview-row-gap,
@@ -77,16 +77,23 @@ uc-calendar {
     --uc-dtp-range-preview-endcap-inset,
     5%
   );
+  --uc-dtp-calendar-border-resolved: var(--uc-dtp-calendar-border, none);
+  --uc-dtp-calendar-border-radius-resolved: var(--uc-dtp-calendar-border-radius, 0.75rem);
 }
 
-.uc-calendar__grid {
+/* themes/theme.css styles every <table> under [data-theme] (border, rounded corners, background,
+   margin, row hover), and the grid is a table. These selectors are made specific enough to win over
+   those rules, including the stronger `.uc-content table` ones, so the calendar looks the same
+   wherever it is placed. No border by default; --uc-dtp-calendar-border turns one on. */
+uc-calendar table.uc-calendar__grid.uc-calendar__grid {
   display: table;
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
   margin: 0;
-  border: none;
+  border: var(--uc-dtp-calendar-border-resolved);
+  border-radius: var(--uc-dtp-calendar-border-radius-resolved);
   background: transparent;
   outline: none;
   box-shadow: none;
@@ -104,8 +111,7 @@ uc-calendar {
   }
 }
 
-.uc-calendar__grid th,
-.uc-calendar__grid td {
+uc-calendar .uc-calendar__grid.uc-calendar__grid :is(th, td) {
   display: table-cell;
   width: 14.2857%;
   vertical-align: middle;
@@ -118,10 +124,13 @@ uc-calendar {
   line-height: inherit;
 }
 
-.uc-calendar__grid thead,
-.uc-calendar__grid tbody,
-.uc-calendar__grid tr {
+uc-calendar .uc-calendar__grid.uc-calendar__grid :is(thead, tbody, tr) {
   border: none;
+}
+
+/* The theme tints a hovered table row; a calendar marks the hovered day instead. */
+uc-calendar .uc-calendar__grid.uc-calendar__grid tbody tr:hover {
+  background: transparent;
 }
 
 .uc-calendar__day-cell {
@@ -324,4 +333,16 @@ uc-calendar {
 
 .uc-calendar__day--range-preview-end .uc-calendar__day-circle {
   background-color: var(--uc-dtp-range-preview-circle-bg-resolved);
+}
+
+/* Optical centring: the text box is trimmed to the capitals and the baseline, so the text sits in the
+   middle of its shape instead of being pushed down by the font's built-in space above and below. The
+   margin gives back exactly what was trimmed, so the control keeps its height. Browsers without
+   text-box keep the untrimmed layout. */
+@supports (text-box: trim-both cap alphabetic) {
+  .uc-calendar__day-number {
+    display: block;
+    text-box: trim-both cap alphabetic;
+    margin-block: calc((1lh - 1cap) / 2);
+  }
 }
