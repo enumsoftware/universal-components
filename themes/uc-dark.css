@@ -544,6 +544,7 @@
   --uc-tabs-pills-active-color: var(--inverse-foreground-color);
   --uc-tabs-tab-disabled-opacity: 0.45;
   --uc-tabs-arrow-width: 2.25rem;
+  --uc-tabs-close-hover-background: color-mix(in oklch, currentColor 12%, transparent);
 
   /* --- Textarea --- */
   --uc-textarea-label-color: oklch(from var(--foreground-color) l c h / 1);

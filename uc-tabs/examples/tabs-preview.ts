@@ -1,13 +1,21 @@
-import { Component, effect, input, signal } from '@angular/core';
+import { Component, effect, input, linkedSignal, output, signal } from '@angular/core';
 
 import { UcTabPanel, UcTabs, type UcTab, type UcTabsVariant } from '../uc-tabs';
 
-/** Panels are `ng-template`s tagged with `ucTabPanel`, matched by key. */
+/**
+ * Panels are `ng-template`s tagged with `ucTabPanel`, matched by key. Closing a tab removes it
+ * until the `tabs` knob changes, and moves to its neighbour when it was active.
+ */
 @Component({
   selector: 'uc-tabs-preview',
   imports: [UcTabs, UcTabPanel],
   template: `
-    <uc-tabs [tabs]="tabs()" [(activeTab)]="current" [variant]="variant()">
+    <uc-tabs
+      [tabs]="openTabs()"
+      [(activeTab)]="current"
+      [variant]="variant()"
+      (tabClose)="close($event)"
+    >
       <ng-template ucTabPanel="overview">
         <p>Overview content goes here.</p>
       </ng-template>
@@ -28,10 +36,23 @@ export class TabsPreview {
   ]);
   readonly activeTab = input<string>('overview');
   readonly variant = input<UcTabsVariant>('underline');
+  readonly tabClose = output<string>();
 
+  protected readonly openTabs = linkedSignal(() => this.tabs());
   protected readonly current = signal('overview');
 
   constructor() {
     effect(() => this.current.set(this.activeTab()));
+  }
+
+  protected close(key: string) {
+    const tabs = this.openTabs();
+    const index = tabs.findIndex((tab) => tab.key === key);
+    const remaining = tabs.filter((tab) => tab.key !== key);
+    if (this.current() === key && remaining.length) {
+      this.current.set(remaining[Math.min(index, remaining.length - 1)].key);
+    }
+    this.openTabs.set(remaining);
+    this.tabClose.emit(key);
   }
 }
