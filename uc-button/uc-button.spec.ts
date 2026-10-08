@@ -203,15 +203,6 @@ describe('UcButton', () => {
     expect(button.classList.contains('uc-text')).toBe(true);
   });
 
-  it('should render the link variant as a button styled like a link', () => {
-    fixture.componentRef.setInput('variant', 'link');
-    fixture.detectChanges();
-
-    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
-    expect(button.tagName).toBe('BUTTON');
-    expect(button.classList.contains('uc-link')).toBe(true);
-  });
-
   it('should keep the default action of an enabled click so submit buttons submit their form', () => {
     fixture.componentRef.setInput('type', 'submit');
     fixture.detectChanges();

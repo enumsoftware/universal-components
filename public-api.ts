@@ -24,6 +24,11 @@ export type { UcTreeNodeContext } from './uc-tree/uc-tree-node-def';
 
 export { UcAccordion } from './uc-accordion/uc-accordion';
 export { UcAccordionItem } from './uc-accordion/uc-accordion-item';
+export {
+  ANCHOR_VARIANT_OPTIONS,
+  UcAnchor,
+  type UcAnchorVariant,
+} from './uc-anchor/uc-anchor';
 export { UcAvatar } from './uc-avatar/uc-avatar';
 export {
   BADGE_POSITION_OPTIONS,

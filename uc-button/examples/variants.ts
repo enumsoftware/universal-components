@@ -13,7 +13,6 @@ import { BUTTON_EXAMPLE_ROW_STYLES } from './example-layout';
     <uc-button text="Secondary Action" variant="secondary" />
     <uc-button text="Text Action" variant="text" />
     <uc-button text="Delete" variant="error" />
-    <uc-button text="Cookie settings" variant="link" />
   `,
 })
 export class VariantsExample {}

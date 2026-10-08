@@ -144,7 +144,6 @@
   --uc-button-text-color: var(--uc-font-color);
   --uc-button-text-hover-background: oklch(from var(--uc-button-background) l c h / 0.3);
   --uc-button-error-background: var(--uc-error-color, #dc3545);
-  --uc-button-link-color: var(--uc-primary-color);
   --uc-button-small-height: 2rem;
   --uc-button-small-padding-inline: 0.65rem;
   --uc-button-small-border-radius: 0.25rem;
