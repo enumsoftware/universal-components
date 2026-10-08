@@ -64,6 +64,28 @@ describe('UcTooltip', () => {
     expect(document.querySelector('.uc-tooltip')).toBeFalsy();
   });
 
+  it('should describe the host by the tooltip only while it is shown', () => {
+    TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+    });
+
+    const fixture = TestBed.createComponent(TestHostComponent);
+    fixture.detectChanges();
+
+    const buttonElement: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+    expect(buttonElement.hasAttribute('aria-describedby')).toBe(false);
+
+    buttonElement.dispatchEvent(new Event('mouseenter'));
+    fixture.detectChanges();
+    const describedBy = buttonElement.getAttribute('aria-describedby');
+    expect(describedBy).toBeTruthy();
+    expect(document.getElementById(describedBy!)?.textContent?.trim()).toBe('Tooltip text');
+
+    buttonElement.dispatchEvent(new Event('mouseleave'));
+    fixture.detectChanges();
+    expect(buttonElement.hasAttribute('aria-describedby')).toBe(false);
+  });
+
   it('should allow per-instance position and margin overrides', () => {
     TestBed.configureTestingModule({
       imports: [OverrideHostComponent],

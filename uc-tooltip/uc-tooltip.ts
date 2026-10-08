@@ -106,7 +106,7 @@ const FOCUSABLE = 'a[href], button, input, select, textarea, [tabindex]:not([tab
     '(focusin)': 'show()',
     '(focusout)': 'hide()',
     '[attr.tabindex]': 'hostTabIndex()',
-    'aria-describedby': 'tooltipIdComputed()',
+    '[attr.aria-describedby]': 'tooltipIdComputed()',
   },
 })
 export class UcTooltip {
@@ -119,7 +119,8 @@ export class UcTooltip {
   private readonly config = inject(UC_TOOLTIP_CONFIG);
 
   private tooltipId = signal<string>('');
-  tooltipIdComputed = computed(() => this.tooltipId());
+  /** The shown tooltip's id for aria-describedby; null removes the attribute while it is hidden. */
+  tooltipIdComputed = computed(() => this.tooltipId() || null);
 
   ucTooltip = input<string>('');
   ucTooltipPosition = input<UcTooltipPosition | undefined>(undefined);
