@@ -44,6 +44,7 @@ with this package. See [App build setup](uc-code-editor/README.md#app-build-setu
 ## Component Docs
 
 - [UcSegmentedToggle](uc-segmented-toggle/README.md)
+- [UcBottomNavigation](uc-bottom-navigation/README.md)
 - [UcCodeEditor](uc-code-editor/README.md)
 - [UcEditor](uc-editor/README.md)
 - [UcMenu](uc-menu/README.md)

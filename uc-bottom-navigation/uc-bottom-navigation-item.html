@@ -1,0 +1,12 @@
+<span class="uc-bottom-navigation-item__icon-wrap">
+  @if (icon(); as icon) {
+    <uc-phosphor-icon class="uc-bottom-navigation-item__icon" [icon]="icon" [weight]="weight()" />
+  }
+  <ng-content select="[ucBottomNavigationItemIcon]"></ng-content>
+  @if (badge() !== null) {
+    <span class="uc-bottom-navigation-item__badge" aria-hidden="true">{{ badge() }}</span>
+  }
+</span>
+<span class="uc-bottom-navigation-item__label" [class.uc-bottom-navigation-item__label--hidden]="!showLabel()">
+  <ng-content></ng-content>
+</span>
