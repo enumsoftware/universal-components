@@ -35,6 +35,12 @@ export {
   type UcBadgeVariant,
 } from './uc-badge/uc-badge';
 export {
+  UC_BOTTOM_NAVIGATION,
+  UcBottomNavigation,
+  type UcBottomNavigationController,
+} from './uc-bottom-navigation/uc-bottom-navigation';
+export { UcBottomNavigationItem } from './uc-bottom-navigation/uc-bottom-navigation-item';
+export {
   BUTTON_VARIANT_OPTIONS,
   UcButton,
   type ButtonVariant,

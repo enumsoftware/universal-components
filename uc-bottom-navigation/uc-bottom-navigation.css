@@ -1,0 +1,28 @@
+:host {
+  --uc-bottom-navigation-background-resolved: var(--uc-bottom-navigation-background, var(--uc-background-color));
+  --uc-bottom-navigation-border-resolved: var(--uc-bottom-navigation-border, 1px solid var(--uc-divider-color));
+  --uc-bottom-navigation-shadow-resolved: var(--uc-bottom-navigation-shadow, none);
+  --uc-bottom-navigation-z-index-resolved: var(--uc-bottom-navigation-z-index, 100);
+  display: block;
+}
+
+:host(.uc-bottom-navigation--fixed) {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: var(--uc-bottom-navigation-z-index-resolved);
+}
+
+:host(.uc-bottom-navigation--hidden) {
+  display: none;
+}
+
+/* The items share the width evenly; the bar clears the home indicator on phones that have one. */
+.uc-bottom-navigation {
+  display: flex;
+  align-items: stretch;
+  padding-bottom: env(safe-area-inset-bottom);
+  border-top: var(--uc-bottom-navigation-border-resolved);
+  background: var(--uc-bottom-navigation-background-resolved);
+  box-shadow: var(--uc-bottom-navigation-shadow-resolved);
+}
