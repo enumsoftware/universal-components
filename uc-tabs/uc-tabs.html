@@ -18,17 +18,37 @@
 
   <div #strip class="uc-tabs__strip" (scroll)="updateOverflowState()">
     @for (tab of visibleTabs(); track tab.key) {
-      <button
-        class="uc-tabs__tab"
-        type="button"
+      <!-- The close button sits beside the tab rather than inside it: buttons can't nest. -->
+      <div
+        class="uc-tabs__item"
         [attr.data-tab-key]="tab.key"
-        [class.uc-tabs__tab--active]="activeTab() === tab.key"
-        [class.uc-tabs__tab--disabled]="tab.disabled"
-        [disabled]="tab.disabled"
-        (click)="selectTab(tab.key)"
+        [class.uc-tabs__item--active]="activeTab() === tab.key"
+        [class.uc-tabs__item--disabled]="tab.disabled"
       >
-        <span class="uc-tabs__tab-label">{{ tab.label }}</span>
-      </button>
+        <button
+          class="uc-tabs__tab"
+          type="button"
+          [class.uc-tabs__tab--active]="activeTab() === tab.key"
+          [class.uc-tabs__tab--disabled]="tab.disabled"
+          [class.uc-tabs__tab--closable]="tab.closable"
+          [disabled]="tab.disabled"
+          (click)="selectTab(tab.key)"
+          (keydown.delete)="closeTab(tab.key)"
+        >
+          <span class="uc-tabs__tab-label">{{ tab.label }}</span>
+        </button>
+        @if (tab.closable) {
+          <button
+            class="uc-tabs__close"
+            type="button"
+            [attr.aria-label]="'Close ' + tab.label"
+            [disabled]="tab.disabled"
+            (click)="closeTab(tab.key)"
+          >
+            <i class="ph-bold ph-x" aria-hidden="true"></i>
+          </button>
+        }
+      </div>
     }
   </div>
 

@@ -30,17 +30,21 @@
     --uc-button-secondary-border-color,
     oklch(from var(--uc-foreground-color) l c h / 0.3)
   );
+  --uc-button-secondary-hover-background-resolved: var(
+    --uc-button-secondary-hover-background,
+    oklch(from var(--uc-foreground-color) l c h / 0.08)
+  );
   --uc-button-text-color-resolved: var(--uc-button-text-color, var(--uc-font-color));
   --uc-button-text-hover-background-resolved: var(
     --uc-button-text-hover-background,
-    oklch(from var(--uc-button-background-resolved) l c h / 0.3)
+    oklch(from var(--uc-foreground-color) l c h / 0.08)
   );
   --uc-button-error-background-resolved: var(--uc-button-error-background, var(--uc-error-color));
   --uc-button-link-color-resolved: var(--uc-button-link-color, var(--uc-primary-color));
   --uc-button-toggle-background-resolved: var(--uc-button-toggle-background, transparent);
   --uc-button-toggle-hover-background-resolved: var(
     --uc-button-toggle-hover-background,
-    oklch(from var(--uc-primary-color) l c h / 0.12)
+    oklch(from var(--uc-foreground-color) l c h / 0.08)
   );
   --uc-button-toggle-color-resolved: var(--uc-button-toggle-color, var(--uc-font-color));
   --uc-button-toggle-border-color-resolved: var(
@@ -146,7 +150,7 @@
 
 .uc-button.uc-secondary:hover {
   border: 1px solid transparent;
-  background-color: oklch(from var(--uc-button-background-resolved) l c h / 0.3);
+  background-color: var(--uc-button-secondary-hover-background-resolved);
   color: var(--uc-font-color);
 }
 

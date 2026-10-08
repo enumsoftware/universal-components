@@ -8,8 +8,8 @@
 
 .uc-rating {
   display: inline-flex;
-  gap: calc(var(--uc-rating-size) * 0.12);
-  font-size: var(--uc-rating-size);
+  gap: calc(var(--uc-rating-size-resolved) * 0.12);
+  font-size: var(--uc-rating-size-resolved);
   line-height: 1;
 }
 

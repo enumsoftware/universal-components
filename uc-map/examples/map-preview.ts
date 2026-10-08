@@ -52,6 +52,7 @@ const SAMPLE_SERVICE_AREA: UcMapPolygon = {
   template: `
     <uc-map
       [apiKey]="apiKey()"
+      [ariaLabel]="ariaLabel() || null"
       [mapId]="mapId() || null"
       [mode]="mode()"
       [center]="center"
@@ -76,6 +77,7 @@ const SAMPLE_SERVICE_AREA: UcMapPolygon = {
 })
 export class MapPreview {
   readonly apiKey = input<string>('');
+  readonly ariaLabel = input<string>('');
   readonly mapId = input<string>('DEMO_MAP_ID');
   readonly mode = input<MapMode>('view');
   readonly cluster = input<boolean>(true);

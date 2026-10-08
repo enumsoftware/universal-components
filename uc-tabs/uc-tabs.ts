@@ -10,6 +10,7 @@ import {
   inject,
   input,
   model,
+  output,
   signal,
   viewChild,
   ChangeDetectionStrategy,
@@ -40,6 +41,11 @@ export interface UcTab {
    * leaves the tab showing. A hidden tab can't be selected. If it is already active, no panel is shown.
    */
   visible?: boolean;
+  /**
+   * Shows a close button on the tab. Clicking it, or pressing Delete while the tab has focus,
+   * emits `tabClose` with the tab's key. The tab stays until the host removes it from `tabs`.
+   */
+  closable?: boolean;
 }
 
 @Directive({
@@ -66,6 +72,11 @@ export class UcTabs implements OnDestroy {
   readonly variant = input<UcTabsVariant>(inject(UC_DEFAULTS).tabs?.variant ?? 'underline');
   /** Accessible name for the dropdown the tabs collapse into on mobile. */
   readonly label = input<string>('Tabs');
+  /**
+   * Emits the key of a closable tab the user asked to close. The host removes it from `tabs` and,
+   * if it was active, picks another `activeTab`. Leaving it in `tabs` cancels the close.
+   */
+  readonly tabClose = output<string>();
   readonly panels = contentChildren(UcTabPanel);
 
   readonly selectId = `uc-tabs-select-${UcTabs.nextId++}`;
@@ -137,6 +148,14 @@ export class UcTabs implements OnDestroy {
     this.activeTab.set(key);
   }
 
+  closeTab(key: string) {
+    const tab = this.tabs().find((candidate) => candidate.key === key);
+    if (!tab?.closable || tab.disabled || tab.visible === false) {
+      return;
+    }
+    this.tabClose.emit(key);
+  }
+
   onSelectValueChange(key: string | null) {
     if (key !== null) {
       this.selectTab(key);
@@ -161,7 +180,7 @@ export class UcTabs implements OnDestroy {
 
   private scrollTabIntoView(key: string) {
     const strip = this.strip().nativeElement;
-    const tab = Array.from(strip.querySelectorAll<HTMLElement>('.uc-tabs__tab')).find(
+    const tab = Array.from(strip.querySelectorAll<HTMLElement>('.uc-tabs__item')).find(
       (element) => element.dataset['tabKey'] === key,
     );
     if (!tab) {

@@ -98,6 +98,53 @@ describe('UcTabs', () => {
     expect(component.activeTab()).toBe('overview');
   });
 
+  describe('closable tabs', () => {
+    let closed: string[];
+
+    beforeEach(() => {
+      closed = [];
+      component.tabClose.subscribe((key) => closed.push(key));
+      fixture.componentRef.setInput('tabs', [
+        { key: 'overview', label: 'Overview' },
+        { key: 'details', label: 'Details', closable: true, disabled: true },
+        { key: 'settings', label: 'Settings', closable: true },
+      ]);
+      fixture.detectChanges();
+    });
+
+    const closeButtons = (): HTMLButtonElement[] =>
+      Array.from(fixture.nativeElement.querySelectorAll('.uc-tabs__close'));
+
+    it('should render a labelled close button only on closable tabs', () => {
+      expect(closeButtons().map((button) => button.getAttribute('aria-label'))).toEqual([
+        'Close Details',
+        'Close Settings',
+      ]);
+    });
+
+    it('should emit tabClose without selecting the tab', () => {
+      closeButtons()[1].click();
+
+      expect(closed).toEqual(['settings']);
+      expect(component.activeTab()).toBe('overview');
+    });
+
+    it('should emit tabClose when Delete is pressed on a closable tab', () => {
+      tabButton('Settings').dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete' }));
+      tabButton('Overview').dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete' }));
+
+      expect(closed).toEqual(['settings']);
+    });
+
+    it('should not close a disabled tab', () => {
+      expect(closeButtons()[0].disabled).toBe(true);
+
+      component.closeTab('details');
+
+      expect(closed).toEqual([]);
+    });
+  });
+
   it('should show neither arrows nor a dropdown when the tabs fit', () => {
     layOut(300, 600);
 

@@ -1,6 +1,6 @@
 @if (readonly()) {
   <!-- Shown only: one image for assistive technology, such as "3.6 of 5". -->
-  <span class="uc-rating uc-rating--readonly" role="img" [attr.aria-label]="readonlyLabel() || null" [style.--uc-rating-size]="size()">
+  <span class="uc-rating uc-rating--readonly" role="img" [attr.aria-label]="readonlyLabel() || null" [style.--uc-rating-size-resolved]="size()">
     @for (star of stars(); track star) {
       <span class="uc-rating__star" aria-hidden="true">
         <i class="ph-fill ph-star uc-rating__empty"></i>
@@ -16,7 +16,7 @@
     [attr.aria-labelledby]="ariaLabelledby()"
     [attr.aria-disabled]="disabled() || null"
     [class.uc-rating--disabled]="disabled()"
-    [style.--uc-rating-size]="size()"
+    [style.--uc-rating-size-resolved]="size()"
   >
     @for (star of stars(); track star) {
       <span

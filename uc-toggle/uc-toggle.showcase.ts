@@ -1,4 +1,4 @@
-import { bool, defineShowcase } from '../workbench/core';
+import { bool, defineShowcase, text } from '../workbench/core';
 import { UcToggle } from './uc-toggle';
 
 export default defineShowcase({
@@ -9,6 +9,7 @@ export default defineShowcase({
   knobs: {
     checked: bool(false),
     disabled: bool(false),
+    ariaLabel: text('Email notifications'),
   },
   examples: [
     { name: 'On', props: { checked: true } },

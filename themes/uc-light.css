@@ -64,7 +64,7 @@
   --uc-content-mark-color: var(--uc-foreground-color);
   --uc-content-hr-color: oklch(from var(--uc-foreground-color) l c h / 0.12);
   --uc-table-border-color: oklch(from var(--uc-foreground-color) l c h / 0.12);
-  --uc-table-row-hover-background: oklch(from var(--uc-primary-color) l c h / 0.08);
+  --uc-table-row-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.06);
   --uc-table-caption-color: var(--uc-paragraph-text-color);
   --uc-dialog-background-color: var(--uc-card-background-color);
   --uc-dialog-box-shadow-color: oklch(from #161c2d l c h / 0.2);
@@ -87,21 +87,22 @@
   --uc-checkbox-background-color: var(--uc-background-color);
   --uc-checkbox-border-color: oklch(from black l c h / 0.2);
   --uc-checkbox-selected-color: var(--uc-secondary-color);
+  --uc-checkbox-focus-outline-color: var(--uc-primary-color);
 
   /* --- Accordion --- */
-  --uc-accordion-border: oklch(from var(--uc-primary-color) l c h / 0.2);
+  --uc-accordion-border: oklch(from var(--uc-foreground-color) l c h / 0.12);
   --uc-accordion-border-radius: 0.375rem;
   --uc-accordion-padding: 1rem;
-  --uc-accordion-header-background: oklch(from var(--uc-primary-color) l c h / 0.1);
-  --uc-accordion-header-hover-background: oklch(from var(--uc-primary-color) l c h / 0.18);
+  --uc-accordion-header-background: oklch(from var(--uc-foreground-color) l c h / 0.04);
+  --uc-accordion-header-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-accordion-header-focus-outline-color: var(--uc-primary-color);
   --uc-accordion-title-font-size: 1rem;
   --uc-accordion-title-font-weight: 500;
   --uc-accordion-title-color: var(--uc-foreground-color);
-  --uc-accordion-icon-color: var(--uc-primary-color);
+  --uc-accordion-icon-color: var(--uc-foreground-color);
   --uc-accordion-icon-hover-color: var(--uc-primary-color);
   --uc-accordion-content-padding: 1rem;
-  --uc-accordion-content-background: oklch(from var(--uc-primary-color) l c h / 0.04);
+  --uc-accordion-content-background: oklch(from var(--uc-foreground-color) l c h / 0.02);
   --uc-accordion-content-color: var(--uc-paragraph-text-color);
   --uc-accordion-content-font-size: 0.875rem;
   --uc-accordion-content-line-height: 1.5;
@@ -136,9 +137,11 @@
   --uc-button-font-weight: 700;
   --uc-button-disabled-opacity: 0.6;
   --uc-button-secondary-border-color: oklch(from var(--uc-foreground-color) l c h / 0.3);
+  --uc-button-secondary-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-button-text-color: var(--uc-font-color);
-  --uc-button-text-hover-background: oklch(from var(--uc-button-background) l c h / 0.3);
+  --uc-button-text-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-button-error-background: var(--uc-error-color, #dc3545);
+  --uc-button-link-color: var(--uc-primary-color);
   --uc-button-small-height: 2rem;
   --uc-button-small-padding-inline: 0.65rem;
   --uc-button-small-border-radius: 0.25rem;
@@ -168,7 +171,7 @@
   --uc-button-spinner-indicator-background: currentColor;
   --uc-button-loading-opacity: 0.85;
   --uc-button-toggle-background: transparent;
-  --uc-button-toggle-hover-background: oklch(from var(--uc-primary-color) l c h / 0.12);
+  --uc-button-toggle-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-button-toggle-color: var(--uc-font-color);
   --uc-button-toggle-border-color: oklch(from var(--uc-foreground-color) l c h / 0.3);
   --uc-button-toggle-pressed-background: var(--uc-primary-color);
@@ -200,10 +203,19 @@
   --uc-segmented-toggle-item-selected-color: var(--uc-inverse-foreground-color);
   --uc-segmented-toggle-item-separator-color: var(--uc-background-color-90);
 
+  /* --- Weekday Picker --- */
+  --uc-weekday-picker-day-size: 2.75rem;
+  --uc-weekday-picker-gap: 0.375rem;
+  --uc-weekday-picker-day-color: var(--uc-paragraph-text-color);
+  --uc-weekday-picker-day-background: var(--uc-background-color-90);
+  --uc-weekday-picker-day-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.12);
+  --uc-weekday-picker-selected-color: var(--uc-inverse-foreground-color);
+  --uc-weekday-picker-selected-background: var(--uc-primary-color);
+  --uc-weekday-picker-label-color: var(--uc-foreground-color);
   /* --- Menu Item --- */
   --uc-menu-item-border-radius: 0.5rem;
   --uc-menu-item-color: var(--uc-foreground-color);
-  --uc-menu-item-hover-background: oklch(from var(--uc-primary-color) l c h / 0.12);
+  --uc-menu-item-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-menu-item-padding-block: 0.55rem;
   --uc-menu-item-padding-inline: 0.75rem;
 
@@ -332,11 +344,20 @@
   --uc-file-picker-preview-background: var(--uc-input-background-color);
   --uc-file-picker-helper-text: var(--uc-paragraph-text-color);
 
+  /* --- Gallery --- */
+  --uc-gallery-backdrop: rgb(0 0 0 / 85%);
+  --uc-gallery-control-background: rgb(0 0 0 / 55%);
+  --uc-gallery-control-color: #fff;
+  --uc-gallery-focus-color: var(--uc-primary-color);
+  --uc-gallery-gap: 0.5rem;
+  --uc-gallery-radius: 0.5rem;
+  --uc-gallery-thumbnail-size: 7rem;
+
   /* --- Icon Button --- */
   --uc-icon-button-background: var(--uc-background-color);
   --uc-icon-button-color: var(--uc-foreground-color);
-  --uc-icon-button-hover-background: var(--uc-primary-color);
-  --uc-icon-button-hover-color: var(--uc-inverse-foreground-color);
+  --uc-icon-button-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
+  --uc-icon-button-hover-color: var(--uc-foreground-color);
   --uc-icon-button-primary-background: var(--uc-primary-color);
   --uc-icon-button-primary-color: var(--uc-inverse-foreground-color);
   --uc-icon-button-primary-hover-background: oklch(from var(--uc-primary-color) calc(l - 0.1) c h);
@@ -346,6 +367,7 @@
   --uc-icon-button-error-background: oklch(from var(--uc-error-color) l c h / 0.1);
   --uc-icon-button-error-color: var(--uc-error-color);
   --uc-icon-button-error-hover-background: var(--uc-error-color);
+  --uc-icon-button-error-hover-color: var(--uc-inverse-foreground-color);
   --uc-icon-button-pressed-background: var(--uc-primary-color);
   --uc-icon-button-pressed-color: var(--uc-inverse-foreground-color);
   --uc-icon-button-pressed-border-color: transparent;
@@ -390,7 +412,7 @@
   --uc-dtp-calendar-border: none;
   --uc-dtp-calendar-border-radius: 0.75rem;
   --uc-dtp-weekday-color: oklch(from var(--uc-foreground-color) l c h / 0.4);
-  --uc-dtp-day-hover-bg: oklch(from var(--uc-primary-color) l c h / 0.1);
+  --uc-dtp-day-hover-bg: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-dtp-day-today-color: var(--uc-primary-color);
   --uc-dtp-day-today-border: var(--uc-primary-color);
   --uc-dtp-day-selected-bg: var(--uc-primary-color);
@@ -402,7 +424,7 @@
   --uc-dtp-disabled-opacity: 1;
   --uc-dtp-backdrop: oklch(from var(--uc-foreground-color) l c h / 0.45);
   --uc-dtp-today-btn-color: var(--uc-primary-color);
-  --uc-dtp-today-btn-hover-bg: oklch(from var(--uc-primary-color) l c h / 0.1);
+  --uc-dtp-today-btn-hover-bg: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-dtp-range-bg: oklch(from var(--uc-primary-color) l c h / 0.15);
   --uc-dtp-range-preview-bg: oklch(from var(--uc-primary-color) l c h / 0.08);
   --uc-dtp-range-preview-circle-bg: oklch(from var(--uc-primary-color) l c h / 0.25);
@@ -415,6 +437,16 @@
   --uc-dtp-day-selected-inset: 3px;
   --uc-dtp-day-state-padding: 0.1rem;
   --uc-dtp-day-today-outline-offset: -2px;
+
+  /* --- Image List --- */
+  --uc-image-list-accent-color: var(--uc-primary-color);
+  --uc-image-list-border-color: var(--uc-paragraph-text-color);
+  --uc-image-list-error-color: var(--uc-error-color);
+  --uc-image-list-gap: 0.75rem;
+  --uc-image-list-overlay: rgb(0 0 0 / 55%);
+  --uc-image-list-overlay-color: #fff;
+  --uc-image-list-radius: 0.5rem;
+  --uc-image-list-size: 8rem;
 
   /* --- Info --- */
   --uc-info-color: var(--uc-primary-color);
@@ -438,6 +470,25 @@
   --uc-spinner-loading-track-background: rgba(0, 0, 0, 0.05);
   --uc-spinner-loading-indicator-background: var(--uc-primary-color);
 
+  /* --- Map --- */
+  --uc-map-area-color: var(--uc-primary-color);
+  --uc-map-cluster-background: var(--uc-primary-color);
+  --uc-map-cluster-border-color: var(--uc-background-color);
+  --uc-map-cluster-border-width: 0px;
+  --uc-map-cluster-color: var(--uc-inverse-foreground-color);
+  --uc-map-control-background: var(--uc-background-color);
+  --uc-map-control-border: 1px solid oklch(from var(--uc-foreground-color) l c h / 0.08);
+  --uc-map-control-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
+  --uc-map-control-inset: 0.75rem;
+  --uc-map-control-radius: 0.75rem;
+  --uc-map-control-shadow: 0 1px 2px rgb(0 0 0 / 0.12), 0 4px 12px rgb(0 0 0 / 0.12);
+  --uc-map-control-size: 2.5rem;
+  --uc-map-exclusion-color: var(--uc-error-color);
+  --uc-map-height: 400px;
+  --uc-map-marker-color: var(--uc-primary-color);
+  --uc-map-placeholder-background: var(--uc-card-background-color);
+  --uc-map-radius: 0.75rem;
+
   /* --- Pagination --- */
   --uc-pagination-info-color: var(--uc-paragraph-text-color);
   --uc-pagination-page-button-size: 2.75rem;
@@ -450,7 +501,7 @@
   --uc-pagination-page-button-secondary-background: transparent;
   --uc-pagination-page-button-secondary-color: var(--uc-font-color);
   --uc-pagination-page-button-secondary-border-color: oklch(from var(--uc-foreground-color) l c h / 0.3);
-  --uc-pagination-page-button-secondary-hover-background: oklch(from var(--uc-primary-color) l c h / 0.2);
+  --uc-pagination-page-button-secondary-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-pagination-page-button-secondary-hover-color: var(--uc-font-color);
   --uc-pagination-page-button-disabled-opacity: 0.6;
   --uc-pagination-page-button-small-size: 2rem;
@@ -490,11 +541,16 @@
   --uc-pill-error-background: color-mix(in oklch, var(--uc-error-color) 20%, var(--uc-background-color));
   --uc-pill-error-color: oklch(from var(--uc-error-color) calc(l - 0.12) c h);
 
+  /* --- Rating --- */
+  --uc-rating-color: #f5b301;
+  --uc-rating-empty-color: var(--uc-divider-color);
+  --uc-rating-focus-outline-color: var(--uc-primary-color);
+
   /* --- Select --- */
   --uc-select-label-color: oklch(from var(--uc-foreground-color) l c h / 1);
   --uc-select-placeholder-color: oklch(from var(--uc-foreground-color) l c h / 0.68);
   --uc-select-arrow-color: oklch(from var(--uc-foreground-color) l c h / 0.5);
-  --uc-select-option-hover-background: oklch(from var(--uc-primary-color) l c h / 0.1);
+  --uc-select-option-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-select-option-selected-background: oklch(from var(--uc-primary-color) l c h / 0.15);
   --uc-select-option-selected-color: var(--uc-primary-color);
   --uc-select-panel-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -509,6 +565,7 @@
   --uc-side-navigation-sidebar-width: 15rem;
   --uc-side-navigation-sidebar-background: var(--uc-sidebar-background-color);
   --uc-side-navigation-sidebar-border-radius: 1rem;
+  --uc-side-navigation-sidebar-border: 1px solid var(--uc-divider-color);
   --uc-side-navigation-backdrop-background: rgba(0, 0, 0, 0.8);
   --uc-dialog-backdrop-background: rgba(0, 0, 0, 0.32);
   --uc-side-navigation-animation-duration: 0.3s;
@@ -518,7 +575,7 @@
   --uc-sidebar-button-color: var(--uc-foreground-color);
   --uc-sidebar-button-active-background: var(--uc-primary-color);
   --uc-sidebar-button-active-color: var(--uc-inverse-foreground-color);
-  --uc-sidebar-button-hover-background: oklch(from var(--uc-primary-color) l c h / 0.2);
+  --uc-sidebar-button-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-sidebar-button-border: none;
   --uc-sidebar-button-active-border: none;
   --uc-sidebar-button-hover-border: none;
@@ -569,6 +626,7 @@
   --uc-tabs-pills-active-color: var(--uc-inverse-foreground-color);
   --uc-tabs-tab-disabled-opacity: 0.45;
   --uc-tabs-arrow-width: 2.25rem;
+  --uc-tabs-close-hover-background: color-mix(in oklch, currentColor 12%, transparent);
 
   /* --- Textarea --- */
   --uc-textarea-label-color: oklch(from var(--uc-foreground-color) l c h / 1);
@@ -578,6 +636,16 @@
   --uc-textarea-disabled-background-color: #f1f3f5;
   --uc-textarea-disabled-color: oklch(from var(--uc-foreground-color) l c h / 0.55);
 
+  /* --- Toast --- */
+  --uc-toast-background: var(--uc-card-background-color);
+  --uc-toast-color: var(--uc-foreground-color);
+  --uc-toast-error-color: var(--uc-error-color);
+  --uc-toast-info-color: var(--uc-primary-color);
+  --uc-toast-radius: 0.75rem;
+  --uc-toast-shadow: var(--uc-card-box-shadow);
+  --uc-toast-success-color: var(--uc-success-color);
+  --uc-toast-warning-color: var(--uc-warning-color);
+
   /* --- Toggle --- */
   --uc-toggle-background: oklch(from var(--uc-foreground-color) l c h / 0.3);
   --uc-toggle-checked-background: var(--uc-secondary-color);
@@ -585,6 +653,7 @@
   --uc-toggle-thumb-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   --uc-toggle-width: 48px;
   --uc-toggle-height: 28px;
+  --uc-toggle-focus-outline-color: var(--uc-primary-color);
 
   /* --- Tooltip --- */
   --uc-tooltip-background: var(--uc-inverse-background-color);
@@ -604,7 +673,7 @@
   --uc-tree-node-font-size: 0.875rem;
   --uc-tree-node-font-weight: 500;
   --uc-tree-branch-font-weight: 600;
-  --uc-tree-node-hover-background: oklch(from var(--uc-primary-color) l c h / 0.12);
+  --uc-tree-node-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-tree-node-selected-background: var(--uc-primary-color);
   --uc-tree-node-selected-color: var(--uc-inverse-foreground-color);
   --uc-tree-focus-outline: 2px solid var(--uc-primary-color);

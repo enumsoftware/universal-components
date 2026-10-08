@@ -15,6 +15,10 @@
   --uc-tabs-pills-active-color-resolved: var(--uc-tabs-pills-active-color, var(--uc-inverse-foreground-color));
   --uc-tabs-tab-disabled-opacity-resolved: var(--uc-tabs-tab-disabled-opacity, 0.45);
   --uc-tabs-arrow-width-resolved: var(--uc-tabs-arrow-width, 2.25rem);
+  --uc-tabs-close-hover-background-resolved: var(
+    --uc-tabs-close-hover-background,
+    color-mix(in oklch, currentColor 12%, transparent)
+  );
 
   /* `min-width: 0` lets the bar shrink inside a flex or grid parent, so the tabs overflow and
      scroll instead of stretching the parent to fit them all. */
@@ -46,6 +50,14 @@
     }
   }
 
+  /* Holds the tab and its close button. `position: relative` anchors the close button over the
+     tab's end padding, so the whole item still reads as one tab with one active border. */
+  .uc-tabs__item {
+    position: relative;
+    flex: none;
+    display: flex;
+  }
+
   .uc-tabs__tab {
     flex: none;
     padding: 0.625rem 1.25rem;
@@ -72,6 +84,45 @@
       color: var(--uc-tabs-tab-active-color-resolved);
       border-bottom-color: var(--uc-tabs-tab-active-border-color-resolved);
     }
+
+    &.uc-tabs__tab--closable {
+      padding-inline-end: 2.25rem;
+    }
+  }
+
+  .uc-tabs__close {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: 0.625rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-block: auto;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.75rem;
+    color: var(--uc-tabs-tab-color-resolved);
+    transition: color 0.2s, background-color 0.2s;
+
+    &:hover:not(:disabled) {
+      color: var(--uc-tabs-tab-hover-color-resolved);
+      background: var(--uc-tabs-close-hover-background-resolved);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: var(--uc-tabs-tab-disabled-opacity-resolved);
+    }
+  }
+
+  .uc-tabs__item--active .uc-tabs__close,
+  .uc-tabs__item--active .uc-tabs__close:hover:not(:disabled) {
+    color: var(--uc-tabs-tab-active-color-resolved);
   }
 
   .uc-tabs__arrow {
@@ -123,6 +174,11 @@
 
     .uc-tabs__arrow {
       border-bottom: none;
+    }
+
+    .uc-tabs__item--active .uc-tabs__close,
+    .uc-tabs__item--active .uc-tabs__close:hover:not(:disabled) {
+      color: var(--uc-tabs-pills-active-color-resolved);
     }
   }
 

@@ -58,23 +58,23 @@
    are inherited into the icon buttons and the segmented toggle, which is how their size, corners and
    the quieter hover are set from here. */
 .uc-map__control {
-  --uc-map-button-size: var(--uc-map-control-size-resolved);
-  --uc-map-icon-size: calc(var(--uc-map-button-size) / 2);
-  --uc-map-inner-radius: calc(var(--uc-map-control-radius-resolved) - 0.25rem);
+  --uc-map-button-size-resolved: var(--uc-map-control-size-resolved);
+  --uc-map-icon-size-resolved: calc(var(--uc-map-button-size-resolved) / 2);
+  --uc-map-inner-radius-resolved: calc(var(--uc-map-control-radius-resolved) - 0.25rem);
 
-  --uc-icon-button-height: var(--uc-map-button-size);
-  --uc-icon-button-padding-inline: calc((var(--uc-map-button-size) - var(--uc-map-icon-size)) / 2);
-  --uc-icon-button-border-radius: var(--uc-map-inner-radius);
+  --uc-icon-button-height: var(--uc-map-button-size-resolved);
+  --uc-icon-button-padding-inline: calc((var(--uc-map-button-size-resolved) - var(--uc-map-icon-size-resolved)) / 2);
+  --uc-icon-button-border-radius: var(--uc-map-inner-radius-resolved);
   --uc-icon-button-color: var(--uc-foreground-color);
   --uc-icon-button-hover-background: var(--uc-map-control-hover-background-resolved);
   --uc-icon-button-hover-color: var(--uc-foreground-color);
 
   --uc-segmented-toggle-pills-gap: 0.125rem;
-  --uc-segmented-toggle-pills-border-radius: var(--uc-map-inner-radius);
+  --uc-segmented-toggle-pills-border-radius: var(--uc-map-inner-radius-resolved);
   --uc-segmented-toggle-pills-hover-background: var(--uc-map-control-hover-background-resolved);
   --uc-segmented-toggle-item-font-size: 0.8125rem;
   --uc-segmented-toggle-item-line-height: 1rem;
-  --uc-segmented-toggle-item-padding-block: calc((var(--uc-map-button-size) - 1rem) / 2);
+  --uc-segmented-toggle-item-padding-block: calc((var(--uc-map-button-size-resolved) - 1rem) / 2);
   --uc-segmented-toggle-item-padding-inline: 0.875rem;
 
   position: absolute;
@@ -91,7 +91,7 @@
 /* Projected into the icon buttons, so sized here: the buttons leave their content at text size. */
 .uc-map__icon {
   display: block;
-  font-size: var(--uc-map-icon-size);
+  font-size: var(--uc-map-icon-size-resolved);
   line-height: 1;
 }
 
@@ -133,11 +133,11 @@
 
 /* A compact cross of four smaller arrows, so the pad does not outweigh the zoom buttons. */
 .uc-map__control--camera {
-  --uc-map-button-size: calc(var(--uc-map-control-size-resolved) * 0.8);
+  --uc-map-button-size-resolved: calc(var(--uc-map-control-size-resolved) * 0.8);
 
   display: grid;
-  grid-template-columns: repeat(3, var(--uc-map-button-size));
-  grid-template-rows: repeat(3, var(--uc-map-button-size));
+  grid-template-columns: repeat(3, var(--uc-map-button-size-resolved));
+  grid-template-rows: repeat(3, var(--uc-map-button-size-resolved));
   grid-template-areas:
     '. up .'
     'left . right'

@@ -136,7 +136,7 @@
   --uc-accordion-border-radius: var(--uc-input-border-radius);
   --uc-accordion-title-font-size: 0.875rem;
   --uc-accordion-title-font-weight: 700;
-  --uc-accordion-content-background: oklch(from var(--uc-primary-color) l c h / 0.045);
+  --uc-accordion-content-background: oklch(from var(--uc-foreground-color) l c h / 0.02);
 }
 
 .uc-image-editor-dialog__crop-details p {

@@ -23,7 +23,7 @@
 }
 
 .uc-toast {
-  --uc-toast-accent: var(--uc-toast-info-resolved);
+  --uc-toast-accent-resolved: var(--uc-toast-info-resolved);
 
   display: flex;
   align-items: flex-start;
@@ -41,15 +41,15 @@
     transform 180ms ease;
 
   &.uc-toast--success {
-    --uc-toast-accent: var(--uc-toast-success-resolved);
+    --uc-toast-accent-resolved: var(--uc-toast-success-resolved);
   }
 
   &.uc-toast--warning {
-    --uc-toast-accent: var(--uc-toast-warning-resolved);
+    --uc-toast-accent-resolved: var(--uc-toast-warning-resolved);
   }
 
   &.uc-toast--error {
-    --uc-toast-accent: var(--uc-toast-error-resolved);
+    --uc-toast-accent-resolved: var(--uc-toast-error-resolved);
   }
 
   &.uc-toast--entering {
@@ -67,7 +67,7 @@
 
 .uc-toast__icon {
   flex-shrink: 0;
-  color: var(--uc-toast-accent);
+  color: var(--uc-toast-accent-resolved);
   font-size: 1.25rem;
 }
 

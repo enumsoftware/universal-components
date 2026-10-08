@@ -192,6 +192,13 @@ light and dark setting.
 
 ## Accessibility
 
+Google names every map region "Map", so a page with more than one map repeats the same landmark.
+Give each map its own name with `ariaLabel`:
+
+```html
+<uc-map [apiKey]="key" ariaLabel="Service area map" />
+```
+
 Picking a point on a map is not possible with a keyboard. Pair `pick` mode with another way to
 enter a location, such as an address search.
 

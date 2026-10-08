@@ -18,12 +18,22 @@ import {
 import { UcIconButton } from '../uc-icon-button/uc-icon-button';
 import { UcCalendar, CalendarDay } from '../uc-calendar/uc-calendar';
 import {
-  MONTH_NAMES,
   Temporal,
   parsePlainDate,
   parsePlainDateTime,
   todayPlainDate,
 } from '../uc-calendar/uc-calendar-date';
+import {
+  UcDateLabels,
+  builtInDateLabels,
+  formatPlainDate,
+  formatPlainTime,
+  injectDateLocaleDefaults,
+  localeMonthNames,
+} from '../uc-calendar/uc-date-locale';
+
+/** Default display format: `Sep 7, 2026` in English, `7. ruj 2026.` in Croatian. */
+const DEFAULT_DATE_FORMAT: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' };
 
 export const DATE_TIME_PICKER_MODE_OPTIONS = ['single', 'range'] as const;
 export type DateTimePickerMode = (typeof DATE_TIME_PICKER_MODE_OPTIONS)[number];
@@ -49,7 +59,8 @@ export interface DateRange {
 export class UcDateTimePicker implements FormValueControl<string> {
   readonly id = input.required<string>();
   readonly label = input<string>('');
-  readonly placeholder = input<string>('Select date');
+  /** Shown while empty; defaults to the locale's "Select date" text. */
+  readonly placeholder = input<string | undefined>(undefined);
   readonly disabled = input<boolean>(false);
   readonly readonly = input<boolean>(false);
   readonly hidden = input<boolean>(false);
@@ -58,6 +69,25 @@ export class UcDateTimePicker implements FormValueControl<string> {
   readonly errors = input<readonly WithOptionalFieldTree<ValidationError>[]>([]);
   readonly disabledReasons = input<readonly WithOptionalFieldTree<DisabledReason>[]>([]);
   readonly invalid = input<boolean>(false);
+  /** BCP 47 locale for names, formats and texts. Defaults to provideUcDateLocale, then Angular's LOCALE_ID. */
+  readonly locale = input<string | undefined>(undefined);
+  /** How the chosen date is shown, as Intl.DateTimeFormat options, e.g. { day: '2-digit', month: '2-digit', year: 'numeric' }. */
+  readonly dateFormat = input<Intl.DateTimeFormatOptions>(DEFAULT_DATE_FORMAT);
+  /** Overrides for the built-in texts (Today, Cancel, Save, ...). */
+  readonly labels = input<Partial<UcDateLabels>>({});
+
+  private readonly localeDefaults = injectDateLocaleDefaults();
+
+  readonly resolvedLocale = computed<string>(() => this.locale() ?? this.localeDefaults.locale);
+
+  /** Built-in texts of the locale's language, then the app-wide overrides, then this picker's own. */
+  readonly texts = computed<UcDateLabels>(() => ({
+    ...builtInDateLabels(this.resolvedLocale()),
+    ...this.localeDefaults.config.labels,
+    ...this.labels(),
+  }));
+
+  readonly resolvedPlaceholder = computed<string>(() => this.placeholder() ?? this.texts().placeholder);
 
   value = model<string>('');
   touched = model<boolean>(false);
@@ -96,10 +126,11 @@ export class UcDateTimePicker implements FormValueControl<string> {
 
   readonly showErrorState = computed(() => this.invalid() && this.touched());
 
-  readonly monthNames = MONTH_NAMES;
+  readonly monthNames = computed<string[]>(() => localeMonthNames(this.resolvedLocale(), 'long'));
+  readonly shortMonthNames = computed<string[]>(() => localeMonthNames(this.resolvedLocale(), 'short'));
 
   readonly viewMonthLabel = computed(() => {
-    return `${this.monthNames[this.viewMonth() - 1]} ${this.viewYear()}`;
+    return `${this.monthNames()[this.viewMonth() - 1]} ${this.viewYear()}`;
   });
 
   readonly displayValue = computed<string>(() => {
@@ -118,8 +149,7 @@ export class UcDateTimePicker implements FormValueControl<string> {
 
   readonly rangeSelectionHint = computed<string>(() => {
     if (this.mode() !== 'range') return '';
-    if (this.rangeStep() === 'start') return 'Select start date';
-    return 'Select end date';
+    return this.rangeStep() === 'start' ? this.texts().rangeStart : this.texts().rangeEnd;
   });
 
   readonly isSaveDisabled = computed<boolean>(() => {
@@ -337,14 +367,10 @@ export class UcDateTimePicker implements FormValueControl<string> {
     if (!dateTime) return val;
     const datePart = this.formatPlainDate(dateTime.toPlainDate());
     if (!this.showTime() || !val.includes('T')) return datePart;
-    const min = String(dateTime.minute).padStart(2, '0');
-    const ampm = dateTime.hour >= 12 ? 'PM' : 'AM';
-    const h = dateTime.hour % 12 || 12;
-    return `${datePart} ${h}:${min} ${ampm}`;
+    return `${datePart} ${formatPlainTime(dateTime.hour, dateTime.minute, this.resolvedLocale())}`;
   }
 
   private formatPlainDate(date: Temporal.PlainDate): string {
-    const month = this.monthNames[date.month - 1].slice(0, 3);
-    return `${month} ${date.day}, ${date.year}`;
+    return formatPlainDate(date, this.resolvedLocale(), this.dateFormat());
   }
 }

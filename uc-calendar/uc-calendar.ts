@@ -7,7 +7,8 @@ import {
   output,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { Temporal, parsePlainDate, toDateLabel, todayPlainDate } from './uc-calendar-date';
+import { Temporal, parsePlainDate, todayPlainDate } from './uc-calendar-date';
+import { injectDateLocaleDefaults, localeDayLabel, localeFirstDayOfWeek, localeWeekdayNames } from './uc-date-locale';
 
 export type CalendarMode = 'single' | 'range';
 
@@ -15,7 +16,7 @@ export interface CalendarDay {
   date: Temporal.PlainDate;
   /** `YYYY-MM-DD`, ready to hand straight back to `selectedDate`/`rangeStart`/`rangeEnd`. */
   iso: string;
-  /** Spoken-language label for the day button, e.g. `Wed Aug 13 2026`. */
+  /** Spoken label for the day button in the calendar's locale, e.g. `Wednesday, August 13, 2026`. */
   label: string;
   dayNumber: number;
   isCurrentMonth: boolean;
@@ -56,12 +57,24 @@ export class UcCalendar {
   readonly rangeEnd = input<string>('');
   readonly rangeStep = input<'start' | 'end'>('start');
   readonly hoverDate = input<Temporal.PlainDate | null>(null);
+  /** BCP 47 locale for weekday names and day labels. Defaults to provideUcDateLocale, then Angular's LOCALE_ID. */
+  readonly locale = input<string | undefined>(undefined);
+  /** First column of the grid, 1 = Monday ... 7 = Sunday. Defaults to the locale's first day of the week. */
+  readonly firstDayOfWeek = input<number | undefined>(undefined);
+
+  private readonly localeDefaults = injectDateLocaleDefaults();
+
+  readonly resolvedLocale = computed<string>(() => this.locale() ?? this.localeDefaults.locale);
+  readonly resolvedFirstDayOfWeek = computed<number>(
+    () => this.firstDayOfWeek() ?? this.localeDefaults.config.firstDayOfWeek ?? localeFirstDayOfWeek(this.resolvedLocale()),
+  );
 
   readonly daySelect = output<CalendarDay>();
   readonly dayHover = output<CalendarDay>();
   readonly dayLeave = output<void>();
 
-  readonly weekDays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+  /** Column headings in the locale, starting with the first day of the week. */
+  readonly weekDays = computed<string[]>(() => localeWeekdayNames(this.resolvedLocale(), this.resolvedFirstDayOfWeek()));
 
   /**
    * The month the grid actually renders. An uncontrolled calendar follows its
@@ -95,13 +108,15 @@ export class UcCalendar {
     }
 
     const firstOfMonth = Temporal.PlainDate.from({ year, month, day: 1 });
-    // Temporal weeks run Mon(1)..Sun(7); this grid starts its rows on Sunday.
-    const gridStart = firstOfMonth.subtract({ days: firstOfMonth.dayOfWeek % 7 });
+    // Temporal weeks run Mon(1)..Sun(7); rows start on the locale's first day of the week.
+    const leadingDays = (firstOfMonth.dayOfWeek - this.resolvedFirstDayOfWeek() + 7) % 7;
+    const gridStart = firstOfMonth.subtract({ days: leadingDays });
+    const locale = this.resolvedLocale();
 
     return Array.from({ length: GRID_DAYS }, (_, i) => {
       const date = gridStart.add({ days: i });
       const isCurrentMonth = date.year === year && date.month === month;
-      return this.buildDay(date, isCurrentMonth, today, selected, rangeStart, rangeEnd, previewEnd);
+      return this.buildDay(date, isCurrentMonth, today, selected, rangeStart, rangeEnd, previewEnd, locale);
     });
   });
 
@@ -129,6 +144,7 @@ export class UcCalendar {
     rangeStart: Temporal.PlainDate | null,
     rangeEnd: Temporal.PlainDate | null,
     previewEnd: Temporal.PlainDate | null,
+    locale: string,
   ): CalendarDay {
     const isAfter = (other: Temporal.PlainDate) => Temporal.PlainDate.compare(date, other) > 0;
     const isBefore = (other: Temporal.PlainDate) => Temporal.PlainDate.compare(date, other) < 0;
@@ -148,7 +164,7 @@ export class UcCalendar {
     return {
       date,
       iso: date.toString(),
-      label: toDateLabel(date),
+      label: localeDayLabel(date, locale),
       dayNumber: date.day,
       isCurrentMonth,
       isToday: date.equals(today),

@@ -105,3 +105,8 @@
     order: 1;
   }
 }
+
+/* The avatars get saturated brand colors from avatarColorFor, which need white initials in both themes. */
+uc-avatar {
+  --uc-avatar-color: #ffffff;
+}

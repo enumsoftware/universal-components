@@ -1,12 +1,13 @@
 import { defineShowcase, object, select, text } from '../workbench/core';
+import { ClosableTabsExample } from './examples/closable-tabs';
 import { ManyTabsExample } from './examples/many-tabs';
 import { TabsPreview } from './examples/tabs-preview';
 import { TABS_VARIANT_OPTIONS, type UcTab } from './uc-tabs';
 
 const TABS: UcTab[] = [
   { key: 'overview', label: 'Overview' },
-  { key: 'details', label: 'Details' },
-  { key: 'settings', label: 'Settings' },
+  { key: 'details', label: 'Details', closable: true },
+  { key: 'settings', label: 'Settings', closable: true },
 ];
 
 export default defineShowcase({
@@ -44,6 +45,12 @@ export default defineShowcase({
           { key: 'settings', label: 'Settings' },
         ],
       },
+    },
+    {
+      name: 'Closable Tabs',
+      description:
+        'A tab with `closable: true` gets a close button, and Delete closes it from the keyboard. `tabClose` emits the key; the host removes the tab.',
+      component: ClosableTabsExample,
     },
     {
       name: 'Many Tabs',

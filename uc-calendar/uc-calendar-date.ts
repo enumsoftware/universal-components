@@ -12,24 +12,7 @@ export { Temporal };
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 const ISO_DATE_TIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?$/;
 
-/** Weekday names indexed by `Temporal.PlainDate.dayOfWeek` (1 = Monday). */
-const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-/** Month names indexed by `Temporal.PlainDate.month` (1 = January). */
-export const MONTH_NAMES = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
+/** Names, formats and labels in the user's language live in `uc-date-locale.ts`. */
 
 /** Today in the viewer's own time zone, as a civil date. */
 export function todayPlainDate(): Temporal.PlainDate {
@@ -61,11 +44,4 @@ export function parsePlainDateTime(str: string): Temporal.PlainDateTime | null {
   } catch {
     return null;
   }
-}
-
-/** `Wed Aug 13 2026` - a spoken-language label for a day button's `aria-label`. */
-export function toDateLabel(date: Temporal.PlainDate): string {
-  const weekday = WEEKDAY_LABELS[date.dayOfWeek - 1];
-  const month = MONTH_NAMES[date.month - 1].slice(0, 3);
-  return `${weekday} ${month} ${date.day} ${date.year}`;
 }
