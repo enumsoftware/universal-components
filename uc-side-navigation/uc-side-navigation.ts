@@ -3,6 +3,7 @@ import {
   Component,
   input,
   signal,
+  computed,
   viewChild,
   ElementRef,
   afterRenderEffect,
@@ -14,6 +15,12 @@ import { ConnectedPosition, OverlayModule } from '@angular/cdk/overlay';
 
 export const SIDEBAR_MODE_OPTIONS = ['over', 'side'] as const;
 export type UcSidebarMode = (typeof SIDEBAR_MODE_OPTIONS)[number];
+export const SIDEBAR_VARIANT_OPTIONS = ['floating', 'flush'] as const;
+export type UcSidebarVariant = (typeof SIDEBAR_VARIANT_OPTIONS)[number];
+
+/** Gap between the `floating` over sidebar and the container edges. */
+const FLOATING_INSET_PX = 16;
+
 @Component({
   selector: 'uc-side-navigation',
   imports: [OverlayModule, NgTemplateOutlet],
@@ -26,29 +33,38 @@ export class UcSideNavigation implements AfterViewInit, OnDestroy {
   private overlayCloseTimeoutId: number | null = null;
   public readonly instanceId = signal<string>('');
   public readonly sidebarMode = input<UcSidebarMode>('over');
+  /** `floating` insets the over sidebar with rounded corners; `flush` sits it against the edges. */
+  public readonly sidebarVariant = input<UcSidebarVariant>('floating');
   public readonly sidebarScrollable = input<boolean>(true);
   public readonly closeOnBackdropClick = input<boolean>(true);
   readonly isSidebarOpen = signal<boolean>(false);
   readonly isOverlayMounted = signal<boolean>(false);
   readonly isOverlayVisible = signal<boolean>(false);
   readonly layoutRoot = viewChild.required<ElementRef<HTMLElement>>('layoutRoot');
-  readonly overlayPositions: ConnectedPosition[] = [
+  private readonly overlayInsetPx = computed(() =>
+    this.sidebarVariant() === 'flush' ? 0 : FLOATING_INSET_PX,
+  );
+  readonly overlayPositions = computed<ConnectedPosition[]>(() => [
     {
       originX: 'start',
       originY: 'top',
       overlayX: 'start',
       overlayY: 'top',
-      offsetX: 16,
-      offsetY: 16,
+      offsetX: this.overlayInsetPx(),
+      offsetY: this.overlayInsetPx(),
     },
-  ];
+  ]);
 
   private readonly containerWidthPx = signal<number>(0);
   private readonly containerHeightPx = signal<number>(0);
   private resizeObserver: ResizeObserver | null = null;
 
-  readonly overlayHeightPx = signal<number>(0);
-  readonly overlayMaxWidthPx = signal<number>(0);
+  readonly overlayHeightPx = computed(() =>
+    Math.max(this.containerHeightPx() - this.overlayInsetPx() * 2, 0),
+  );
+  readonly overlayMaxWidthPx = computed(() =>
+    Math.max(this.containerWidthPx() - this.overlayInsetPx() * 2, 0),
+  );
 
   constructor() {
     this.instanceId.set(`uc-side-navigation-${UcSideNavigation.nextId++}`);
@@ -121,8 +137,6 @@ export class UcSideNavigation implements AfterViewInit, OnDestroy {
     const rect = host.getBoundingClientRect();
     this.containerWidthPx.set(rect.width);
     this.containerHeightPx.set(rect.height);
-    this.overlayHeightPx.set(Math.max(rect.height - 32, 0));
-    this.overlayMaxWidthPx.set(Math.max(rect.width - 32, 0));
   }
 
   toggleSidebar() {

@@ -122,6 +122,11 @@
     pointer-events: none;
     transform: translateX(-100%);
   }
+
+  /* Flush variant: square corners; the zero inset comes from the overlay position. */
+  &.uc-sidebar-flush {
+    border-radius: 0;
+  }
 }
 
 .uc-sidebar-scroll-wrapper {

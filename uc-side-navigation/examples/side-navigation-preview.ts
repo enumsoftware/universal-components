@@ -4,7 +4,11 @@ import { UcIconButton } from '../../uc-icon-button/uc-icon-button';
 import { UcPhosphorIcon } from '../../uc-phosphor-icon/uc-phosphor-icon';
 import { UcSidebarButton } from '../../uc-sidebar-button/uc-sidebar-button';
 import { UcSidebar } from '../uc-sidebar/uc-sidebar';
-import { UcSideNavigation, type UcSidebarMode } from '../uc-side-navigation';
+import {
+  UcSideNavigation,
+  type UcSidebarMode,
+  type UcSidebarVariant,
+} from '../uc-side-navigation';
 
 interface NavItem {
   readonly label: string;
@@ -45,6 +49,7 @@ const NAV_ITEMS: NavItem[] = [
     <uc-side-navigation
       #sideNavigation
       [sidebarMode]="sidebarMode()"
+      [sidebarVariant]="sidebarVariant()"
       [sidebarScrollable]="sidebarScrollable()"
       [closeOnBackdropClick]="closeOnBackdropClick()"
     >
@@ -97,6 +102,7 @@ const NAV_ITEMS: NavItem[] = [
 })
 export class SideNavigationPreview {
   readonly sidebarMode = input<UcSidebarMode>('side');
+  readonly sidebarVariant = input<UcSidebarVariant>('floating');
   readonly sidebarScrollable = input<boolean>(true);
   readonly closeOnBackdropClick = input<boolean>(true);
 

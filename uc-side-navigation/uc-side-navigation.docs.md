@@ -9,5 +9,10 @@ In `side` mode the sidebar has an end border (`1px solid var(--uc-divider-color)
 that separates it from the content. Change it with `--uc-side-navigation-sidebar-border`,
 or set that variable to `none` to remove it. The floating `over` sidebar has no border.
 
+`sidebarVariant` controls how the `over` sidebar sits in its container. The default
+`floating` variant is inset 16px from the edges with rounded corners
+(`--uc-side-navigation-sidebar-border-radius`). `flush` places it against the top, left
+and bottom edges with square corners. `side` mode ignores the variant.
+
 Content marked `ucSidebarHeader` sits above the sidebar body and stays in place while
 the body scrolls, like `ucSidebarFooter` below it.

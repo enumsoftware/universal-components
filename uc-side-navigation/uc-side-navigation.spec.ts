@@ -170,6 +170,19 @@ describe('UcSideNavigation', () => {
     expect(component.overlayMaxWidthPx()).toBe(288);
   });
 
+  it('should drop the overlay inset for the flush variant', async () => {
+    const host = fixture.nativeElement.querySelector('section') as HTMLElement;
+    vi.spyOn(host, 'getBoundingClientRect').mockReturnValue(createDomRect(640, 480));
+
+    fixture.componentRef.setInput('sidebarVariant', 'flush');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(component.overlayHeightPx()).toBe(480);
+    expect(component.overlayMaxWidthPx()).toBe(640);
+    expect(component.overlayPositions()[0]).toMatchObject({ offsetX: 0, offsetY: 0 });
+  });
+
   it('should disconnect resize observer on destroy', () => {
     const host = fixture.nativeElement.querySelector('section') as HTMLElement;
     vi.spyOn(host, 'getBoundingClientRect').mockReturnValue(createDomRect(640, 480));

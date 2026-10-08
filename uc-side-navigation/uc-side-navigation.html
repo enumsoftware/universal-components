@@ -55,7 +55,7 @@
       cdkConnectedOverlay
       [cdkConnectedOverlayOpen]="isOverlayMounted()"
       [cdkConnectedOverlayOrigin]="overlayOrigin"
-      [cdkConnectedOverlayPositions]="overlayPositions"
+      [cdkConnectedOverlayPositions]="overlayPositions()"
       [cdkConnectedOverlayHasBackdrop]="true"
       [cdkConnectedOverlayBackdropClass]="'uc-sidebar-cdk-backdrop'"
       [cdkConnectedOverlayPush]="false"
@@ -65,6 +65,7 @@
       <aside
         [id]="instanceId()"
         class="uc-sidebar-over"
+        [class.uc-sidebar-flush]="sidebarVariant() === 'flush'"
         [class.uc-sidebar-opened]="isOverlayVisible()"
         [class.uc-sidebar-closed]="!isOverlayVisible()"
         [style.block-size.px]="overlayHeightPx()"
