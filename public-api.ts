@@ -46,6 +46,12 @@ export {
 } from './uc-bottom-navigation/uc-bottom-navigation';
 export { UcBottomNavigationItem } from './uc-bottom-navigation/uc-bottom-navigation-item';
 export {
+  UC_BOTTOM_SHEET_DATA,
+  UcBottomSheetService,
+  type UcBottomSheetConfig,
+} from './uc-bottom-sheet/uc-bottom-sheet.service';
+export { UcBottomSheetRef } from './uc-bottom-sheet/uc-bottom-sheet-ref';
+export {
   BUTTON_VARIANT_OPTIONS,
   UcButton,
   type ButtonVariant,

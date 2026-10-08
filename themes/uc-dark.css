@@ -246,6 +246,16 @@
   --uc-confirmation-dialog-message-color: var(--uc-paragraph-text-color);
   --uc-confirmation-dialog-actions-gap: 0.5rem;
 
+  /* --- Bottom Sheet --- */
+  --uc-bottom-sheet-background: var(--uc-dialog-background-color);
+  --uc-bottom-sheet-color: var(--uc-foreground-color);
+  --uc-bottom-sheet-border-radius: 1rem;
+  --uc-bottom-sheet-box-shadow: 0 -0.25rem 1.5rem var(--uc-dialog-box-shadow-color);
+  --uc-bottom-sheet-padding: 1rem;
+  --uc-bottom-sheet-max-width: 40rem;
+  --uc-bottom-sheet-max-height: 80vh;
+  --uc-bottom-sheet-animation-duration: 250ms;
+
   /* --- Charts Shared --- */
   --uc-chart-series-1: #68d585;
   --uc-chart-series-2: #958ef6;

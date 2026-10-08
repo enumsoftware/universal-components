@@ -1,0 +1,51 @@
+:host {
+  --uc-bottom-sheet-background-resolved: var(--uc-bottom-sheet-background, var(--uc-card-background-color));
+  --uc-bottom-sheet-color-resolved: var(--uc-bottom-sheet-color, var(--uc-foreground-color));
+  --uc-bottom-sheet-border-radius-resolved: var(--uc-bottom-sheet-border-radius, 1rem);
+  --uc-bottom-sheet-box-shadow-resolved: var(--uc-bottom-sheet-box-shadow, 0 -0.25rem 1.5rem rgb(0 0 0 / 0.2));
+  --uc-bottom-sheet-padding-resolved: var(--uc-bottom-sheet-padding, 1rem);
+  --uc-bottom-sheet-max-width-resolved: var(--uc-bottom-sheet-max-width, 40rem);
+  --uc-bottom-sheet-max-height-resolved: var(--uc-bottom-sheet-max-height, 80vh);
+  --uc-bottom-sheet-animation-duration-resolved: var(--uc-bottom-sheet-animation-duration, 250ms);
+
+  display: block;
+  box-sizing: border-box;
+  width: 100vw;
+  max-width: var(--uc-bottom-sheet-max-width-resolved);
+  max-height: var(--uc-bottom-sheet-max-height-resolved);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: var(--uc-bottom-sheet-padding-resolved);
+  /* Clears the home indicator on phones. */
+  padding-bottom: calc(var(--uc-bottom-sheet-padding-resolved) + env(safe-area-inset-bottom, 0px));
+  color: var(--uc-bottom-sheet-color-resolved);
+  background-color: var(--uc-bottom-sheet-background-resolved);
+  border-radius: var(--uc-bottom-sheet-border-radius-resolved) var(--uc-bottom-sheet-border-radius-resolved) 0 0;
+  box-shadow: var(--uc-bottom-sheet-box-shadow-resolved);
+  outline: none;
+  animation: uc-bottom-sheet-enter var(--uc-bottom-sheet-animation-duration-resolved) cubic-bezier(0, 0, 0.2, 1);
+}
+
+:host(.uc-bottom-sheet-container--exiting) {
+  animation: uc-bottom-sheet-exit var(--uc-bottom-sheet-animation-duration-resolved) cubic-bezier(0.4, 0, 1, 1)
+    forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host,
+  :host(.uc-bottom-sheet-container--exiting) {
+    animation: none;
+  }
+}
+
+@keyframes uc-bottom-sheet-enter {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes uc-bottom-sheet-exit {
+  to {
+    transform: translateY(100%);
+  }
+}
