@@ -5,6 +5,11 @@
   --uc-input-background-error-color-resolved: var(--uc-input-background-error-color, oklch(from var(--uc-error-color) l c h / 0.1));
   --uc-input-disabled-background-color-resolved: var(--uc-input-disabled-background-color, oklch(from var(--uc-background-color) calc(l * 0.96) c h));
   --uc-input-disabled-color-resolved: var(--uc-input-disabled-color, oklch(from var(--uc-foreground-color) l c h / 0.55));
+  --uc-input-readonly-background-color-resolved: var(
+    --uc-input-readonly-background-color,
+    var(--uc-input-disabled-background-color-resolved)
+  );
+  --uc-input-readonly-border-color-resolved: var(--uc-input-readonly-border-color, transparent);
   --uc-input-password-font-size-resolved: var(--uc-input-password-font-size, 1.5rem);
   --uc-input-password-letter-spacing-resolved: var(--uc-input-password-letter-spacing, 0.1em);
   display: flex;
@@ -115,6 +120,19 @@
 
   &.uc-input-control--has-suffix {
     padding-right: 2.75rem;
+  }
+
+  /* Read-only holds a value rather than asking for one: a muted surface without the input box, but
+     full-contrast text and a text cursor, since the value is still read, selected and copied. It stays
+     focusable, so focus gets a ring instead of the primary editing border. */
+  &:read-only:not(:disabled) {
+    background-color: var(--uc-input-readonly-background-color-resolved);
+    border-color: var(--uc-input-readonly-border-color-resolved);
+  }
+
+  &:read-only:not(:disabled):focus-visible {
+    outline: 2px solid var(--uc-primary-color);
+    outline-offset: 1px;
   }
 
   &:disabled {

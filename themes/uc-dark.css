@@ -80,6 +80,8 @@
   --uc-input-background-error-color: oklch(from var(--uc-error-color) l c h / 0.1);
   --uc-input-disabled-background-color: oklch(from var(--uc-background-color) calc(l * 1.12) c h);
   --uc-input-disabled-color: oklch(from var(--uc-foreground-color) l c h / 0.55);
+  --uc-input-readonly-background-color: var(--uc-input-disabled-background-color);
+  --uc-input-readonly-border-color: transparent;
   --uc-input-password-font-size: 1.5rem;
   --uc-input-password-letter-spacing: 0.1em;
 
