@@ -257,6 +257,8 @@
   --uc-bottom-sheet-max-width: 40rem;
   --uc-bottom-sheet-max-height: 80vh;
   --uc-bottom-sheet-animation-duration: 250ms;
+  --uc-bottom-sheet-handle-color: oklch(from var(--uc-foreground-color) l c h / 0.3);
+  --uc-bottom-sheet-z-index: 10;
 
   /* --- Charts Shared --- */
   --uc-chart-series-1: #473bf0;

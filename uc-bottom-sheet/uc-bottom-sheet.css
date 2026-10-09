@@ -1,0 +1,94 @@
+:host {
+  --uc-bottom-sheet-background-resolved: var(--uc-bottom-sheet-background, var(--uc-card-background-color));
+  --uc-bottom-sheet-color-resolved: var(--uc-bottom-sheet-color, var(--uc-foreground-color));
+  --uc-bottom-sheet-border-radius-resolved: var(--uc-bottom-sheet-border-radius, 1rem);
+  --uc-bottom-sheet-box-shadow-resolved: var(--uc-bottom-sheet-box-shadow, 0 -0.25rem 1.5rem rgb(0 0 0 / 0.2));
+  --uc-bottom-sheet-padding-resolved: var(--uc-bottom-sheet-padding, 1rem);
+  --uc-bottom-sheet-max-width-resolved: var(--uc-bottom-sheet-max-width, 40rem);
+  --uc-bottom-sheet-animation-duration-resolved: var(--uc-bottom-sheet-animation-duration, 250ms);
+  --uc-bottom-sheet-handle-color-resolved: var(
+    --uc-bottom-sheet-handle-color,
+    oklch(from var(--uc-foreground-color) l c h / 0.3)
+  );
+  --uc-bottom-sheet-z-index-resolved: var(--uc-bottom-sheet-z-index, 10);
+
+  /* Sits over the bottom of the nearest positioned ancestor, centred with a capped width on wide screens. */
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: var(--uc-bottom-sheet-z-index-resolved);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  max-width: var(--uc-bottom-sheet-max-width-resolved);
+  margin-inline: auto;
+  overflow: hidden;
+  color: var(--uc-bottom-sheet-color-resolved);
+  background-color: var(--uc-bottom-sheet-background-resolved);
+  border-radius: var(--uc-bottom-sheet-border-radius-resolved) var(--uc-bottom-sheet-border-radius-resolved) 0 0;
+  box-shadow: var(--uc-bottom-sheet-box-shadow-resolved);
+  transition: height var(--uc-bottom-sheet-animation-duration-resolved) cubic-bezier(0.2, 0, 0, 1);
+}
+
+:host(.uc-bottom-sheet--fixed) {
+  position: fixed;
+}
+
+/* The sheet follows the pointer while dragged and only eases once released. */
+:host(.uc-bottom-sheet--dragging) {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none;
+  }
+}
+
+.uc-bottom-sheet__grab {
+  flex: none;
+  padding-inline: var(--uc-bottom-sheet-padding-resolved);
+  /* The browser would otherwise take a vertical drag here as a page scroll. */
+  touch-action: none;
+  /* A press here is the start of a drag; selecting the header text on the way would only get in the way. */
+  user-select: none;
+  cursor: grab;
+}
+
+:host(.uc-bottom-sheet--dragging) .uc-bottom-sheet__grab {
+  cursor: grabbing;
+}
+
+/* A 3rem by 1.5rem target around a small bar, so it is easy to hit with a thumb. */
+.uc-bottom-sheet__handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 1.5rem;
+  margin-inline: auto;
+  border-radius: 0.5rem;
+  outline: none;
+}
+
+.uc-bottom-sheet__handle:focus-visible {
+  outline: 2px solid var(--uc-primary-color);
+  outline-offset: 2px;
+}
+
+.uc-bottom-sheet__handle-bar {
+  width: 2.25rem;
+  height: 0.25rem;
+  border-radius: 999px;
+  background-color: var(--uc-bottom-sheet-handle-color-resolved);
+}
+
+.uc-bottom-sheet__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 0 var(--uc-bottom-sheet-padding-resolved);
+  /* Clears the home indicator on phones. */
+  padding-bottom: calc(var(--uc-bottom-sheet-padding-resolved) + env(safe-area-inset-bottom, 0px));
+}

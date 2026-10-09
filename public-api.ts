@@ -51,6 +51,7 @@ export {
   type UcBottomSheetConfig,
 } from './uc-bottom-sheet/uc-bottom-sheet.service';
 export { UcBottomSheetRef } from './uc-bottom-sheet/uc-bottom-sheet-ref';
+export { UcBottomSheet, type UcBottomSheetSnapPoint } from './uc-bottom-sheet/uc-bottom-sheet';
 export {
   BUTTON_VARIANT_OPTIONS,
   UcButton,

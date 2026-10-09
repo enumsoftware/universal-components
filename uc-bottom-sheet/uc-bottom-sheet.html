@@ -1,0 +1,30 @@
+<!-- The handle and the header are the drag area; the body scrolls on its own. -->
+<div
+  class="uc-bottom-sheet__grab"
+  (pointerdown)="onPointerDown($event)"
+  (pointermove)="onPointerMove($event)"
+  (pointerup)="onPointerUp($event)"
+  (pointercancel)="onPointerCancel()"
+>
+  <div
+    class="uc-bottom-sheet__handle"
+    role="slider"
+    tabindex="0"
+    aria-orientation="vertical"
+    [attr.aria-label]="handleLabel()"
+    aria-valuemin="0"
+    [attr.aria-valuemax]="snapPoints().length - 1"
+    [attr.aria-valuenow]="currentIndex()"
+    [attr.aria-valuetext]="valueText()"
+    (click)="onHandleClick()"
+    (keydown)="onHandleKeydown($event)"
+  >
+    <span class="uc-bottom-sheet__handle-bar"></span>
+  </div>
+
+  <ng-content select="[ucBottomSheetHeader]" />
+</div>
+
+<div #body class="uc-bottom-sheet__body" (focusin)="onBodyFocusIn($event)">
+  <ng-content />
+</div>
