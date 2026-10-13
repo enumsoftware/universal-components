@@ -30,6 +30,7 @@ and a variant set on an element always wins:
 |---|---|---|---|---|
 | `anchor` | `ucAnchor` | `variant` | `primary`, `error` | `primary` |
 | `badge` | `ucBadge` | `variant` | `error`, `primary`, `success`, `neutral` | `error` |
+| `breadcrumbs` | `uc-breadcrumbs` | `variant` | `plain`, `pills` | `plain` |
 | `button` | `uc-button` | `variant` | `primary`, `secondary`, `text`, `error` | `primary` |
 | `divider` | `uc-divider` | `variant` | `default`, `inverse` | `default` |
 | `iconButton` | `uc-icon-button` | `variant` | `primary`, `secondary`, `icon`, `error` | `primary` |

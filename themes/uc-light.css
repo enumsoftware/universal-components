@@ -656,6 +656,19 @@
   --uc-tabs-arrow-width: 2.25rem;
   --uc-tabs-close-hover-background: color-mix(in oklch, currentColor 12%, transparent);
 
+  /* --- Breadcrumbs --- */
+  --uc-breadcrumbs-color: var(--uc-paragraph-text-color);
+  --uc-breadcrumbs-hover-color: var(--uc-primary-color);
+  --uc-breadcrumbs-current-color: var(--uc-foreground-color);
+  --uc-breadcrumbs-separator-color: var(--uc-paragraph-text-color);
+  --uc-breadcrumbs-font-size: 0.875rem;
+  --uc-breadcrumbs-font-weight: 500;
+  --uc-breadcrumbs-gap: 0.5rem;
+  --uc-breadcrumbs-pills-background: oklch(from var(--uc-foreground-color) l c h / 0.06);
+  --uc-breadcrumbs-pills-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.12);
+  --uc-breadcrumbs-pills-border-radius: 100px;
+  --uc-breadcrumbs-pills-padding: 0.25rem 0.75rem;
+
   /* --- Textarea --- */
   --uc-textarea-label-color: oklch(from var(--uc-foreground-color) l c h / 1);
   --uc-textarea-placeholder-color: oklch(from var(--uc-foreground-color) l c h / 0.35);

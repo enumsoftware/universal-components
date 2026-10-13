@@ -53,6 +53,13 @@ export {
 export { UcBottomSheetRef } from './uc-bottom-sheet/uc-bottom-sheet-ref';
 export { UcBottomSheet, type UcBottomSheetSnapPoint } from './uc-bottom-sheet/uc-bottom-sheet';
 export {
+  BREADCRUMBS_VARIANT_OPTIONS,
+  UcBreadcrumb,
+  UcBreadcrumbs,
+  UcBreadcrumbSeparator,
+  type UcBreadcrumbsVariant,
+} from './uc-breadcrumbs/uc-breadcrumbs';
+export {
   BUTTON_VARIANT_OPTIONS,
   UcButton,
   type ButtonVariant,
