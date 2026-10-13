@@ -23,7 +23,10 @@
   display: inline-flex;
 }
 
-.uc-anchor {
+/* The classes sit on the host <a> itself, so every rule is a :host() selector: a plain .uc-anchor
+   rule would compile to .uc-anchor[_ngcontent-...] and never match the host. */
+
+:host(.uc-anchor) {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -44,40 +47,40 @@
 /* Angular applies the variant class one style-change event after the anchor element is inserted,
    so a transition that is live on first render animates the anchor from its unstyled colors to
    its variant colors. `uc-transitions` is added after the first paint. */
-.uc-anchor.uc-transitions {
+:host(.uc-anchor.uc-transitions) {
   transition:
     background 0.3s,
     border 0.3s,
     color 0.3s;
 }
 
-.uc-anchor.uc-primary {
+:host(.uc-anchor.uc-primary) {
   background-color: var(--uc-anchor-background-resolved);
   color: var(--uc-anchor-color-resolved);
 }
 
-.uc-anchor.uc-primary:hover {
+:host(.uc-anchor.uc-primary:hover) {
   background-color: oklch(from var(--uc-anchor-background-resolved) calc(l * 0.9) calc(c * 1) calc(h * 1));
 }
 
-.uc-anchor.uc-error {
+:host(.uc-anchor.uc-error) {
   background-color: var(--uc-anchor-error-background-resolved);
   color: var(--uc-anchor-color-resolved);
 }
 
-.uc-anchor.uc-error:hover {
+:host(.uc-anchor.uc-error:hover) {
   background-color: oklch(from var(--uc-anchor-error-background-resolved) l c h / 0.9);
 }
 
-.uc-anchor.uc-disabled {
+:host(.uc-anchor.uc-disabled) {
   cursor: not-allowed;
   opacity: var(--uc-anchor-disabled-opacity-resolved);
 }
 
-.uc-anchor.uc-primary.uc-disabled:hover {
+:host(.uc-anchor.uc-primary.uc-disabled:hover) {
   background-color: var(--uc-anchor-background-resolved);
 }
 
-.uc-anchor.uc-error.uc-disabled:hover {
+:host(.uc-anchor.uc-error.uc-disabled:hover) {
   background-color: var(--uc-anchor-error-background-resolved);
 }
