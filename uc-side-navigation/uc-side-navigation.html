@@ -4,53 +4,116 @@
   #overlayOrigin="cdkOverlayOrigin"
   [class.uc-wrapper-over]="sidebarMode() === 'over'"
   [class.uc-wrapper-side]="sidebarMode() === 'side'"
+  [class.uc-wrapper-contained]="isContained()"
+  [class.uc-start-opened]="isSidebarOpen()"
+  [class.uc-end-opened]="isEndSidebarOpen() && !!endSidebar()"
+  [class.uc-resizing]="resizingSide() !== null"
+  [style.--uc-side-navigation-start-width-resolved]="widthCss('start')"
+  [style.--uc-side-navigation-end-width-resolved]="widthCss('end')"
 >
   <ng-template #sidebarHeaderTemplate>
     <ng-content select="[ucSidebarHeader]" />
   </ng-template>
 
   <ng-template #sidebarBodyTemplate>
-    <ng-content select="uc-sidebar">Sidebar</ng-content>
+    <ng-content select="uc-sidebar:not([side=end])">Sidebar</ng-content>
   </ng-template>
 
   <ng-template #sidebarFooterTemplate>
     <ng-content select="[ucSidebarFooter]" />
   </ng-template>
 
+  <ng-template #endSidebarHeaderTemplate>
+    <ng-content select="[ucEndSidebarHeader]" />
+  </ng-template>
+
+  <ng-template #endSidebarBodyTemplate>
+    <ng-content select="uc-sidebar[side=end]" />
+  </ng-template>
+
+  <ng-template #endSidebarFooterTemplate>
+    <ng-content select="[ucEndSidebarFooter]" />
+  </ng-template>
+
+  <!-- A sidebar's header, scrolling body and footer, then its edge. -->
+  <ng-template #sidebarLayout let-side>
+    @let sidebar = sidebarOf(side);
+    <div class="uc-sidebar-layout" [class.uc-sidebar-layout-resizable]="sidebar?.resizable()">
+      <div class="uc-sidebar-header">
+        <ng-container [ngTemplateOutlet]="side === 'end' ? endSidebarHeaderTemplate : sidebarHeaderTemplate" />
+      </div>
+
+      <div
+        class="uc-sidebar-scroll-wrapper"
+        [class.uc-sidebar-scroll-wrapper-enabled]="sidebarScrollable()"
+      >
+        <div
+          class="uc-sidebar-scroll-content"
+          [class.uc-sidebar-scroll-content-enabled]="sidebarScrollable()"
+        >
+          <ng-container [ngTemplateOutlet]="side === 'end' ? endSidebarBodyTemplate : sidebarBodyTemplate" />
+        </div>
+      </div>
+
+      <div class="uc-sidebar-footer">
+        <ng-container [ngTemplateOutlet]="side === 'end' ? endSidebarFooterTemplate : sidebarFooterTemplate" />
+      </div>
+    </div>
+
+
+    @if (sidebar?.resizable()) {
+      <div
+        class="uc-sidebar-edge"
+        role="separator"
+        tabindex="0"
+        aria-orientation="vertical"
+        [attr.aria-label]="sidebar!.resizeLabel()"
+        [attr.aria-controls]="sidebarId(side)"
+        [attr.aria-valuenow]="sidebar!.width() ?? null"
+        [attr.aria-valuemin]="sidebar!.minWidth()"
+        [attr.aria-valuemax]="sidebar!.maxWidth()"
+        (pointerdown)="startResize(side, $event)"
+        (keydown)="keyResize(side, $event)"
+        (dblclick)="resetWidth(side)"
+      ></div>
+    } @else if (sidebar?.edge() === 'grip') {
+      <div class="uc-sidebar-edge" aria-hidden="true"></div>
+    }
+  </ng-template>
+
   @if (sidebarMode() === 'side') {
     <aside
-      [id]="instanceId()"
+      [id]="sidebarId('start')"
       [class.uc-sidebar-opened]="isSidebarOpen()"
       [class.uc-sidebar-closed]="!isSidebarOpen()"
-      class="uc-sidebar-side"
+      class="uc-sidebar-side uc-sidebar-start"
+      [class.uc-sidebar-edge-grip]="startSidebar()?.edge() === 'grip'"
+      [class.uc-sidebar-edge-none]="startSidebar()?.edge() === 'none'"
+      [class.uc-sidebar-resizing]="resizingSide() === 'start'"
       [attr.inert]="!isSidebarOpen() ? '' : null"
       [attr.aria-hidden]="!isSidebarOpen() ? 'true' : 'false'"
     >
-      <div class="uc-sidebar-layout">
-        <div class="uc-sidebar-header">
-          <ng-container [ngTemplateOutlet]="sidebarHeaderTemplate" />
-        </div>
-
-        <div
-          class="uc-sidebar-scroll-wrapper"
-          [class.uc-sidebar-scroll-wrapper-enabled]="sidebarScrollable()"
-        >
-          <div
-            class="uc-sidebar-scroll-content"
-            [class.uc-sidebar-scroll-content-enabled]="sidebarScrollable()"
-          >
-            <ng-container [ngTemplateOutlet]="sidebarBodyTemplate" />
-          </div>
-        </div>
-
-        <div class="uc-sidebar-footer">
-          <ng-container [ngTemplateOutlet]="sidebarFooterTemplate" />
-        </div>
-      </div>
+      <ng-container [ngTemplateOutlet]="sidebarLayout" [ngTemplateOutletContext]="{ $implicit: 'start' }" />
     </aside>
+
+    @if (endSidebar()) {
+      <aside
+        [id]="sidebarId('end')"
+        [class.uc-sidebar-opened]="isEndSidebarOpen()"
+        [class.uc-sidebar-closed]="!isEndSidebarOpen()"
+        class="uc-sidebar-side uc-sidebar-end"
+        [class.uc-sidebar-edge-grip]="endSidebar()?.edge() === 'grip'"
+        [class.uc-sidebar-edge-none]="endSidebar()?.edge() === 'none'"
+        [class.uc-sidebar-resizing]="resizingSide() === 'end'"
+        [attr.inert]="!isEndSidebarOpen() ? '' : null"
+        [attr.aria-hidden]="!isEndSidebarOpen() ? 'true' : 'false'"
+      >
+        <ng-container [ngTemplateOutlet]="sidebarLayout" [ngTemplateOutletContext]="{ $implicit: 'end' }" />
+      </aside>
+    }
   }
 
-  @if (sidebarMode() === 'over') {
+  @if (sidebarMode() === 'over' && overlayScope() === 'viewport') {
     <ng-template
       cdkConnectedOverlay
       [cdkConnectedOverlayOpen]="isOverlayMounted()"
@@ -60,45 +123,126 @@
       [cdkConnectedOverlayBackdropClass]="'uc-sidebar-cdk-backdrop'"
       [cdkConnectedOverlayPush]="false"
       [cdkConnectedOverlayFlexibleDimensions]="false"
-      (backdropClick)="onOverlayBackdropClick()"
+      [cdkConnectedOverlayDisableClose]="true"
+      (backdropClick)="onOverlayBackdropClick('start')"
+      (overlayKeydown)="onOverlayKeydown('start', $event)"
+      (detach)="onOverlayDetach('start')"
     >
       <aside
-        [id]="instanceId()"
-        class="uc-sidebar-over"
+        [id]="sidebarId('start')"
+        class="uc-sidebar-over uc-sidebar-start"
         [class.uc-sidebar-flush]="sidebarVariant() === 'flush'"
         [class.uc-sidebar-opened]="isOverlayVisible()"
         [class.uc-sidebar-closed]="!isOverlayVisible()"
+        [class.uc-sidebar-edge-grip]="startSidebar()?.edge() === 'grip'"
+        [class.uc-sidebar-edge-none]="startSidebar()?.edge() === 'none'"
+        [class.uc-sidebar-resizing]="resizingSide() === 'start'"
         [style.block-size.px]="overlayHeightPx()"
         [style.max-inline-size.px]="overlayMaxWidthPx()"
+        [style.inline-size.px]="startSidebar()?.width() ?? null"
       >
-        <div class="uc-sidebar-layout">
-          <div class="uc-sidebar-header">
-            <ng-container [ngTemplateOutlet]="sidebarHeaderTemplate" />
-          </div>
-
-          <div
-            class="uc-sidebar-scroll-wrapper"
-            [class.uc-sidebar-scroll-wrapper-enabled]="sidebarScrollable()"
-          >
-            <div
-              class="uc-sidebar-scroll-content"
-              [class.uc-sidebar-scroll-content-enabled]="sidebarScrollable()"
-            >
-              <ng-container [ngTemplateOutlet]="sidebarBodyTemplate" />
-            </div>
-          </div>
-
-          <div class="uc-sidebar-footer">
-            <ng-container [ngTemplateOutlet]="sidebarFooterTemplate" />
-          </div>
-        </div>
+        <ng-container [ngTemplateOutlet]="sidebarLayout" [ngTemplateOutletContext]="{ $implicit: 'start' }" />
       </aside>
     </ng-template>
+
+    @if (endSidebar()) {
+      <ng-template
+        cdkConnectedOverlay
+        [cdkConnectedOverlayOpen]="isEndOverlayMounted()"
+        [cdkConnectedOverlayOrigin]="overlayOrigin"
+        [cdkConnectedOverlayPositions]="endOverlayPositions()"
+        [cdkConnectedOverlayHasBackdrop]="true"
+        [cdkConnectedOverlayBackdropClass]="'uc-sidebar-cdk-backdrop'"
+        [cdkConnectedOverlayPush]="false"
+        [cdkConnectedOverlayFlexibleDimensions]="false"
+        [cdkConnectedOverlayDisableClose]="true"
+        (backdropClick)="onOverlayBackdropClick('end')"
+        (overlayKeydown)="onOverlayKeydown('end', $event)"
+        (detach)="onOverlayDetach('end')"
+      >
+        <aside
+          [id]="sidebarId('end')"
+          class="uc-sidebar-over uc-sidebar-end"
+          [class.uc-sidebar-flush]="sidebarVariant() === 'flush'"
+          [class.uc-sidebar-opened]="isEndOverlayVisible()"
+          [class.uc-sidebar-closed]="!isEndOverlayVisible()"
+          [class.uc-sidebar-edge-grip]="endSidebar()?.edge() === 'grip'"
+          [class.uc-sidebar-edge-none]="endSidebar()?.edge() === 'none'"
+          [class.uc-sidebar-resizing]="resizingSide() === 'end'"
+          [style.block-size.px]="overlayHeightPx()"
+          [style.max-inline-size.px]="overlayMaxWidthPx()"
+          [style.inline-size.px]="endSidebar()?.width() ?? null"
+        >
+          <ng-container [ngTemplateOutlet]="sidebarLayout" [ngTemplateOutletContext]="{ $implicit: 'end' }" />
+        </aside>
+      </ng-template>
+    }
+  }
+
+  <!-- Contained over sidebars: inside the component, their backdrop over the content only. -->
+  @if (isContained()) {
+    @if (isOverlayMounted() || isEndOverlayMounted()) {
+      <div
+        class="uc-sidebar-backdrop"
+        [class.uc-sidebar-backdrop-visible]="isOverlayVisible() || isEndOverlayVisible()"
+        aria-hidden="true"
+        (click)="onContainedBackdropClick()"
+      ></div>
+    }
+
+    @if (isOverlayMounted()) {
+      <aside
+        #containedStart
+        [id]="sidebarId('start')"
+        class="uc-sidebar-over uc-sidebar-contained uc-sidebar-start"
+        tabindex="-1"
+        [class.uc-sidebar-flush]="sidebarVariant() === 'flush'"
+        [class.uc-sidebar-opened]="isOverlayVisible()"
+        [class.uc-sidebar-closed]="!isOverlayVisible()"
+        [class.uc-sidebar-edge-grip]="startSidebar()?.edge() === 'grip'"
+        [class.uc-sidebar-edge-none]="startSidebar()?.edge() === 'none'"
+        [class.uc-sidebar-resizing]="resizingSide() === 'start'"
+        [style.top.px]="overlayInsetPx()"
+        [style.left.px]="overlayInsetPx()"
+        [style.block-size.px]="overlayHeightPx()"
+        [style.max-inline-size.px]="overlayMaxWidthPx()"
+        [style.inline-size.px]="startSidebar()?.width() ?? null"
+        (keydown)="onOverlayKeydown('start', $event)"
+      >
+        <ng-container [ngTemplateOutlet]="sidebarLayout" [ngTemplateOutletContext]="{ $implicit: 'start' }" />
+      </aside>
+    }
+
+    @if (endSidebar()) {
+      @if (isEndOverlayMounted()) {
+        <aside
+          #containedEnd
+          [id]="sidebarId('end')"
+          class="uc-sidebar-over uc-sidebar-contained uc-sidebar-end"
+          tabindex="-1"
+          [class.uc-sidebar-flush]="sidebarVariant() === 'flush'"
+          [class.uc-sidebar-opened]="isEndOverlayVisible()"
+          [class.uc-sidebar-closed]="!isEndOverlayVisible()"
+          [class.uc-sidebar-edge-grip]="endSidebar()?.edge() === 'grip'"
+          [class.uc-sidebar-edge-none]="endSidebar()?.edge() === 'none'"
+          [class.uc-sidebar-resizing]="resizingSide() === 'end'"
+          [style.top.px]="overlayInsetPx()"
+          [style.right.px]="overlayInsetPx()"
+          [style.block-size.px]="overlayHeightPx()"
+          [style.max-inline-size.px]="overlayMaxWidthPx()"
+          [style.inline-size.px]="endSidebar()?.width() ?? null"
+          (keydown)="onOverlayKeydown('end', $event)"
+        >
+          <ng-container [ngTemplateOutlet]="sidebarLayout" [ngTemplateOutletContext]="{ $implicit: 'end' }" />
+        </aside>
+      }
+    }
   }
 
   <main
     [class.uc-content-over]="sidebarMode() === 'over'"
     [class.uc-content-side]="sidebarMode() === 'side'"
+    [attr.inert]="isContainedOpen() ? '' : null"
   >
     <ng-content>Content</ng-content>
   </main>

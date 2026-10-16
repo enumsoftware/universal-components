@@ -594,6 +594,14 @@
   --uc-side-navigation-sidebar-background: var(--uc-sidebar-background-color);
   --uc-side-navigation-sidebar-border-radius: 1rem;
   --uc-side-navigation-sidebar-border: 1px solid var(--uc-divider-color);
+  --uc-side-navigation-end-sidebar-width: 15rem;
+  --uc-side-navigation-edge-hit-width: 0.5rem;
+  --uc-side-navigation-edge-active-color: var(--uc-primary-color);
+  --uc-side-navigation-edge-active-width: 0.1875rem;
+  --uc-side-navigation-grip-color: var(--uc-divider-color);
+  --uc-side-navigation-grip-line-color: oklch(from var(--uc-foreground-color) l c h / 0.3);
+  --uc-side-navigation-grip-length: 2.5rem;
+  --uc-side-navigation-grip-thickness: 0.25rem;
   --uc-side-navigation-backdrop-background: rgba(0, 0, 0, 0.8);
   --uc-dialog-backdrop-background: rgba(0, 0, 0, 0.8);
   --uc-side-navigation-animation-duration: 0.3s;

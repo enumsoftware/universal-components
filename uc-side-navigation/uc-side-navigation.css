@@ -1,5 +1,6 @@
 :host {
   --uc-side-navigation-sidebar-width-resolved: var(--uc-side-navigation-sidebar-width, 15rem);
+  --uc-side-navigation-end-sidebar-width-resolved: var(--uc-side-navigation-end-sidebar-width, 15rem);
   --uc-side-navigation-sidebar-background-resolved: var(--uc-side-navigation-sidebar-background, var(--uc-sidebar-background-color));
   --uc-side-navigation-sidebar-border-resolved: var(--uc-side-navigation-sidebar-border, 1px solid var(--uc-divider-color));
   --uc-side-navigation-sidebar-border-radius-resolved: var(--uc-side-navigation-sidebar-border-radius, 1rem);
@@ -12,20 +13,51 @@
   background-color: var(--uc-background-color);
 }
 
+/* The edge tokens, also on the over sidebar: it renders in the overlay container, outside the host. */
+:host,
+.uc-sidebar-over {
+  --uc-side-navigation-edge-hit-width-resolved: var(--uc-side-navigation-edge-hit-width, 0.5rem);
+  --uc-side-navigation-edge-active-color-resolved: var(--uc-side-navigation-edge-active-color, var(--uc-primary-color));
+  --uc-side-navigation-edge-active-width-resolved: var(--uc-side-navigation-edge-active-width, 0.1875rem);
+  --uc-side-navigation-grip-color-resolved: var(--uc-side-navigation-grip-color, var(--uc-divider-color));
+  --uc-side-navigation-grip-line-color-resolved: var(
+    --uc-side-navigation-grip-line-color,
+    oklch(from var(--uc-foreground-color) l c h / 0.3)
+  );
+  --uc-side-navigation-grip-length-resolved: var(--uc-side-navigation-grip-length, 2.5rem);
+  --uc-side-navigation-grip-thickness-resolved: var(--uc-side-navigation-grip-thickness, 0.25rem);
+}
+
 /* Side Mode */
 .uc-wrapper-side {
-  --uc-sidebar-width-resolved: var(--uc-side-navigation-sidebar-width-resolved);
+  /* A width dragged on a resizable edge wins over the width tokens. */
+  --uc-sidebar-width-resolved: var(--uc-side-navigation-start-width-resolved, var(--uc-side-navigation-sidebar-width-resolved));
+  --uc-end-sidebar-width-resolved: var(--uc-side-navigation-end-width-resolved, var(--uc-side-navigation-end-sidebar-width-resolved));
 
   display: grid;
-  grid-template-columns: 0rem 1fr;
-  grid-template-areas: 'uc-sidebar uc-content';
+  grid-template-columns: 0rem 1fr 0rem;
+  grid-template-areas: 'uc-sidebar uc-content uc-end-sidebar';
   transition: grid-template-columns 0.3s ease;
   inline-size: 100%;
   block-size: 100%;
   min-block-size: 0;
   overflow: hidden;
 }
+
+.uc-wrapper-side.uc-start-opened {
+  grid-template-columns: var(--uc-sidebar-width-resolved) 1fr 0rem;
+}
+
+.uc-wrapper-side.uc-end-opened {
+  grid-template-columns: 0rem 1fr var(--uc-end-sidebar-width-resolved);
+}
+
+.uc-wrapper-side.uc-start-opened.uc-end-opened {
+  grid-template-columns: var(--uc-sidebar-width-resolved) 1fr var(--uc-end-sidebar-width-resolved);
+}
+
 .uc-sidebar-side {
+  position: relative;
   box-sizing: border-box;
   background-color: var(--uc-side-navigation-sidebar-background-resolved);
   /* Separates the docked sidebar from the content; the floating over sidebar needs none. */
@@ -38,8 +70,16 @@
   max-block-size: 100%;
 }
 
-.uc-wrapper-side:has(.uc-sidebar-opened) {
-  grid-template-columns: var(--uc-sidebar-width-resolved) 1fr;
+.uc-sidebar-side.uc-sidebar-end {
+  --uc-sidebar-width-resolved: var(--uc-end-sidebar-width-resolved);
+
+  border-inline-end: none;
+  border-inline-start: var(--uc-side-navigation-sidebar-border-resolved);
+  grid-area: uc-end-sidebar;
+}
+
+.uc-sidebar-side.uc-sidebar-edge-none {
+  border-inline: none;
 }
 
 .uc-sidebar-side.uc-sidebar-opened {
@@ -60,6 +100,20 @@
   pointer-events: none;
   transition: transform 0.3s ease allow-discrete;
   overflow-x: hidden;
+}
+
+.uc-sidebar-side.uc-sidebar-end.uc-sidebar-closed {
+  transform: translateX(100%);
+}
+
+/* While an edge is dragged the sidebar follows the pointer, without easing behind it. */
+.uc-wrapper-side.uc-resizing,
+.uc-wrapper-side.uc-resizing .uc-sidebar-side {
+  transition: none;
+}
+
+.uc-resizing {
+  user-select: none;
 }
 
 .uc-content-side {
@@ -85,6 +139,40 @@
 
 :host ::ng-deep .cdk-overlay-backdrop.uc-sidebar-cdk-backdrop {
   background: var(--uc-side-navigation-backdrop-background, rgba(0, 0, 0, 0.8));
+}
+
+/*
+ * Contained scope: the over sidebars and their backdrop stay inside the component. The content is a stacking context
+ * of its own, so nothing in it can rise above them.
+ */
+.uc-wrapper-contained > .uc-content-over {
+  position: relative;
+  z-index: 0;
+}
+
+.uc-sidebar-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--uc-side-navigation-backdrop-background-resolved);
+  opacity: 0;
+  transition: opacity var(--uc-side-navigation-animation-duration-resolved) ease-in-out;
+}
+
+.uc-sidebar-backdrop-visible {
+  opacity: 1;
+}
+
+.uc-sidebar-over.uc-sidebar-contained {
+  z-index: 2;
+  box-sizing: border-box;
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .uc-sidebar-backdrop {
+    transition: none;
+  }
 }
 
 .uc-sidebar-over {
@@ -123,9 +211,114 @@
     transform: translateX(-100%);
   }
 
+  /* The end sidebar's overlay pane sits at the container's end: the sidebar reaches back from there. */
+  &.uc-sidebar-end {
+    left: auto;
+    right: 0;
+    transform: translateX(100%);
+
+    &.uc-sidebar-opened {
+      transform: translateX(0);
+    }
+
+    &.uc-sidebar-closed {
+      transform: translateX(100%);
+    }
+  }
+
+  &.uc-sidebar-resizing {
+    transition: none;
+  }
+
   /* Flush variant: square corners; the zero inset comes from the overlay position. */
   &.uc-sidebar-flush {
     border-radius: 0;
+  }
+}
+
+/*
+ * The edge facing the content. A docked sidebar's border draws the line (edge `none` drops it); a resizable edge
+ * lights up while hovered, focused or dragged, and `grip` adds a handle in the middle.
+ */
+.uc-sidebar-edge {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  z-index: 2;
+  inline-size: var(--uc-side-navigation-edge-hit-width-resolved);
+}
+
+.uc-sidebar-end .uc-sidebar-edge {
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+}
+
+.uc-sidebar-edge[role='separator'] {
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.uc-sidebar-edge::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  inline-size: var(--uc-side-navigation-edge-active-width-resolved);
+  background: transparent;
+  transition: background-color 0.15s;
+}
+
+.uc-sidebar-end .uc-sidebar-edge::after {
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+}
+
+.uc-sidebar-edge[role='separator']:hover::after,
+.uc-sidebar-edge[role='separator']:focus-visible::after,
+.uc-sidebar-resizing .uc-sidebar-edge::after {
+  background: var(--uc-side-navigation-edge-active-color-resolved);
+}
+
+/* With a grip, the grip carries the colour: the line under it only darkens. */
+.uc-sidebar-edge-grip .uc-sidebar-edge[role='separator']:hover::after,
+.uc-sidebar-edge-grip .uc-sidebar-edge[role='separator']:focus-visible::after,
+.uc-sidebar-edge-grip.uc-sidebar-resizing .uc-sidebar-edge::after {
+  background: var(--uc-side-navigation-grip-line-color-resolved);
+}
+
+/* The start sidebar's scrollbar is on the same side as its edge: it keeps clear, so it can still be grabbed. */
+.uc-sidebar-start .uc-sidebar-layout-resizable .uc-sidebar-scroll-wrapper {
+  margin-inline-end: var(--uc-side-navigation-edge-hit-width-resolved);
+}
+
+.uc-sidebar-edge:focus-visible {
+  outline: none;
+}
+
+.uc-sidebar-edge-grip .uc-sidebar-edge::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  margin-inline: auto;
+  inline-size: var(--uc-side-navigation-grip-thickness-resolved);
+  block-size: var(--uc-side-navigation-grip-length-resolved);
+  border-radius: var(--uc-side-navigation-grip-thickness-resolved);
+  background: var(--uc-side-navigation-grip-color-resolved);
+  translate: 0 -50%;
+  transition: background-color 0.15s;
+}
+
+.uc-sidebar-edge-grip .uc-sidebar-edge[role='separator']:hover::before,
+.uc-sidebar-edge-grip .uc-sidebar-edge[role='separator']:focus-visible::before,
+.uc-sidebar-edge-grip.uc-sidebar-resizing .uc-sidebar-edge::before {
+  background: var(--uc-side-navigation-edge-active-color-resolved);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .uc-sidebar-edge::after,
+  .uc-sidebar-edge::before {
+    transition: none;
   }
 }
 
