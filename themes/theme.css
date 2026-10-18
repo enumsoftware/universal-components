@@ -10,6 +10,7 @@
 
 :root {
   interpolate-size: allow-keywords;
+  -webkit-tap-highlight-color: transparent;
   --uc-font-family: 'Poppins', sans-serif;
   --uc-content-font-family: var(--uc-font-family);
   --uc-content-font-size: 1rem;

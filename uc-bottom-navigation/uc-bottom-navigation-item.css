@@ -38,7 +38,6 @@
   line-height: 1.2;
   text-decoration: none;
   cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
 }
 
 :host(:focus-visible) {
