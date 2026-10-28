@@ -1,0 +1,5 @@
+/*
+ * Google Fonts for the light theme: Poppins for text and headings, JetBrains
+ * Mono for code. Pair with uc-light.css when importing a single theme.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap');

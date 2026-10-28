@@ -54,6 +54,12 @@
       "default": "./dist/fesm2022/enumsoftware-universal-components-uc-code-editor.mjs"
     },
     "./themes/theme.css": "./themes/theme.css",
+    "./themes/theme-core.css": "./themes/theme-core.css",
+    "./themes/fonts.css": "./themes/fonts.css",
+    "./themes/fonts/light.css": "./themes/fonts/light.css",
+    "./themes/fonts/dark.css": "./themes/fonts/dark.css",
+    "./themes/fonts/aurora.css": "./themes/fonts/aurora.css",
+    "./themes/fonts/midnight.css": "./themes/fonts/midnight.css",
     "./themes/utilities.css": "./themes/utilities.css",
     "./themes/utilities/scale.css": "./themes/utilities/scale.css",
     "./themes/utilities/display.css": "./themes/utilities/display.css",
@@ -67,6 +73,8 @@
     "./themes/utilities/composites.css": "./themes/utilities/composites.css",
     "./themes/uc-light.css": "./themes/uc-light.css",
     "./themes/uc-dark.css": "./themes/uc-dark.css",
+    "./themes/uc-aurora.css": "./themes/uc-aurora.css",
+    "./themes/uc-midnight.css": "./themes/uc-midnight.css",
     "./package.json": "./package.json"
   },
   "module": "dist/fesm2022/enumsoftware-universal-components.mjs",

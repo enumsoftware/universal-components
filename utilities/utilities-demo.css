@@ -34,7 +34,7 @@
   border-radius: 0.35rem;
   background: var(--uc-content-code-background);
   color: var(--uc-content-code-color);
-  font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+  font-family: var(--uc-font-family-mono);
   font-size: 0.8rem;
 }
 
@@ -134,7 +134,7 @@
 }
 
 .uc-demo-table code {
-  font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+  font-family: var(--uc-font-family-mono);
   font-size: 0.8rem;
 }
 

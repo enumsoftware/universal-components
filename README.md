@@ -152,13 +152,50 @@ Global theme files are exported from the `themes/` directory. Import one of the 
 
 | Import | What it includes |
 |--------|-----------------|
-| `@enumsoftware/universal-components/themes/theme.css` | **Recommended.** Includes all built-in themes (`light`, `dark`, `aurora`, `midnight`), Google Fonts (Poppins), Phosphor icon styles, and flag-icons. |
-| `@enumsoftware/universal-components/themes/uc-light.css` | Light theme variables only. Use when you need a single fixed theme or want to load themes on demand. |
-| `@enumsoftware/universal-components/themes/uc-dark.css` | Dark theme variables only. Same use-case as above. |
+| `@enumsoftware/universal-components/themes/theme.css` | **Recommended.** Includes all built-in themes (`light`, `dark`, `aurora`, `midnight`), their Google Fonts, Phosphor icon styles, and flag-icons. |
+| `@enumsoftware/universal-components/themes/theme-core.css` | Everything in `theme.css` except the Google Fonts request. Use it when the app loads its own fonts. |
+| `@enumsoftware/universal-components/themes/uc-light.css` | Light theme variables only. Use when you need a single fixed theme or want to load themes on demand. Also `uc-dark.css`, `uc-aurora.css` and `uc-midnight.css`. |
+| `@enumsoftware/universal-components/themes/fonts/light.css` | The Google Fonts of one theme, to pair with a single theme file. Also `fonts/dark.css`, `fonts/aurora.css`, `fonts/midnight.css`, and `fonts.css` for all four. |
 
-> `theme.css` already `@import`s both `uc-light.css` and `uc-dark.css`, and each now defines two themes (`light` + `aurora`, `dark` + `midnight`), so importing it alone is sufficient for apps that support all built-in themes.
+> `theme.css` is `fonts.css` plus `theme-core.css`, and `theme-core.css` `@import`s all four theme files, so importing `theme.css` alone is sufficient for apps that support all built-in themes.
 
 Use `data-theme="light"`, `data-theme="dark"`, `data-theme="aurora"`, or `data-theme="midnight"` on `html` or `body` to switch themes. The Workbench exposes the same options twice over: one picker for the app chrome, one for the preview canvas, so a component can be reviewed in dark on a light page.
+
+### Typography
+
+Every theme sets three font roles, and components read them instead of naming a font:
+
+| Token | Used for |
+|-------|----------|
+| `--uc-font-family` | Body text and every component (`--uc-content-font-family` and `--uc-badge-font-family` default to it). |
+| `--uc-font-family-heading` | `h1`–`h6`, `.uc-h1`–`.uc-h6` and `.uc-content` headings, through `--uc-content-heading-font-family`. |
+| `--uc-font-family-mono` | `code`, `pre`, `kbd`, the `uc-editor` source view and `uc-info` code, through `--uc-content-inline-code-font-family` and `--uc-editor-source-font-family`. |
+
+Built-in pairings, all from Google Fonts:
+
+| Theme | Text | Headings | Code |
+|-------|------|----------|------|
+| `light` | Poppins | Poppins | JetBrains Mono |
+| `dark` | Inter | Manrope | Fira Code |
+| `aurora` | DM Sans | Space Grotesk | Space Mono |
+| `midnight` | Plus Jakarta Sans | Sora | IBM Plex Mono |
+
+`fonts.css` only declares `@font-face` rules, so a browser downloads the files of the theme that is actually on screen, not all four pairings.
+
+To use your own fonts, import `theme-core.css` instead of `theme.css`, load the fonts however you like, and set the roles on the element that carries `data-theme`. The theme files derive the content, badge and editor font tokens from the roles in that same scope, so overriding the three roles there is enough:
+
+```css
+@import '@enumsoftware/universal-components/themes/theme-core.css';
+@import '@fontsource-variable/geist';
+
+[data-theme] {
+	--uc-font-family: 'Geist Variable', system-ui, sans-serif;
+	--uc-font-family-heading: var(--uc-font-family);
+	--uc-font-family-mono: ui-monospace, monospace;
+}
+```
+
+Set them on `[data-theme]` rather than `:root`: a theme scoped to `body` or to a nested element would otherwise shadow the root value.
 
 Standard override model:
 

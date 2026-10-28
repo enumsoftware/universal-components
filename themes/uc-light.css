@@ -27,6 +27,10 @@
   --uc-warning-border: oklch(from #f57c00 l c h / 0.3);
 
   /* --- Typography --- */
+  /* Loaded by themes/fonts/light.css (included in theme.css). */
+  --uc-font-family: 'Poppins', system-ui, sans-serif;
+  --uc-font-family-heading: var(--uc-font-family);
+  --uc-font-family-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
   --uc-font-color: var(--uc-foreground-color);
   --uc-paragraph-text-color: oklch(from #161c2d l c h / 0.7);
 
@@ -49,6 +53,9 @@
   --uc-table-header-background: transparent;
   --uc-table-background: var(--uc-background-color);
   --uc-table-text: var(--uc-foreground-color);
+  --uc-content-font-family: var(--uc-font-family);
+  --uc-content-heading-font-family: var(--uc-font-family-heading);
+  --uc-content-inline-code-font-family: var(--uc-font-family-mono);
   --uc-content-heading-color: var(--uc-foreground-color);
   --uc-content-body-color: var(--uc-font-color);
   --uc-content-muted-color: var(--uc-paragraph-text-color);
@@ -124,7 +131,7 @@
   --uc-badge-neutral-color: var(--uc-background-color);
   --uc-badge-disabled-background: var(--uc-background-color-90);
   --uc-badge-disabled-color: var(--uc-paragraph-text-color);
-  --uc-badge-font-family: 'Poppins', sans-serif;
+  --uc-badge-font-family: var(--uc-font-family);
   --uc-badge-font-weight: 700;
   --uc-badge-small-size: 0.5rem;
   --uc-badge-medium-size: 1.125rem;
@@ -338,7 +345,7 @@
   --uc-editor-panel-background: oklch(from var(--uc-primary-color) l c h / 0.06);
   --uc-editor-source-background: oklch(from var(--uc-foreground-color) l c h / 0.04);
   --uc-editor-source-color: var(--uc-foreground-color);
-  --uc-editor-source-font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+  --uc-editor-source-font-family: var(--uc-font-family-mono);
   --uc-editor-split-divider-color: var(--uc-input-border-color);
   --uc-editor-status-background: transparent;
   --uc-editor-status-color: var(--uc-paragraph-text-color);

@@ -7,7 +7,7 @@
   --uc-badge-neutral-color-resolved: var(--uc-badge-neutral-color, var(--uc-background-color));
   --uc-badge-disabled-background-resolved: var(--uc-badge-disabled-background, var(--uc-background-color-90));
   --uc-badge-disabled-color-resolved: var(--uc-badge-disabled-color, var(--uc-paragraph-text-color));
-  --uc-badge-font-family-resolved: var(--uc-badge-font-family, sans-serif);
+  --uc-badge-font-family-resolved: var(--uc-badge-font-family, var(--uc-font-family));
   --uc-badge-font-weight-resolved: var(--uc-badge-font-weight, 700);
   --uc-badge-small-size-resolved: var(--uc-badge-small-size, 0.5rem);
   --uc-badge-medium-size-resolved: var(--uc-badge-medium-size, 1.125rem);
