@@ -152,14 +152,31 @@ Global theme files are exported from the `themes/` directory. Import one of the 
 
 | Import | What it includes |
 |--------|-----------------|
-| `@enumsoftware/universal-components/themes/theme.css` | **Recommended.** Includes all built-in themes (`light`, `dark`, `aurora`, `midnight`), their Google Fonts, Phosphor icon styles, and flag-icons. |
+| `@enumsoftware/universal-components/themes/theme.css` | **Recommended.** Includes all ten built-in themes (see below), their Google Fonts, Phosphor icon styles, and flag-icons. |
 | `@enumsoftware/universal-components/themes/theme-core.css` | Everything in `theme.css` except the Google Fonts request. Use it when the app loads its own fonts. |
-| `@enumsoftware/universal-components/themes/uc-light.css` | Light theme variables only. Use when you need a single fixed theme or want to load themes on demand. Also `uc-dark.css`, `uc-aurora.css` and `uc-midnight.css`. |
-| `@enumsoftware/universal-components/themes/fonts/light.css` | The Google Fonts of one theme, to pair with a single theme file. Also `fonts/dark.css`, `fonts/aurora.css`, `fonts/midnight.css`, and `fonts.css` for all four. |
+| `@enumsoftware/universal-components/themes/uc-light.css` | Light theme variables only. Use when you need a single fixed theme or want to load themes on demand. Also `uc-<theme>.css` for every theme below. |
+| `@enumsoftware/universal-components/themes/fonts/light.css` | The Google Fonts of one theme, to pair with a single theme file. Also `fonts/<theme>.css` for every theme, and `fonts.css` for all of them. |
 
-> `theme.css` is `fonts.css` plus `theme-core.css`, and `theme-core.css` `@import`s all four theme files, so importing `theme.css` alone is sufficient for apps that support all built-in themes.
+> `theme.css` is `fonts.css` plus `theme-core.css`, and `theme-core.css` `@import`s every theme file, so importing `theme.css` alone is sufficient for apps that support all built-in themes.
 
-Use `data-theme="light"`, `data-theme="dark"`, `data-theme="aurora"`, or `data-theme="midnight"` on `html` or `body` to switch themes. The Workbench exposes the same options twice over: one picker for the app chrome, one for the preview canvas, so a component can be reviewed in dark on a light page.
+Set `data-theme` on `html`, `body` or any element to switch themes. A theme scoped to an element applies only inside it, so several can share a page.
+
+| Theme | Mode | Style |
+|-------|------|-------|
+| `light` | light | The default light theme. |
+| `dark` | dark | The default dark theme. |
+| `aurora` | light | Purple and cyan on a cool white. |
+| `midnight` | dark | Sky blue and violet on deep navy. |
+| `brutal` | light | Neo-brutalism: 2px black outlines, hard offset shadows, square corners and brights on cream. |
+| `editorial` | light | Swiss editorial: serif headlines, hairline borders, square corners, one burnt-orange accent. |
+| `bento` | dark | Dark bento grid: bordered tiles a step above near-black, violet actions, teal data. |
+| `organic` | light | Organic soft: sage and clay, soft serif headlines, pill buttons, very round surfaces. |
+| `forge` | dark | Developer platform: compact bordered panels, green actions, blue links, colour only for meaning. |
+| `launch` | dark | Launch site: pure black, tightly tracked headlines, electric blue and violet. |
+
+The Workbench lists all of them in its **App theme** picker, and **Examples / Style Directions** shows the last six side by side.
+
+A few tokens shape buttons and cards beyond colour, all off by default: `--uc-button-border-width`, `--uc-button-border-color` and `--uc-button-box-shadow` (filled variants only; `--uc-button-secondary-border-width` sets the outline variant), and `--uc-card-border`.
 
 ### Typography
 
@@ -179,6 +196,12 @@ Built-in pairings, all from Google Fonts:
 | `dark` | Inter | Manrope | Fira Code |
 | `aurora` | DM Sans | Space Grotesk | Space Mono |
 | `midnight` | Plus Jakarta Sans | Sora | IBM Plex Mono |
+| `brutal` | Archivo | Bricolage Grotesque | Space Mono |
+| `editorial` | Instrument Sans | Fraunces | IBM Plex Mono |
+| `bento` | Geist | Geist | Geist Mono |
+| `organic` | Nunito | Fraunces | IBM Plex Mono |
+| `forge` | system UI | system UI | JetBrains Mono |
+| `launch` | Inter | Inter Tight | Geist Mono |
 
 `fonts.css` only declares `@font-face` rules, so a browser downloads the files of the theme that is actually on screen, not all four pairings.
 

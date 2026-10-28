@@ -45,6 +45,7 @@
   --uc-card-border-radius: 1rem;
   --uc-card-box-shadow: 0 0.25rem 3rem oklch(from #000000 l c h / 0.2);
   --uc-card-padding: 1rem 2rem;
+  --uc-card-border: none;
 
   /* --- Sidebar --- */
   --uc-sidebar-background-color: #0f172a;
@@ -154,6 +155,10 @@
   --uc-button-border-radius: 0.75rem;
   --uc-button-font-weight: var(--uc-font-weight-bold);
   --uc-button-disabled-opacity: 0.6;
+  --uc-button-border-width: 0px;
+  --uc-button-border-color: transparent;
+  --uc-button-box-shadow: none;
+  --uc-button-secondary-border-width: 1px;
   --uc-button-secondary-border-color: oklch(from var(--uc-foreground-color) l c h / 0.3);
   --uc-button-secondary-hover-background: oklch(from var(--uc-button-background) l c h / 0.3);
   --uc-button-text-color: var(--uc-font-color);

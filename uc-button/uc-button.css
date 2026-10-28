@@ -1,6 +1,11 @@
 :host {
   --uc-button-background-resolved: var(--uc-button-background, var(--uc-primary-color));
   --uc-button-color-resolved: var(--uc-button-color, var(--uc-inverse-foreground-color));
+  /* Filled variants only; secondary, text and toggle keep their own outline and drop the shadow. */
+  --uc-button-border-width-resolved: var(--uc-button-border-width, 0px);
+  --uc-button-border-color-resolved: var(--uc-button-border-color, transparent);
+  --uc-button-box-shadow-resolved: var(--uc-button-box-shadow, none);
+  --uc-button-secondary-border-width-resolved: var(--uc-button-secondary-border-width, 1px);
   --uc-button-small-height-resolved: var(--uc-button-small-height, 2rem);
   --uc-button-small-padding-inline-resolved: var(--uc-button-small-padding-inline, 0.65rem);
   --uc-button-small-border-radius-resolved: var(--uc-button-small-border-radius, 0.25rem);
@@ -98,7 +103,8 @@
   color: var(--uc-button-color-resolved);
   padding-inline: var(--uc-button-medium-padding-inline-resolved);
   border-radius: var(--uc-button-medium-border-radius-resolved);
-  border: 0px solid transparent;
+  border: var(--uc-button-border-width-resolved) solid var(--uc-button-border-color-resolved);
+  box-shadow: var(--uc-button-box-shadow-resolved);
 }
 
 /* Angular applies the variant and size classes one style-change event after the button element
@@ -144,17 +150,20 @@
 .uc-button.uc-secondary {
   background-color: transparent;
   color: var(--uc-font-color);
-  border: 1px solid var(--uc-button-secondary-border-color-resolved);
+  border: var(--uc-button-secondary-border-width-resolved) solid var(--uc-button-secondary-border-color-resolved);
+  box-shadow: none;
 }
 
 .uc-button.uc-secondary:hover {
-  border: 1px solid transparent;
+  border: var(--uc-button-secondary-border-width-resolved) solid transparent;
   background-color: var(--uc-button-secondary-hover-background-resolved);
   color: var(--uc-font-color);
 }
 
 /* Text variant: secondary without the border. */
 .uc-button.uc-text {
+  border-color: transparent;
+  box-shadow: none;
   background-color: transparent;
   color: var(--uc-button-text-color-resolved);
 }
@@ -223,6 +232,7 @@
   background-color: var(--uc-button-toggle-background-resolved);
   color: var(--uc-button-toggle-color-resolved);
   border: 1px solid var(--uc-button-toggle-border-color-resolved);
+  box-shadow: none;
 }
 
 .uc-button.uc-toggle:hover {

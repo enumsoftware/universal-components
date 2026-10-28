@@ -29,9 +29,6 @@ import { ucCodeEditorLanguageLabel } from './uc-code-editor-languages';
 export type UcCodeEditorMode = 'edit' | 'preview';
 export type UcCodeEditorTheme = 'auto' | 'light' | 'dark';
 
-/** Theme names, set via `data-theme` on `<html>` elsewhere in this library, that read as dark. */
-const DARK_THEME_NAMES = new Set(['dark', 'midnight']);
-
 @Component({
   selector: 'uc-code-editor',
   imports: [CommonModule, FormsModule, UcIconButton, UcPill],
@@ -304,7 +301,9 @@ export class UcCodeEditor implements FormValueControl<string | null>, OnDestroy 
     const themeAttribute = document.documentElement.getAttribute('data-theme');
 
     if (themeAttribute) {
-      this.darkModeActive.set(DARK_THEME_NAMES.has(themeAttribute));
+      // Every theme declares its color-scheme, so a new dark theme needs no list kept here.
+      const colorScheme = getComputedStyle(this.hostElement.nativeElement).colorScheme;
+      this.darkModeActive.set(colorScheme.split(' ').includes('dark'));
       return;
     }
 
