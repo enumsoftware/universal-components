@@ -1,6 +1,17 @@
 import { Injectable, effect, signal } from '@angular/core';
 
-export const WORKBENCH_THEMES = ['light', 'dark', 'aurora', 'midnight'] as const;
+export const WORKBENCH_THEMES = [
+  'light',
+  'dark',
+  'aurora',
+  'midnight',
+  'brutal',
+  'editorial',
+  'bento',
+  'organic',
+  'forge',
+  'launch',
+] as const;
 export type WorkbenchTheme = (typeof WORKBENCH_THEMES)[number];
 
 const CHROME_KEY = 'uc-workbench-chrome-theme';
