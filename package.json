@@ -56,6 +56,7 @@
     "./themes/theme.css": "./themes/theme.css",
     "./themes/theme-core.css": "./themes/theme-core.css",
     "./themes/fonts.css": "./themes/fonts.css",
+    "./themes/font-presets.css": "./themes/font-presets.css",
     "./themes/fonts/light.css": "./themes/fonts/light.css",
     "./themes/fonts/dark.css": "./themes/fonts/dark.css",
     "./themes/fonts/aurora.css": "./themes/fonts/aurora.css",

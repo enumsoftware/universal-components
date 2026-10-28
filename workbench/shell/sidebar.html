@@ -46,4 +46,11 @@
     [value]="theme.chrome()"
     (valueChange)="onChromeTheme($event)"
   />
+  <uc-select
+    [id]="'wb-font'"
+    label="Font"
+    [options]="fontOptions"
+    [value]="theme.font()"
+    (valueChange)="onFont($event)"
+  />
 </div>

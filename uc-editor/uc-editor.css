@@ -62,7 +62,7 @@
 
 .uc-editor__label {
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
   color: var(--uc-editor-label-color-resolved);
 }
 

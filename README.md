@@ -197,6 +197,46 @@ To use your own fonts, import `theme-core.css` instead of `theme.css`, load the 
 
 Set them on `[data-theme]` rather than `:root`: a theme scoped to `body` or to a nested element would otherwise shadow the root value.
 
+#### Switching fonts separately from the theme
+
+Set `data-font` next to `data-theme` to swap the pairing at runtime without changing colours. Leave it off to keep the theme's own fonts.
+
+```html
+<html data-theme="dark" data-font="dm-sans">
+```
+
+| `data-font` | Text | Headings | Code |
+|-------------|------|----------|------|
+| `poppins` | Poppins | Poppins | JetBrains Mono |
+| `inter` | Inter | Manrope | Fira Code |
+| `dm-sans` | DM Sans | Space Grotesk | Space Mono |
+| `plus-jakarta-sans` | Plus Jakarta Sans | Sora | IBM Plex Mono |
+| `system` | `system-ui` | `system-ui` | `ui-monospace` (no web font) |
+
+The presets live in `themes/font-presets.css`, which `theme.css` and `theme-core.css` already include. They reuse the families `fonts.css` declares, so switching only downloads the faces that then render. `uc-code-editor` re-reads its font when `data-font` on `<html>` changes. The Workbench has a **Font** picker under the theme picker.
+
+#### Font weights
+
+Components never name a numeric weight. They read four tokens that every theme sets:
+
+| Token | Default |
+|-------|---------|
+| `--uc-font-weight-regular` | `400` |
+| `--uc-font-weight-medium` | `500` |
+| `--uc-font-weight-semibold` | `600` |
+| `--uc-font-weight-bold` | `700` |
+
+If your font does not ship a weight, point the token at one it does, so the browser does not synthesise a faux bold:
+
+```css
+[data-theme] {
+	--uc-font-weight-semibold: 700;
+}
+```
+
+Per-component weight tokens (`--uc-button-font-weight`, `--uc-badge-font-weight`, ...) default to these, so they follow along.
+
+
 Standard override model:
 
 1. Semantic theme tokens (`--uc-primary-color`, `--uc-foreground-color`, `--uc-card-background-color`, etc.)

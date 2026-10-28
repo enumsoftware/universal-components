@@ -85,7 +85,7 @@ export class UcCodeEditor implements FormValueControl<string | null>, OnDestroy 
   readonly loadError = signal<string | null>(null);
   readonly copied = signal<boolean>(false);
   private readonly darkModeActive = signal<boolean>(false);
-  /** `--uc-code-editor-font-family-resolved` as computed on the host, re-read on every theme change. */
+  /** `--uc-code-editor-font-family-resolved` as computed on the host, re-read on every theme or font change. */
   private readonly cssFontFamily = signal<string>('');
 
   // Computed properties
@@ -265,7 +265,7 @@ export class UcCodeEditor implements FormValueControl<string | null>, OnDestroy 
     });
     this.themeMutationObserver.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['data-theme'],
+      attributeFilter: ['data-theme', 'data-font'],
     });
 
     this.refreshDarkModeActive();

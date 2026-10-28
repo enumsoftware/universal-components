@@ -49,7 +49,7 @@
   height: var(--uc-stepper-indicator-size-resolved);
   border-radius: 50%;
   font-size: var(--uc-stepper-indicator-font-size-resolved);
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
   flex-shrink: 0;
   border: 2px solid var(--uc-stepper-connector-color-resolved);
   color: var(--uc-stepper-label-muted-color-resolved);
@@ -86,7 +86,7 @@
 
 .uc-stepper__step-label-text {
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: var(--uc-font-weight-medium);
   color: var(--uc-stepper-label-muted-color-resolved);
   transition: color 0.2s;
 

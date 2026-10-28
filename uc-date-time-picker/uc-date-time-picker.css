@@ -148,7 +148,7 @@
 /* Label */
 .uc-date-time-picker__label {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
   letter-spacing: 0.03em;
   color: var(--uc-dtp-label-color-resolved);
 }
@@ -255,7 +255,7 @@
 
 .uc-date-time-picker__month-label {
   font-size: 0.95rem;
-  font-weight: 700;
+  font-weight: var(--uc-font-weight-bold);
   color: var(--uc-dtp-label-color-resolved);
   flex: 1;
   text-align: center;
@@ -318,7 +318,7 @@
 .uc-date-time-picker__year-btn--current {
   background-color: var(--uc-dtp-day-selected-bg-resolved);
   color: var(--uc-dtp-day-selected-color-resolved);
-  font-weight: 700;
+  font-weight: var(--uc-font-weight-bold);
 
   &:hover {
     background-color: var(--uc-dtp-day-selected-bg-resolved);
@@ -362,7 +362,7 @@
 .uc-date-time-picker__month-btn--current {
   background-color: var(--uc-dtp-day-selected-bg-resolved);
   color: var(--uc-dtp-day-selected-color-resolved);
-  font-weight: 700;
+  font-weight: var(--uc-font-weight-bold);
 
   &:hover {
     background-color: var(--uc-dtp-day-selected-bg-resolved);
@@ -416,7 +416,7 @@
 }
 
 .uc-date-time-picker__time-sep {
-  font-weight: 700;
+  font-weight: var(--uc-font-weight-bold);
   color: var(--uc-dtp-value-color-resolved);
 }
 

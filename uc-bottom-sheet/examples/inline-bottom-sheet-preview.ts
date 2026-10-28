@@ -95,7 +95,7 @@ interface Line {
       border-radius: 0.375rem;
       background: var(--uc-primary-color);
       color: var(--uc-inverse-foreground-color);
-      font-weight: 600;
+      font-weight: var(--uc-font-weight-semibold);
       text-align: center;
     }
   `,

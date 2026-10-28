@@ -4,7 +4,7 @@
   --uc-breadcrumbs-current-color-resolved: var(--uc-breadcrumbs-current-color, var(--uc-foreground-color));
   --uc-breadcrumbs-separator-color-resolved: var(--uc-breadcrumbs-separator-color, var(--uc-paragraph-text-color));
   --uc-breadcrumbs-font-size-resolved: var(--uc-breadcrumbs-font-size, 0.875rem);
-  --uc-breadcrumbs-font-weight-resolved: var(--uc-breadcrumbs-font-weight, 500);
+  --uc-breadcrumbs-font-weight-resolved: var(--uc-breadcrumbs-font-weight, var(--uc-font-weight-medium));
   --uc-breadcrumbs-gap-resolved: var(--uc-breadcrumbs-gap, 0.5rem);
   --uc-breadcrumbs-pills-background-resolved: var(
     --uc-breadcrumbs-pills-background,

@@ -41,7 +41,7 @@
   }
 
   .uc-info__title {
-    font-weight: 600;
+    font-weight: var(--uc-font-weight-semibold);
     font-size: 0.875rem;
   }
 

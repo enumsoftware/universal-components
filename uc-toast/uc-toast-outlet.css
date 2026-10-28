@@ -78,7 +78,7 @@
 
 .uc-toast__title {
   margin: 0 0 0.125rem;
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
   font-size: 0.875rem;
 }
 

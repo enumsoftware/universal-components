@@ -17,7 +17,7 @@
   );
   --uc-anchor-font-size-resolved: var(--uc-button-medium-font-size, 1rem);
   --uc-anchor-line-height-resolved: var(--uc-button-medium-line-height, 1.25rem);
-  --uc-anchor-font-weight-resolved: var(--uc-button-medium-font-weight, var(--uc-button-font-weight, 700));
+  --uc-anchor-font-weight-resolved: var(--uc-button-medium-font-weight, var(--uc-button-font-weight, var(--uc-font-weight-bold)));
   --uc-anchor-gap-resolved: var(--uc-button-medium-gap, 1rem);
 
   display: inline-flex;

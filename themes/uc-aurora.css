@@ -32,6 +32,11 @@
   --uc-font-family: 'DM Sans', system-ui, sans-serif;
   --uc-font-family-heading: 'Space Grotesk', var(--uc-font-family);
   --uc-font-family-mono: 'Space Mono', ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+  /* Lower one to the nearest weight the font ships if it lacks it. */
+  --uc-font-weight-regular: 400;
+  --uc-font-weight-medium: 500;
+  --uc-font-weight-semibold: 600;
+  --uc-font-weight-bold: 700;
   --uc-font-color: var(--uc-foreground-color);
   --uc-paragraph-text-color: oklch(from #14213d l c h / 0.72);
 
@@ -56,6 +61,7 @@
   --uc-table-text: var(--uc-foreground-color);
   --uc-content-font-family: var(--uc-font-family);
   --uc-content-heading-font-family: var(--uc-font-family-heading);
+  --uc-content-heading-font-weight: var(--uc-font-weight-bold);
   --uc-content-inline-code-font-family: var(--uc-font-family-mono);
   --uc-content-heading-color: var(--uc-foreground-color);
   --uc-content-body-color: var(--uc-font-color);
@@ -107,7 +113,7 @@
   --uc-accordion-header-hover-background: oklch(from var(--uc-primary-color) l c h / 0.18);
   --uc-accordion-header-focus-outline-color: var(--uc-primary-color);
   --uc-accordion-title-font-size: 1rem;
-  --uc-accordion-title-font-weight: 500;
+  --uc-accordion-title-font-weight: var(--uc-font-weight-medium);
   --uc-accordion-title-color: var(--uc-foreground-color);
   --uc-accordion-icon-color: var(--uc-primary-color);
   --uc-accordion-icon-hover-color: var(--uc-primary-color);
@@ -133,7 +139,7 @@
   --uc-badge-disabled-background: var(--uc-background-color-90);
   --uc-badge-disabled-color: var(--uc-paragraph-text-color);
   --uc-badge-font-family: var(--uc-font-family);
-  --uc-badge-font-weight: 700;
+  --uc-badge-font-weight: var(--uc-font-weight-bold);
   --uc-badge-small-size: 0.5rem;
   --uc-badge-medium-size: 1.125rem;
   --uc-badge-medium-font-size: 0.6875rem;
@@ -144,7 +150,7 @@
   --uc-button-height: 2.75rem;
   --uc-button-padding-inline: 2rem;
   --uc-button-border-radius: 0;
-  --uc-button-font-weight: 700;
+  --uc-button-font-weight: var(--uc-font-weight-bold);
   --uc-button-disabled-opacity: 0.6;
   --uc-button-secondary-border-color: oklch(from var(--uc-foreground-color) l c h / 0.3);
   --uc-button-secondary-hover-background: oklch(from var(--uc-button-background) l c h / 0.3);
@@ -156,21 +162,21 @@
   --uc-button-small-border-radius: 0;
   --uc-button-small-font-size: 0.75rem;
   --uc-button-small-line-height: 1rem;
-  --uc-button-small-font-weight: 500;
+  --uc-button-small-font-weight: var(--uc-font-weight-medium);
   --uc-button-small-gap: 0.35rem;
   --uc-button-medium-height: 2.75rem;
   --uc-button-medium-padding-inline: 2rem;
   --uc-button-medium-border-radius: 0;
   --uc-button-medium-font-size: 1rem;
   --uc-button-medium-line-height: 1.25rem;
-  --uc-button-medium-font-weight: 700;
+  --uc-button-medium-font-weight: var(--uc-font-weight-bold);
   --uc-button-medium-gap: 1rem;
   --uc-button-big-height: 3.25rem;
   --uc-button-big-padding-inline: 2.25rem;
   --uc-button-big-border-radius: 0;
   --uc-button-big-font-size: 1.125rem;
   --uc-button-big-line-height: 1.5rem;
-  --uc-button-big-font-weight: 700;
+  --uc-button-big-font-weight: var(--uc-font-weight-bold);
   --uc-button-big-gap: 1rem;
   --uc-button-small-spinner-size: 0.85rem;
   --uc-button-medium-spinner-size: 1.15rem;
@@ -202,7 +208,7 @@
   --uc-segmented-toggle-item-color: var(--uc-paragraph-text-color);
   --uc-segmented-toggle-item-disabled-opacity: 0.55;
   --uc-segmented-toggle-item-font-size: 0.95rem;
-  --uc-segmented-toggle-item-font-weight: 600;
+  --uc-segmented-toggle-item-font-weight: var(--uc-font-weight-semibold);
   --uc-segmented-toggle-item-icon-size: 1.125rem;
   --uc-segmented-toggle-item-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.08);
   --uc-segmented-toggle-item-line-height: 1.25rem;
@@ -530,7 +536,7 @@
   --uc-pagination-info-color: var(--uc-paragraph-text-color);
   --uc-pagination-page-button-size: 2.75rem;
   --uc-pagination-page-button-font-size: 1rem;
-  --uc-pagination-page-button-font-weight: 700;
+  --uc-pagination-page-button-font-weight: var(--uc-font-weight-bold);
   --uc-pagination-page-button-border-radius: 0;
   --uc-pagination-page-button-primary-background: var(--uc-primary-color);
   --uc-pagination-page-button-primary-color: var(--uc-inverse-foreground-color);
@@ -679,7 +685,7 @@
   --uc-breadcrumbs-current-color: var(--uc-foreground-color);
   --uc-breadcrumbs-separator-color: var(--uc-paragraph-text-color);
   --uc-breadcrumbs-font-size: 0.875rem;
-  --uc-breadcrumbs-font-weight: 500;
+  --uc-breadcrumbs-font-weight: var(--uc-font-weight-medium);
   --uc-breadcrumbs-gap: 0.5rem;
   --uc-breadcrumbs-pills-background: oklch(from var(--uc-foreground-color) l c h / 0.06);
   --uc-breadcrumbs-pills-hover-background: oklch(from var(--uc-foreground-color) l c h / 0.12);
@@ -729,8 +735,8 @@
   --uc-tree-node-border-radius: 0;
   --uc-tree-node-color: var(--uc-foreground-color);
   --uc-tree-node-font-size: 0.875rem;
-  --uc-tree-node-font-weight: 500;
-  --uc-tree-branch-font-weight: 600;
+  --uc-tree-node-font-weight: var(--uc-font-weight-medium);
+  --uc-tree-branch-font-weight: var(--uc-font-weight-semibold);
   --uc-tree-node-hover-background: oklch(from var(--uc-primary-color) l c h / 0.12);
   --uc-tree-node-selected-background: var(--uc-primary-color);
   --uc-tree-node-selected-color: var(--uc-inverse-foreground-color);

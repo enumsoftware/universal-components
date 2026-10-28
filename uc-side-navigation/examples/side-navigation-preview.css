@@ -42,7 +42,7 @@
 .wb-main h2 {
   margin: 1rem 0 0.5rem;
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: var(--uc-font-weight-bold);
 }
 
 .wb-main p {
@@ -64,5 +64,5 @@
 }
 
 .wb-scroll-title {
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
 }
