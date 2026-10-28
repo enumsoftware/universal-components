@@ -364,6 +364,7 @@
   --uc-code-editor-status-color: var(--uc-paragraph-text-color);
   --uc-code-editor-error-color: var(--uc-error-color);
   --uc-code-editor-disabled-opacity: 0.6;
+  --uc-code-editor-font-family: var(--uc-font-family-mono);
 
   /* --- File Picker --- */
   --uc-file-picker-dropzone-border: var(--uc-input-border-color);

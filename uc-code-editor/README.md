@@ -189,8 +189,15 @@ The component uses CSS custom properties for theming, consistent with the rest o
   --uc-code-editor-border-radius: 0.75rem;
   --uc-code-editor-status-color: #666;
   --uc-code-editor-error-color: #d32f2f;
+  --uc-code-editor-font-family: 'JetBrains Mono', monospace;
 }
 ```
+
+`--uc-code-editor-font-family` defaults to the theme's `--uc-font-family-mono`. Monaco measures
+glyph widths in script, so the component reads the token from its host and passes it to Monaco as
+the `fontFamily` option rather than styling Monaco's lines, and re-measures once the web font has
+loaded. It is re-read whenever `data-theme` on `<html>` changes; a change to the token by other means
+is picked up on the next theme switch. `editorOptions.fontFamily`, when set, takes precedence.
 
 Monaco's own theme (`vs` / `vs-dark`) is controlled by the `theme` input, not by CSS custom
 properties, since Monaco paints its own canvas rather than reading page styles. Monaco themes are
