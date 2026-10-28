@@ -213,7 +213,7 @@ Set `data-font` next to `data-theme` to swap the pairing at runtime without chan
 | `plus-jakarta-sans` | Plus Jakarta Sans | Sora | IBM Plex Mono |
 | `system` | `system-ui` | `system-ui` | `ui-monospace` (no web font) |
 
-The presets live in `themes/font-presets.css`, which `theme.css` and `theme-core.css` already include. They reuse the families `fonts.css` declares, so switching only downloads the faces that then render. `uc-code-editor` re-reads its font when `data-font` on `<html>` changes. The Workbench has a **Font** picker under the theme picker.
+The presets live in `themes/font-presets.css`, which `theme.css` and `theme-core.css` already include. They reuse the families `fonts.css` declares, so switching only downloads the faces that then render. `uc-code-editor` re-reads its font when `data-font` on `<html>` changes.
 
 #### Font weights
 

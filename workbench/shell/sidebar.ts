@@ -8,7 +8,7 @@ import { UcSelect, type SelectOption } from '../../uc-select/uc-select';
 import { UcTree } from '../../uc-tree/uc-tree';
 import type { UcTreeNode } from '../../uc-tree/uc-tree-node';
 import { SHOWCASE_REGISTRY } from '../generated/registry';
-import { ThemeStore, WORKBENCH_FONTS, WORKBENCH_THEMES, type WorkbenchFont, type WorkbenchTheme } from './theme';
+import { ThemeStore, WORKBENCH_THEMES, type WorkbenchTheme } from './theme';
 
 /** Namespaced so a group can never collide with a showcase id. */
 function groupId(group: string): string {
@@ -43,11 +43,6 @@ export class WbSidebar {
   protected readonly themeOptions: SelectOption<string>[] = WORKBENCH_THEMES.map((theme) => ({
     value: theme,
     label: theme,
-  }));
-
-  protected readonly fontOptions: SelectOption<string>[] = WORKBENCH_FONTS.map((font) => ({
-    value: font,
-    label: font === 'theme' ? 'theme default' : font,
   }));
 
   /**
@@ -92,12 +87,6 @@ export class WbSidebar {
   protected onChromeTheme(theme: string | null): void {
     if (theme !== null) {
       this.theme.setChrome(theme as WorkbenchTheme);
-    }
-  }
-
-  protected onFont(font: string | null): void {
-    if (font !== null) {
-      this.theme.setFont(font as WorkbenchFont);
     }
   }
 
