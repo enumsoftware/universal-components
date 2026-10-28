@@ -69,7 +69,7 @@
         aria-orientation="vertical"
         [attr.aria-label]="sidebar!.resizeLabel()"
         [attr.aria-controls]="sidebarId(side)"
-        [attr.aria-valuenow]="sidebar!.width() ?? null"
+        [attr.aria-valuenow]="edgeValueNow(side)"
         [attr.aria-valuemin]="sidebar!.minWidth()"
         [attr.aria-valuemax]="sidebar!.maxWidth()"
         (pointerdown)="startResize(side, $event)"
@@ -239,11 +239,24 @@
     }
   }
 
-  <main
-    [class.uc-content-over]="sidebarMode() === 'over'"
-    [class.uc-content-side]="sidebarMode() === 'side'"
-    [attr.inert]="isContainedOpen() ? '' : null"
-  >
-    <ng-content>Content</ng-content>
-  </main>
+  <!-- One projection point, rendered into whichever element mainLandmark picks. -->
+  <ng-template #contentTemplate><ng-content>Content</ng-content></ng-template>
+
+  @if (mainLandmark()) {
+    <main
+      [class.uc-content-over]="sidebarMode() === 'over'"
+      [class.uc-content-side]="sidebarMode() === 'side'"
+      [attr.inert]="isContainedOpen() ? '' : null"
+    >
+      <ng-container [ngTemplateOutlet]="contentTemplate" />
+    </main>
+  } @else {
+    <div
+      [class.uc-content-over]="sidebarMode() === 'over'"
+      [class.uc-content-side]="sidebarMode() === 'side'"
+      [attr.inert]="isContainedOpen() ? '' : null"
+    >
+      <ng-container [ngTemplateOutlet]="contentTemplate" />
+    </div>
+  }
 </section>

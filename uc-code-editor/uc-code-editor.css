@@ -107,6 +107,7 @@
   display: block;
 }
 
-.uc-code-editor.uc-code-editor-disabled {
+/* Only the editor dims: the label stays readable, as on uc-input, and keeps its contrast. */
+.uc-code-editor.uc-code-editor-disabled .uc-code-editor-shell {
   opacity: var(--uc-code-editor-disabled-opacity-resolved);
 }

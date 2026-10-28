@@ -19,11 +19,12 @@ export default defineShowcase({
     edge: select(SIDEBAR_EDGE_OPTIONS, 'line'),
     resizable: bool(false),
   },
+  // Only the first example owns the main and navigation landmarks: a page may have one main.
   examples: [
     { name: 'Over Mode', props: { sidebarMode: 'over' } },
-    { name: 'Over Mode, Flush', props: { sidebarMode: 'over', sidebarVariant: 'flush' } },
-    { name: 'Over Mode, Contained', props: { sidebarMode: 'over', overlayScope: 'container', endSidebar: true } },
-    { name: 'Both Sides, Resizable', props: { endSidebar: true, resizable: true } },
-    { name: 'Resizable With Grip', props: { resizable: true, edge: 'grip' } },
+    { name: 'Over Mode, Flush', props: { sidebarMode: 'over', sidebarVariant: 'flush', landmarks: false } },
+    { name: 'Over Mode, Contained', props: { sidebarMode: 'over', overlayScope: 'container', endSidebar: true, landmarks: false } },
+    { name: 'Both Sides, Resizable', props: { endSidebar: true, resizable: true, landmarks: false } },
+    { name: 'Resizable With Grip', props: { resizable: true, edge: 'grip', landmarks: false } },
   ],
 });

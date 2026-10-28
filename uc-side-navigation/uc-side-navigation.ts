@@ -8,6 +8,7 @@ import {
   viewChild,
   ElementRef,
   afterRenderEffect,
+  afterEveryRender,
   afterNextRender,
   ChangeDetectionStrategy,
   Injector,
@@ -62,6 +63,11 @@ export class UcSideNavigation implements AfterViewInit, OnDestroy {
   public readonly overlayScope = input<UcSidebarOverlayScope>('viewport');
   public readonly sidebarScrollable = input<boolean>(true);
   public readonly closeOnBackdropClick = input<boolean>(true);
+  /**
+   * Renders the content area as `<main>`. Turn it off when the page already has a main landmark, or shows
+   * several side navigations at once: a document may only have one.
+   */
+  public readonly mainLandmark = input<boolean>(true);
   /** The start sidebar; the `*End*` signals below are the end sidebar's. */
   readonly isSidebarOpen = this.start.open;
   readonly isOverlayMounted = this.start.mounted;
@@ -112,6 +118,11 @@ export class UcSideNavigation implements AfterViewInit, OnDestroy {
   ]);
 
   private readonly containerWidthPx = signal<number>(0);
+  /** Rendered sidebar widths, so a resize edge can report a value before anything was dragged. */
+  private readonly renderedWidthPx = {
+    start: signal<number | undefined>(undefined),
+    end: signal<number | undefined>(undefined),
+  };
   private readonly containerHeightPx = signal<number>(0);
   private resizeObserver: ResizeObserver | null = null;
 
@@ -124,6 +135,16 @@ export class UcSideNavigation implements AfterViewInit, OnDestroy {
 
   constructor() {
     this.instanceId.set(`uc-side-navigation-${UcSideNavigation.nextId++}`);
+
+    // A focusable separator needs aria-valuenow, and an unset width leaves the width tokens in
+    // charge, so the edge reports what the sidebar actually renders. An unchanged value is a no-op.
+    afterEveryRender(() => {
+      for (const side of ['start', 'end'] as const) {
+        // By id rather than a view query: in over mode the sidebar renders in a CDK overlay.
+        const aside = document.getElementById(this.sidebarId(side));
+        this.renderedWidthPx[side].set(aside ? Math.round(aside.getBoundingClientRect().width) : undefined);
+      }
+    });
 
     afterRenderEffect(() => {
       const mode = this.sidebarMode();
@@ -169,6 +190,11 @@ export class UcSideNavigation implements AfterViewInit, OnDestroy {
 
   sidebarOf(side: UcSidebarSide): UcSidebar | undefined {
     return side === 'end' ? this.endSidebar() : this.startSidebar();
+  }
+
+  /** aria-valuenow of a resize edge: the dragged width, else the width the tokens render. */
+  edgeValueNow(side: UcSidebarSide): number | null {
+    return this.sidebarOf(side)?.width() ?? this.renderedWidthPx[side]() ?? null;
   }
 
   sidebarId(side: UcSidebarSide): string {
