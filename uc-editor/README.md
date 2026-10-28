@@ -186,7 +186,7 @@ which sets `--uc-select-trigger-height`, `--uc-select-trigger-padding-inline`,
 toolbar's icon buttons, which are pinned to the same `--uc-icon-button-height` in `.uc-editor__toolbar`.
 
 Document content inside the surface is rendered through `innerHTML`, so it is styled by the global
-prose defaults in `themes/theme.css`. The editor only scales the heading sizes down for editor
+prose defaults in `themes/theme-core.css`. The editor only scales the heading sizes down for editor
 context, which means consumer theming of `--uc-content-*` applies here too.
 
 ## Accessibility

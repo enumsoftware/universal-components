@@ -6,7 +6,7 @@
   --uc-button-small-border-radius-resolved: var(--uc-button-small-border-radius, 0.25rem);
   --uc-button-small-font-size-resolved: var(--uc-button-small-font-size, 0.75rem);
   --uc-button-small-line-height-resolved: var(--uc-button-small-line-height, 1rem);
-  --uc-button-small-font-weight-resolved: var(--uc-button-small-font-weight, 500);
+  --uc-button-small-font-weight-resolved: var(--uc-button-small-font-weight, var(--uc-font-weight-medium));
   --uc-button-small-gap-resolved: var(--uc-button-small-gap, 0.35rem);
 
   --uc-button-medium-height-resolved: var(--uc-button-medium-height, var(--uc-button-height, 2.75rem));
@@ -14,7 +14,7 @@
   --uc-button-medium-border-radius-resolved: var(--uc-button-medium-border-radius, var(--uc-button-border-radius, 0.75rem));
   --uc-button-medium-font-size-resolved: var(--uc-button-medium-font-size, 1rem);
   --uc-button-medium-line-height-resolved: var(--uc-button-medium-line-height, 1.25rem);
-  --uc-button-medium-font-weight-resolved: var(--uc-button-medium-font-weight, var(--uc-button-font-weight, 700));
+  --uc-button-medium-font-weight-resolved: var(--uc-button-medium-font-weight, var(--uc-button-font-weight, var(--uc-font-weight-bold)));
   --uc-button-medium-gap-resolved: var(--uc-button-medium-gap, 1rem);
 
   --uc-button-big-height-resolved: var(--uc-button-big-height, 3.25rem);
@@ -22,7 +22,7 @@
   --uc-button-big-border-radius-resolved: var(--uc-button-big-border-radius, 0.85rem);
   --uc-button-big-font-size-resolved: var(--uc-button-big-font-size, 1.125rem);
   --uc-button-big-line-height-resolved: var(--uc-button-big-line-height, 1.5rem);
-  --uc-button-big-font-weight-resolved: var(--uc-button-big-font-weight, 700);
+  --uc-button-big-font-weight-resolved: var(--uc-button-big-font-weight, var(--uc-font-weight-bold));
   --uc-button-big-gap-resolved: var(--uc-button-big-gap, 1rem);
 
   --uc-button-disabled-opacity-resolved: var(--uc-button-disabled-opacity, 0.6);

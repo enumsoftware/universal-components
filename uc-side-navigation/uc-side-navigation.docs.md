@@ -51,8 +51,16 @@ resets it. While it is hovered, focused or dragged it takes
 `--uc-side-navigation-edge-active-color`; with a grip only the grip does, and the
 line under it turns `--uc-side-navigation-grip-line-color`. The width is a two-way
 `width` (px): bind it to remember what the user chose. Unset, the width token
-applies. Name the edge for screen readers with `resizeLabel`.
+applies. Name the edge for screen readers with `resizeLabel`. The edge reports its
+width as `aria-valuenow`, the rendered width until one has been dragged.
 
 The look comes from `--uc-side-navigation-edge-hit-width`,
 `--uc-side-navigation-edge-active-width`, `--uc-side-navigation-grip-color`,
 `--uc-side-navigation-grip-length` and `--uc-side-navigation-grip-thickness`.
+
+## Landmarks
+
+The content area is a `<main>` landmark, since the component is usually the app shell.
+A document may only have one, so set `[mainLandmark]="false"` when the page already
+has a `<main>` or shows several side navigations at once; the content then renders in
+a `<div>` with the same styling.

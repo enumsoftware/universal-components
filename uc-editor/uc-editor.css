@@ -36,11 +36,7 @@
   --uc-editor-source-color-resolved: var(--uc-editor-source-color, var(--uc-foreground-color));
   --uc-editor-source-font-family-resolved: var(
     --uc-editor-source-font-family,
-    ui-monospace,
-    SFMono-Regular,
-    Consolas,
-    'Liberation Mono',
-    monospace
+    var(--uc-font-family-mono)
   );
   --uc-editor-split-divider-color-resolved: var(
     --uc-editor-split-divider-color,
@@ -66,7 +62,7 @@
 
 .uc-editor__label {
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
   color: var(--uc-editor-label-color-resolved);
 }
 

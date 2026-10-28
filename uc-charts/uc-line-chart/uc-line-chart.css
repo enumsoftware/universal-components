@@ -38,7 +38,7 @@ uc-line-chart .uc-line-chart .uc-line-chart__tooltip {
 
 uc-line-chart .uc-line-chart .uc-line-chart__tooltip strong {
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: var(--uc-font-weight-bold);
   color: inherit;
 }
 

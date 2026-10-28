@@ -47,7 +47,8 @@ For setup and import patterns, use `README.md` as the source of truth; for the s
 
 - Main package usage and theming: `README.md`
 - Public export surface: `public-api.ts`
-- Theme files: `themes/theme.css`, `themes/uc-light.css`, `themes/uc-dark.css`
+- Theme files: `themes/theme.css` (barrel: `fonts.css` + `theme-core.css`), `themes/theme-core.css` (prose defaults, theme imports), `themes/uc-light.css`, `themes/uc-dark.css`, `themes/uc-aurora.css`, `themes/uc-midnight.css`
+- Theme fonts: `themes/fonts/<theme>.css` (Google Fonts per theme). Keep the `--uc-font-family*` roles in every `themes/uc-*.css` file and the matching font file in sync. Runtime `data-font` presets live in `themes/font-presets.css`. Component CSS uses `var(--uc-font-weight-regular|medium|semibold|bold)`, never a numeric weight.
 - Layout utilities: `themes/utilities.css` (barrel) and `themes/utilities/*.css` (parts). All generated from `scripts/utilities/*.ts` via `scripts/build-utilities.ts`; never edit the CSS by hand. Documented in `README.md` and the Workbench under `Utilities/`
 
 ## Instruction maintenance loop

@@ -15,7 +15,7 @@
   display: inline-flex;
   flex: 0 0 var(--uc-avatar-size-resolved);
   font-size: calc(var(--uc-avatar-size-resolved) * 0.4);
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
   height: var(--uc-avatar-size-resolved);
   justify-content: center;
   line-height: 1;

@@ -21,7 +21,7 @@
 
 .uc-weekday-picker__label {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
   letter-spacing: 0.03em;
   color: var(--uc-weekday-picker-label-color-resolved);
 }
@@ -45,7 +45,7 @@
   color: var(--uc-weekday-picker-day-color-resolved);
   font: inherit;
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
   cursor: pointer;
   transition:
     background-color 0.2s,

@@ -83,7 +83,7 @@
 
 .uc-color-picker__label {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
   letter-spacing: 0.03em;
   color: var(--uc-color-picker-label-color-resolved);
 }
@@ -131,7 +131,7 @@
 }
 
 .uc-color-picker__value {
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
   letter-spacing: 0.02em;
   font-size: 0.9rem;
   color: var(--uc-color-picker-value-color-resolved);
@@ -202,7 +202,7 @@
   border-radius: 0.25rem;
   border: none;
   font-size: 0.7rem;
-  font-weight: 700;
+  font-weight: var(--uc-font-weight-bold);
   letter-spacing: 0.06em;
   cursor: pointer;
   background: transparent;
@@ -229,7 +229,7 @@
   color: var(--uc-color-picker-value-color-resolved);
   font: inherit;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
   letter-spacing: 0.02em;
 }
 

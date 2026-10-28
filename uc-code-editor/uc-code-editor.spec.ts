@@ -93,4 +93,47 @@ describe('UcCodeEditor', () => {
 
     expect(message?.textContent).toContain('A snippet is required');
   });
+
+  describe('font family', () => {
+    afterEach(() => {
+      document.documentElement.removeAttribute('data-theme');
+      document.documentElement.removeAttribute('data-font');
+    });
+
+    const setTokenAndSwitchTheme = async (fontFamily: string, theme: string): Promise<void> => {
+      (fixture.nativeElement as HTMLElement).style.setProperty(
+        '--uc-code-editor-font-family-resolved',
+        fontFamily,
+      );
+      document.documentElement.setAttribute('data-theme', theme);
+      // MutationObserver callbacks run as a microtask.
+      await Promise.resolve();
+    };
+
+    it('should take the font from the resolved CSS token and re-read it when data-theme changes', async () => {
+      await setTokenAndSwitchTheme("'Fira Code', monospace", 'dark');
+      expect(component.resolvedFontFamily()).toBe("'Fira Code', monospace");
+
+      await setTokenAndSwitchTheme("'Space Mono', monospace", 'aurora');
+      expect(component.resolvedFontFamily()).toBe("'Space Mono', monospace");
+    });
+
+    it('should re-read the font when data-font changes', async () => {
+      (fixture.nativeElement as HTMLElement).style.setProperty(
+        '--uc-code-editor-font-family-resolved',
+        "'IBM Plex Mono', monospace",
+      );
+      document.documentElement.setAttribute('data-font', 'plus-jakarta-sans');
+      await Promise.resolve();
+
+      expect(component.resolvedFontFamily()).toBe("'IBM Plex Mono', monospace");
+    });
+
+    it('should let editorOptions.fontFamily override the CSS token', async () => {
+      fixture.componentRef.setInput('editorOptions', { fontFamily: 'Courier New' });
+      await setTokenAndSwitchTheme("'Fira Code', monospace", 'dark');
+
+      expect(component.resolvedFontFamily()).toBe('Courier New');
+    });
+  });
 });
