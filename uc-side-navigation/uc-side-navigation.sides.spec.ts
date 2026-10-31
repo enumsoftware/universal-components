@@ -297,3 +297,93 @@ describe('UcSideNavigation with start and end sidebars', () => {
     });
   });
 });
+
+@Component({
+  imports: [UcSideNavigation, UcSidebar],
+  template: `
+    <uc-side-navigation sidebarMode="side">
+      <uc-sidebar resizable widthStorageKey="test.sidebar-width" [minWidth]="160" [maxWidth]="400">
+        <p>Start</p>
+      </uc-sidebar>
+      <p>Main</p>
+    </uc-side-navigation>
+  `,
+})
+class StoredWidthHost {
+  readonly sidebar = viewChild.required(UcSidebar);
+}
+
+describe('UcSidebar with a widthStorageKey', () => {
+  const storageKey = 'test.sidebar-width';
+  let originalResizeObserver: typeof ResizeObserver | undefined;
+
+  const create = async () => {
+    const fixture = TestBed.createComponent(StoredWidthHost);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    return fixture;
+  };
+  const edgeOf = (fixture: ComponentFixture<StoredWidthHost>) =>
+    fixture.nativeElement.querySelector('aside.uc-sidebar-start .uc-sidebar-edge') as HTMLElement;
+
+  beforeEach(async () => {
+    originalResizeObserver = window.ResizeObserver;
+    Object.defineProperty(window, 'ResizeObserver', {
+      writable: true,
+      configurable: true,
+      value: class {
+        observe = vi.fn();
+        disconnect = vi.fn();
+      },
+    });
+    localStorage.clear();
+    await TestBed.configureTestingModule({ imports: [StoredWidthHost] }).compileComponents();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    localStorage.clear();
+    Object.defineProperty(window, 'ResizeObserver', {
+      writable: true,
+      configurable: true,
+      value: originalResizeObserver,
+    });
+  });
+
+  it('starts from the stored width, within the limits', async () => {
+    localStorage.setItem(storageKey, '320');
+    expect((await create()).componentInstance.sidebar().width()).toBe(320);
+
+    TestBed.resetTestingModule();
+    await TestBed.configureTestingModule({ imports: [StoredWidthHost] }).compileComponents();
+    localStorage.setItem(storageKey, '900');
+    expect((await create()).componentInstance.sidebar().width()).toBe(400);
+  });
+
+  it('leaves the width token in charge when nothing usable is stored', async () => {
+    localStorage.setItem(storageKey, 'wide');
+    expect((await create()).componentInstance.sidebar().width()).toBeUndefined();
+  });
+
+  it('stores a width the user set and forgets it on reset', async () => {
+    const fixture = await create();
+    vi.spyOn(edgeOf(fixture).closest('aside')!, 'getBoundingClientRect').mockReturnValue({ width: 240 } as DOMRect);
+
+    edgeOf(fixture).dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true }));
+    expect(localStorage.getItem(storageKey)).toBe('256');
+
+    edgeOf(fixture).dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
+    expect(localStorage.getItem(storageKey)).toBeNull();
+    expect(fixture.componentInstance.sidebar().width()).toBeUndefined();
+  });
+
+  it('keeps working when storage refuses the width', async () => {
+    const fixture = await create();
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new DOMException('Quota exceeded', 'QuotaExceededError');
+    });
+
+    fixture.componentInstance.sidebar().setUserWidth(300);
+    expect(fixture.componentInstance.sidebar().width()).toBe(300);
+  });
+});

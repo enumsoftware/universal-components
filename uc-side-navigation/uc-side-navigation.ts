@@ -426,14 +426,14 @@ export class UcSideNavigation implements AfterViewInit, OnDestroy {
     const sidebar = this.sidebarOf(side);
 
     if (sidebar?.resizable()) {
-      sidebar.width.set(undefined);
+      sidebar.setUserWidth(undefined);
     }
   }
 
   private setWidth(sidebar: UcSidebar, width: number) {
     const containerWidth = this.containerWidthPx() || Number.POSITIVE_INFINITY;
     const max = Math.min(sidebar.maxWidth(), containerWidth);
-    sidebar.width.set(Math.round(Math.max(sidebar.minWidth(), Math.min(max, width))));
+    sidebar.setUserWidth(Math.round(Math.max(sidebar.minWidth(), Math.min(max, width))));
   }
 
   /** +1 when moving the pointer right widens the sidebar: the start one in left-to-right text, the end one in right-to-left. */

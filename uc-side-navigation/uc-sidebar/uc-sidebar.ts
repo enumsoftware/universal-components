@@ -1,4 +1,4 @@
-import { booleanAttribute, ChangeDetectionStrategy, Component, input, model } from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, DOCUMENT, inject, input, model, OnInit } from '@angular/core';
 
 export const SIDEBAR_SIDE_OPTIONS = ['start', 'end'] as const;
 export type UcSidebarSide = (typeof SIDEBAR_SIDE_OPTIONS)[number];
@@ -12,7 +12,9 @@ export type UcSidebarEdge = (typeof SIDEBAR_EDGE_OPTIONS)[number];
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './uc-sidebar.css',
 })
-export class UcSidebar {
+export class UcSidebar implements OnInit {
+  private readonly storage = storageOf(inject(DOCUMENT));
+
   opened = model(true);
   /**
    * The side of `uc-side-navigation` the sidebar sits on. Write it as a plain attribute (`side="end"`): the
@@ -32,4 +34,55 @@ export class UcSidebar {
   readonly maxWidth = input<number>(640);
   /** The accessible name of the resizable edge. */
   readonly resizeLabel = input<string>('Resize sidebar');
+  /**
+   * Remembers a width the user dragged in `localStorage` under this key, and starts from it when the sidebar is
+   * created. A reset forgets it. Unset, nothing is stored.
+   */
+  readonly widthStorageKey = input<string | undefined>(undefined);
+
+  ngOnInit() {
+    const key = this.widthStorageKey();
+    const stored = key ? Number(this.read(key)) : Number.NaN;
+
+    if (stored > 0) {
+      this.width.set(Math.max(this.minWidth(), Math.min(this.maxWidth(), stored)));
+    }
+  }
+
+  /** A width the user chose on the edge, or undefined for a reset; kept under `widthStorageKey` when there is one. */
+  setUserWidth(width: number | undefined) {
+    this.width.set(width);
+    const key = this.widthStorageKey();
+
+    if (!key) {
+      return;
+    }
+
+    try {
+      if (width === undefined) {
+        this.storage?.removeItem(key);
+      } else {
+        this.storage?.setItem(key, String(width));
+      }
+    } catch {
+      // Storage refused (private mode, quota): the width lasts until the page reloads.
+    }
+  }
+
+  private read(key: string): string | null {
+    try {
+      return this.storage?.getItem(key) ?? null;
+    } catch {
+      return null;
+    }
+  }
+}
+
+/** The window's local storage; reading it can throw where site data is blocked, and there is none on the server. */
+function storageOf(document: Document): Storage | null {
+  try {
+    return document.defaultView?.localStorage ?? null;
+  } catch {
+    return null;
+  }
 }

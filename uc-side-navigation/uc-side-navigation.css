@@ -180,8 +180,9 @@
 
   position: absolute;
   background-color: var(--uc-side-navigation-sidebar-background, var(--uc-sidebar-background-color));
-  inline-size: fit-content;
-  min-inline-size: 250px;
+  /* As wide as its content unless the token says otherwise; a width the user set wins, the container caps it. */
+  inline-size: var(--uc-side-navigation-over-sidebar-width, fit-content);
+  min-inline-size: var(--uc-side-navigation-over-sidebar-min-width, 250px);
   max-inline-size: 100%;
   block-size: 100%;
   top: 0;
