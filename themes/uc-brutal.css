@@ -614,6 +614,8 @@
   --uc-side-navigation-sidebar-border-radius: 0;
   --uc-side-navigation-sidebar-border: 1px solid var(--uc-divider-color);
   --uc-side-navigation-end-sidebar-width: 15rem;
+  --uc-side-navigation-over-sidebar-width: fit-content;
+  --uc-side-navigation-over-sidebar-min-width: 250px;
   --uc-side-navigation-edge-hit-width: 0.5rem;
   --uc-side-navigation-edge-active-color: var(--uc-primary-color);
   --uc-side-navigation-edge-active-width: 0.1875rem;

@@ -14,6 +14,14 @@ or set that variable to `none` to remove it. The floating `over` sidebar has no 
 (`--uc-side-navigation-sidebar-border-radius`). `flush` places it against the top, left
 and bottom edges with square corners. `side` mode ignores the variant.
 
+The `over` sidebar is as wide as its content, at least 250px. Set
+`--uc-side-navigation-over-sidebar-width` (for example
+`min(calc(100vw - 4rem), 25rem)` for most of a phone screen) and
+`--uc-side-navigation-over-sidebar-min-width` to change that. Set them on `:root` or in
+the theme: with the default `viewport` scope the sidebar renders in the CDK overlay,
+outside the component. A `width` set on `uc-sidebar` wins over the token, and the
+sidebar never grows past its container.
+
 Content marked `ucSidebarHeader` sits above the sidebar body and stays in place while
 the body scrolls, like `ucSidebarFooter` below it.
 
@@ -51,7 +59,10 @@ resets it. While it is hovered, focused or dragged it takes
 `--uc-side-navigation-edge-active-color`; with a grip only the grip does, and the
 line under it turns `--uc-side-navigation-grip-line-color`. The width is a two-way
 `width` (px): bind it to remember what the user chose. Unset, the width token
-applies. Name the edge for screen readers with `resizeLabel`. The edge reports its
+applies. To keep the width across reloads without binding it, give the sidebar a
+`widthStorageKey`: a dragged width is saved in `localStorage` under that key and
+restored when the sidebar is created, and a double-click reset removes it. If storage
+is blocked, the width lasts until the page reloads. Name the edge for screen readers with `resizeLabel`. The edge reports its
 width as `aria-valuenow`, the rendered width until one has been dragged.
 
 The look comes from `--uc-side-navigation-edge-hit-width`,
