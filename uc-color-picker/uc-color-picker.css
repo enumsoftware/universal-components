@@ -76,13 +76,14 @@
 .uc-color-picker {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
   font-family: inherit;
   width: 100%;
 }
 
+/* Label spacing and trigger height match uc-input and uc-select, so the three line up in a row. */
 .uc-color-picker__label {
   font-size: 1rem;
+  margin-bottom: 0.5rem;
   font-weight: var(--uc-font-weight-semibold);
   letter-spacing: 0.03em;
   color: var(--uc-color-picker-label-color-resolved);
@@ -92,7 +93,9 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.5rem;
+  box-sizing: border-box;
+  height: 2.75rem;
+  padding: 0 0.5rem;
   border-radius: 0.5rem;
   cursor: pointer;
   transition: background-color 0.2s ease;

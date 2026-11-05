@@ -1,7 +1,7 @@
 <div class="wb-settings">
   <uc-card class="wb-settings-card">
     <header class="wb-settings-header">
-      <uc-avatar [initials]="initials()" size="3.5rem" backgroundColor="#473bf0" [alt]="fullName()" />
+      <uc-avatar [initials]="initials()" size="3.5rem" [backgroundColor]="accentColor()" [alt]="fullName()" />
 
       <div class="wb-settings-identity">
         <h2>{{ fullName() || 'Unnamed user' }}</h2>
@@ -24,6 +24,8 @@
         <uc-input id="settings-email" label="Email address" type="email" [(value)]="email" />
         <uc-select id="settings-role" label="Role" [options]="roleOptions" [(value)]="role" />
         <uc-select id="settings-timezone" label="Timezone" [options]="timezoneOptions" [(value)]="timezone" />
+        <uc-input id="settings-job-title" label="Job title" [(value)]="jobTitle" />
+        <uc-color-picker id="settings-accent" label="Accent color" [(value)]="accentColor" />
 
         <div class="wb-settings-grid-full">
           <uc-date-time-picker id="settings-birthday" label="Birthday" [(value)]="birthday" />
