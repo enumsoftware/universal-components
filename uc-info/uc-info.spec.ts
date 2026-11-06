@@ -27,4 +27,9 @@ describe('UcInfo', () => {
   it('should show the icon by default', () => {
     expect(component.showIcon()).toBe(true);
   });
+
+  it('should leave the title empty when no title is projected', () => {
+    const title: HTMLElement = fixture.nativeElement.querySelector('.uc-info__title');
+    expect(title.matches(':empty')).toBe(true);
+  });
 });
