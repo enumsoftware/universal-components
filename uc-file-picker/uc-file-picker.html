@@ -1,11 +1,13 @@
-<div
-  class="uc-file-picker__dropzone"
-  [class.uc-file-picker__dropzone--active]="isDragging()"
-  [class.uc-file-picker__dropzone--disabled]="disabled()"
-  (click)="triggerSelect()"
->
-  <span class="uc-file-picker__dropzone-text">{{ dropzoneText() }}</span>
-</div>
+@if (!previewUrl() && !selectedFile()) {
+  <div
+    class="uc-file-picker__dropzone"
+    [class.uc-file-picker__dropzone--active]="isDragging()"
+    [class.uc-file-picker__dropzone--disabled]="disabled()"
+    (click)="triggerSelect()"
+  >
+    <span class="uc-file-picker__dropzone-text">{{ dropzoneText() }}</span>
+  </div>
+}
 
 <input
   #fileInput
@@ -30,6 +32,24 @@
     />
     <img [src]="previewUrl()" [alt]="previewAlt()" />
   </div>
+} @else if (selectedFile(); as file) {
+  @if (!isImage()) {
+    <div class="uc-file-picker__file">
+      <uc-phosphor-icon class="uc-file-picker__file-icon" [icon]="fileIcon()" />
+      <div class="uc-file-picker__file-details">
+        <span class="uc-file-picker__filename" [title]="file.name">{{ file.name }}</span>
+        <span class="uc-file-picker__file-size">{{ fileSize() }}</span>
+      </div>
+      <uc-icon-button
+        class="uc-file-picker__file-remove"
+        [phosphorIcon]="'x-circle'"
+        [variant]="'error'"
+        [label]="removeLabel()"
+        [disabled]="disabled()"
+        (clicked)="clearSelection()"
+      />
+    </div>
+  }
 }
 
 @if (helperText()) {

@@ -180,4 +180,67 @@ describe('UcFilePicker', () => {
     expect(remove.getAttribute('aria-label')).toBe('Ukloni datoteku');
     expect(preview.alt).toBe('Pregled odabrane slike');
   });
+
+  it('should show the name and size of a non-image file instead of an image preview', async () => {
+    const selected: (string | null)[] = [];
+    const changed: (File | null)[] = [];
+    component.fileSelected.subscribe((value) => selected.push(value));
+    component.fileChanged.subscribe((value) => changed.push(value));
+
+    const csv = makeFile(2048, 'kupci.csv', 'text/csv');
+    dropFile(csv);
+    await vi.waitFor(() => expect(changed).toEqual([csv]));
+    fixture.detectChanges();
+
+    const element: HTMLElement = fixture.nativeElement;
+    expect(component.previewUrl()).toBeNull();
+    expect(selected[0]).toMatch(/^data:text\/csv/);
+    expect(element.querySelector('.uc-file-picker-preview')).toBeNull();
+    expect(element.querySelector('.uc-file-picker__dropzone')).toBeNull();
+    expect(element.querySelector('.uc-file-picker__filename')?.textContent?.trim()).toBe('kupci.csv');
+    expect(element.querySelector('.uc-file-picker__file-size')?.textContent?.trim()).toBe('2.0 KB');
+    expect(element.querySelector('.uc-file-picker__file-icon .ph-file-csv')).toBeTruthy();
+  });
+
+  it('should pick an icon from the file extension', () => {
+    dropFile(makeFile(10, 'cjenik.XLSX', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'));
+    expect(component.fileIcon()).toBe('file-xls');
+
+    dropFile(makeFile(10, 'certifikat.p12', 'application/x-pkcs12'));
+    expect(component.fileIcon()).toBe('file');
+  });
+
+  it('should show an image preview without the drop zone once an image is read', async () => {
+    const changed: (File | null)[] = [];
+    component.fileChanged.subscribe((value) => changed.push(value));
+
+    const image = makeFile(16);
+    dropFile(image);
+    await vi.waitFor(() => expect(changed).toEqual([image]));
+    fixture.detectChanges();
+
+    const element: HTMLElement = fixture.nativeElement;
+    expect(component.previewUrl()).toMatch(/^data:image\/png/);
+    expect(element.querySelector('.uc-file-picker-preview img')).toBeTruthy();
+    expect(element.querySelector('.uc-file-picker__file')).toBeNull();
+    expect(element.querySelector('.uc-file-picker__dropzone')).toBeNull();
+  });
+
+  it('should bring the drop zone back when a non-image file is removed', async () => {
+    const changed: (File | null)[] = [];
+    component.fileChanged.subscribe((value) => changed.push(value));
+
+    const csv = makeFile(16, 'proizvodi.csv', 'text/csv');
+    dropFile(csv);
+    await vi.waitFor(() => expect(changed).toEqual([csv]));
+    fixture.detectChanges();
+
+    const remove: HTMLButtonElement = fixture.nativeElement.querySelector('.uc-file-picker__file-remove button');
+    remove.click();
+    fixture.detectChanges();
+
+    expect(changed).toEqual([csv, null]);
+    expect(fixture.nativeElement.querySelector('.uc-file-picker__file')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.uc-file-picker__dropzone')).toBeTruthy();
+  });
 });
