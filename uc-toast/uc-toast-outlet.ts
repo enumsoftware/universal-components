@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { UcButton } from '../uc-button/uc-button';
 import { UcToastService, type ToastVariant } from './uc-toast.service';
 
 const ICONS: Record<ToastVariant, string> = {
@@ -14,6 +15,7 @@ const ICONS: Record<ToastVariant, string> = {
  */
 @Component({
   selector: 'uc-toast-outlet',
+  imports: [UcButton],
   templateUrl: './uc-toast-outlet.html',
   styleUrl: './uc-toast-outlet.css',
   changeDetection: ChangeDetectionStrategy.Eager,

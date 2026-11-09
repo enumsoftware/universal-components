@@ -194,4 +194,16 @@ describe('UcSideNavigation', () => {
 
     expect(observer.disconnect).toHaveBeenCalled();
   });
+
+  it('should render the content as main by default and as a div when mainLandmark is off', () => {
+    const host = fixture.nativeElement as HTMLElement;
+    fixture.detectChanges();
+    expect(host.querySelector('main')).not.toBeNull();
+
+    fixture.componentRef.setInput('mainLandmark', false);
+    fixture.detectChanges();
+
+    expect(host.querySelector('main')).toBeNull();
+    expect(host.querySelector('.uc-content-side, .uc-content-over')?.tagName).toBe('DIV');
+  });
 });

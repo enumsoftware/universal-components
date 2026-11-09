@@ -2,6 +2,7 @@ import { EnvironmentProviders, inject, InjectionToken, makeEnvironmentProviders 
 
 import type { UcAnchorVariant } from '../uc-anchor/uc-anchor';
 import type { UcBadgeVariant } from '../uc-badge/uc-badge';
+import type { UcBreadcrumbsVariant } from '../uc-breadcrumbs/uc-breadcrumbs';
 import type { ButtonVariant } from '../uc-button/uc-button';
 import type { UcDividerVariant } from '../uc-divider/uc-divider';
 import type { IconButtonVariant } from '../uc-icon-button/uc-icon-button';
@@ -18,6 +19,7 @@ import type { UcTabsVariant } from '../uc-tabs/uc-tabs';
 export interface UcDefaults {
   anchor?: { variant?: UcAnchorVariant };
   badge?: { variant?: UcBadgeVariant };
+  breadcrumbs?: { variant?: UcBreadcrumbsVariant };
   button?: { variant?: ButtonVariant };
   divider?: { variant?: UcDividerVariant };
   iconButton?: { variant?: IconButtonVariant };

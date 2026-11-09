@@ -41,7 +41,7 @@
   font-size: 1rem;
   margin-bottom: 0.5rem;
   color: var(--uc-select-label-color-resolved);
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
   letter-spacing: 0.03em;
 }
 
@@ -220,7 +220,7 @@
   &.uc-select-option-selected {
     background-color: var(--uc-select-option-selected-background-resolved);
     color: var(--uc-select-option-selected-color-resolved);
-    font-weight: 600;
+    font-weight: var(--uc-font-weight-semibold);
   }
 
   &.uc-select-option-disabled {

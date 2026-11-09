@@ -1,0 +1,119 @@
+<div class="sd-grid">
+  <!-- 01 Neo-brutalism -->
+  <section class="sd-frame" data-theme="brutal" aria-labelledby="sd-brutal-title">
+    <div class="sd-hero sd-brutal">
+      <div class="sd-bar">
+        <span class="sd-brand">blok.</span>
+        <uc-button text="Menu" variant="secondary" size="small" />
+      </div>
+      <h2 class="sd-headline" id="sd-brutal-title">Loud ideas, <mark>no apologies</mark></h2>
+      <div class="sd-actions">
+        <uc-button text="Get started" />
+        <uc-button text="Learn more" variant="secondary" />
+      </div>
+      <span class="sd-brutal-dot" aria-hidden="true"></span>
+    </div>
+    <p class="sd-caption"><code>data-theme="brutal"</code> Neo-brutalism</p>
+  </section>
+
+  <!-- 02 Swiss editorial -->
+  <section class="sd-frame" data-theme="editorial" aria-labelledby="sd-editorial-title">
+    <div class="sd-hero sd-editorial">
+      <div class="sd-bar sd-editorial-rule">
+        <span class="sd-eyebrow">Studio Norr</span>
+        <span class="sd-eyebrow">Work · About · Journal</span>
+      </div>
+      <div class="sd-editorial-grid">
+        <h2 class="sd-headline" id="sd-editorial-title">Form follows <em>feeling</em></h2>
+        <p class="sd-editorial-aside">Quiet layouts, strict grids, and type that does the talking.</p>
+      </div>
+      <div class="sd-bar sd-editorial-foot">
+        <uc-button text="Read the essay →" variant="text" size="small" />
+        <span class="sd-editorial-number" aria-hidden="true">01</span>
+      </div>
+    </div>
+    <p class="sd-caption"><code>data-theme="editorial"</code> Swiss editorial</p>
+  </section>
+
+  <!-- 03 Dark bento -->
+  <section class="sd-frame" data-theme="bento" aria-labelledby="sd-bento-title">
+    <div class="sd-hero sd-bento">
+      <uc-card class="sd-bento-main">
+        <uc-pill text="New · v3.0" size="compact" />
+        <h2 class="sd-headline" id="sd-bento-title">Ship faster with less noise</h2>
+        <uc-button text="Start free" size="small" />
+      </uc-card>
+      <uc-card class="sd-bento-stat">
+        <span class="sd-muted">Uptime</span>
+        <strong class="sd-bento-value">99.98%</strong>
+      </uc-card>
+      <uc-card class="sd-bento-chart" aria-hidden="true">
+        @for (bar of bars; track $index; let last = $last) {
+          <span class="sd-bento-column" [class.sd-bento-column-accent]="last" [style.height.%]="bar"></span>
+        }
+      </uc-card>
+    </div>
+    <p class="sd-caption"><code>data-theme="bento"</code> Dark bento grid</p>
+  </section>
+
+  <!-- 04 Organic soft -->
+  <section class="sd-frame" data-theme="organic" aria-labelledby="sd-organic-title">
+    <div class="sd-hero sd-organic">
+      <span class="sd-blob sd-blob-one" aria-hidden="true"></span>
+      <span class="sd-blob sd-blob-two" aria-hidden="true"></span>
+      <div class="sd-organic-body">
+        <span class="sd-muted">Terra · slow living</span>
+        <h2 class="sd-headline" id="sd-organic-title">Rooted in calm design</h2>
+        <uc-button text="Explore the collection" />
+      </div>
+    </div>
+    <p class="sd-caption"><code>data-theme="organic"</code> Organic soft</p>
+  </section>
+
+  <!-- 05 Developer platform -->
+  <section class="sd-frame" data-theme="forge" aria-labelledby="sd-forge-title">
+    <div class="sd-hero sd-forge">
+      <div class="sd-bar sd-forge-head">
+        <uc-phosphor-icon icon="git-fork" />
+        <h2 class="sd-forge-title" id="sd-forge-title">forge / <strong>core-api</strong></h2>
+        <uc-pill text="★ 12.4k" size="compact" variant="info" />
+      </div>
+      <div class="sd-bar">
+        <uc-button text="main" variant="secondary" size="small">
+          <uc-phosphor-icon ucButtonPrefix icon="git-branch" />
+        </uc-button>
+        <uc-button text="Code" size="small" />
+      </div>
+      <uc-card class="sd-forge-files">
+        <div class="sd-forge-row sd-forge-commit"><strong>mira</strong> fix: retry on timeout · 2h ago</div>
+        @for (row of forgeRows; track row.name) {
+          <div class="sd-forge-row"><uc-phosphor-icon [icon]="row.icon" /> {{ row.name }}</div>
+        }
+        <div class="sd-forge-row sd-forge-diff">
+          <span class="sd-plus">+ 128</span><span class="sd-minus">− 42</span><span class="sd-pending">● review</span>
+        </div>
+      </uc-card>
+    </div>
+    <p class="sd-caption"><code>data-theme="forge"</code> Developer platform</p>
+  </section>
+
+  <!-- 06 Launch site -->
+  <section class="sd-frame" data-theme="launch" aria-labelledby="sd-launch-title">
+    <div class="sd-hero sd-launch">
+      <div class="sd-launch-nav">
+        <strong>Vela</strong>
+        <span class="sd-muted">Product</span>
+        <span class="sd-muted">Pricing</span>
+        <uc-button text="Sign up" size="small" />
+      </div>
+      <span class="sd-launch-kicker">Now with instant deploys</span>
+      <h2 class="sd-headline" id="sd-launch-title">Build it. Ship it.<br /><span class="sd-launch-accent">Scale it.</span></h2>
+      <p class="sd-muted">From idea to live site in seconds.</p>
+      <div class="sd-actions">
+        <uc-button text="Start building" size="small" />
+        <uc-button text="See templates" variant="secondary" size="small" />
+      </div>
+    </div>
+    <p class="sd-caption"><code>data-theme="launch"</code> Launch site</p>
+  </section>
+</div>

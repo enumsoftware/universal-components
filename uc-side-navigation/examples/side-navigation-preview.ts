@@ -1,12 +1,14 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, input } from '@angular/core';
 
 import { UcIconButton } from '../../uc-icon-button/uc-icon-button';
 import { UcPhosphorIcon } from '../../uc-phosphor-icon/uc-phosphor-icon';
 import { UcSidebarButton } from '../../uc-sidebar-button/uc-sidebar-button';
-import { UcSidebar } from '../uc-sidebar/uc-sidebar';
+import { UcSidebar, type UcSidebarEdge } from '../uc-sidebar/uc-sidebar';
 import {
   UcSideNavigation,
   type UcSidebarMode,
+  type UcSidebarOverlayScope,
   type UcSidebarVariant,
 } from '../uc-side-navigation';
 
@@ -43,13 +45,15 @@ const NAV_ITEMS: NavItem[] = [
  */
 @Component({
   selector: 'uc-side-navigation-preview',
-  imports: [UcSideNavigation, UcSidebar, UcSidebarButton, UcPhosphorIcon, UcIconButton],
+  imports: [NgTemplateOutlet, UcSideNavigation, UcSidebar, UcSidebarButton, UcPhosphorIcon, UcIconButton],
   styleUrl: './side-navigation-preview.css',
   template: `
     <uc-side-navigation
       #sideNavigation
       [sidebarMode]="sidebarMode()"
       [sidebarVariant]="sidebarVariant()"
+      [overlayScope]="overlayScope()"
+      [mainLandmark]="landmarks()"
       [sidebarScrollable]="sidebarScrollable()"
       [closeOnBackdropClick]="closeOnBackdropClick()"
     >
@@ -63,14 +67,19 @@ const NAV_ITEMS: NavItem[] = [
         />
       </div>
 
-      <uc-sidebar>
-        <nav class="wb-nav">
+      <uc-sidebar [edge]="edge()" [resizable]="resizable()" resizeLabel="Resize navigation">
+        @if (landmarks()) {
+          <nav class="wb-nav"><ng-container [ngTemplateOutlet]="navList" /></nav>
+        } @else {
+          <div class="wb-nav"><ng-container [ngTemplateOutlet]="navList" /></div>
+        }
+        <ng-template #navList>
           @for (item of navItems; track item.label; let first = $first) {
             <uc-sidebar-button [text]="item.label" [active]="first">
               <uc-phosphor-icon [icon]="item.icon" />
             </uc-sidebar-button>
           }
-        </nav>
+        </ng-template>
       </uc-sidebar>
 
       <div ucSidebarFooter class="wb-sidebar-footer">
@@ -79,6 +88,26 @@ const NAV_ITEMS: NavItem[] = [
         </uc-sidebar-button>
       </div>
 
+      @if (endSidebar()) {
+        <div ucEndSidebarHeader class="wb-sidebar-header">
+          <strong>Details</strong>
+          <uc-icon-button
+            label="Close details"
+            phosphorIcon="x"
+            variant="secondary"
+            (clicked)="sideNavigation.closeSidebar('end')"
+          />
+        </div>
+      }
+
+      @if (endSidebar()) {
+        <uc-sidebar side="end" [edge]="edge()" [resizable]="resizable()" resizeLabel="Resize details">
+          <div class="wb-details">
+            <p>A second sidebar on the end side, with its own header, width and edge.</p>
+          </div>
+        </uc-sidebar>
+      }
+
       <div class="wb-main">
         <uc-icon-button
           label="Open sidebar"
@@ -86,6 +115,14 @@ const NAV_ITEMS: NavItem[] = [
           variant="secondary"
           (clicked)="sideNavigation.openSidebar()"
         />
+        @if (endSidebar()) {
+          <uc-icon-button
+            label="Open details"
+            phosphorIcon="sidebar-simple"
+            variant="secondary"
+            (clicked)="sideNavigation.openSidebar('end')"
+          />
+        }
         <h2>Main Content</h2>
         <p>This is the main content area.</p>
 
@@ -103,8 +140,17 @@ const NAV_ITEMS: NavItem[] = [
 export class SideNavigationPreview {
   readonly sidebarMode = input<UcSidebarMode>('side');
   readonly sidebarVariant = input<UcSidebarVariant>('floating');
+  readonly overlayScope = input<UcSidebarOverlayScope>('viewport');
   readonly sidebarScrollable = input<boolean>(true);
   readonly closeOnBackdropClick = input<boolean>(true);
+  readonly endSidebar = input<boolean>(false);
+  readonly edge = input<UcSidebarEdge>('line');
+  readonly resizable = input<boolean>(false);
+  /**
+   * Whether the preview claims the main and navigation landmarks. The Examples tab shows several
+   * previews on one page, and only one of them may own those landmarks.
+   */
+  readonly landmarks = input<boolean>(true);
 
   protected readonly navItems = NAV_ITEMS;
   protected readonly scrollItems = Array.from(

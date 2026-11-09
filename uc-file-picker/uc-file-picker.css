@@ -27,7 +27,7 @@
   border-radius: 12px;
   background: var(--uc-file-picker-dropzone-background-resolved);
   color: var(--uc-file-picker-dropzone-text-resolved);
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
   cursor: pointer;
   transition:
     border-color 0.2s ease,

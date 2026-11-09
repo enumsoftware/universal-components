@@ -144,7 +144,7 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-Controls that are not listed keep their built-in default, and a variant set on an element always wins. Covered controls: `anchor`, `badge`, `button`, `divider`, `iconButton`, `info`, `pill`, `segmentedToggle`, `sidebarButton` (its `style` input) and `tabs`. A lazy route can provide its own defaults, merged over the app's per control. The full table of options and built-in defaults is in the Workbench under **Foundations / Default Variants** (`uc-defaults/uc-defaults.docs.md`).
+Controls that are not listed keep their built-in default, and a variant set on an element always wins. Covered controls: `anchor`, `badge`, `breadcrumbs`, `button`, `divider`, `iconButton`, `info`, `pill`, `segmentedToggle`, `sidebarButton` (its `style` input) and `tabs`. A lazy route can provide its own defaults, merged over the app's per control. The full table of options and built-in defaults is in the Workbench under **Foundations / Default Variants** (`uc-defaults/uc-defaults.docs.md`).
 
 ## Theming And Component Tokens
 
@@ -152,13 +152,113 @@ Global theme files are exported from the `themes/` directory. Import one of the 
 
 | Import | What it includes |
 |--------|-----------------|
-| `@enumsoftware/universal-components/themes/theme.css` | **Recommended.** Includes all built-in themes (`light`, `dark`, `aurora`, `midnight`), Google Fonts (Poppins), Phosphor icon styles, and flag-icons. |
-| `@enumsoftware/universal-components/themes/uc-light.css` | Light theme variables only. Use when you need a single fixed theme or want to load themes on demand. |
-| `@enumsoftware/universal-components/themes/uc-dark.css` | Dark theme variables only. Same use-case as above. |
+| `@enumsoftware/universal-components/themes/theme.css` | **Recommended.** Includes all ten built-in themes (see below), their Google Fonts, Phosphor icon styles, and flag-icons. |
+| `@enumsoftware/universal-components/themes/theme-core.css` | Everything in `theme.css` except the Google Fonts request. Use it when the app loads its own fonts. |
+| `@enumsoftware/universal-components/themes/uc-light.css` | Light theme variables only. Use when you need a single fixed theme or want to load themes on demand. Also `uc-<theme>.css` for every theme below. |
+| `@enumsoftware/universal-components/themes/fonts/light.css` | The Google Fonts of one theme, to pair with a single theme file. Also `fonts/<theme>.css` for every theme, and `fonts.css` for all of them. |
 
-> `theme.css` already `@import`s both `uc-light.css` and `uc-dark.css`, and each now defines two themes (`light` + `aurora`, `dark` + `midnight`), so importing it alone is sufficient for apps that support all built-in themes.
+> `theme.css` is `fonts.css` plus `theme-core.css`, and `theme-core.css` `@import`s every theme file, so importing `theme.css` alone is sufficient for apps that support all built-in themes.
 
-Use `data-theme="light"`, `data-theme="dark"`, `data-theme="aurora"`, or `data-theme="midnight"` on `html` or `body` to switch themes. The Workbench exposes the same options twice over: one picker for the app chrome, one for the preview canvas, so a component can be reviewed in dark on a light page.
+Set `data-theme` on `html`, `body` or any element to switch themes. A theme scoped to an element applies only inside it, so several can share a page.
+
+| Theme | Mode | Style |
+|-------|------|-------|
+| `light` | light | The default light theme. |
+| `dark` | dark | The default dark theme. |
+| `aurora` | light | Purple and cyan on a cool white. |
+| `midnight` | dark | Sky blue and violet on deep navy. |
+| `brutal` | light | Neo-brutalism: 2px black outlines, hard offset shadows, square corners and brights on cream. |
+| `editorial` | light | Swiss editorial: serif headlines, hairline borders, square corners, one burnt-orange accent. |
+| `bento` | dark | Dark bento grid: bordered tiles a step above near-black, violet actions, teal data. |
+| `organic` | light | Organic soft: sage and clay, soft serif headlines, pill buttons, very round surfaces. |
+| `forge` | dark | Developer platform: compact bordered panels, green actions, blue links, colour only for meaning. |
+| `launch` | dark | Launch site: pure black, tightly tracked headlines, electric blue and violet. |
+
+The Workbench lists all of them in its **App theme** picker, and **Examples / Style Directions** shows the last six side by side.
+
+A few tokens shape buttons and cards beyond colour, all off by default: `--uc-button-border-width`, `--uc-button-border-color` and `--uc-button-box-shadow` (filled variants only; `--uc-button-secondary-border-width` sets the outline variant), and `--uc-card-border`.
+
+### Typography
+
+Every theme sets three font roles, and components read them instead of naming a font:
+
+| Token | Used for |
+|-------|----------|
+| `--uc-font-family` | Body text and every component (`--uc-content-font-family` and `--uc-badge-font-family` default to it). |
+| `--uc-font-family-heading` | `h1`–`h6`, `.uc-h1`–`.uc-h6` and `.uc-content` headings, through `--uc-content-heading-font-family`. |
+| `--uc-font-family-mono` | `code`, `pre`, `kbd`, the `uc-editor` source view and `uc-info` code, through `--uc-content-inline-code-font-family` and `--uc-editor-source-font-family`. |
+
+Built-in pairings, all from Google Fonts:
+
+| Theme | Text | Headings | Code |
+|-------|------|----------|------|
+| `light` | Poppins | Poppins | JetBrains Mono |
+| `dark` | Inter | Manrope | Fira Code |
+| `aurora` | DM Sans | Space Grotesk | Space Mono |
+| `midnight` | Plus Jakarta Sans | Sora | IBM Plex Mono |
+| `brutal` | Archivo | Bricolage Grotesque | Space Mono |
+| `editorial` | Instrument Sans | Fraunces | IBM Plex Mono |
+| `bento` | Geist | Geist | Geist Mono |
+| `organic` | Nunito | Fraunces | IBM Plex Mono |
+| `forge` | system UI | system UI | JetBrains Mono |
+| `launch` | Inter | Inter Tight | Geist Mono |
+
+`fonts.css` only declares `@font-face` rules, so a browser downloads the files of the theme that is actually on screen, not all four pairings.
+
+To use your own fonts, import `theme-core.css` instead of `theme.css`, load the fonts however you like, and set the roles on the element that carries `data-theme`. The theme files derive the content, badge and editor font tokens from the roles in that same scope, so overriding the three roles there is enough:
+
+```css
+@import '@enumsoftware/universal-components/themes/theme-core.css';
+@import '@fontsource-variable/geist';
+
+[data-theme] {
+	--uc-font-family: 'Geist Variable', system-ui, sans-serif;
+	--uc-font-family-heading: var(--uc-font-family);
+	--uc-font-family-mono: ui-monospace, monospace;
+}
+```
+
+Set them on `[data-theme]` rather than `:root`: a theme scoped to `body` or to a nested element would otherwise shadow the root value.
+
+#### Switching fonts separately from the theme
+
+Set `data-font` next to `data-theme` to swap the pairing at runtime without changing colours. Leave it off to keep the theme's own fonts.
+
+```html
+<html data-theme="dark" data-font="dm-sans">
+```
+
+| `data-font` | Text | Headings | Code |
+|-------------|------|----------|------|
+| `poppins` | Poppins | Poppins | JetBrains Mono |
+| `inter` | Inter | Manrope | Fira Code |
+| `dm-sans` | DM Sans | Space Grotesk | Space Mono |
+| `plus-jakarta-sans` | Plus Jakarta Sans | Sora | IBM Plex Mono |
+| `system` | `system-ui` | `system-ui` | `ui-monospace` (no web font) |
+
+The presets live in `themes/font-presets.css`, which `theme.css` and `theme-core.css` already include. They reuse the families `fonts.css` declares, so switching only downloads the faces that then render. `uc-code-editor` re-reads its font when `data-font` on `<html>` changes.
+
+#### Font weights
+
+Components never name a numeric weight. They read four tokens that every theme sets:
+
+| Token | Default |
+|-------|---------|
+| `--uc-font-weight-regular` | `400` |
+| `--uc-font-weight-medium` | `500` |
+| `--uc-font-weight-semibold` | `600` |
+| `--uc-font-weight-bold` | `700` |
+
+If your font does not ship a weight, point the token at one it does, so the browser does not synthesise a faux bold:
+
+```css
+[data-theme] {
+	--uc-font-weight-semibold: 700;
+}
+```
+
+Per-component weight tokens (`--uc-button-font-weight`, `--uc-badge-font-weight`, ...) default to these, so they follow along.
+
 
 Standard override model:
 

@@ -76,7 +76,7 @@
   height: var(--uc-icon-button-height-resolved);
   box-sizing: border-box;
   cursor: pointer;
-  font-weight: 700;
+  font-weight: var(--uc-font-weight-bold);
   transition:
     background 0.3s,
     color 0.3s;

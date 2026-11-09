@@ -7,8 +7,8 @@
   --uc-tree-node-border-radius-resolved: var(--uc-tree-node-border-radius, 0.5rem);
   --uc-tree-node-color-resolved: var(--uc-tree-node-color, var(--uc-foreground-color));
   --uc-tree-node-font-size-resolved: var(--uc-tree-node-font-size, 0.875rem);
-  --uc-tree-node-font-weight-resolved: var(--uc-tree-node-font-weight, 500);
-  --uc-tree-branch-font-weight-resolved: var(--uc-tree-branch-font-weight, 600);
+  --uc-tree-node-font-weight-resolved: var(--uc-tree-node-font-weight, var(--uc-font-weight-medium));
+  --uc-tree-branch-font-weight-resolved: var(--uc-tree-branch-font-weight, var(--uc-font-weight-semibold));
   --uc-tree-node-hover-background-resolved: var(--uc-tree-node-hover-background, oklch(from var(--uc-foreground-color) l c h / 0.08));
   --uc-tree-node-selected-background-resolved: var(--uc-tree-node-selected-background, var(--uc-primary-color));
   --uc-tree-node-selected-color-resolved: var(--uc-tree-node-selected-color, var(--uc-inverse-foreground-color));

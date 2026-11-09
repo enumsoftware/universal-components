@@ -1,0 +1,26 @@
+<nav class="uc-breadcrumbs" [class]="'uc-' + variant()" [attr.aria-label]="label()">
+  <ol #list class="uc-breadcrumbs__list">
+    @for (entry of entries(); track entry.kind === 'item' ? entry.item : 'collapse'; let first = $first) {
+      @if (!first) {
+        <li class="uc-breadcrumbs__separator" aria-hidden="true">
+          @if (separatorTemplate(); as custom) {
+            <ng-container [ngTemplateOutlet]="custom.templateRef" />
+          } @else {
+            {{ separator() }}
+          }
+        </li>
+      }
+      @if (entry.kind === 'item') {
+        <li class="uc-breadcrumbs__item">
+          <ng-container [ngTemplateOutlet]="entry.item.templateRef" />
+        </li>
+      } @else {
+        <li class="uc-breadcrumbs__item">
+          <button type="button" class="uc-breadcrumbs__collapse" [attr.aria-label]="expandText()" (click)="expand()">
+            &hellip;
+          </button>
+        </li>
+      }
+    }
+  </ol>
+</nav>

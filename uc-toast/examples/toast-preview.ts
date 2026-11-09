@@ -20,12 +20,18 @@ export class ToastPreview {
   readonly message = input<string>('Your report was submitted.');
   /** Milliseconds; 0 keeps the toast open until closed, empty uses the variant's default. */
   readonly duration = input<number | null>(null);
+  /** Text of the primary action button; empty hides it. */
+  readonly positiveText = input<string>('');
+  /** Text of the secondary action button; empty hides it. */
+  readonly negativeText = input<string>('');
 
   show(): void {
     this.toastService.show(this.message(), {
       variant: this.variant(),
       title: this.heading() || undefined,
       duration: this.duration() ?? undefined,
+      positiveAction: this.positiveText() ? { text: this.positiveText() } : undefined,
+      negativeAction: this.negativeText() ? { text: this.negativeText() } : undefined,
     });
   }
 }

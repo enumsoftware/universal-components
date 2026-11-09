@@ -13,7 +13,7 @@
     oklch(from var(--uc-foreground-color) l c h / 0.08)
   );
   --uc-segmented-toggle-item-font-size-resolved: var(--uc-segmented-toggle-item-font-size, 0.95rem);
-  --uc-segmented-toggle-item-font-weight-resolved: var(--uc-segmented-toggle-item-font-weight, 600);
+  --uc-segmented-toggle-item-font-weight-resolved: var(--uc-segmented-toggle-item-font-weight, var(--uc-font-weight-semibold));
   --uc-segmented-toggle-item-line-height-resolved: var(--uc-segmented-toggle-item-line-height, 1.25rem);
   --uc-segmented-toggle-item-padding-block-resolved: var(--uc-segmented-toggle-item-padding-block, 0.4rem);
   --uc-segmented-toggle-item-padding-inline-resolved: var(--uc-segmented-toggle-item-padding-inline, 1rem);

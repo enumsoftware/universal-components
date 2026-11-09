@@ -6,7 +6,7 @@
   --uc-accordion-header-hover-background-resolved: var(--uc-accordion-header-hover-background, oklch(from var(--uc-foreground-color) l c h / 0.08));
   --uc-accordion-header-focus-outline-color-resolved: var(--uc-accordion-header-focus-outline-color, var(--uc-primary-color));
   --uc-accordion-title-font-size-resolved: var(--uc-accordion-title-font-size, 1rem);
-  --uc-accordion-title-font-weight-resolved: var(--uc-accordion-title-font-weight, 500);
+  --uc-accordion-title-font-weight-resolved: var(--uc-accordion-title-font-weight, var(--uc-font-weight-medium));
   --uc-accordion-title-color-resolved: var(--uc-accordion-title-color, var(--uc-foreground-color));
   --uc-accordion-icon-color-resolved: var(--uc-accordion-icon-color, var(--uc-foreground-color));
   --uc-accordion-icon-hover-color-resolved: var(--uc-accordion-icon-hover-color, var(--uc-primary-color));

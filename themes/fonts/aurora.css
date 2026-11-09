@@ -1,0 +1,6 @@
+/*
+ * Google Fonts for the aurora theme: DM Sans for text, Space Grotesk for
+ * headings, Space Mono for code. Pair with uc-aurora.css when importing a
+ * single theme.
+ */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Space+Grotesk:wght@500..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');

@@ -1,7 +1,7 @@
 :host {
   --uc-pagination-page-button-size-resolved: var(--uc-pagination-page-button-size, 2.75rem);
   --uc-pagination-page-button-font-size-resolved: var(--uc-pagination-page-button-font-size, 1rem);
-  --uc-pagination-page-button-font-weight-resolved: var(--uc-pagination-page-button-font-weight, 700);
+  --uc-pagination-page-button-font-weight-resolved: var(--uc-pagination-page-button-font-weight, var(--uc-font-weight-bold));
   --uc-pagination-page-button-border-radius-resolved: var(
     --uc-pagination-page-button-border-radius,
     var(--uc-icon-button-border-radius, 0.75rem)

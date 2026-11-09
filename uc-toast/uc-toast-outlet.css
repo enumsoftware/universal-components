@@ -78,7 +78,7 @@
 
 .uc-toast__title {
   margin: 0 0 0.125rem;
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
   font-size: 0.875rem;
 }
 
@@ -87,6 +87,14 @@
   font-size: 0.875rem;
   line-height: 1.4;
   overflow-wrap: anywhere;
+}
+
+.uc-toast__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.625rem;
 }
 
 .uc-toast__close {

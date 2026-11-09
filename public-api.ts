@@ -16,7 +16,7 @@ export type {
   UcSelectLoadResult,
   UcSelectQuery,
 } from './uc-select/uc-select';
-export type { UcSidebarMode, UcSidebarVariant } from './uc-side-navigation/uc-side-navigation';
+export type { UcSidebarMode, UcSidebarOverlayScope, UcSidebarVariant } from './uc-side-navigation/uc-side-navigation';
 export type { UcTab, UcTabsVariant } from './uc-tabs/uc-tabs';
 export type { UcTooltipPosition, UcTooltipConfig } from './uc-tooltip/uc-tooltip';
 export type { UcTreeNode } from './uc-tree/uc-tree-node';
@@ -52,6 +52,13 @@ export {
 } from './uc-bottom-sheet/uc-bottom-sheet.service';
 export { UcBottomSheetRef } from './uc-bottom-sheet/uc-bottom-sheet-ref';
 export { UcBottomSheet, type UcBottomSheetSnapPoint } from './uc-bottom-sheet/uc-bottom-sheet';
+export {
+  BREADCRUMBS_VARIANT_OPTIONS,
+  UcBreadcrumb,
+  UcBreadcrumbs,
+  UcBreadcrumbSeparator,
+  type UcBreadcrumbsVariant,
+} from './uc-breadcrumbs/uc-breadcrumbs';
 export {
   BUTTON_VARIANT_OPTIONS,
   UcButton,
@@ -113,6 +120,7 @@ export { UcSelect } from './uc-select/uc-select';
 export { UcSideNavigation } from './uc-side-navigation/uc-side-navigation';
 export { UcSideNavigationModule } from './uc-side-navigation/uc-side-navigation-module';
 export { UcSidebar } from './uc-side-navigation/uc-sidebar/uc-sidebar';
+export type { UcSidebarEdge, UcSidebarSide } from './uc-side-navigation/uc-sidebar/uc-sidebar';
 export {
   SIDEBAR_BUTTON_STYLE_OPTIONS,
   UcSidebarButton,
@@ -135,6 +143,7 @@ export {
   TOAST_VARIANT_OPTIONS,
   type ToastVariant,
   type UcToast,
+  type UcToastAction,
   type UcToastOptions,
 } from './uc-toast/uc-toast.service';
 export { UcToastOutlet } from './uc-toast/uc-toast-outlet';

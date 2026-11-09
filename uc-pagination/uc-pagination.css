@@ -46,7 +46,7 @@
 
   .uc-pagination__ellipsis {
     color: var(--uc-pagination-info-color-resolved);
-    font-weight: 700;
+    font-weight: var(--uc-font-weight-bold);
     line-height: 1;
     letter-spacing: 0.04em;
   }

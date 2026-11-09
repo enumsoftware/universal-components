@@ -1,0 +1,57 @@
+/*
+ * Font presets, switched at runtime with `data-font` independently of
+ * `data-theme`: <html data-theme="dark" data-font="dm-sans">. Without the
+ * attribute an element keeps its theme's own pairing.
+ *
+ * The web-font presets reuse the families fonts.css already declares, so a
+ * switch only downloads the faces that then render. `system` loads nothing.
+ *
+ * The doubled attribute selector outranks `[data-theme='…']`, so a preset wins
+ * on the same element whatever order the theme sheets were imported in.
+ */
+[data-font][data-font='poppins'] {
+  --uc-font-family: 'Poppins', system-ui, sans-serif;
+  --uc-font-family-heading: var(--uc-font-family);
+  --uc-font-family-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+}
+
+[data-font][data-font='inter'] {
+  --uc-font-family: 'Inter', system-ui, sans-serif;
+  --uc-font-family-heading: 'Manrope', var(--uc-font-family);
+  --uc-font-family-mono: 'Fira Code', ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+}
+
+[data-font][data-font='dm-sans'] {
+  --uc-font-family: 'DM Sans', system-ui, sans-serif;
+  --uc-font-family-heading: 'Space Grotesk', var(--uc-font-family);
+  --uc-font-family-mono: 'Space Mono', ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+}
+
+[data-font][data-font='plus-jakarta-sans'] {
+  --uc-font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --uc-font-family-heading: 'Sora', var(--uc-font-family);
+  --uc-font-family-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+}
+
+[data-font][data-font='system'] {
+  --uc-font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --uc-font-family-heading: var(--uc-font-family);
+  --uc-font-family-mono: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+}
+
+/*
+ * The theme files derive these from the roles in their own scope. Re-derived
+ * here so a `data-font` below the `data-theme` element still reaches them.
+ */
+[data-font][data-font] {
+  --uc-content-font-family: var(--uc-font-family);
+  --uc-content-heading-font-family: var(--uc-font-family-heading);
+  --uc-content-inline-code-font-family: var(--uc-font-family-mono);
+  --uc-badge-font-family: var(--uc-font-family);
+  --uc-editor-source-font-family: var(--uc-font-family-mono);
+  --uc-code-editor-font-family: var(--uc-font-family-mono);
+}
+
+:where([data-font]) {
+  font-family: var(--uc-font-family);
+}

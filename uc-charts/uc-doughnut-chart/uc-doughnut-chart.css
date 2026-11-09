@@ -33,7 +33,7 @@ uc-doughnut-chart .uc-doughnut-chart {
 
     strong {
       font-size: 0.78rem;
-      font-weight: 700;
+      font-weight: var(--uc-font-weight-bold);
       color: inherit;
     }
   }

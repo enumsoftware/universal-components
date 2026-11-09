@@ -13,7 +13,7 @@ import path from 'node:path';
 
 const root = process.cwd();
 const themesDir = path.join(root, 'themes');
-const themeIndexPath = path.join(themesDir, 'theme.css');
+const themeIndexPath = path.join(themesDir, 'theme-core.css');
 
 const IGNORED_DIRS = new Set(['node_modules', 'dist', '.git']);
 
@@ -95,7 +95,7 @@ function extractThemeDefinitions(themeFilePath: string): Set<string> {
 }
 
 /**
- * Prefers the themes imported by theme.css so a theme dropped from the barrel
+ * Prefers the themes imported by theme-core.css so a theme dropped from the barrel
  * stops being checked, and falls back to whatever uc-*.css is on disk.
  */
 function getThemeFiles(): string[] {

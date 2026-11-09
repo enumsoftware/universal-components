@@ -1,0 +1,339 @@
+/*
+ * Every colour here is a theme token read inside the frame's own data-theme,
+ * so a hero repaints if its theme changes. Sizes and positions are layout only.
+ */
+.sd-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr));
+  gap: 1.5rem;
+}
+
+.sd-frame {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid oklch(from var(--uc-foreground-color) l c h / 0.14);
+  border-radius: 1rem;
+  background: var(--uc-background-color);
+  color: var(--uc-foreground-color);
+}
+
+.sd-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-height: 17rem;
+  padding: 1.5rem;
+  overflow: hidden;
+}
+
+.sd-caption {
+  margin: 0;
+  padding: 0.75rem 1.5rem;
+  border-top: 1px solid oklch(from var(--uc-foreground-color) l c h / 0.12);
+  color: var(--uc-paragraph-text-color);
+  font-size: 0.875rem;
+}
+
+.sd-caption code {
+  margin-inline-end: 0.5rem;
+}
+
+.sd-bar,
+.sd-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.sd-actions {
+  justify-content: flex-start;
+}
+
+.sd-bar uc-button,
+.sd-actions uc-button,
+.sd-hero > uc-button,
+.sd-bento-main uc-button,
+.sd-organic-body uc-button,
+.sd-launch-nav uc-button {
+  flex: 0 0 auto;
+  width: auto;
+}
+
+.sd-headline {
+  margin: 0;
+  font-size: clamp(1.75rem, 3.2vw, 2.25rem);
+  line-height: 1.08;
+}
+
+.sd-muted {
+  color: var(--uc-paragraph-text-color);
+  font-size: 0.875rem;
+}
+
+/* --- Brutal ------------------------------------------------------------- */
+.sd-brand {
+  font-family: var(--uc-font-family-heading);
+  font-size: 1.25rem;
+  font-weight: var(--uc-font-weight-bold);
+}
+
+.sd-brutal .sd-headline mark {
+  padding: 0 0.4rem;
+  border-radius: 0;
+}
+
+.sd-brutal-dot {
+  position: absolute;
+  right: -1.25rem;
+  bottom: -1.25rem;
+  width: 6.5rem;
+  height: 6.5rem;
+  border: 2px solid var(--uc-foreground-color);
+  border-radius: 50%;
+  background: var(--uc-content-mark-background);
+}
+
+/* --- Editorial ---------------------------------------------------------- */
+.sd-eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sd-editorial-rule {
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--uc-foreground-color);
+}
+
+.sd-editorial-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+}
+
+.sd-editorial .sd-headline {
+  font-size: clamp(2rem, 4vw, 2.6rem);
+}
+
+.sd-editorial .sd-headline em {
+  color: var(--uc-primary-color);
+}
+
+.sd-editorial-aside {
+  margin: 0;
+  padding-left: 0.75rem;
+  border-left: 1px solid var(--uc-input-border-color);
+  color: var(--uc-paragraph-text-color);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.sd-editorial-foot {
+  margin-top: auto;
+  align-items: flex-end;
+}
+
+.sd-editorial-foot uc-button {
+  --uc-button-text-color: var(--uc-primary-color);
+}
+
+.sd-editorial-number {
+  font-family: var(--uc-font-family-heading);
+  font-size: 3.25rem;
+  line-height: 1;
+  color: var(--uc-input-border-color);
+}
+
+/* --- Bento -------------------------------------------------------------- */
+.sd-bento {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.sd-bento uc-card {
+  --uc-card-padding: 1rem;
+}
+
+.sd-bento-main {
+  grid-row: span 2;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.sd-bento-main .sd-headline {
+  font-size: 1.5rem;
+}
+
+.sd-bento-stat {
+  justify-content: center;
+}
+
+.sd-bento-value {
+  color: var(--uc-secondary-color);
+  font-size: 1.5rem;
+  font-weight: var(--uc-font-weight-medium);
+}
+
+.sd-bento-chart {
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+
+.sd-bento-column {
+  flex: 1;
+  border-radius: 0.2rem;
+  background: oklch(from var(--uc-foreground-color) l c h / 0.14);
+}
+
+.sd-bento-column-accent {
+  background: var(--uc-primary-color);
+}
+
+/* --- Organic ------------------------------------------------------------ */
+.sd-blob {
+  position: absolute;
+}
+
+.sd-blob-one {
+  top: -2.25rem;
+  right: -2.25rem;
+  width: 11rem;
+  height: 11rem;
+  border-radius: 60% 40% 55% 45%;
+  background: var(--uc-content-mark-background);
+}
+
+.sd-blob-two {
+  right: 3rem;
+  bottom: -3rem;
+  width: 8.75rem;
+  height: 8.75rem;
+  border-radius: 45% 55% 40% 60%;
+  background: var(--uc-secondary-color);
+}
+
+.sd-organic-body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  max-width: 18rem;
+}
+
+/* --- Forge -------------------------------------------------------------- */
+.sd-forge {
+  gap: 0.75rem;
+  font-size: 0.8125rem;
+}
+
+.sd-forge-head {
+  justify-content: flex-start;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--uc-input-border-color);
+}
+
+.sd-forge-title {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: var(--uc-font-weight-regular);
+}
+
+.sd-forge-head uc-pill {
+  margin-inline-start: auto;
+}
+
+.sd-forge-files {
+  --uc-card-padding: 0;
+  overflow: hidden;
+}
+
+.sd-forge-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-top: 1px solid var(--uc-input-border-color);
+  font-family: var(--uc-font-family-mono);
+}
+
+.sd-forge-commit {
+  border-top: 0;
+  background: var(--uc-background-color);
+  color: var(--uc-paragraph-text-color);
+  font-family: var(--uc-font-family);
+}
+
+.sd-forge-commit strong {
+  color: var(--uc-foreground-color);
+  font-weight: var(--uc-font-weight-medium);
+}
+
+.sd-forge-diff {
+  gap: 0.75rem;
+}
+
+.sd-plus {
+  color: var(--uc-success-color);
+}
+
+.sd-minus {
+  color: var(--uc-error-color);
+}
+
+.sd-pending {
+  color: var(--uc-warning-color);
+}
+
+/* --- Launch ------------------------------------------------------------- */
+.sd-launch {
+  align-items: center;
+  gap: 0.6rem;
+  text-align: center;
+}
+
+.sd-launch-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 0.75rem;
+  padding: 0.3rem 0.35rem 0.3rem 1rem;
+  border: 1px solid var(--uc-button-secondary-border-color);
+  border-radius: 999px;
+  background: var(--uc-card-background-color);
+  font-size: 0.8125rem;
+}
+
+.sd-launch-nav uc-button {
+  --uc-button-small-border-radius: 999px;
+  --uc-button-background: var(--uc-foreground-color);
+  --uc-button-color: var(--uc-background-color);
+}
+
+.sd-launch-kicker {
+  color: var(--uc-primary-color);
+  font-size: 0.8125rem;
+}
+
+.sd-launch .sd-headline {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+}
+
+.sd-launch-accent {
+  color: var(--uc-secondary-color);
+}
+
+.sd-launch .sd-muted {
+  margin: 0;
+}
+
+.sd-launch .sd-actions {
+  justify-content: center;
+}

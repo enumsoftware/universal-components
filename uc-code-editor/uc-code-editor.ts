@@ -29,9 +29,6 @@ import { ucCodeEditorLanguageLabel } from './uc-code-editor-languages';
 export type UcCodeEditorMode = 'edit' | 'preview';
 export type UcCodeEditorTheme = 'auto' | 'light' | 'dark';
 
-/** Theme names, set via `data-theme` on `<html>` elsewhere in this library, that read as dark. */
-const DARK_THEME_NAMES = new Set(['dark', 'midnight']);
-
 @Component({
   selector: 'uc-code-editor',
   imports: [CommonModule, FormsModule, UcIconButton, UcPill],
@@ -44,6 +41,7 @@ const DARK_THEME_NAMES = new Set(['dark', 'midnight']);
 })
 export class UcCodeEditor implements FormValueControl<string | null>, OnDestroy {
   private readonly editorHost = viewChild<ElementRef<HTMLElement>>('editorHost');
+  private readonly hostElement = inject<ElementRef<HTMLElement>>(ElementRef);
 
   // Input properties
   private readonly config = inject(UC_CODE_EDITOR_CONFIG);
@@ -84,6 +82,8 @@ export class UcCodeEditor implements FormValueControl<string | null>, OnDestroy 
   readonly loadError = signal<string | null>(null);
   readonly copied = signal<boolean>(false);
   private readonly darkModeActive = signal<boolean>(false);
+  /** `--uc-code-editor-font-family-resolved` as computed on the host, re-read on every theme or font change. */
+  private readonly cssFontFamily = signal<string>('');
 
   // Computed properties
   showErrorState = computed(() => this.invalid() && this.touched());
@@ -106,6 +106,14 @@ export class UcCodeEditor implements FormValueControl<string | null>, OnDestroy 
 
     return this.darkModeActive() ? 'vs-dark' : 'vs';
   });
+  /**
+   * Monaco takes its font as an option and measures glyphs in script, so a CSS
+   * rule on its lines would desync the cursor. The token is read here instead,
+   * and an explicit `editorOptions.fontFamily` still wins.
+   */
+  readonly resolvedFontFamily = computed<string | undefined>(
+    () => this.editorOptions().fontFamily ?? (this.cssFontFamily() || undefined),
+  );
 
   private editor: Monaco.editor.IStandaloneCodeEditor | null = null;
   private monacoApi: typeof Monaco | null = null;
@@ -148,6 +156,15 @@ export class UcCodeEditor implements FormValueControl<string | null>, OnDestroy 
     effect(() => {
       const fontSize = this.fontSize();
       this.editor?.updateOptions({ fontSize });
+    });
+
+    effect(() => {
+      const fontFamily = this.resolvedFontFamily();
+
+      if (this.editor && fontFamily) {
+        this.editor.updateOptions({ fontFamily });
+        void this.remeasureWhenLoaded(fontFamily);
+      }
     });
 
     effect(() => {
@@ -230,27 +247,63 @@ export class UcCodeEditor implements FormValueControl<string | null>, OnDestroy 
   }
 
   private setUpThemeWatchers(): void {
-    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+    if (typeof window === 'undefined') {
       return;
     }
 
-    this.darkMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    this.darkMediaQuery.addEventListener('change', this.onDarkMediaChange);
+    if (typeof window.matchMedia === 'function') {
+      this.darkMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      this.darkMediaQuery.addEventListener('change', this.onDarkMediaChange);
+    }
 
-    this.themeMutationObserver = new MutationObserver(() => this.refreshDarkModeActive());
+    this.themeMutationObserver = new MutationObserver(() => {
+      this.refreshDarkModeActive();
+      this.refreshFontFamily();
+    });
     this.themeMutationObserver.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['data-theme'],
+      attributeFilter: ['data-theme', 'data-font'],
     });
 
     this.refreshDarkModeActive();
+    this.refreshFontFamily();
+  }
+
+  private refreshFontFamily(): void {
+    const value = getComputedStyle(this.hostElement.nativeElement)
+      .getPropertyValue('--uc-code-editor-font-family-resolved')
+      .trim();
+    this.cssFontFamily.set(value);
+  }
+
+  /**
+   * A web font usually arrives after Monaco has measured the fallback, which
+   * leaves the cursor and selections offset until the widths are taken again.
+   */
+  private async remeasureWhenLoaded(fontFamily: string): Promise<void> {
+    if (typeof document === 'undefined' || !document.fonts) {
+      return;
+    }
+
+    try {
+      await document.fonts.load(`${this.fontSize()}px ${fontFamily}`);
+    } catch {
+      // An unparsable family list cannot be loaded; Monaco's measurement stands.
+      return;
+    }
+
+    if (this.resolvedFontFamily() === fontFamily) {
+      this.monacoApi?.editor.remeasureFonts();
+    }
   }
 
   private refreshDarkModeActive(): void {
     const themeAttribute = document.documentElement.getAttribute('data-theme');
 
     if (themeAttribute) {
-      this.darkModeActive.set(DARK_THEME_NAMES.has(themeAttribute));
+      // Every theme declares its color-scheme, so a new dark theme needs no list kept here.
+      const colorScheme = getComputedStyle(this.hostElement.nativeElement).colorScheme;
+      this.darkModeActive.set(colorScheme.split(' ').includes('dark'));
       return;
     }
 
@@ -276,6 +329,7 @@ export class UcCodeEditor implements FormValueControl<string | null>, OnDestroy 
         minimap: { enabled: this.minimap() },
         wordWrap: this.wordWrap() ? 'on' : 'off',
         fontSize: this.fontSize(),
+        ...(this.resolvedFontFamily() ? { fontFamily: this.resolvedFontFamily() } : {}),
         theme: this.resolvedMonacoTheme(),
         ariaLabel: this.label() || 'Code editor',
         scrollBeyondLastLine: false,
@@ -293,6 +347,11 @@ export class UcCodeEditor implements FormValueControl<string | null>, OnDestroy 
       this.editor.onDidBlurEditorWidget(() => {
         this.touched.set(true);
       });
+
+      const fontFamily = this.resolvedFontFamily();
+      if (fontFamily) {
+        void this.remeasureWhenLoaded(fontFamily);
+      }
 
       this.loading.set(false);
     } catch {

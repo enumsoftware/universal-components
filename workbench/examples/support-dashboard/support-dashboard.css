@@ -23,7 +23,7 @@
 .wb-dashboard-stat-value {
   margin: 0;
   font-size: 1.6rem;
-  font-weight: 700;
+  font-weight: var(--uc-font-weight-bold);
 }
 
 .wb-dashboard-chart-card {
@@ -83,7 +83,7 @@
 
 .wb-dashboard-ticket-subject {
   margin: 0;
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
   font-size: 0.9rem;
   overflow: hidden;
   text-overflow: ellipsis;

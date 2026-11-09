@@ -47,4 +47,30 @@ describe('UcToastService', () => {
     service.dismiss(id);
     expect(service.toasts()).toHaveLength(0);
   });
+
+  it('keeps a toast with an action open by default', () => {
+    service.show('New version', { positiveAction: { text: 'Reload' } });
+
+    vi.advanceTimersByTime(60000);
+
+    expect(service.toasts()).toHaveLength(1);
+  });
+
+  it('runs an action and closes the toast', () => {
+    const onClick = vi.fn();
+    const id = service.show('New version', { positiveAction: { text: 'Reload', onClick } });
+
+    service.runAction(id, service.toasts()[0].positiveAction!);
+
+    expect(onClick).toHaveBeenCalledOnce();
+    expect(service.toasts()).toHaveLength(0);
+  });
+
+  it('keeps the toast open when the action asks for it', () => {
+    const id = service.show('Item deleted', { negativeAction: { text: 'Details', dismiss: false } });
+
+    service.runAction(id, service.toasts()[0].negativeAction!);
+
+    expect(service.toasts()).toHaveLength(1);
+  });
 });

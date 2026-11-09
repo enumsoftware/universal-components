@@ -71,7 +71,7 @@
 
 .wb-settings-toggle-label {
   margin: 0;
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
   font-size: 0.9rem;
 }
 

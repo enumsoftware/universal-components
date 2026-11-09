@@ -56,7 +56,7 @@
 
 .wb-a11y-issue-head code {
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
 }
 
 .wb-a11y-help {

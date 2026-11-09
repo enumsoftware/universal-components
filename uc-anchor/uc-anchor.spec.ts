@@ -116,4 +116,12 @@ describe('UcAnchor', () => {
     const element: HTMLAnchorElement = noHrefFixture.nativeElement.querySelector('a');
     expect(element.hasAttribute('href')).toBe(false);
   });
+
+  it('should style the host anchor, not elements inside it', () => {
+    // Emulated encapsulation turns a plain .uc-anchor rule into .uc-anchor[_ngcontent-...], which
+    // never matches the host <a>, so the anchor would render as an unstyled link.
+    const styles = (UcAnchor as unknown as { ɵcmp: { styles: string[] } }).ɵcmp.styles.join('');
+    expect(styles).toContain('.uc-anchor.uc-primary[_nghost-%COMP%]');
+    expect(styles).not.toContain('.uc-anchor[_ngcontent-%COMP%]');
+  });
 });

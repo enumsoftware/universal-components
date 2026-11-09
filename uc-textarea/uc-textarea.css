@@ -21,7 +21,7 @@
   font-size: 1rem;
   margin-bottom: 0.5rem;
   color: var(--uc-textarea-label-color-resolved);
-  font-weight: 600;
+  font-weight: var(--uc-font-weight-semibold);
   letter-spacing: 0.03em;
 }
 
