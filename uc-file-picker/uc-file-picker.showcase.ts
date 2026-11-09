@@ -34,6 +34,14 @@ export default defineShowcase({
       props: { label: 'Upload document', accept: '.pdf,.doc,.docx', helperText: 'PDF or Word documents only' },
     },
     {
+      name: 'CSV Import',
+      props: {
+        label: 'Import CSV',
+        accept: '.csv,text/csv',
+        helperText: 'Non-image files show their name and size instead of a preview',
+      },
+    },
+    {
       name: 'With Size Limit',
       props: { helperText: 'PNG, JPG or SVG (max 5MB)', maxFileSizeBytes: 5 * 1024 * 1024 },
     },

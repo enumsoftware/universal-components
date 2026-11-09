@@ -12,14 +12,29 @@ import {
 import { CommonModule } from '@angular/common';
 import { Dialog } from '@angular/cdk/dialog';
 import { UcIconButton } from '../uc-icon-button/uc-icon-button';
+import { UcPhosphorIcon } from '../uc-phosphor-icon/uc-phosphor-icon';
 import {
   UcImageEditorDialog,
   type UcImageEditorDialogData,
 } from '../uc-image-editor-dialog/uc-image-editor-dialog';
 
+/** Phosphor icon per file extension for the selected-file row of non-image files. */
+const FILE_ICONS: Record<string, string> = {
+  csv: 'file-csv',
+  xls: 'file-xls',
+  xlsx: 'file-xls',
+  pdf: 'file-pdf',
+  doc: 'file-doc',
+  docx: 'file-doc',
+  txt: 'file-txt',
+  zip: 'file-zip',
+  xml: 'file-code',
+  json: 'file-code',
+};
+
 @Component({
   selector: 'uc-file-picker',
-  imports: [CommonModule, UcIconButton],
+  imports: [CommonModule, UcIconButton, UcPhosphorIcon],
   templateUrl: './uc-file-picker.html',
   styleUrl: './uc-file-picker.css',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -55,6 +70,20 @@ export class UcFilePicker {
   readonly fileChanged = output<File | null>();
   readonly isDragging = signal<boolean>(false);
   readonly errorMessage = signal<string | null>(null);
+
+  /** True while the selection is an image, which shows as a preview rather than a file row. */
+  readonly isImage = computed(() => this.selectedFile()?.type.startsWith('image/') ?? false);
+  /** Extension-based icon for a selected file that is not shown as an image. */
+  readonly fileIcon = computed(() => {
+    const name = this.selectedFile()?.name ?? '';
+    const dot = name.lastIndexOf('.');
+    const extension = dot >= 0 ? name.slice(dot + 1).toLowerCase() : '';
+    return FILE_ICONS[extension] ?? 'file';
+  });
+  readonly fileSize = computed(() => {
+    const file = this.selectedFile();
+    return file ? this.formatBytes(file.size) : '';
+  });
 
   readonly fileInput = viewChild<ElementRef<HTMLInputElement>>('fileInput');
 
@@ -189,12 +218,14 @@ export class UcFilePicker {
     const reader = new FileReader();
     reader.onload = () => {
       const result = typeof reader.result === 'string' ? reader.result : null;
-      this.previewUrl.set(result);
+      // Only images can be shown in an <img>; other files get a name and size row instead.
+      this.previewUrl.set(file.type.startsWith('image/') ? result : null);
       this.fileChanged.emit(file);
       this.fileSelected.emit(result);
     };
     reader.onerror = () => {
       this.errorMessage.set(this.readErrorText());
+      this.selectedFile.set(null);
       this.previewUrl.set(null);
       this.fileChanged.emit(null);
       this.fileSelected.emit(null);
