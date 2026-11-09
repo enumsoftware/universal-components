@@ -13,6 +13,26 @@
           <p class="uc-toast__title">{{ toast.title }}</p>
         }
         <p class="uc-toast__message">{{ toast.message }}</p>
+        @if (toast.positiveAction || toast.negativeAction) {
+          <div class="uc-toast__actions">
+            @if (toast.negativeAction; as action) {
+              <uc-button
+                [text]="action.text"
+                [variant]="'text'"
+                [size]="'small'"
+                (clicked)="toastService.runAction(toast.id, action)"
+              />
+            }
+            @if (toast.positiveAction; as action) {
+              <uc-button
+                [text]="action.text"
+                [variant]="'primary'"
+                [size]="'small'"
+                (clicked)="toastService.runAction(toast.id, action)"
+              />
+            }
+          </div>
+        }
       </div>
       <button
         type="button"

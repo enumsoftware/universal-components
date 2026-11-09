@@ -143,6 +143,7 @@ export {
   TOAST_VARIANT_OPTIONS,
   type ToastVariant,
   type UcToast,
+  type UcToastAction,
   type UcToastOptions,
 } from './uc-toast/uc-toast.service';
 export { UcToastOutlet } from './uc-toast/uc-toast-outlet';

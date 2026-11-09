@@ -17,11 +17,17 @@ export default defineShowcase({
       min: 0,
       step: 500,
     }),
+    positiveText: text('', { description: 'Text of the primary action button. Empty hides it.' }),
+    negativeText: text('', { description: 'Text of the secondary action button. Empty hides it.' }),
   },
   examples: [
     { name: 'Error', props: { variant: 'error', heading: 'Upload failed', message: 'The photo could not be uploaded.' } },
     { name: 'Without title', props: { variant: 'info', heading: '', message: 'Photos are being processed.' } },
     { name: 'Short', props: { heading: 'Copied', message: 'The link is on your clipboard.', duration: 2000 } },
     { name: 'Stays open', props: { variant: 'warning', heading: 'Offline', message: 'Changes will sync when you reconnect.', duration: 0 } },
+    {
+      name: 'With actions',
+      props: { variant: 'info', heading: '', message: 'A new version is available.', positiveText: 'Reload', negativeText: 'Later' },
+    },
   ],
 });
