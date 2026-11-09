@@ -17,9 +17,9 @@
 
 .uc-info {
   /* Line heights of the title and body; the icon box matches whichever line comes first. */
-  --uc-info-title-line-height: 1.25rem;
-  --uc-info-body-line-height: 1.125rem;
-  --uc-info-first-line-height: var(--uc-info-body-line-height);
+  --uc-info-title-line-height-resolved: 1.25rem;
+  --uc-info-body-line-height-resolved: 1.125rem;
+  --uc-info-first-line-height-resolved: var(--uc-info-body-line-height-resolved);
 
   display: flex;
   gap: 0.75rem;
@@ -28,7 +28,7 @@
   border: 1px solid;
 
   &:has(.uc-info__title:not(:empty)) {
-    --uc-info-first-line-height: var(--uc-info-title-line-height);
+    --uc-info-first-line-height-resolved: var(--uc-info-title-line-height-resolved);
   }
 
   .uc-info__icon {
@@ -36,7 +36,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: var(--uc-info-first-line-height);
+    height: var(--uc-info-first-line-height-resolved);
     font-size: 1.125rem;
     line-height: 1;
 
@@ -66,7 +66,7 @@
   .uc-info__title {
     font-weight: var(--uc-font-weight-semibold);
     font-size: 0.875rem;
-    line-height: var(--uc-info-title-line-height);
+    line-height: var(--uc-info-title-line-height-resolved);
 
     /* No projected title: drop the row so the column gap does not push the body down. */
     &:empty {
@@ -76,7 +76,7 @@
 
   .uc-info__body {
     font-size: 0.75rem;
-    line-height: var(--uc-info-body-line-height);
+    line-height: var(--uc-info-body-line-height-resolved);
 
     code {
       padding: 0.125rem 0.375rem;
